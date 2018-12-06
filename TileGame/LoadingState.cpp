@@ -4,6 +4,7 @@
 #include "Assets.h"
 #include <sstream>
 
+using namespace tg;
 
 LoadingState::LoadingState(Handler* handler) : GameState(LOADING), handler(handler), loader(handler) {
 

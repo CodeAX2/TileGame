@@ -1,6 +1,6 @@
 #include "TileData.h"
 #include <bitset>
-
+using namespace tg;
 
 TileData::TileData(sf::Uint8 baseId, std::vector<sf::Uint8> surroundingData, Handler* handler) {
 	if (handler == nullptr) {

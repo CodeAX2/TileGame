@@ -1,6 +1,6 @@
 #include "Assets.h"
 
-
+using namespace tg;
 
 sf::Image Assets::loadImageFromResource(int name) {
 	HRSRC rsrcData = FindResource(NULL, MAKEINTRESOURCE(name), "PNG");

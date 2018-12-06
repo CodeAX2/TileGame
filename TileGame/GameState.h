@@ -3,24 +3,25 @@
 
 #define PLAYING 0
 #define LOADING 1
+namespace tg {
+	class GameState
+	{
 
-class GameState
-{
+	private:
+		int type;
 
-private:
-	int type;
+	public:
+		GameState(int type);
+		GameState();
+		~GameState();
 
-public:
-	GameState(int type);
-	GameState();
-	~GameState();
+	public:
+		int getType() { return type; }
+		virtual void render();
+		virtual void tick(sf::Int32 dt);
+		virtual void exit();
 
-public:
-	int getType() { return type; }
-	virtual void render();
-	virtual void tick(sf::Int32 dt);
-	virtual void exit();
-	
 
-};
+	};
 
+}

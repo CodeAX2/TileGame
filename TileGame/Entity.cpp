@@ -4,6 +4,7 @@
 #include "Item.h"
 #include "Static.h"
 
+using namespace tg;
 
 // Constructors
 Entity::Entity(

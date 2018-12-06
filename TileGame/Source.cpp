@@ -3,6 +3,8 @@
 #include <iostream>
 #include <SFML/System.hpp>
 
+using namespace tg;
+
 int main() {
 	sf::ContextSettings settings;
 	settings.depthBits = 24;

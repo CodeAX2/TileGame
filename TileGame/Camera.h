@@ -5,32 +5,35 @@
 #include "World.h"
 #include "Entity.h"
 
-class Camera
-{
+namespace tg {
 
-private:
-	float cameraX, cameraY;
-	Handler* handler;
-	Entity* entity;
+	class Camera
+	{
 
-public:
-	Camera(Handler* handler);
+	private:
+		float cameraX, cameraY;
+		Handler* handler;
+		Entity* entity;
 
-public:
-	void centerAt(float x, float y, World* world);
-	void centerOnEntity(Entity* e);
-	void tick();
-	void fixForZoom();
+	public:
+		Camera(Handler* handler);
 
-
-	float getXOffset() { return cameraX - handler->window->getSize().x / 2.f; } // Subtracts half the screen size, since the
-	float getYOffset() { return cameraY - handler->window->getSize().y / 2.f; } // camera is in the center of the screen
-
-	// These return the upper left corner of the camera
-	sf::Vector2f getCameraPosition() {
-		return sf::Vector2f(cameraX, cameraY);
-	}
+	public:
+		void centerAt(float x, float y, World* world);
+		void centerOnEntity(Entity* e);
+		void tick();
+		void fixForZoom();
 
 
-};
+		float getXOffset() { return cameraX - handler->window->getSize().x / 2.f; } // Subtracts half the screen size, since the
+		float getYOffset() { return cameraY - handler->window->getSize().y / 2.f; } // camera is in the center of the screen
 
+		// These return the upper left corner of the camera
+		sf::Vector2f getCameraPosition() {
+			return sf::Vector2f(cameraX, cameraY);
+		}
+
+
+	};
+
+}

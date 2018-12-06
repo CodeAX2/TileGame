@@ -5,6 +5,8 @@
 #include <iostream>
 #include <sstream>
 
+using namespace tg;
+
 EntityManager::EntityManager(Handler* handler) {
 
 	this->handler = handler;

@@ -1,5 +1,7 @@
 #include "GameState.h"
 
+using namespace tg;
+
 GameState::GameState(){}
 
 GameState::GameState(int type) : type(type) {

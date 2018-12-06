@@ -4,43 +4,46 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 
-class Game
-{
+namespace tg {
 
-private:
-	const bool debugMode = true;
+	class Game
+	{
 
-
-	sf::Thread renderThread;
-	sf::Thread tickThread;
-	sf::Thread commandThread;
-	sf::Thread debugThread;
-	Handler handler;
-	
-
-	bool isUpdating = false;
-	bool isFullscreen = false;
-	bool togglingFullscreen = false;
-
-	std::vector<std::string> debugOutput;
-
-public:
-	Game(sf::RenderWindow* window);
-	~Game();
-
-private:
-	void renderLoop();
-	void tickLoop();
-	void debugLoop();
-	void commandLoop();
+	private:
+		const bool debugMode = true;
 
 
-public:
-	void start();
-	void toggleFullscreen();
-	void wait();
-	void debugLog(std::string info) { debugOutput.push_back(info); }
+		sf::Thread renderThread;
+		sf::Thread tickThread;
+		sf::Thread commandThread;
+		sf::Thread debugThread;
+		Handler handler;
 
 
-};
+		bool isUpdating = false;
+		bool isFullscreen = false;
+		bool togglingFullscreen = false;
 
+		std::vector<std::string> debugOutput;
+
+	public:
+		Game(sf::RenderWindow* window);
+		~Game();
+
+	private:
+		void renderLoop();
+		void tickLoop();
+		void debugLoop();
+		void commandLoop();
+
+
+	public:
+		void start();
+		void toggleFullscreen();
+		void wait();
+		void debugLog(std::string info) { debugOutput.push_back(info); }
+
+
+	};
+
+}

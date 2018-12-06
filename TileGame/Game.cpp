@@ -17,6 +17,8 @@
 #include "WorldFile.h"
 #include "PlayerFile.h"
 
+using namespace tg;
+
 sf::Mutex mutex;
 
 Game::Game(sf::RenderWindow* window) : renderThread(&Game::renderLoop, this),

@@ -1,6 +1,6 @@
 #include "WorldManager.h"
 #include "World.h"
-
+using namespace tg;
 
 WorldManager::WorldManager(Handler* handler) : handler(handler){
 }

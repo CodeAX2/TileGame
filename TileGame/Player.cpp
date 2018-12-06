@@ -5,6 +5,8 @@
 #include "Building.h"
 #include "PlayingState.h"
 
+using namespace tg;
+
 Player::Player(float x, float y, Handler* handler, World* world) : Entity(x, y, handler, 14, 117 - 25, 31, 25, 20 * 3, 39 * 3, true, PLAYER_E, true, world) {
 	texture = handler->assets->getPlayerAnim()->getFrame(0);
 	handler->player = this;

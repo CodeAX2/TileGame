@@ -1,5 +1,8 @@
 #include "Camera.h"
 #include "PlayingState.h"
+
+using namespace tg;
+
 Camera::Camera(Handler* handler) : handler(handler) {
 }
 

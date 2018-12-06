@@ -6,7 +6,7 @@
 #include "TreasureChest.h"
 #include "Pumpkin.h"
 #include "Boat.h"
-
+using namespace tg;
 World* WorldFile::loadWorldFile(std::string fileName, Handler * handler) {
 	std::ifstream file(handler->saveDirName + "\\" + fileName, std::ios::in | std::ios::binary);
 	if (!file.is_open())

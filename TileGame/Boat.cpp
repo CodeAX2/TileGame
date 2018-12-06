@@ -1,6 +1,7 @@
 #include "Boat.h"
 #include "Static.h"
 
+using namespace tg;
 
 Boat::Boat(float x, float y, Handler* handler, World* world) : Rideable(x, y, handler, 4, 4, 32 * 3 - 8, 32 * 3 - 8, 32 * 3, 32 * 3, BOAT_E, world) {
 	this->texture = handler->assets->getBoatTexture();

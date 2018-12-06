@@ -4,6 +4,8 @@
 #include "WorldManager.h"
 #include "WorldFile.h"
 
+using namespace tg;
+
 Player* PlayerFile::loadPlayerFile(std::string fileName, Handler* handler) {
 
 	std::ifstream file(handler->saveDirName + "\\" + fileName, std::ios::in | std::ios::binary);

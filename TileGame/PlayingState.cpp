@@ -13,6 +13,8 @@
 #include <sstream>
 #include <math.h>
 
+using namespace tg;
+
 PlayingState::PlayingState(Handler* handler) : GameState(PLAYING), handler(handler) {
 	prevZoom = 1.f;
 	world = handler->mainWorld;

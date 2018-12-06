@@ -1,6 +1,7 @@
 #include "Rideable.h"
 #include "InputManager.h"
 
+using namespace tg;
 
 Rideable::Rideable(float x, float y, Handler* handler, int hitBoxX, int hitBoxY, 
 	int hitBoxW, int hitBoxH, int w, int h, int type, World* world) : 

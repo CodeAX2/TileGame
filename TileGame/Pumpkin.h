@@ -1,26 +1,30 @@
 #pragma once
 #include "Static.h"
-class Pumpkin :
-	public Static
-{
 
-private:
-	bool isLit;
+namespace tg {
 
-public:
-	Pumpkin(int x, int y, Handler* handler, bool isLit, World* world);
-	~Pumpkin();
+	class Pumpkin :
+		public Static
+	{
 
-public:
-	bool getIsLit() { return isLit; }
-	void setLit(bool l) {
-		isLit = l;
-		texture = handler->assets->getPumpkinTexture(isLit);
-	}
+	private:
+		bool isLit;
 
-	void render(Handler* handler);
-	void dropItems();
+	public:
+		Pumpkin(int x, int y, Handler* handler, bool isLit, World* world);
+		~Pumpkin();
+
+	public:
+		bool getIsLit() { return isLit; }
+		void setLit(bool l) {
+			isLit = l;
+			texture = handler->assets->getPumpkinTexture(isLit);
+		}
+
+		void render(Handler* handler);
+		void dropItems();
 
 
-};
+	};
 
+}

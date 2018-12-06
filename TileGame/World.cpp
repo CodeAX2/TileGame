@@ -1,6 +1,6 @@
 #include "World.h"
 #include "WorldManager.h"
-
+using namespace tg;
 World::World(std::string loadFrom, Handler* handler, std::string name, EntityManager* em) : handler(handler), em(em), nameId(name) {
 
 	if (this->em == nullptr) {

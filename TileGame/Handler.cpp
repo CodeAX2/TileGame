@@ -4,6 +4,8 @@
 #include "PlayingState.h"
 #include "WorldManager.h"
 
+using namespace tg;
+
 Handler::Handler() {
 
 }

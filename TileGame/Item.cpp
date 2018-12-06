@@ -1,6 +1,7 @@
 #include "Item.h"
 #include "Player.h"
 
+using namespace tg;
 
 Item::Item(float x, float y, Handler* handler, int itemId, World* world) : Entity(x, y, handler, 0, 0, 0, 0, 64, 64, true, ITEM_E, true, world) {
 

@@ -1,6 +1,6 @@
 #include "Animation.h"
 
-
+using namespace tg;
 
 Animation::Animation() {
 

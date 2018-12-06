@@ -3,6 +3,8 @@
 #include "TreasureChest.h"
 #include "resource.h"
 
+using namespace tg;
+
 std::vector<Building*> Building::allBuildings;
 
 Building::Building(int x, int y, int width, int height, int entranceX, Handler* handler, World* outsideWorld, World* insideWorld, std::string nameId, int textureToUse) :

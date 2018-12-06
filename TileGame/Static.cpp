@@ -1,6 +1,9 @@
 #include "Static.h"
 #include "Building.h"
 #include "World.h"
+
+using namespace tg;
+
 // Add the static entity to the list of all static entities
 // If another static entity already occupies that space, remove
 // this new one

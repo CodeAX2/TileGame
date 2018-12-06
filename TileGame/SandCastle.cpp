@@ -1,6 +1,7 @@
 #include "SandCastle.h"
 #include "Item.h"
 
+using namespace tg;
 
 SandCastle::SandCastle(int x, int y, Handler* handler, World* world) : Static(x, y, handler, 12, 32 * 3 - 8 * 3, 32 * 3 - 24, 8 * 3, 32 * 3, 32 * 3, false, SAND_CASTLE_E, 58, world) {
 	texture = handler->assets->getSandCastleTexture();

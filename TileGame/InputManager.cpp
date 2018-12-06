@@ -6,6 +6,8 @@
 #include "World.h"
 #include "PlayingState.h"
 
+using namespace tg;
+
 InputManager::InputManager(Handler* handler) : handler(handler) {}
 
 // Events when the mouse is clicked

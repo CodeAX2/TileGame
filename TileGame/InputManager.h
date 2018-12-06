@@ -2,40 +2,43 @@
 #include <SFML/Graphics.hpp>
 #include "Handler.h"
 
-class InputManager
-{
+namespace tg {
 
-private:
-	bool keys[4] = { false }; // Up, right, down, left
-	bool toggleKey = false;
-	bool previousToggleKey = false;
-	bool hitboxShown = false;
-	bool runningKey = false;
-	bool attackKey = false;
-	bool mouseIsPressed = false;
-	bool usingController = false;
-	Handler* handler;
-	float zoom = 1.f;
+	class InputManager
+	{
 
-public:
+	private:
+		bool keys[4] = { false }; // Up, right, down, left
+		bool toggleKey = false;
+		bool previousToggleKey = false;
+		bool hitboxShown = false;
+		bool runningKey = false;
+		bool attackKey = false;
+		bool mouseIsPressed = false;
+		bool usingController = false;
+		Handler* handler;
+		float zoom = 1.f;
 
-	InputManager(Handler* handler);
+	public:
 
-public:
+		InputManager(Handler* handler);
 
-	void updateKeys(sf::Event e);
-	void mouseClicked(sf::Event e);
-	bool getKey(int index) { return keys[index]; }
-	bool* getAllKeys();
-	bool getToggleKey() { return toggleKey; }
-	bool hitboxIsShown() { return hitboxShown; }
-	bool getRunningKey() { return runningKey; }
-	bool getAttackKey() { return attackKey; }
-	void updateJoystick(sf::Uint32 dt);
-	float getZoomLevel() { return zoom; }
-	void setZoomLevel(float z) { zoom = z; }
-	void mouseScrolled(sf::Event e);
+	public:
+
+		void updateKeys(sf::Event e);
+		void mouseClicked(sf::Event e);
+		bool getKey(int index) { return keys[index]; }
+		bool* getAllKeys();
+		bool getToggleKey() { return toggleKey; }
+		bool hitboxIsShown() { return hitboxShown; }
+		bool getRunningKey() { return runningKey; }
+		bool getAttackKey() { return attackKey; }
+		void updateJoystick(sf::Uint32 dt);
+		float getZoomLevel() { return zoom; }
+		void setZoomLevel(float z) { zoom = z; }
+		void mouseScrolled(sf::Event e);
 
 
-};
+	};
 
+}

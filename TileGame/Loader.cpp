@@ -17,6 +17,7 @@
 #include "BuildingFile.h"
 #include <filesystem>
 
+using namespace tg;
 namespace fs = std::experimental::filesystem;
 
 Loader::Loader(Handler* handler) : loadThread(&Loader::loadEntities, this), handler(handler) {

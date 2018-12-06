@@ -2,6 +2,9 @@
 #include "Handler.h"
 #include "InputManager.h"
 #include "Item.h"
+
+using namespace tg;
+
 Pumpkin::Pumpkin(int x, int y, Handler* handler, bool isLit, World* world) : Static(x, y, handler, 18, 25 * 3, 32 * 3 - 36, 7 * 3, 32 * 3, 32 * 3, false, PUMPKIN_E, 78, world) {
 	texture = handler->assets->getPumpkinTexture(isLit);
 	health = 60;
