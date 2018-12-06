@@ -1,204 +1,211 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="Animation.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Assets.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Boat.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Building.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="BuildingFile.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Entity.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="EntityManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Game.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GameState.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Handler.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="InputManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Item.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Loader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="LoadingState.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerFile.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayingState.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Pumpkin.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Rideable.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SandCastle.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Static.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Animation.cpp">
+      <Filter>Source Files\GFX</Filter>
+    </ClCompile>
+    <ClCompile Include="Assets.cpp">
+      <Filter>Source Files\GFX</Filter>
+    </ClCompile>
+    <ClCompile Include="Boat.cpp">
+      <Filter>Source Files\Entities\Non-Statics\Rideable</Filter>
+    </ClCompile>
+    <ClCompile Include="Building.cpp">
+      <Filter>Source Files\Buildings</Filter>
+    </ClCompile>
+    <ClCompile Include="BuildingFile.cpp">
+      <Filter>Source Files\Buildings</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Source Files\Main Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity.cpp">
+      <Filter>Source Files\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Source Files\Main Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="GameState.cpp">
+      <Filter>Source Files\Game States</Filter>
+    </ClCompile>
+    <ClCompile Include="Handler.cpp">
+      <Filter>Source Files\Main Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="InputManager.cpp">
+      <Filter>Source Files\Main Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>Source Files\Entities\Non-Statics</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Source Files\Entities\Non-Statics</Filter>
     </ClCompile>
     <ClCompile Include="TallGrass.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Entities\Non-Statics</Filter>
     </ClCompile>
-    <ClCompile Include="TileData.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Rideable.cpp">
+      <Filter>Source Files\Entities\Non-Statics\Rideable</Filter>
+    </ClCompile>
+    <ClCompile Include="Pumpkin.cpp">
+      <Filter>Source Files\Entities\Statics</Filter>
+    </ClCompile>
+    <ClCompile Include="SandCastle.cpp">
+      <Filter>Source Files\Entities\Statics</Filter>
     </ClCompile>
     <ClCompile Include="TreasureChest.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Entities\Statics</Filter>
     </ClCompile>
     <ClCompile Include="Tree.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Entities\Statics</Filter>
+    </ClCompile>
+    <ClCompile Include="Loader.cpp">
+      <Filter>Source Files\Main Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadingState.cpp">
+      <Filter>Source Files\Game States</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayingState.cpp">
+      <Filter>Source Files\Game States</Filter>
+    </ClCompile>
+    <ClCompile Include="Static.cpp">
+      <Filter>Source Files\Entities\Statics</Filter>
+    </ClCompile>
+    <ClCompile Include="TileData.cpp">
+      <Filter>Source Files\Worlds</Filter>
     </ClCompile>
     <ClCompile Include="World.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="WorldManager.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Worlds</Filter>
     </ClCompile>
     <ClCompile Include="WorldFile.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Worlds</Filter>
+    </ClCompile>
+    <ClCompile Include="WorldManager.cpp">
+      <Filter>Source Files\Worlds</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityManager.cpp">
+      <Filter>Source Files\Worlds</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerFile.cpp">
+      <Filter>Source Files\Entities\Non-Statics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\GFX</Filter>
     </ClInclude>
     <ClInclude Include="Assets.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="BattleState.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Boat.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Building.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="BuildingFile.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\GFX</Filter>
     </ClInclude>
     <ClInclude Include="Entity.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="EntityManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Game.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GameState.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Handler.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="InputManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Item.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Loader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="LoadingState.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerFile.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayingState.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Entities</Filter>
     </ClInclude>
     <ClInclude Include="Pumpkin.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="resource.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Rideable.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Entities\Statics</Filter>
     </ClInclude>
     <ClInclude Include="SandCastle.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Entities\Statics</Filter>
     </ClInclude>
     <ClInclude Include="Static.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TallGrass.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TileData.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Entities\Statics</Filter>
     </ClInclude>
     <ClInclude Include="TreasureChest.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Entities\Statics</Filter>
     </ClInclude>
     <ClInclude Include="Tree.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Entities\Statics</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>Header Files\Entities\Non-Statics</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Header Files\Entities\Non-Statics</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerFile.h">
+      <Filter>Header Files\Entities\Non-Statics</Filter>
+    </ClInclude>
+    <ClInclude Include="TallGrass.h">
+      <Filter>Header Files\Entities\Non-Statics</Filter>
+    </ClInclude>
+    <ClInclude Include="Boat.h">
+      <Filter>Header Files\Entities\Non-Statics\Rideable</Filter>
+    </ClInclude>
+    <ClInclude Include="Rideable.h">
+      <Filter>Header Files\Entities\Non-Statics\Rideable</Filter>
+    </ClInclude>
+    <ClInclude Include="Building.h">
+      <Filter>Header Files\Buildings</Filter>
+    </ClInclude>
+    <ClInclude Include="BuildingFile.h">
+      <Filter>Header Files\Buildings</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Header Files\Main Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Header Files\Main Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Handler.h">
+      <Filter>Header Files\Main Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="InputManager.h">
+      <Filter>Header Files\Main Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Loader.h">
+      <Filter>Header Files\Main Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="GameState.h">
+      <Filter>Header Files\Game States</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadingState.h">
+      <Filter>Header Files\Game States</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayingState.h">
+      <Filter>Header Files\Game States</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files\GFX</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityManager.h">
+      <Filter>Header Files\Worlds</Filter>
+    </ClInclude>
+    <ClInclude Include="TileData.h">
+      <Filter>Header Files\Worlds</Filter>
     </ClInclude>
     <ClInclude Include="World.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Worlds</Filter>
     </ClInclude>
     <ClInclude Include="WorldFile.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Worlds</Filter>
     </ClInclude>
     <ClInclude Include="WorldManager.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Worlds</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="BuildingFileOutline.txt" />
-    <Text Include="PlayerFileOutline.txt" />
-    <Text Include="WorldFileOutline.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="icon1.ico">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="icon2.ico">
-      <Filter>Resource Files</Filter>
-    </Image>
+    <Text Include="BuildingFileOutline.txt">
+      <Filter>File Outlines</Filter>
+    </Text>
+    <Text Include="PlayerFileOutline.txt">
+      <Filter>File Outlines</Filter>
+    </Text>
+    <Text Include="WorldFileOutline.txt">
+      <Filter>File Outlines</Filter>
+    </Text>
+    <Text Include="Resources\Worlds\world0.txt">
+      <Filter>Resource Files\Worlds</Filter>
+    </Text>
+    <Text Include="Resources\Worlds\world1.txt">
+      <Filter>Resource Files\Worlds</Filter>
+    </Text>
+    <Text Include="Resources\Worlds\world2.txt">
+      <Filter>Resource Files\Worlds</Filter>
+    </Text>
+    <Text Include="Resources\Worlds\world3.txt">
+      <Filter>Resource Files\Worlds</Filter>
+    </Text>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source Files">
@@ -210,10 +217,198 @@
     <Filter Include="Resource Files">
       <UniqueIdentifier>{7a720991-dedb-41fa-b9a0-059ba6c22968}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\GFX">
+      <UniqueIdentifier>{668655a8-a1c7-4923-bd86-e2a22d2c7477}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Entities">
+      <UniqueIdentifier>{34b3c079-f482-4fd3-9dd8-624478bf2703}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Entities\Non-Statics">
+      <UniqueIdentifier>{10bc2b9c-a0a8-4807-83f7-1ccf1b644b0b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Entities\Non-Statics\Rideable">
+      <UniqueIdentifier>{e007d600-9daa-44c4-97af-0c9d7cf5bd42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Buildings">
+      <UniqueIdentifier>{82e458aa-4ff0-47f6-a7ab-a4f2ac2b28a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Main Engine">
+      <UniqueIdentifier>{db8cb5ca-1a7d-4e98-ada4-9fcf43795c2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game States">
+      <UniqueIdentifier>{2662a637-f874-4ddf-8b67-1945409101e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Entities\Statics">
+      <UniqueIdentifier>{f3162d15-4b2d-43f8-b349-128eeb01f97e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Worlds">
+      <UniqueIdentifier>{47bd7988-67ed-4fef-9a92-87a29d6ab805}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="File Outlines">
+      <UniqueIdentifier>{52a1d8f9-141a-422f-9ea3-d72bec312dab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Textures">
+      <UniqueIdentifier>{b436dac1-9833-4662-bdb5-18131bfb2728}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Worlds">
+      <UniqueIdentifier>{d95e0548-f82b-4e3e-b45e-3b9f285b2a78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Sounds">
+      <UniqueIdentifier>{d3b0e7ad-46f0-4fb6-afd6-7f99bafcd5b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Fonts">
+      <UniqueIdentifier>{95abcb19-c3a2-42ec-bfa5-6aa3682611ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GFX">
+      <UniqueIdentifier>{3c395644-8b43-4d0a-a3e6-12f2532576da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Entities">
+      <UniqueIdentifier>{733cd242-1d68-45fb-8f69-57f1dedd5dd8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Entities\Statics">
+      <UniqueIdentifier>{9d05e9da-5fc1-4a2d-8514-ab16d11f033f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Entities\Non-Statics">
+      <UniqueIdentifier>{c431db30-1509-4d19-860d-58059f4966bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Entities\Non-Statics\Rideable">
+      <UniqueIdentifier>{e5816300-d1ea-4fac-afd8-d1d1e61371bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Buildings">
+      <UniqueIdentifier>{298ca6e1-9e11-4c68-baa0-6814d8cf00cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Main Engine">
+      <UniqueIdentifier>{37a71b28-772e-407e-a574-f01705bc9252}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Game States">
+      <UniqueIdentifier>{8b1eba93-1a06-432a-af11-c20947263fcd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Worlds">
+      <UniqueIdentifier>{bf0f71ca-4f7e-494d-87e1-d7c66998bbf8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="TileGame.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Resources\Textures\icon.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\Textures\Axe.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\Boat.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\BuildingA.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\CaveCandy.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\CaveEntrance.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\CaveFloor24.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\Gems.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\Grass24.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\GUI-Inventory.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\HalloweenCandy.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\Log.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\Path24.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\Pumpkin.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\PumpkinLit.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\Rock24.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\Sand24.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\SandCastle.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\Snow24.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\SpritesSheet-Player.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\SS-Player.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\TallGrass.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\TallGrassSnow.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\TileGameIcon.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\TileGameIcon2.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\Tower.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\TreasureChest.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\Tree.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\TreeAnim.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\TreeSnowAnim.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\WaterTile.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\Wood24.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="Resources\Sounds\sans.mp3">
+      <Filter>Resource Files\Sounds</Filter>
+    </Media>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Sounds\sans.ogg">
+      <Filter>Resource Files\Sounds</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="Resources\Fonts\ariali.ttf">
+      <Filter>Resource Files\Fonts</Filter>
+    </Font>
+    <Font Include="Resources\Fonts\BULKYPIX.TTF">
+      <Filter>Resource Files\Fonts</Filter>
+    </Font>
+    <Font Include="Resources\Fonts\pxFont.ttf">
+      <Filter>Resource Files\Fonts</Filter>
+    </Font>
   </ItemGroup>
 </Project>

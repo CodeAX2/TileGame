@@ -53,7 +53,6 @@
   <ItemGroup>
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Assets.h" />
-    <ClInclude Include="BattleState.h" />
     <ClInclude Include="Boat.h" />
     <ClInclude Include="Building.h" />
     <ClInclude Include="BuildingFile.h" />
@@ -86,14 +85,59 @@
   <ItemGroup>
     <Text Include="BuildingFileOutline.txt" />
     <Text Include="PlayerFileOutline.txt" />
+    <Text Include="Resources\Worlds\world0.txt" />
+    <Text Include="Resources\Worlds\world1.txt" />
+    <Text Include="Resources\Worlds\world2.txt" />
+    <Text Include="Resources\Worlds\world3.txt" />
     <Text Include="WorldFileOutline.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="icon1.ico" />
-    <Image Include="icon2.ico" />
+    <ResourceCompile Include="TileGame.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="TileGame.rc" />
+    <Image Include="Resources\Textures\Axe.png" />
+    <Image Include="Resources\Textures\Boat.png" />
+    <Image Include="Resources\Textures\BuildingA.png" />
+    <Image Include="Resources\Textures\CaveCandy.png" />
+    <Image Include="Resources\Textures\CaveEntrance.png" />
+    <Image Include="Resources\Textures\CaveFloor24.png" />
+    <Image Include="Resources\Textures\Gems.png" />
+    <Image Include="Resources\Textures\Grass24.png" />
+    <Image Include="Resources\Textures\GUI-Inventory.png" />
+    <Image Include="Resources\Textures\HalloweenCandy.png" />
+    <Image Include="Resources\Textures\icon.ico" />
+    <Image Include="Resources\Textures\Log.png" />
+    <Image Include="Resources\Textures\Path24.png" />
+    <Image Include="Resources\Textures\Pumpkin.png" />
+    <Image Include="Resources\Textures\PumpkinLit.png" />
+    <Image Include="Resources\Textures\Rock24.png" />
+    <Image Include="Resources\Textures\Sand24.png" />
+    <Image Include="Resources\Textures\SandCastle.png" />
+    <Image Include="Resources\Textures\Snow24.png" />
+    <Image Include="Resources\Textures\SpritesSheet-Player.png" />
+    <Image Include="Resources\Textures\SS-Player.png" />
+    <Image Include="Resources\Textures\TallGrass.png" />
+    <Image Include="Resources\Textures\TallGrassSnow.png" />
+    <Image Include="Resources\Textures\TileGameIcon.png" />
+    <Image Include="Resources\Textures\TileGameIcon2.png" />
+    <Image Include="Resources\Textures\Tower.png" />
+    <Image Include="Resources\Textures\TreasureChest.png" />
+    <Image Include="Resources\Textures\Tree.png" />
+    <Image Include="Resources\Textures\TreeAnim.png" />
+    <Image Include="Resources\Textures\TreeSnowAnim.png" />
+    <Image Include="Resources\Textures\WaterTile.png" />
+    <Image Include="Resources\Textures\Wood24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="Resources\Sounds\sans.mp3" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Sounds\sans.ogg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="Resources\Fonts\ariali.ttf" />
+    <Font Include="Resources\Fonts\BULKYPIX.TTF" />
+    <Font Include="Resources\Fonts\pxFont.ttf" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
