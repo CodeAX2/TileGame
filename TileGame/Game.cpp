@@ -42,9 +42,8 @@ Game::~Game() {
 
 void Game::commandLoop() {
 
-	// HELLO!
-
 	while (handler.window->isOpen() || togglingFullscreen) {
+
 
 		std::string command;
 		std::getline(std::cin, command);
@@ -75,9 +74,43 @@ void Game::commandLoop() {
 			}
 		}
 
-		std::cout << cmd << std::endl;
-		for (std::string a : args) {
-			std::cout << a << std::endl;
+		while (handler.getCurrentState()->getType() != PLAYING) {
+			sf::sleep(sf::milliseconds(10));
+		}
+
+
+		if (cmd == "tp") {
+			if (args.size() != 2) {
+				std::cout << "Invalid arguments!" << std::endl;
+			} else {
+				int x = std::stoi(args[0]);
+				int y = std::stoi(args[1]);
+				handler.player->setPos(x * 96, y * 96);
+				std::cout << "Teleporting to: " << x << ", " << y << std::endl;
+			}
+		} else if (cmd == "additem" || cmd == "give") {
+
+			if (args.size() != 2) {
+				std::cout << "Invalis arguments!" << std::endl;
+			} else {
+				int item = std::stoi(args[0]);
+				int amnt = (int)std::stoll(args[1]);
+
+				if (amnt > 0) {
+					for (int i = 0; i < amnt; i++) {
+						handler.player->addItemToInv(item);
+					}
+				} else {
+					for (int i = 0; i < -1 * amnt; i++) {
+						handler.player->removeItemFromInv(item);
+					}
+				}
+
+
+			}
+
+		} else {
+			std::cout << "Invalid command!" << std::endl;
 		}
 
 
