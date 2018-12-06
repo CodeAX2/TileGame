@@ -42,6 +42,8 @@ Game::~Game() {
 
 void Game::commandLoop() {
 
+	// HELLO!
+
 	while (handler.window->isOpen() || togglingFullscreen) {
 
 		std::string command;
