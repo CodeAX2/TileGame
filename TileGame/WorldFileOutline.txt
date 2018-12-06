@@ -1,0 +1,41 @@
+int w, h, spawnX, spawnY
+bunch of 8-bit ints for the map data
+there will be w*h amount of 8-bit ints for the map data
+the first w amount of ints will be the first row,
+next w amount will be the second row etc.
+
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+int for the number of entities
+
+next bunch of data is about the entities in the world
+Each entity has a type to start (32 bit int)
+all of them have an int health, and an int maxHealth
+UUID id for their unique id's
+
+if type == TALL_GRASS_E
+	float x, y
+	int type (snowy or normal)
+if type == TREE_E
+	int tX, tY
+	int type (snowy or normal)
+if type == ITEM_E
+	float x, y
+	int itemId
+if type == SAND_CASTLE_E
+	int tX, tY
+if type == TREASURE_CHEST_E
+	int tX, tY
+	bool defaultContents
+	256 ints containing the amount of items (the first int is id 0 (log), second int is id 1 (gem))
+if type == PUMPKIN_E
+	int tX, tY
+	bool isLit
+if type == BOAT_E
+	float x, y
+	UUID riderId
+
+PLAYER_E will never be written, since it is its own special thing
+
+
+

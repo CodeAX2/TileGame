@@ -1,0 +1,4 @@
+int health, maxHealth
+UUID id
+float x, y
+256 ints for inventory (first int id is 0 (log) etc.)

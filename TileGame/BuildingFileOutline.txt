@@ -1,0 +1,25 @@
+int x, y, width, height, entranceX, exitY, exitX (all are 32 bit ints)
+int sizeof outsideWorldName (32 bit int)
+string outsideWorldName (worlds need to have names now)
+int sizeof insideWorldFileName (32 bit int)
+string insideWorldFileName (file path of the world data)
+int imageToUse
+
+
+
+
+Info on writing a std::string to a binary file
+To write a std::string to a binary file, you need to save the string length first:
+
+	std::string str("whatever");
+	size_t size=str.size();
+	outfile.write(&size,sizeof(size));
+	outfile.write(&str[0],size);
+
+To read it in, reverse the process, resizing the string first so you will have enough space:
+
+	std::string str;
+	size_t size;
+	infile.read(&size, sizeof(size));
+	str.resize(size);
+	infile.read(&str[0], size);
