@@ -127,6 +127,7 @@
     <Image Include="Resources\Textures\TreeSnowAnim.png" />
     <Image Include="Resources\Textures\WaterTile.png" />
     <Image Include="Resources\Textures\Wood24.png" />
+    <Image Include="Resources\Textures\WoodHut.png" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="Resources\Sounds\sans.mp3" />
