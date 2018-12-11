@@ -43,14 +43,14 @@ void Camera::centerAt(float x, float y, World* world) {
 // Center the camera on an entity
 void Camera::centerOnEntity(Entity* e) {
 	entity = e;
-	cameraX = e->getX();
-	cameraY = e->getY();
+	cameraX = e->getX() + e->getWidth() / 2;
+	cameraY = e->getY() + e->getHeight() / 2;
 }
 
 // Update the camera, setting its center at the entitie's x and y
 void Camera::tick() {
 
-	centerAt(entity->getX(), entity->getY(), entity->getWorld());
+	centerAt(entity->getX() + entity->getWidth() / 2, entity->getY() + entity->getHeight() / 2, entity->getWorld());
 
 }
 

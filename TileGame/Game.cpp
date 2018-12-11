@@ -151,7 +151,6 @@ void Game::debugLoop() {
 void Game::renderLoop() {
 	while (handler.window->isOpen()) {
 
-
 		mutex.lock();
 		if (!isUpdating && !togglingFullscreen) {
 
@@ -166,12 +165,9 @@ void Game::renderLoop() {
 
 	}
 
-
 }
 
 void Game::tickLoop() {
-	//mutex.lock();
-
 	sf::Int32 msToSleep = 3;
 
 
@@ -184,8 +180,6 @@ void Game::tickLoop() {
 		sf::Int32 now = clock.getElapsedTime().asMilliseconds();
 		sf::Int32 dt = now - last;
 
-		//std::cout << dt << std::endl;
-
 		handler.getCurrentState()->tick(dt);
 
 		last = now;
@@ -196,6 +190,7 @@ void Game::tickLoop() {
 
 	handler.getCurrentState()->exit();
 	mutex.unlock();
+
 }
 
 void Game::start() {
@@ -216,20 +211,22 @@ void Game::start() {
 	while (handler.window->isOpen() || togglingFullscreen) {
 		sf::Int32 now = clock.getElapsedTime().asMilliseconds();
 		sf::Int32 dt = now - last;
-		sf::Event event;
-		while (handler.window->pollEvent(event)) {
+		if (!togglingFullscreen) {
+			sf::Event event;
+			while (handler.window->pollEvent(event)) {
 
-			if (event.type == sf::Event::Closed) {
-				handler.window->close();
-			} else {
-				if (handler.getCurrentState()->getType() == LOADING) continue;
-				handler.inputManager->mouseClicked(event);
-				handler.inputManager->mouseScrolled(event);
-				handler.inputManager->updateKeys(event);
-				handler.inputManager->updateJoystick(dt);
+				if (event.type == sf::Event::Closed) {
+					handler.window->close();
+				} else {
+					if (handler.getCurrentState()->getType() == LOADING) continue;
+					handler.inputManager->mouseClicked(event);
+					handler.inputManager->mouseScrolled(event);
+					handler.inputManager->updateKeys(event);
+					handler.inputManager->updateJoystick(dt);
+				}
+
+
 			}
-
-
 		}
 		last = now;
 		sf::Int32 end = clock.getElapsedTime().asMilliseconds();
@@ -256,46 +253,33 @@ void Game::start() {
 void Game::toggleFullscreen() {
 
 	togglingFullscreen = true;
-	
+
 	sf::RenderWindow* ow = handler.window;
-	sf::RenderWindow* nw;
 
 	ow->close();
 	renderThread.wait();
 	tickThread.wait();
 
+	sf::ContextSettings settings;
+	settings.depthBits = 24;
+	settings.stencilBits = 8;
+	settings.antialiasingLevel = 4;
+	settings.majorVersion = 4;
+	settings.minorVersion = 4;
+
 	if (isFullscreen) {
-		sf::ContextSettings settings;
-		settings.depthBits = 24;
-		settings.stencilBits = 8;
-		settings.antialiasingLevel = 4;
-		settings.majorVersion = 4;
-		settings.minorVersion = 4;
-
-		nw = new sf::RenderWindow(sf::VideoMode(1280, 720), "TileGame!", sf::Style::Titlebar | sf::Style::Close | sf::Style::Resize, settings);
-		nw->setFramerateLimit(120);
-		nw->setActive(false);
+		ow->create(sf::VideoMode(1280, 720), "TileGame!", sf::Style::Titlebar | sf::Style::Close | sf::Style::Resize, settings);
 	} else {
-		sf::ContextSettings settings;
-		settings.depthBits = 24;
-		settings.stencilBits = 8;
-		settings.antialiasingLevel = 4;
-		settings.majorVersion = 4;
-		settings.minorVersion = 4;
-
-		nw = new sf::RenderWindow(sf::VideoMode::getDesktopMode(), "TileGame!", sf::Style::None, settings);
-		nw->setFramerateLimit(120);
-		nw->setActive(false);
+		ow->create(sf::VideoMode::getDesktopMode(), "TileGame!", sf::Style::None, settings);
 	}
 
-	ow->setActive(false);
-	delete ow;
-
-	handler.window = nw;
+	ow->setFramerateLimit(120);
 
 	isFullscreen = !isFullscreen;
 
 	togglingFullscreen = false;
+
+	ow->setActive(false);
 
 	renderThread.launch();
 	tickThread.launch();

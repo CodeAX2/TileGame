@@ -62,7 +62,7 @@ void PlayingState::render() {
 	world->getEntityManager()->render();
 
 	handler->window->setView(handler->guiView);
-	//renderVignette();
+	renderVignette();
 	//renderAllTextures();
 	renderGUI();
 
