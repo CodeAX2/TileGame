@@ -62,6 +62,7 @@ void PlayingState::render() {
 	world->getEntityManager()->render();
 
 	handler->window->setView(handler->guiView);
+	//renderVignette();
 	//renderAllTextures();
 	renderGUI();
 
@@ -238,4 +239,10 @@ void PlayingState::renderAllTextures() {
 			handler->window->draw(shape);
 		}
 	}
+}
+
+void PlayingState::renderVignette() {
+	sf::RectangleShape shape(sf::Vector2f(1280, 720));
+	shape.setTexture(handler->assets->getVignette());
+	handler->window->draw(shape);
 }

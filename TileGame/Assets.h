@@ -24,6 +24,7 @@ namespace tg {
 		sf::Texture* boat;
 		sf::Texture* pumpkin[2];
 		sf::Font* ariali;
+		sf::Texture* vignette;
 		sf::Texture* guiInv;
 		int operations = 0;
 		sf::Color playerColorP, playerColorS;
@@ -106,6 +107,8 @@ namespace tg {
 		sf::Texture* getGuiInv() {
 			return guiInv;
 		}
+
+		sf::Texture* getVignette() { return vignette; }
 
 		sf::Texture* getOuterTexture(sf::Uint8 baseTileId, sf::Uint8 outsideData, int x, int y, bool random = true) {
 

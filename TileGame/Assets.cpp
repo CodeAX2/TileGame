@@ -100,6 +100,10 @@ void Assets::init() {
 	operations++;
 
 	// Load other textures
+	vignette = new sf::Texture();
+	vignette->loadFromImage(loadImageFromResource(VIGNETTE));
+	operations++;
+
 	treeAnimation = new Animation();
 
 	sf::Image treeSheet = loadImageFromResource(TREE_SHEET);

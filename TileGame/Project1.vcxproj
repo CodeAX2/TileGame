@@ -125,6 +125,7 @@
     <Image Include="Resources\Textures\Tree.png" />
     <Image Include="Resources\Textures\TreeAnim.png" />
     <Image Include="Resources\Textures\TreeSnowAnim.png" />
+    <Image Include="Resources\Textures\Vignette.png" />
     <Image Include="Resources\Textures\WaterTile.png" />
     <Image Include="Resources\Textures\Wood24.png" />
     <Image Include="Resources\Textures\WoodHut.png" />

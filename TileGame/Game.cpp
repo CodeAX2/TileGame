@@ -149,11 +149,11 @@ void Game::debugLoop() {
 }
 
 void Game::renderLoop() {
-	while (handler.window->isOpen() || togglingFullscreen) {
+	while (handler.window->isOpen()) {
 
 
 		mutex.lock();
-		if (!isUpdating) {
+		if (!isUpdating && !togglingFullscreen) {
 
 			handler.window->clear();
 
@@ -177,7 +177,10 @@ void Game::tickLoop() {
 
 	sf::Clock clock;
 	sf::Int32 last = clock.getElapsedTime().asMilliseconds();
-	while (handler.window->isOpen() || togglingFullscreen) {
+	while (handler.window->isOpen()) {
+		if (togglingFullscreen) {
+			sf::sleep(sf::milliseconds(msToSleep));
+		}
 		sf::Int32 now = clock.getElapsedTime().asMilliseconds();
 		sf::Int32 dt = now - last;
 
@@ -253,9 +256,13 @@ void Game::start() {
 void Game::toggleFullscreen() {
 
 	togglingFullscreen = true;
-
+	
 	sf::RenderWindow* ow = handler.window;
 	sf::RenderWindow* nw;
+
+	ow->close();
+	renderThread.wait();
+	tickThread.wait();
 
 	if (isFullscreen) {
 		sf::ContextSettings settings;
@@ -281,13 +288,17 @@ void Game::toggleFullscreen() {
 		nw->setActive(false);
 	}
 
-	handler.window = nw;
 	ow->setActive(false);
 	delete ow;
+
+	handler.window = nw;
 
 	isFullscreen = !isFullscreen;
 
 	togglingFullscreen = false;
+
+	renderThread.launch();
+	tickThread.launch();
 
 }
 

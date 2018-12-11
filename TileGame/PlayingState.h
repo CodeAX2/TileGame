@@ -22,6 +22,7 @@ namespace tg {
 		void renderWorld();
 		void renderGUI();
 		void renderAllTextures();
+		void renderVignette();
 
 	private:
 		Handler * handler;
