@@ -351,7 +351,7 @@ bool Player::checkForCollision() {
 
 		Entity* cur = em->getEntity(i);
 
-		if (cur == this) {
+		if (cur == this || cur->type == PATHFINDER) {
 			continue;
 		}
 

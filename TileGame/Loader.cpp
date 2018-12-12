@@ -16,6 +16,7 @@
 #include "WorldManager.h"
 #include "BuildingFile.h"
 #include <filesystem>
+#include "Pathfinder.h"
 
 using namespace tg;
 namespace fs = std::experimental::filesystem;
@@ -103,6 +104,10 @@ void Loader::loadEntities() {
 	for (std::string s : buildingFiles) {
 		Building* bldg = BuildingFile::loadBuildingFile(s + ".tgb", handler);
 	}
+
+	Pathfinder* pf = new Pathfinder(44 * 96.f + 2, 24 * 96.f + 2, handler, mainWorld, 2.f);
+	pf->setFollowing(handler->player);
+
 
 	World* world = handler->mainWorld;
 	if (worldWasNull) {
