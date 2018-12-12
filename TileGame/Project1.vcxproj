@@ -34,6 +34,7 @@
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="Loader.cpp" />
     <ClCompile Include="LoadingState.cpp" />
+    <ClCompile Include="Pathfinder.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerFile.cpp" />
     <ClCompile Include="PlayingState.cpp" />
@@ -66,6 +67,7 @@
     <ClInclude Include="Item.h" />
     <ClInclude Include="Loader.h" />
     <ClInclude Include="LoadingState.h" />
+    <ClInclude Include="Pathfinder.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerFile.h" />
     <ClInclude Include="PlayingState.h" />
