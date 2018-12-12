@@ -1,6 +1,6 @@
 #include "Pathfinder.h"
 #include "Building.h"
-
+#include <math.h>
 using namespace tg;
 
 Pathfinder::Pathfinder(float x, float y, Handler* handler, World* world, float speed) :
@@ -19,40 +19,67 @@ void Pathfinder::tick(sf::Int32 dt) {
 
 	// Make sure destination is correct
 	if (following != nullptr) {
+		if (pow(following->getX() - x, 2) + pow(following->getY() - y, 2) >= 960 * 960) {
+			active = false;
+		} else {
+			active = true;
+		}
+
 		destX = following->getX();
 		destY = following->getY();
+
+	}
+
+	if (!active) {
+		return;
 	}
 
 	// Attempt to move to destination
 	float deltaX = destX - x;
 	float deltaY = destY - y;
+	float deg = atan2(deltaY, deltaX); // atan2 can determine the quadrant! :D 
 
+	float nX = x, nY = y;
 
-	x += deltaX * speed * dt * .01;
-	if (checkForCollision()) {
-		x -= deltaX * speed * dt * .01;
-	} else {
-		moved = true;
-	}
-	y += deltaY * speed * dt * .01;
-	if (checkForCollision()) {
-		y -= deltaY * speed * dt * .01;
-	} else {
-		moved = true;
+	if (abs(x - destX) >= .1f) {
+		nX += cos(deg) * speed * dt * .1;
+		if (checkForCollision(nX, nY)) {
+			nX -= cos(deg) * speed * dt * .1;
+		} else {
+			moved = true;
+		}
 	}
 
-	if (moved && deltaX > .1f && deltaY > .1f) {
+	if (abs(y - destY) >= .1f) {
+		nY += sin(deg) * speed * dt * .1;
+		if (checkForCollision(nX, nY)) {
+			nY -= sin(deg) * speed * dt * .1;
+		} else {
+			moved = true;
+		}
+	}
+
+	if (x < destX && nX > destX || x > destX && nX < destX) {
+		nX = destX;
+	}
+
+	if (y < destY && nY > destY || y > destY && nY < destY) {
+		nY = destY;
+	}
+
+	x = nX; y = nY;
+
+	if (moved) {
 		world->getEntityManager()->fixEntityMoved(this);
 	}
-
-
 }
 
 
 
 
-bool Pathfinder::checkForCollision() {
-	sf::IntRect pBox = sf::IntRect(x + hitBoxX, y + hitBoxY, x + hitBoxW + hitBoxX, y + hitBoxH + hitBoxY);
+bool Pathfinder::checkForCollision(float nX, float nY) {
+	sf::IntRect pBox = sf::IntRect(sf::Vector2i(std::round(nX + hitBoxX), std::round(nY + hitBoxY)), sf::Vector2i(hitBoxW, hitBoxH));
+	roundedHitBox = pBox;
 	EntityManager* em = world->getEntityManager();
 
 	for (int i = 0; i < em->numEntities(); i++) {

@@ -14,7 +14,7 @@ namespace tg {
 		void tick(sf::Int32 dt) override;
 
 	private:
-		bool checkForCollision();
+		bool checkForCollision(float nX, float nY);
 
 	private:
 		float destX;
@@ -22,6 +22,7 @@ namespace tg {
 		float speed;
 
 		Entity* following;
+		bool active = false;
 
 
 	};
