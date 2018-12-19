@@ -36,16 +36,23 @@ void Pathfinder::tick(sf::Int32 dt) {
 		return;
 	}
 
-	return;
-
 	if (currentPath.size() != 0) {
-		float dx = x - currentPath[spotInpath].x;
-		float dy = y - currentPath[spotInpath].y;
+		float dx = currentPath[spotInpath].x*hitBoxW - x;
+		float dy = currentPath[spotInpath].y*hitBoxH - y;
 
-		if (abs(dx) <= 5.f || abs(dy) <= 5.f) {
+
+		if (abs(dx) <= 10.f) {
+			dx = 0;
+		}
+
+		if (abs(dy) <= 10.f) {
+			dy = 0;
+		}
+
+		if (dx == 0 && dy == 0) {
 			spotInpath++;
-			dx = x - currentPath[spotInpath].x;
-			dy = y - currentPath[spotInpath].y;
+			dx = currentPath[spotInpath].x*hitBoxW - x;
+			dy = currentPath[spotInpath].y*hitBoxH - y;
 		}
 
 		float angle = atan2(dy, dx);
@@ -53,6 +60,9 @@ void Pathfinder::tick(sf::Int32 dt) {
 
 		x += dist * cos(angle);
 		y += dist * sin(angle);
+
+		world->getEntityManager()->fixEntityMoved(this);
+
 	}
 
 
@@ -65,7 +75,7 @@ void Pathfinder::tick(sf::Int32 dt) {
 void Pathfinder::render(Handler* handler) {
 	Entity::render(handler);
 
-
+	return;
 	std::vector<sf::Vector2i> cP = currentPath;
 	for (sf::Vector2i pos : cP) {
 		sf::RectangleShape s;
@@ -123,13 +133,11 @@ void Pathfinder::generatePath() {
 				std::vector<sf::Vector2i> path;
 				sf::Vector2i curPath = currentNodePos;
 				while (map[curPath.x][curPath.y].getParentX() != -1) {
-					path.push_back(curPath);
+					path.insert(path.begin(), curPath);
 					Node child = map[curPath.x][curPath.y];
 					sf::Vector2i newPath(child.getParentX(), child.getParentY());
 					curPath = newPath;
 				}
-
-				std::reverse(path.begin(), path.end());
 				currentPath = path;
 				spotInpath = 0;
 				break;
