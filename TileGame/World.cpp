@@ -10,6 +10,8 @@ World::World(std::string loadFrom, Handler* handler, std::string name, EntityMan
 	readWorldFile(loadFrom);
 	loadTileData();
 
+
+	em->setWorld(this);
 	handler->worldManager->addWorld(this);
 
 }

@@ -4,13 +4,17 @@
 using namespace tg;
 
 Pathfinder::Pathfinder(float x, float y, Handler* handler, World* world, float speed) :
-	Entity(x, y, handler, 0, 0, 64, 64, 64, 64, true, PATHFINDER, true, world),
-	speed(speed) {
+	Entity(x, y, handler, 0, 0, 16, 16, 64, 64, true, PATHFINDER, true, world),
+	speed(speed), pathThread(&Pathfinder::generatePath, this) {
+
+
+	pathThread.launch();
+
 }
 
 
-Pathfinder::~Pathfinder()
-{
+Pathfinder::~Pathfinder() {
+	pathThread.terminate();
 }
 
 void Pathfinder::tick(sf::Int32 dt) {
@@ -24,54 +28,157 @@ void Pathfinder::tick(sf::Int32 dt) {
 		} else {
 			active = true;
 		}
-
-		destX = following->getX();
-		destY = following->getY();
-
 	}
 
+
 	if (!active) {
+		// If we are too far from following, don't move.
 		return;
 	}
 
-	// Attempt to move to destination
-	float deltaX = destX - x;
-	float deltaY = destY - y;
-	float deg = atan2(deltaY, deltaX); // atan2 can determine the quadrant! :D 
+	return;
 
-	float nX = x, nY = y;
+	if (currentPath.size() != 0) {
+		float dx = x - currentPath[spotInpath].x;
+		float dy = y - currentPath[spotInpath].y;
 
-	if (abs(x - destX) >= .1f) {
-		nX += cos(deg) * speed * dt * .1;
-		if (checkForCollision(nX, nY)) {
-			nX -= cos(deg) * speed * dt * .1;
-		} else {
-			moved = true;
+		if (abs(dx) <= 5.f || abs(dy) <= 5.f) {
+			spotInpath++;
+			dx = x - currentPath[spotInpath].x;
+			dy = y - currentPath[spotInpath].y;
 		}
+
+		float angle = atan2(dy, dx);
+		float dist = .1f * dt;
+
+		x += dist * cos(angle);
+		y += dist * sin(angle);
 	}
 
-	if (abs(y - destY) >= .1f) {
-		nY += sin(deg) * speed * dt * .1;
-		if (checkForCollision(nX, nY)) {
-			nY -= sin(deg) * speed * dt * .1;
-		} else {
-			moved = true;
+
+
+
+
+
+}
+
+void Pathfinder::render(Handler* handler) {
+	Entity::render(handler);
+
+
+	std::vector<sf::Vector2i> cP = currentPath;
+	for (sf::Vector2i pos : cP) {
+		sf::RectangleShape s;
+		s.setPosition(sf::Vector2f(pos.x * hitBoxW - handler->camera->getXOffset(), pos.y*hitBoxH - handler->camera->getYOffset()));
+		s.setSize(sf::Vector2f(hitBoxW, hitBoxH));
+		s.setFillColor(sf::Color(0, 0, 255, 175));
+		handler->window->draw(s);
+	}
+
+}
+
+
+
+void Pathfinder::generatePath() {
+
+
+	sf::Int32 msToWait = 300;
+	sf::Clock clock;
+	while (true) {
+		if (!active) {
+			sf::sleep(sf::milliseconds(msToWait));
 		}
-	}
+		sf::Int32 begin = clock.getElapsedTime().asMilliseconds();
 
-	if (x < destX && nX > destX || x > destX && nX < destX) {
-		nX = destX;
-	}
+		int sizeX = ceil(x / hitBoxW) + ceil((world->getWidth() * 96 - x) / hitBoxW);
+		int sizeY = ceil(y / hitBoxH) + ceil((world->getHeight() * 96 - y) / hitBoxH);
 
-	if (y < destY && nY > destY || y > destY && nY < destY) {
-		nY = destY;
-	}
+		// Format [x][y]
+		std::vector<std::vector<Node>> map(sizeX, std::vector<Node>(sizeY));
 
-	x = nX; y = nY;
+		std::vector<sf::Vector2i> openList; // Contain the indicies of the nodes in the map;
+		std::vector<sf::Vector2i> closedList;
 
-	if (moved) {
-		world->getEntityManager()->fixEntityMoved(this);
+
+		sf::Vector2i start(ceil(x / hitBoxW), ceil(y / hitBoxH));
+		sf::Vector2i target(ceil(following->getX() / hitBoxW), ceil(following->getY() / hitBoxH));
+
+
+		openList.push_back(start);
+		while (openList.size() > 0) {
+			sf::Vector2i currentNodePos = openList[0];
+			int index = 0;
+			for (int i = 1; i < openList.size(); i++) {
+				if (map[openList[i].x][openList[i].y].getFValue() < map[currentNodePos.x][currentNodePos.y].getFValue()) {
+					currentNodePos = openList[i];
+					index = i;
+				}
+			}
+
+			openList.erase(openList.begin() + index);
+			closedList.push_back(currentNodePos);
+
+			if (currentNodePos == target) {
+				// Path found!
+				std::vector<sf::Vector2i> path;
+				sf::Vector2i curPath = currentNodePos;
+				while (map[curPath.x][curPath.y].getParentX() != -1) {
+					path.push_back(curPath);
+					Node child = map[curPath.x][curPath.y];
+					sf::Vector2i newPath(child.getParentX(), child.getParentY());
+					curPath = newPath;
+				}
+
+				std::reverse(path.begin(), path.end());
+				currentPath = path;
+				spotInpath = 0;
+				break;
+			}
+
+			sf::Vector2i neighborDelta[4] = { sf::Vector2i(-1,0), sf::Vector2i(1,0), sf::Vector2i(0,-1), sf::Vector2i(0,1) };
+			for (int i = 0; i < 4; i++) {
+				sf::Vector2i currentNeighbor = currentNodePos + neighborDelta[i];
+
+				if (std::find(closedList.begin(), closedList.end(), currentNeighbor) != closedList.end()
+					|| checkForCollision(currentNeighbor.x * hitBoxW, currentNeighbor.y * hitBoxH)) {
+					// Already in closed list
+					continue;
+				}
+
+				if (std::find(openList.begin(), openList.end(), currentNeighbor) == openList.end()) {
+					// Not in open list
+					addChild(currentNeighbor.x, currentNeighbor.y, currentNodePos.x, currentNodePos.y, &map, &openList, target.x, target.y);
+				} else {
+					// Already in open list
+					Node& existingNode = map[currentNeighbor.x][currentNeighbor.y];
+					if (existingNode.getGValue() > map[currentNodePos.x][currentNodePos.y].getGValue() + 1) {
+						existingNode.setGValue(map[currentNodePos.x][currentNodePos.y].getGValue() + 1);
+						existingNode.setParent(currentNodePos.x, currentNodePos.y);
+					}
+				}
+
+
+			}
+
+
+
+
+
+
+		}
+
+		sf::Int32 end = clock.getElapsedTime().asMilliseconds();
+		sf::sleep(sf::milliseconds(msToWait - (end - begin)));
 	}
+}
+
+void Pathfinder::addChild(int x, int y, int parentX, int parentY, std::vector<std::vector<Node>>* map, std::vector<sf::Vector2i>* openList, int targetX, int targetY) {
+	sf::Vector2i child = sf::Vector2i(x, y);
+	map->at(x).at(y).setParent(parentX, parentY);
+	map->at(x).at(y).setGValue(map->at(parentX).at(parentY).getGValue() + 1);
+	map->at(x).at(y).setHValue(abs(x - targetX) + abs(y - targetY));
+	openList->push_back(sf::Vector2i(x, y));
+
 }
 
 
@@ -79,22 +186,35 @@ void Pathfinder::tick(sf::Int32 dt) {
 
 bool Pathfinder::checkForCollision(float nX, float nY) {
 	sf::IntRect pBox = sf::IntRect(sf::Vector2i(std::round(nX + hitBoxX), std::round(nY + hitBoxY)), sf::Vector2i(hitBoxW, hitBoxH));
-	roundedHitBox = pBox;
 	EntityManager* em = world->getEntityManager();
 
-	for (int i = 0; i < em->numEntities(); i++) {
+	int sX, sY, eX, eY;
 
-		Entity* cur = em->getEntity(i);
+	sX = pBox.left / 96;
+	sY = pBox.top / 96;
+	eX = (pBox.left + pBox.width) / 96;
+	eY = (pBox.top + pBox.height) / 96;
 
-		if (cur == this) {
-			continue;
+	for (int y = sY; y <= eY; y++) {
+		for (int x = sX; x <= eX; x++) {
+
+			std::vector<Entity*> entitiesAtTile = em->getEntitiesAtTile(x, y);
+
+			for (Entity* cur : entitiesAtTile) {
+
+				if (cur == this) {
+					continue;
+				}
+
+				sf::IntRect eBox = cur->getCollisionBox();
+				if (eBox.intersects(pBox)) {
+					return true;
+				}
+
+			}
+
+
 		}
-
-		sf::IntRect eBox = cur->getCollisionBox();
-		if (eBox.intersects(pBox)) {
-			return true;
-		}
-
 	}
 
 	int cX = x + hitBoxX, cY = y + hitBoxY;

@@ -149,6 +149,7 @@ void Game::debugLoop() {
 }
 
 void Game::renderLoop() {
+
 	while (handler.window->isOpen()) {
 
 		mutex.lock();
@@ -179,6 +180,7 @@ void Game::tickLoop() {
 		}
 		sf::Int32 now = clock.getElapsedTime().asMilliseconds();
 		sf::Int32 dt = now - last;
+
 
 		handler.getCurrentState()->tick(dt);
 

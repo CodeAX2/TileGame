@@ -4,13 +4,13 @@
 #include "Player.h"
 #include <iostream>
 #include <sstream>
+#include "World.h"
 
 using namespace tg;
 
+
 EntityManager::EntityManager(Handler* handler) {
-
 	this->handler = handler;
-
 }
 
 Entity* EntityManager::getEntity(int index) {
@@ -30,6 +30,24 @@ void EntityManager::addEntity(Entity* entity) {
 	if (entity->needsTicking) {
 		tickList.push_back(entity);
 	}
+
+	int sX, sY, eX, eY;
+	sf::IntRect bounds = entity->getCollisionBox();
+
+	sX = bounds.left / 96;
+	sY = bounds.top / 96;
+	eX = (bounds.left + bounds.width) / 96;
+	eY = (bounds.top + bounds.height) / 96;
+
+	if (world != nullptr) {
+		for (int y = sY; y <= eY; y++) {
+			for (int x = sX; x <= eX; x++) {
+				entityTileMap[y][x].push_back(entity);
+			}
+		}
+	}
+
+
 
 
 }
@@ -71,6 +89,17 @@ void EntityManager::removeEntity(Entity* entity) {
 			}
 		}
 	}
+
+	for (int y = 0; y < entityTileMap.size(); y++) {
+		for (int x = 0; x < entityTileMap[y].size(); x++) {
+			for (int i = entityTileMap[y][x].size() - 1; i >= 0; i--) {
+				if (entityTileMap[y][x][i] == entity) {
+					entityTileMap[y][x].erase(entityTileMap[y][x].begin() + i);
+				}
+			}
+		}
+	}
+
 
 	delete entity;
 
@@ -116,6 +145,31 @@ void EntityManager::fixEntityMoved(Entity* entity) {
 
 	renderOrder = curRO;
 
+	for (int y = 0; y < entityTileMap.size(); y++) {
+		for (int x = 0; x < entityTileMap[y].size(); x++) {
+			for (int i = entityTileMap[y][x].size() - 1; i >= 0; i--) {
+				if (entityTileMap[y][x][i] == entity) {
+					entityTileMap[y][x].erase(entityTileMap[y][x].begin() + i);
+				}
+			}
+		}
+	}
+
+	int sX, sY, eX, eY;
+	sf::IntRect bounds = entity->getCollisionBox();
+
+	sX = bounds.left / 96;
+	sY = bounds.top / 96;
+	eX = (bounds.left + bounds.width) / 96;
+	eY = (bounds.top + bounds.height) / 96;
+
+	for (int y = sY; y <= eY; y++) {
+		for (int x = sX; x <= eX; x++) {
+			entityTileMap[y][x].push_back(entity);
+		}
+	}
+
+
 }
 
 Entity* EntityManager::getEntityById(UUID id) {
@@ -138,7 +192,7 @@ void EntityManager::render() {
 
 	for (int i = doNotRender.size() - 1; i >= 0; i--) {
 		Entity* cur = doNotRender[i];
-		if (std::find(renderOrder.begin(), renderOrder.end(),cur) == renderOrder.end()) {
+		if (std::find(renderOrder.begin(), renderOrder.end(), cur) == renderOrder.end()) {
 			doNotRender.erase(doNotRender.begin() + i);
 		}
 	}
@@ -162,10 +216,10 @@ void EntityManager::render() {
 		sf::View v = handler->window->getView();
 		sf::Vector2u s = handler->window->getSize();
 
-		if (!(cur->getX() + cur->getWidth() < handler->camera->getXOffset() + (1280/2 - v.getSize().x/2) ||
-			cur->getX() > handler->window->getSize().x + handler->camera->getXOffset() - (1280/2 - v.getSize().x/2) ||
-			cur->getY() + cur->getHeight() < handler->camera->getYOffset() + (720/2 - v.getSize().y/2) ||
-			cur->getY() > handler->window->getSize().y + handler->camera->getYOffset() - (720/2 - v.getSize().y/2))) {
+		if (!(cur->getX() + cur->getWidth() < handler->camera->getXOffset() + (1280 / 2 - v.getSize().x / 2) ||
+			cur->getX() > handler->window->getSize().x + handler->camera->getXOffset() - (1280 / 2 - v.getSize().x / 2) ||
+			cur->getY() + cur->getHeight() < handler->camera->getYOffset() + (720 / 2 - v.getSize().y / 2) ||
+			cur->getY() > handler->window->getSize().y + handler->camera->getYOffset() - (720 / 2 - v.getSize().y / 2))) {
 
 			if (handler->player->getY() + handler->player->getHeight() <= cur->getY() + cur->getHeight() && !playerIsRendered) {
 				if (handler->player->getRidingOn() == nullptr) {
@@ -250,8 +304,8 @@ int EntityManager::getRenderStartIndex() {
 			return mIndex;
 		}
 		Entity* nextCur = renderOrder[mIndex + 1];
-		if (cur->getY() + cur->getHeight() < handler->camera->getYOffset() + (720/2 - v.getSize().y/2)) {
-			if (nextCur->getY() + nextCur->getHeight() < handler->camera->getYOffset() + (720/2 - v.getSize().y/2)) {
+		if (cur->getY() + cur->getHeight() < handler->camera->getYOffset() + (720 / 2 - v.getSize().y / 2)) {
+			if (nextCur->getY() + nextCur->getHeight() < handler->camera->getYOffset() + (720 / 2 - v.getSize().y / 2)) {
 				left = mIndex + 1;
 			} else {
 				return mIndex;
@@ -288,4 +342,42 @@ int EntityManager::getRenderEndIndex() {
 		}
 	}
 	return renderOrder.size() - 1;
+}
+
+void EntityManager::setWorld(World* world) {
+	this->world = world;
+	entityTileMap = std::vector<std::vector<std::vector<Entity*>>>(world->getHeight(), std::vector<std::vector<Entity*>>(world->getWidth(),std::vector<Entity*>()));
+
+
+
+	for (Entity* e : allEntities) {
+
+		if (e->type == PLAYER_E) {
+			continue;
+		}
+
+		int sX, sY, eX, eY;
+		sf::IntRect bounds = e->getCollisionBox();
+
+		sX = bounds.left / 96;
+		sY = bounds.top / 96;
+		eX = (bounds.left + bounds.width) / 96;
+		eY = (bounds.top + bounds.height) / 96;
+
+		for (int y = sY; y <= eY; y++) {
+			for (int x = sX; x <= eX; x++) {
+				entityTileMap[y][x].push_back(e);
+			}
+		}
+
+
+	}
+
+
+}
+
+std::vector<Entity*> EntityManager::getEntitiesAtTile(int x, int y) {
+
+	return entityTileMap[y][x];
+
 }

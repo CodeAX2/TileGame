@@ -4,9 +4,11 @@
 #include <iostream>
 #include <SFML/System.hpp>
 #include <Windows.h>
+
 namespace tg {
 	class Entity;
 	class Handler;
+	class World;
 
 	class EntityManager
 	{
@@ -26,6 +28,8 @@ namespace tg {
 		void fixEntityMoved(Entity* entity);
 		int getNumEntities() { return allEntities.size(); }
 		Entity* getEntityById(UUID id);
+		void setWorld(World* world);
+		std::vector<Entity*> getEntitiesAtTile(int x, int y);
 
 
 	private:
@@ -39,6 +43,10 @@ namespace tg {
 
 		int getRenderStartIndex();
 		int getRenderEndIndex();
+
+		World* world = nullptr;
+
+		std::vector<std::vector<std::vector<Entity*>>> entityTileMap; // Format of [y][x]
 
 
 	};

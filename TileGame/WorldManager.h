@@ -14,6 +14,7 @@ namespace tg {
 		void addWorld(World* world);
 		World* getWorld(std::string worldId);
 		std::vector<World*> getAllWorlds() { return allWorlds; }
+		World* getWorldFromEntitymanager(EntityManager* em);
 
 
 	private:

@@ -71,6 +71,8 @@ void Loader::loadEntities() {
 		worldWasNull = true;
 	}
 
+	handler->entityManager->setWorld(mainWorld);
+
 
 	handler->camera = new Camera(handler);
 	handler->inputManager = new InputManager(handler);

@@ -94,6 +94,7 @@
     <ClCompile Include="Pathfinder.cpp">
       <Filter>Source Files\Entities\Non-Statics</Filter>
     </ClCompile>
+    <ClCompile Include="Node.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -189,6 +190,7 @@
     <ClInclude Include="Pathfinder.h">
       <Filter>Header Files\Entities\Non-Statics</Filter>
     </ClInclude>
+    <ClInclude Include="Node.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="BuildingFileOutline.txt">

@@ -25,3 +25,15 @@ World* WorldManager::getWorld(std::string worldId) {
 
 	return nullptr;
 }
+
+
+World* WorldManager::getWorldFromEntitymanager(EntityManager* em) {
+	for (World* world : allWorlds) {
+		if (world->getEntityManager() == em) {
+			return world;
+		}
+	}
+
+	return nullptr;
+
+}

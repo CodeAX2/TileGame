@@ -347,39 +347,83 @@ bool Player::checkForCollision() {
 	sf::IntRect pBox = getCollisionBox();
 	EntityManager* em = world->getEntityManager();
 
-	for (int i = 0; i < em->numEntities(); i++) {
+	int sX, sY, eX, eY;
 
-		Entity* cur = em->getEntity(i);
+	sX = pBox.left / 96;
+	sY = pBox.top / 96;
+	eX = (pBox.left + pBox.width) / 96;
+	eY = (pBox.top + pBox.height) / 96;
 
-		if (cur == this || cur->type == PATHFINDER) {
-			continue;
-		}
+	for (int y = sY; y <= eY; y++) {
+		for (int x = sX; x <= eX; x++) {
 
-		sf::IntRect eBox = cur->getCollisionBox();
+			std::vector<Entity*> entitiesAtTile = em->getEntitiesAtTile(x, y);
 
-		if (cur->isRideable()) {
-			if (Rideable* rCur = dynamic_cast<Rideable*>(cur)) {
-				if (ridingOn == nullptr) {
-					sf::IntRect extendedEBox = eBox;
+			for (Entity* cur : entitiesAtTile) {
 
-					extendedEBox.top -= 9;
-					extendedEBox.left -= 9;
-					extendedEBox.width += 18;
-					extendedEBox.height += 18;
-					if (extendedEBox.intersects(pBox)) {
-						rCur->setRider(this);
-						return true;
+				if (cur == this) {
+					continue;
+				}
+
+				sf::IntRect eBox = cur->getCollisionBox();
+
+				if (cur->isRideable()) {
+					if (Rideable* rCur = dynamic_cast<Rideable*>(cur)) {
+						if (ridingOn == nullptr) {
+							if (eBox.intersects(pBox)) {
+								rCur->setRider(this);
+								return true;
+							}
+						}
+
 					}
+				}
+
+				if (eBox.intersects(pBox)) {
+					return true;
 				}
 
 			}
 		}
+	}
 
+	// Deal with rideables
+	sf::IntRect extendedPBox = pBox;
 
-		if (eBox.intersects(pBox)) {
-			return true;
+	extendedPBox.top -= 9;
+	extendedPBox.left -= 9;
+	extendedPBox.width += 18;
+	extendedPBox.height += 18;
+
+	sX = extendedPBox.left / 96;
+	sY = extendedPBox.top / 96;
+	eX = (extendedPBox.left + extendedPBox.width) / 96;
+	eY = (extendedPBox.top + extendedPBox.height) / 96;
+
+	for (int y = sY; y <= eY; y++) {
+		for (int x = sX; x <= eX; x++) {
+
+			std::vector<Entity*> entitiesAtTile = em->getEntitiesAtTile(x, y);
+
+			for (Entity* cur : entitiesAtTile) {
+
+				if (cur == this) {
+					continue;
+				}
+
+				if (cur->isRideable()) {
+					if (Rideable* rCur = dynamic_cast<Rideable*>(cur)) {
+						if (ridingOn == nullptr) {
+							if (rCur->getCollisionBox().intersects(extendedPBox)) {
+								rCur->setRider(this);
+								return true;
+							}
+						}
+
+					}
+				}
+			}
 		}
-
 	}
 
 	int cX = x + hitBoxX, cY = y + hitBoxY;
