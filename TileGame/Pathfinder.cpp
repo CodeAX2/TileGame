@@ -1,6 +1,9 @@
 #include "Pathfinder.h"
 #include "Building.h"
 #include <math.h>
+#include "InputManager.h"
+#include "Player.h"
+
 using namespace tg;
 
 Pathfinder::Pathfinder(float x, float y, Handler* handler, World* world, float speed) :
@@ -36,32 +39,51 @@ void Pathfinder::tick(sf::Int32 dt) {
 		return;
 	}
 
-	if (currentPath.size() != 0) {
-		float dx = currentPath[spotInpath].x*hitBoxW - x;
-		float dy = currentPath[spotInpath].y*hitBoxH - y;
+	if (currentPath.size() != 0 && spotInpath < currentPath.size()) {
+		float dx = currentPath[spotInpath].x*hitBoxW - (x + hitBoxX);
+		float dy = currentPath[spotInpath].y*hitBoxH - (y + hitBoxY);
 
-
-		if (abs(dx) <= 10.f) {
-			dx = 0;
+		if (oldDX == 0) {
+			oldDX = dx;
 		}
 
-		if (abs(dy) <= 10.f) {
-			dy = 0;
+		if (oldDY == 0) {
+			oldDY = dy;
 		}
 
-		if (dx == 0 && dy == 0) {
-			spotInpath++;
-			dx = currentPath[spotInpath].x*hitBoxW - x;
-			dy = currentPath[spotInpath].y*hitBoxH - y;
-		}
 
 		float angle = atan2(dy, dx);
+
+		if (dx < 0 && oldDX > 0 || dx > 0 && oldDX < 0 || dy < 0 && oldDY > 0 || dy > 0 && oldDY < 0) {
+			spotInpath++;
+			dx = currentPath[spotInpath].x*hitBoxW - (x + hitBoxX);
+			dy = currentPath[spotInpath].y*hitBoxH - (y + hitBoxY);
+			angle = atan2(dy, dx);
+
+			oldDX = dx;
+			oldDY = dy;
+
+		}
+
+
+
 		float dist = .1f * dt;
 
 		x += dist * cos(angle);
+
+		if (checkForCollision(x, y)) {
+			x -= dist * cos(angle);
+		}
+
 		y += dist * sin(angle);
+		if (checkForCollision(x, y)) {
+			y -= dist * sin(angle);
+		}
+
 
 		world->getEntityManager()->fixEntityMoved(this);
+		roundedHitBox.left = x + hitBoxX;
+		roundedHitBox.top = y + hitBoxY;
 
 	}
 
@@ -75,14 +97,16 @@ void Pathfinder::tick(sf::Int32 dt) {
 void Pathfinder::render(Handler* handler) {
 	Entity::render(handler);
 
-	return;
-	std::vector<sf::Vector2i> cP = currentPath;
-	for (sf::Vector2i pos : cP) {
-		sf::RectangleShape s;
-		s.setPosition(sf::Vector2f(pos.x * hitBoxW - handler->camera->getXOffset(), pos.y*hitBoxH - handler->camera->getYOffset()));
-		s.setSize(sf::Vector2f(hitBoxW, hitBoxH));
-		s.setFillColor(sf::Color(0, 0, 255, 175));
-		handler->window->draw(s);
+
+	if (handler->inputManager->hitboxIsShown()) {
+		std::vector<sf::Vector2i> cP = currentPath;
+		for (sf::Vector2i pos : cP) {
+			sf::RectangleShape s;
+			s.setPosition(sf::Vector2f(pos.x * hitBoxW - handler->camera->getXOffset(), pos.y*hitBoxH - handler->camera->getYOffset()));
+			s.setSize(sf::Vector2f(hitBoxW, hitBoxH));
+			s.setFillColor(sf::Color(0, 0, 255, 175));
+			handler->window->draw(s);
+		}
 	}
 
 }
@@ -92,7 +116,7 @@ void Pathfinder::render(Handler* handler) {
 void Pathfinder::generatePath() {
 
 
-	sf::Int32 msToWait = 300;
+	sf::Int32 msToWait = 75;
 	sf::Clock clock;
 	while (true) {
 		if (!active) {
@@ -113,9 +137,10 @@ void Pathfinder::generatePath() {
 		sf::Vector2i start(ceil(x / hitBoxW), ceil(y / hitBoxH));
 		sf::Vector2i target(ceil(following->getX() / hitBoxW), ceil(following->getY() / hitBoxH));
 
-
 		openList.push_back(start);
+
 		while (openList.size() > 0) {
+
 			sf::Vector2i currentNodePos = openList[0];
 			int index = 0;
 			for (int i = 1; i < openList.size(); i++) {
@@ -148,7 +173,7 @@ void Pathfinder::generatePath() {
 				sf::Vector2i currentNeighbor = currentNodePos + neighborDelta[i];
 
 				if (std::find(closedList.begin(), closedList.end(), currentNeighbor) != closedList.end()
-					|| checkForCollision(currentNeighbor.x * hitBoxW, currentNeighbor.y * hitBoxH)) {
+					|| checkForCollision(currentNeighbor.x * hitBoxW, currentNeighbor.y * hitBoxH, false)) {
 					// Already in closed list
 					continue;
 				}
@@ -177,6 +202,8 @@ void Pathfinder::generatePath() {
 
 		sf::Int32 end = clock.getElapsedTime().asMilliseconds();
 		sf::sleep(sf::milliseconds(msToWait - (end - begin)));
+
+
 	}
 }
 
@@ -192,7 +219,7 @@ void Pathfinder::addChild(int x, int y, int parentX, int parentY, std::vector<st
 
 
 
-bool Pathfinder::checkForCollision(float nX, float nY) {
+bool Pathfinder::checkForCollision(float nX, float nY, bool collideWithPlayer) {
 	sf::IntRect pBox = sf::IntRect(sf::Vector2i(std::round(nX + hitBoxX), std::round(nY + hitBoxY)), sf::Vector2i(hitBoxW, hitBoxH));
 	EntityManager* em = world->getEntityManager();
 
@@ -224,6 +251,13 @@ bool Pathfinder::checkForCollision(float nX, float nY) {
 
 		}
 	}
+
+	if (handler->player->getWorld() == world && collideWithPlayer) {
+		if (handler->player->getCollisionBox().intersects(pBox)) {
+			return true;
+		}
+	}
+
 
 	int cX = x + hitBoxX, cY = y + hitBoxY;
 

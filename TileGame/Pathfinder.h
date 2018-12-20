@@ -18,7 +18,7 @@ namespace tg {
 		void render(Handler* handler) override;
 
 	private:
-		bool checkForCollision(float nX, float nY);
+		bool checkForCollision(float nX, float nY, bool collideWithPlayer = true);
 		void generatePath();
 		void addChild(int x, int y, int parentX, int parentY, std::vector<std::vector<Node>>* map, std::vector<sf::Vector2i>* openList, int targetX, int targetY);
 
@@ -36,6 +36,8 @@ namespace tg {
 		bool generating = false;
 
 		sf::Thread pathThread;
+
+		float oldDX = 0, oldDY = 0;
 
 
 	};
