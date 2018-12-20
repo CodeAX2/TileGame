@@ -7,10 +7,8 @@
 using namespace tg;
 
 Pathfinder::Pathfinder(float x, float y, Handler* handler, World* world, float speed) :
-	Entity(x, y, handler, 0, 0, 16, 16, 64, 64, true, PATHFINDER, true, world),
+	Entity(x, y, handler, 8, 8, 48, 48, 64, 64, true, PATHFINDER, true, world),
 	speed(speed), pathThread(&Pathfinder::generatePath, this) {
-
-
 	pathThread.launch();
 
 }
@@ -40,8 +38,8 @@ void Pathfinder::tick(sf::Int32 dt) {
 	}
 
 	if (currentPath.size() != 0 && spotInpath < currentPath.size()) {
-		float dx = currentPath[spotInpath].x*hitBoxW - (x + hitBoxX);
-		float dy = currentPath[spotInpath].y*hitBoxH - (y + hitBoxY);
+		float dx = currentPath[spotInpath].x * 16 - (x + hitBoxX);
+		float dy = currentPath[spotInpath].y * 16 - (y + hitBoxY);
 
 		if (oldDX == 0) {
 			oldDX = dx;
@@ -56,8 +54,8 @@ void Pathfinder::tick(sf::Int32 dt) {
 
 		if (dx < 0 && oldDX > 0 || dx > 0 && oldDX < 0 || dy < 0 && oldDY > 0 || dy > 0 && oldDY < 0) {
 			spotInpath++;
-			dx = currentPath[spotInpath].x*hitBoxW - (x + hitBoxX);
-			dy = currentPath[spotInpath].y*hitBoxH - (y + hitBoxY);
+			dx = currentPath[spotInpath].x * 16 - (x + hitBoxX);
+			dy = currentPath[spotInpath].y * 16 - (y + hitBoxY);
 			angle = atan2(dy, dx);
 
 			oldDX = dx;
@@ -68,22 +66,27 @@ void Pathfinder::tick(sf::Int32 dt) {
 
 
 		float dist = .1f * dt;
+		float newX = x, newY = y;
 
-		x += dist * cos(angle);
+		newX += dist * cos(angle);
 
-		if (checkForCollision(x, y)) {
-			x -= dist * cos(angle);
+		if (checkForCollision(newX, newY)) {
+			newX -= dist * cos(angle);
 		}
 
-		y += dist * sin(angle);
-		if (checkForCollision(x, y)) {
-			y -= dist * sin(angle);
+		newY += dist * sin(angle);
+		if (checkForCollision(newX, newY)) {
+			newY -= dist * sin(angle);
 		}
 
+
+		roundedHitBox.left = newX + hitBoxX;
+		roundedHitBox.top = newY + hitBoxY;
+
+		x = newX;
+		y = newY;
 
 		world->getEntityManager()->fixEntityMoved(this);
-		roundedHitBox.left = x + hitBoxX;
-		roundedHitBox.top = y + hitBoxY;
 
 	}
 
@@ -102,8 +105,8 @@ void Pathfinder::render(Handler* handler) {
 		std::vector<sf::Vector2i> cP = currentPath;
 		for (sf::Vector2i pos : cP) {
 			sf::RectangleShape s;
-			s.setPosition(sf::Vector2f(pos.x * hitBoxW - handler->camera->getXOffset(), pos.y*hitBoxH - handler->camera->getYOffset()));
-			s.setSize(sf::Vector2f(hitBoxW, hitBoxH));
+			s.setPosition(sf::Vector2f(pos.x * 16 - handler->camera->getXOffset(), pos.y * 16 - handler->camera->getYOffset()));
+			s.setSize(sf::Vector2f(16, 16));
 			s.setFillColor(sf::Color(0, 0, 255, 175));
 			handler->window->draw(s);
 		}
@@ -119,13 +122,14 @@ void Pathfinder::generatePath() {
 	sf::Int32 msToWait = 75;
 	sf::Clock clock;
 	while (true) {
-		if (!active) {
+		if (!active || following->getWorld() != world) {
 			sf::sleep(sf::milliseconds(msToWait));
+			continue;
 		}
 		sf::Int32 begin = clock.getElapsedTime().asMilliseconds();
 
-		int sizeX = ceil(x / hitBoxW) + ceil((world->getWidth() * 96 - x) / hitBoxW);
-		int sizeY = ceil(y / hitBoxH) + ceil((world->getHeight() * 96 - y) / hitBoxH);
+		int sizeX = world->getWidth() * 96 / 16;
+		int sizeY = world->getHeight() * 96 / 16;
 
 		// Format [x][y]
 		std::vector<std::vector<Node>> map(sizeX, std::vector<Node>(sizeY));
@@ -134,8 +138,36 @@ void Pathfinder::generatePath() {
 		std::vector<sf::Vector2i> closedList;
 
 
-		sf::Vector2i start(ceil(x / hitBoxW), ceil(y / hitBoxH));
-		sf::Vector2i target(ceil(following->getX() / hitBoxW), ceil(following->getY() / hitBoxH));
+		sf::Vector2i start(ceil(x / 16), ceil(y / 16));
+		sf::Vector2i target(ceil(following->getCollisionBox().left / 16), ceil(following->getCollisionBox().top / 16));
+
+		sf::Vector2i ogTarget = target;
+		int startX = -1;
+		int endX = 1;
+		int startY = -1;
+		int endY = 1;
+
+		int tcx = startX;
+		int tcy = startY;
+
+		while (checkForCollision(target.x * 16, target.y * 16, false)) {
+			target = ogTarget + sf::Vector2i(tcx, tcy);
+			tcx++;
+			if (tcx > endX) {
+				tcx = startX;
+				tcy++;
+				if (tcy > endY) {
+					startX -= 1;
+					endX += 1;
+					startY -= 1;
+					endY -= 1;
+					tcx = startX;
+					tcy = startY;
+				}
+			}
+		}
+
+
 
 		openList.push_back(start);
 
@@ -173,8 +205,8 @@ void Pathfinder::generatePath() {
 				sf::Vector2i currentNeighbor = currentNodePos + neighborDelta[i];
 
 				if (std::find(closedList.begin(), closedList.end(), currentNeighbor) != closedList.end()
-					|| checkForCollision(currentNeighbor.x * hitBoxW, currentNeighbor.y * hitBoxH, false)) {
-					// Already in closed list
+					|| checkForCollision(currentNeighbor.x * 16, currentNeighbor.y * 16, false)) {
+					// Already in closed list, or it would cause a collision
 					continue;
 				}
 
@@ -229,6 +261,11 @@ bool Pathfinder::checkForCollision(float nX, float nY, bool collideWithPlayer) {
 	sY = pBox.top / 96;
 	eX = (pBox.left + pBox.width) / 96;
 	eY = (pBox.top + pBox.height) / 96;
+
+	if (sX < 0)
+		sX = 0;
+	if (sY < 0)
+		sY = 0;
 
 	for (int y = sY; y <= eY; y++) {
 		for (int x = sX; x <= eX; x++) {
