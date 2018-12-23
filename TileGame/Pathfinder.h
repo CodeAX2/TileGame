@@ -29,6 +29,8 @@ namespace tg {
 		bool active = false;
 
 		std::vector<sf::Vector2i> currentPath;
+		std::vector<sf::Vector2i> queuedPath;
+		bool pathIsQueued = false;
 		int spotInpath = 0;
 
 		sf::Int32 timeSincePathFind = 0;
@@ -37,7 +39,7 @@ namespace tg {
 
 		sf::Thread pathThread;
 
-		float oldDX = 0, oldDY = 0;
+		float initX = 0, initY = 0;
 
 
 	};

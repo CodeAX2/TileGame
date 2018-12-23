@@ -43,48 +43,76 @@ void Pathfinder::tick(sf::Int32 dt) {
 		float dx = currentPath[spotInpath].x*hitBoxW - (x + hitBoxX);
 		float dy = currentPath[spotInpath].y*hitBoxH - (y + hitBoxY);
 
-		if (oldDX == 0) {
-			oldDX = dx;
+
+		if (initX == 0) {
+			initX = x + hitBoxX;
 		}
 
-		if (oldDY == 0) {
-			oldDY = dy;
+		if (initY == 0) {
+			initY = y + hitBoxY;
 		}
 
 
 		float angle = atan2(dy, dx);
 
-		if (dx < 0 && oldDX > 0 || dx > 0 && oldDX < 0 || dy < 0 && oldDY > 0 || dy > 0 && oldDY < 0) {
-			spotInpath++;
+
+
+		float dist = .2f * dt;
+
+
+		float ogX = x;
+		float ogY = y;
+		float newX = x;
+		float newY = y;
+
+		newX += dist * cos(angle);
+
+		if (checkForCollision(x, y)) {
+			newX = ogX;
+		}
+
+		newY += dist * sin(angle);
+		if (checkForCollision(x, y)) {
+			newY = ogY;
+		}
+
+		x = newX;
+		y = newY;
+
+
+		float checkX = currentPath[spotInpath].x*hitBoxW;
+		float checkY = currentPath[spotInpath].y*hitBoxH;
+
+		if (initX < checkX && x + hitBoxX > checkX || initX > checkX && x + hitBoxX < checkX ||
+			initY < checkY && y + hitBoxY > checkY || initY > checkY && y + hitBoxY < checkY ||
+			(dx == 0 && dy == 0)) {
+
+			if (pathIsQueued) {
+				currentPath = queuedPath;
+				pathIsQueued = false;
+				spotInpath = 0;
+			} else {
+				spotInpath++;
+			}
 			dx = currentPath[spotInpath].x*hitBoxW - (x + hitBoxX);
 			dy = currentPath[spotInpath].y*hitBoxH - (y + hitBoxY);
 			angle = atan2(dy, dx);
 
-			oldDX = dx;
-			oldDY = dy;
+			initX = x + hitBoxX;
+			initY = y + hitBoxY;
 
 		}
 
-
-
-		float dist = .1f * dt;
-
-		x += dist * cos(angle);
-
-		if (checkForCollision(x, y)) {
-			x -= dist * cos(angle);
-		}
-
-		y += dist * sin(angle);
-		if (checkForCollision(x, y)) {
-			y -= dist * sin(angle);
-		}
-
-
-		world->getEntityManager()->fixEntityMoved(this);
 		roundedHitBox.left = x + hitBoxX;
 		roundedHitBox.top = y + hitBoxY;
 
+		world->getEntityManager()->fixEntityMoved(this);
+
+
+	} else if (pathIsQueued) {
+		currentPath = queuedPath;
+		spotInpath = 0;
+		pathIsQueued = false;
 	}
 
 
@@ -107,6 +135,25 @@ void Pathfinder::render(Handler* handler) {
 			s.setFillColor(sf::Color(0, 0, 255, 175));
 			handler->window->draw(s);
 		}
+
+		if (currentPath.size() != 0) {
+			float tX = currentPath[spotInpath].x*hitBoxW - handler->camera->getXOffset();
+			float tY = currentPath[spotInpath].y*hitBoxH - handler->camera->getYOffset();
+			float cX = x + hitBoxX - handler->camera->getXOffset();
+			float cY = y + hitBoxY - handler->camera->getYOffset();
+
+			sf::VertexArray line(sf::LinesStrip, 2);
+			line[0].position = sf::Vector2f(cX, cY);
+			line[1].position = sf::Vector2f(tX, tY);
+
+			line[0].color = sf::Color::Red;
+			line[1].color = sf::Color::Red;
+
+
+			handler->window->draw(line);
+		}
+
+
 	}
 
 }
@@ -116,7 +163,7 @@ void Pathfinder::render(Handler* handler) {
 void Pathfinder::generatePath() {
 
 
-	sf::Int32 msToWait = 75;
+	sf::Int32 msToWait = 300;
 	sf::Clock clock;
 	while (true) {
 		if (!active) {
@@ -133,9 +180,14 @@ void Pathfinder::generatePath() {
 		std::vector<sf::Vector2i> openList; // Contain the indicies of the nodes in the map;
 		std::vector<sf::Vector2i> closedList;
 
+		sf::Vector2i start;
 
-		sf::Vector2i start(ceil(x / hitBoxW), ceil(y / hitBoxH));
-		sf::Vector2i target(ceil(following->getX() / hitBoxW), ceil(following->getY() / hitBoxH));
+		if (currentPath.size() != 0) {
+			start = sf::Vector2i(currentPath[spotInpath]);
+		} else {
+			start = sf::Vector2i(ceil((x + hitBoxX) / hitBoxW), ceil((y + hitBoxY) / hitBoxH));
+		}
+		sf::Vector2i target(ceil(following->getCollisionBox().left / hitBoxW), ceil(following->getCollisionBox().top / hitBoxH));
 
 		openList.push_back(start);
 
@@ -163,8 +215,11 @@ void Pathfinder::generatePath() {
 					sf::Vector2i newPath(child.getParentX(), child.getParentY());
 					curPath = newPath;
 				}
-				currentPath = path;
-				spotInpath = 0;
+
+				//path.insert(path.begin(), start);
+
+				queuedPath = path;
+				pathIsQueued = true;
 				break;
 			}
 
@@ -259,7 +314,7 @@ bool Pathfinder::checkForCollision(float nX, float nY, bool collideWithPlayer) {
 	}
 
 
-	int cX = x + hitBoxX, cY = y + hitBoxY;
+	int cX = nX + hitBoxX, cY = nY + hitBoxY;
 
 	if (cX < 0 || cX + hitBoxW >= world->getWidth() * 96 ||
 		cY < 0 || cY + hitBoxH >= world->getHeight() * 96) {
