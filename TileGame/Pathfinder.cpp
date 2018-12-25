@@ -59,25 +59,27 @@ void Pathfinder::tick(sf::Int32 dt) {
 
 		float dist = .2f * dt;
 
-
 		float ogX = x;
 		float ogY = y;
-		float newX = x;
-		float newY = y;
 
-		newX += dist * cos(angle);
+		x += dist * cos(angle);
+
+		bool moved = true;
 
 		if (checkForCollision(x, y)) {
-			newX = ogX;
+			if (checkForCollision(x, y, false)) {
+				moved = false;
+			}
+			x = ogX;
 		}
 
-		newY += dist * sin(angle);
+		y += dist * sin(angle);
 		if (checkForCollision(x, y)) {
-			newY = ogY;
+			if (checkForCollision(x, y, false)) {
+				moved = false;
+			}
+			y = ogY;
 		}
-
-		x = newX;
-		y = newY;
 
 
 		float checkX = currentPath[spotInpath].x*hitBoxW;
@@ -85,12 +87,12 @@ void Pathfinder::tick(sf::Int32 dt) {
 
 		if (initX < checkX && x + hitBoxX > checkX || initX > checkX && x + hitBoxX < checkX ||
 			initY < checkY && y + hitBoxY > checkY || initY > checkY && y + hitBoxY < checkY ||
-			(dx == 0 && dy == 0)) {
+			(dx == 0 && dy == 0) || !moved) {
 
 			if (pathIsQueued) {
 				currentPath = queuedPath;
-				pathIsQueued = false;
-				spotInpath = 0;
+					pathIsQueued = false;
+					spotInpath = 0;
 			} else {
 				spotInpath++;
 			}
@@ -103,8 +105,7 @@ void Pathfinder::tick(sf::Int32 dt) {
 
 		}
 
-		roundedHitBox.left = x + hitBoxX;
-		roundedHitBox.top = y + hitBoxY;
+		roundedHitBox = sf::IntRect(sf::Vector2i(std::round(x + (float)hitBoxX), std::round(y + (float)hitBoxY)), sf::Vector2i(hitBoxW, hitBoxH));
 
 		world->getEntityManager()->fixEntityMoved(this);
 
@@ -275,7 +276,7 @@ void Pathfinder::addChild(int x, int y, int parentX, int parentY, std::vector<st
 
 
 bool Pathfinder::checkForCollision(float nX, float nY, bool collideWithPlayer) {
-	sf::IntRect pBox = sf::IntRect(sf::Vector2i(std::round(nX + hitBoxX), std::round(nY + hitBoxY)), sf::Vector2i(hitBoxW, hitBoxH));
+	sf::IntRect pBox = sf::IntRect(sf::Vector2i(std::round(nX + (float)hitBoxX), std::round(nY + (float)hitBoxY)), sf::Vector2i(hitBoxW, hitBoxH));
 	EntityManager* em = world->getEntityManager();
 
 	int sX, sY, eX, eY;
