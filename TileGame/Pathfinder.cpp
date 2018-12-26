@@ -7,7 +7,7 @@
 using namespace tg;
 
 Pathfinder::Pathfinder(float x, float y, Handler* handler, World* world, float speed) :
-	Entity(x, y, handler, 0, 0, 16, 16, 64, 64, true, PATHFINDER, true, world),
+	Entity(x, y, handler, 8, 8, 48, 48, 64, 64, true, PATHFINDER, true, world),
 	speed(speed), pathThread(&Pathfinder::generatePath, this) {
 
 
@@ -162,7 +162,7 @@ void Pathfinder::render(Handler* handler) {
 
 
 void Pathfinder::generatePath() {
-
+	// Todo: Reimpliment pathfinder on a 16x16 basis, since it somehow got deleted :(
 
 	sf::Int32 msToWait = 300;
 	sf::Clock clock;
