@@ -69,6 +69,7 @@ void Loader::loadEntities() {
 	if (mainWorld == nullptr) {
 		handler->mainWorld = new World(handler->assets->getMapData(), handler, "Main World", handler->entityManager);
 		worldWasNull = true;
+		mainWorld = handler->mainWorld;
 	}
 
 	handler->entityManager->setWorld(mainWorld);

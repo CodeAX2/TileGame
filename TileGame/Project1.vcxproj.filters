@@ -207,16 +207,16 @@
       <Filter>File Outlines</Filter>
     </Text>
     <Text Include="Resources\Worlds\world0.txt">
-      <Filter>Header Files\Entities\Resource Files\Worlds</Filter>
+      <Filter>Resource Files\Worlds</Filter>
     </Text>
     <Text Include="Resources\Worlds\world1.txt">
-      <Filter>Header Files\Entities\Resource Files\Worlds</Filter>
+      <Filter>Resource Files\Worlds</Filter>
     </Text>
     <Text Include="Resources\Worlds\world2.txt">
-      <Filter>Header Files\Entities\Resource Files\Worlds</Filter>
+      <Filter>Resource Files\Worlds</Filter>
     </Text>
     <Text Include="Resources\Worlds\world3.txt">
-      <Filter>Header Files\Entities\Resource Files\Worlds</Filter>
+      <Filter>Resource Files\Worlds</Filter>
     </Text>
   </ItemGroup>
   <ItemGroup>
@@ -283,150 +283,150 @@
     <Filter Include="Header Files\Worlds">
       <UniqueIdentifier>{bf0f71ca-4f7e-494d-87e1-d7c66998bbf8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Entities\Resource Files">
+    <Filter Include="Resource Files">
       <UniqueIdentifier>{7a720991-dedb-41fa-b9a0-059ba6c22968}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Entities\Resource Files\Textures">
+    <Filter Include="Resource Files\Textures">
       <UniqueIdentifier>{b436dac1-9833-4662-bdb5-18131bfb2728}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Entities\Resource Files\Worlds">
+    <Filter Include="Resource Files\Worlds">
       <UniqueIdentifier>{d95e0548-f82b-4e3e-b45e-3b9f285b2a78}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Entities\Resource Files\Sounds">
+    <Filter Include="Resource Files\Sounds">
       <UniqueIdentifier>{d3b0e7ad-46f0-4fb6-afd6-7f99bafcd5b1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Entities\Resource Files\Fonts">
+    <Filter Include="Resource Files\Fonts">
       <UniqueIdentifier>{95abcb19-c3a2-42ec-bfa5-6aa3682611ee}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="TileGame.rc">
-      <Filter>Header Files\Entities\Resource Files</Filter>
+      <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\Textures\icon.ico">
-      <Filter>Header Files\Entities\Resource Files</Filter>
+      <Filter>Resource Files</Filter>
     </Image>
     <Image Include="Resources\Textures\Axe.png">
-      <Filter>Header Files\Entities\Resource Files\Textures</Filter>
+      <Filter>Resource Files\Textures</Filter>
     </Image>
     <Image Include="Resources\Textures\Boat.png">
-      <Filter>Header Files\Entities\Resource Files\Textures</Filter>
+      <Filter>Resource Files\Textures</Filter>
     </Image>
     <Image Include="Resources\Textures\BuildingA.png">
-      <Filter>Header Files\Entities\Resource Files\Textures</Filter>
+      <Filter>Resource Files\Textures</Filter>
     </Image>
     <Image Include="Resources\Textures\CaveCandy.png">
-      <Filter>Header Files\Entities\Resource Files\Textures</Filter>
+      <Filter>Resource Files\Textures</Filter>
     </Image>
     <Image Include="Resources\Textures\CaveEntrance.png">
-      <Filter>Header Files\Entities\Resource Files\Textures</Filter>
+      <Filter>Resource Files\Textures</Filter>
     </Image>
     <Image Include="Resources\Textures\CaveFloor24.png">
-      <Filter>Header Files\Entities\Resource Files\Textures</Filter>
+      <Filter>Resource Files\Textures</Filter>
     </Image>
     <Image Include="Resources\Textures\Gems.png">
-      <Filter>Header Files\Entities\Resource Files\Textures</Filter>
+      <Filter>Resource Files\Textures</Filter>
     </Image>
     <Image Include="Resources\Textures\Grass24.png">
-      <Filter>Header Files\Entities\Resource Files\Textures</Filter>
+      <Filter>Resource Files\Textures</Filter>
     </Image>
     <Image Include="Resources\Textures\GUI-Inventory.png">
-      <Filter>Header Files\Entities\Resource Files\Textures</Filter>
+      <Filter>Resource Files\Textures</Filter>
     </Image>
     <Image Include="Resources\Textures\HalloweenCandy.png">
-      <Filter>Header Files\Entities\Resource Files\Textures</Filter>
+      <Filter>Resource Files\Textures</Filter>
     </Image>
     <Image Include="Resources\Textures\Log.png">
-      <Filter>Header Files\Entities\Resource Files\Textures</Filter>
+      <Filter>Resource Files\Textures</Filter>
     </Image>
     <Image Include="Resources\Textures\Path24.png">
-      <Filter>Header Files\Entities\Resource Files\Textures</Filter>
+      <Filter>Resource Files\Textures</Filter>
     </Image>
     <Image Include="Resources\Textures\Pumpkin.png">
-      <Filter>Header Files\Entities\Resource Files\Textures</Filter>
+      <Filter>Resource Files\Textures</Filter>
     </Image>
     <Image Include="Resources\Textures\PumpkinLit.png">
-      <Filter>Header Files\Entities\Resource Files\Textures</Filter>
+      <Filter>Resource Files\Textures</Filter>
     </Image>
     <Image Include="Resources\Textures\Rock24.png">
-      <Filter>Header Files\Entities\Resource Files\Textures</Filter>
+      <Filter>Resource Files\Textures</Filter>
     </Image>
     <Image Include="Resources\Textures\Sand24.png">
-      <Filter>Header Files\Entities\Resource Files\Textures</Filter>
+      <Filter>Resource Files\Textures</Filter>
     </Image>
     <Image Include="Resources\Textures\SandCastle.png">
-      <Filter>Header Files\Entities\Resource Files\Textures</Filter>
+      <Filter>Resource Files\Textures</Filter>
     </Image>
     <Image Include="Resources\Textures\Snow24.png">
-      <Filter>Header Files\Entities\Resource Files\Textures</Filter>
+      <Filter>Resource Files\Textures</Filter>
     </Image>
     <Image Include="Resources\Textures\SpritesSheet-Player.png">
-      <Filter>Header Files\Entities\Resource Files\Textures</Filter>
+      <Filter>Resource Files\Textures</Filter>
     </Image>
     <Image Include="Resources\Textures\SS-Player.png">
-      <Filter>Header Files\Entities\Resource Files\Textures</Filter>
+      <Filter>Resource Files\Textures</Filter>
     </Image>
     <Image Include="Resources\Textures\TallGrass.png">
-      <Filter>Header Files\Entities\Resource Files\Textures</Filter>
+      <Filter>Resource Files\Textures</Filter>
     </Image>
     <Image Include="Resources\Textures\TallGrassSnow.png">
-      <Filter>Header Files\Entities\Resource Files\Textures</Filter>
+      <Filter>Resource Files\Textures</Filter>
     </Image>
     <Image Include="Resources\Textures\TileGameIcon.png">
-      <Filter>Header Files\Entities\Resource Files\Textures</Filter>
+      <Filter>Resource Files\Textures</Filter>
     </Image>
     <Image Include="Resources\Textures\TileGameIcon2.png">
-      <Filter>Header Files\Entities\Resource Files\Textures</Filter>
+      <Filter>Resource Files\Textures</Filter>
     </Image>
     <Image Include="Resources\Textures\Tower.png">
-      <Filter>Header Files\Entities\Resource Files\Textures</Filter>
+      <Filter>Resource Files\Textures</Filter>
     </Image>
     <Image Include="Resources\Textures\TreasureChest.png">
-      <Filter>Header Files\Entities\Resource Files\Textures</Filter>
+      <Filter>Resource Files\Textures</Filter>
     </Image>
     <Image Include="Resources\Textures\Tree.png">
-      <Filter>Header Files\Entities\Resource Files\Textures</Filter>
+      <Filter>Resource Files\Textures</Filter>
     </Image>
     <Image Include="Resources\Textures\TreeAnim.png">
-      <Filter>Header Files\Entities\Resource Files\Textures</Filter>
+      <Filter>Resource Files\Textures</Filter>
     </Image>
     <Image Include="Resources\Textures\TreeSnowAnim.png">
-      <Filter>Header Files\Entities\Resource Files\Textures</Filter>
+      <Filter>Resource Files\Textures</Filter>
     </Image>
     <Image Include="Resources\Textures\WaterTile.png">
-      <Filter>Header Files\Entities\Resource Files\Textures</Filter>
+      <Filter>Resource Files\Textures</Filter>
     </Image>
     <Image Include="Resources\Textures\Wood24.png">
-      <Filter>Header Files\Entities\Resource Files\Textures</Filter>
+      <Filter>Resource Files\Textures</Filter>
     </Image>
     <Image Include="Resources\Textures\WoodHut.png">
-      <Filter>Header Files\Entities\Resource Files\Textures</Filter>
+      <Filter>Resource Files\Textures</Filter>
     </Image>
     <Image Include="Resources\Textures\Vignette.png">
-      <Filter>Header Files\Entities\Resource Files\Textures</Filter>
+      <Filter>Resource Files\Textures</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>
     <Media Include="Resources\Sounds\sans.mp3">
-      <Filter>Header Files\Entities\Resource Files\Sounds</Filter>
+      <Filter>Resource Files\Sounds</Filter>
     </Media>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Sounds\sans.ogg">
-      <Filter>Header Files\Entities\Resource Files\Sounds</Filter>
+      <Filter>Resource Files\Sounds</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
     <Font Include="Resources\Fonts\ariali.ttf">
-      <Filter>Header Files\Entities\Resource Files\Fonts</Filter>
+      <Filter>Resource Files\Fonts</Filter>
     </Font>
     <Font Include="Resources\Fonts\BULKYPIX.TTF">
-      <Filter>Header Files\Entities\Resource Files\Fonts</Filter>
+      <Filter>Resource Files\Fonts</Filter>
     </Font>
     <Font Include="Resources\Fonts\pxFont.ttf">
-      <Filter>Header Files\Entities\Resource Files\Fonts</Filter>
+      <Filter>Resource Files\Fonts</Filter>
     </Font>
   </ItemGroup>
 </Project>

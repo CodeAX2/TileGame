@@ -1,5 +1,6 @@
 #include "Boat.h"
 #include "Static.h"
+#include "Player.h"
 
 using namespace tg;
 
@@ -45,7 +46,7 @@ bool Boat::checkForCollision() {
 
 		if (rider != nullptr) {
 			if (!world->tileIsSolid(pBox.left, pBox.top + pBox.height / 2)
-				&& Static::tileIsEmpty(pBox.left / 96, (pBox.top + pBox.height / 2) / 96,world)) {
+				&& Static::tileIsEmpty(pBox.left / 96, (pBox.top + pBox.height / 2) / 96, world)) {
 
 				rider->setPos(((int)pBox.left / 96) * 96 + rider->getWidth() / 2, ((int)(pBox.top + pBox.height / 2) / 96) * 96 - rider->getHeight() + 96 / 2 + 16);
 				rider->setRiding(nullptr);
@@ -92,24 +93,35 @@ bool Boat::checkForCollision() {
 
 	EntityManager* em = world->getEntityManager();
 
-	for (int i = 0; i < em->numEntities(); i++) {
+	int sX = pBox.left / 96;
+	int sY = pBox.top / 96;
+	int eX = (pBox.left + pBox.width) / 96;
+	int eY = (pBox.top + pBox.height) / 96;
 
-		Entity* cur = em->getEntity(i);
+	for (int y = sY; y <= eY; y++) {
+		for (int x = sX; x <= eX; x++) {
 
-		if (cur == this || cur == rider) {
-			continue;
+			std::vector<Entity*> entitiesAtTile = em->getEntitiesAtTile(x, y);
+
+			for (Entity* cur : entitiesAtTile) {
+
+				if (cur == this || cur == rider) {
+					continue;
+				}
+
+				sf::IntRect eBox = cur->getCollisionBox();
+				if (eBox.intersects(pBox)) {
+					return true;
+				}
+			}
 		}
-
-		sf::IntRect eBox = cur->getCollisionBox();
-
-		if (eBox.intersects(pBox)) {
-			return true;
-		}
-
 	}
 
-
-
+	if (handler->player->getWorld() == world && rider != handler->player) {
+		if (handler->player->getCollisionBox().intersects(pBox)) {
+			return true;
+		}
+	}
 
 	return false;
 }

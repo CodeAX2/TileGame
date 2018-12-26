@@ -144,7 +144,7 @@ void EntityManager::fixEntityMoved(Entity* entity) {
 	}
 
 	renderOrder = curRO;
-
+	// Todo: Change how the entity is removed from the entityTileMap
 	for (int y = 0; y < entityTileMap.size(); y++) {
 		for (int x = 0; x < entityTileMap[y].size(); x++) {
 			for (int i = entityTileMap[y][x].size() - 1; i >= 0; i--) {
@@ -346,7 +346,7 @@ int EntityManager::getRenderEndIndex() {
 
 void EntityManager::setWorld(World* world) {
 	this->world = world;
-	entityTileMap = std::vector<std::vector<std::vector<Entity*>>>(world->getHeight(), std::vector<std::vector<Entity*>>(world->getWidth(),std::vector<Entity*>()));
+	entityTileMap = std::vector<std::vector<std::vector<Entity*>>>(world->getHeight(), std::vector<std::vector<Entity*>>(world->getWidth(), std::vector<Entity*>()));
 
 
 
@@ -377,7 +377,9 @@ void EntityManager::setWorld(World* world) {
 }
 
 std::vector<Entity*> EntityManager::getEntitiesAtTile(int x, int y) {
+	if (y >= 0 && y < entityTileMap.size() && x >= 0 && x < entityTileMap[0].size()) {
+		return entityTileMap[y][x];
+	}
 
-	return entityTileMap[y][x];
 
 }

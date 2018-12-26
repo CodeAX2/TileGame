@@ -167,8 +167,9 @@ void Pathfinder::generatePath() {
 	sf::Int32 msToWait = 300;
 	sf::Clock clock;
 	while (true) {
-		if (!active) {
+		if (!active || following->getRidingOn() != nullptr) {
 			sf::sleep(sf::milliseconds(msToWait));
+			continue;
 		}
 		sf::Int32 begin = clock.getElapsedTime().asMilliseconds();
 

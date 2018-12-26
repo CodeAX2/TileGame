@@ -119,7 +119,7 @@ void Assets::init() {
 	sf::Image snowyTreeSheet = loadImageFromResource(TREE_SNOW_SHEET);
 	for (int i = 0; i < 6; i++) {
 		sf::Texture* tree = new sf::Texture();
-		tree->loadFromImage(treeSheet, sf::IntRect(i * 32, 0, 32, 64));
+		tree->loadFromImage(snowyTreeSheet, sf::IntRect(i * 32, 0, 32, 64));
 		snowyTreeAnimation->addFrame(tree);
 		operations++;
 	}
