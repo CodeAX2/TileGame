@@ -16,6 +16,7 @@
 #include "LoadingState.h"
 #include "WorldFile.h"
 #include "PlayerFile.h"
+#include "WorldManager.h"
 
 using namespace tg;
 
@@ -243,12 +244,14 @@ void Game::start() {
 	renderThread.wait();
 	tickThread.wait();
 
-	WorldFile mainWorldFile(handler.mainWorld, &handler);
-	mainWorldFile.saveFile();
-
 	PlayerFile playerFile(handler.player, &handler);
 	playerFile.saveFile();
 
+	std::vector<World*> worlds = handler.worldManager->getAllWorlds();
+	for (World* w : worlds) {
+		WorldFile curWorldFile(w, &handler);
+		curWorldFile.saveFile();
+	}
 
 }
 
