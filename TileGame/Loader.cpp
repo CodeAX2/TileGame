@@ -111,6 +111,9 @@ void Loader::loadEntities() {
 	Pathfinder* pf = new Pathfinder(44 * 96.f + 2, 24 * 96.f + 2, handler, mainWorld, 2.f);
 	pf->setFollowing(handler->player);
 
+	pf = new Pathfinder(45 * 96.f + 2, 25 * 96.f + 2, handler, mainWorld, 2.f);
+	pf->setFollowing(handler->player);
+
 
 	World* world = handler->mainWorld;
 	if (worldWasNull) {
