@@ -40,18 +40,8 @@ void Pathfinder::tick(sf::Int32 dt) {
 	}
 
 	if (currentPath.size() != 0 && spotInpath < currentPath.size()) {
-		float dx = currentPath[spotInpath].x*hitBoxW - (x + hitBoxX);
-		float dy = currentPath[spotInpath].y*hitBoxH - (y + hitBoxY);
-
-
-		if (initX == 0) {
-			initX = x + hitBoxX;
-		}
-
-		if (initY == 0) {
-			initY = y + hitBoxY;
-		}
-
+		float dx = currentPath[spotInpath].x * pathfindSize - (x + hitBoxX);
+		float dy = currentPath[spotInpath].y * pathfindSize - (y + hitBoxY);
 
 		float angle = atan2(dy, dx);
 
@@ -62,47 +52,49 @@ void Pathfinder::tick(sf::Int32 dt) {
 		float ogX = x;
 		float ogY = y;
 
-		x += dist * cos(angle);
-
 		bool moved = true;
 
 		if (checkForCollision(x, y)) {
-			if (checkForCollision(x, y, false)) {
+			// Collision before we moved, so disable collision for a sec
+			x += dist * cos(angle);
+			y += dist * sin(angle);
+		} else {
+
+			x += dist * cos(angle);
+
+			if (checkForCollision(x, y)) {
+				x = ogX;
+			}
+
+			y += dist * sin(angle);
+			if (checkForCollision(x, y)) {
+				y = ogY;
+			}
+
+			if (x == ogX && y == ogY) {
 				moved = false;
 			}
-			x = ogX;
-		}
 
-		y += dist * sin(angle);
-		if (checkForCollision(x, y)) {
-			if (checkForCollision(x, y, false)) {
-				moved = false;
-			}
-			y = ogY;
 		}
 
 
-		float checkX = currentPath[spotInpath].x*hitBoxW;
-		float checkY = currentPath[spotInpath].y*hitBoxH;
+		float checkX = currentPath[spotInpath].x * pathfindSize;
+		float checkY = currentPath[spotInpath].y * pathfindSize;
 
-		if (initX < checkX && x + hitBoxX > checkX || initX > checkX && x + hitBoxX < checkX ||
-			initY < checkY && y + hitBoxY > checkY || initY > checkY && y + hitBoxY < checkY ||
-			(dx == 0 && dy == 0) || !moved) {
-
-			if (pathIsQueued) {
-				currentPath = queuedPath;
-					pathIsQueued = false;
-					spotInpath = 0;
-			} else {
+		if (ogX + hitBoxX < checkX && x + hitBoxX > checkX || ogX + hitBoxX > checkX && x + hitBoxX < checkX ||
+			ogY + hitBoxY < checkY && y + hitBoxY > checkY || ogY + hitBoxY > checkY && y + hitBoxY < checkY ||
+			(dx == 0 && dy == 0)) {
+			if (moved) {
 				spotInpath++;
 			}
-			dx = currentPath[spotInpath].x*hitBoxW - (x + hitBoxX);
-			dy = currentPath[spotInpath].y*hitBoxH - (y + hitBoxY);
-			angle = atan2(dy, dx);
 
-			initX = x + hitBoxX;
-			initY = y + hitBoxY;
 
+		}
+
+		if (pathIsQueued) {
+			currentPath = queuedPath;
+			pathIsQueued = false;
+			spotInpath = 0;
 		}
 
 		roundedHitBox = sf::IntRect(sf::Vector2i(std::round(x + (float)hitBoxX), std::round(y + (float)hitBoxY)), sf::Vector2i(hitBoxW, hitBoxH));
@@ -131,15 +123,15 @@ void Pathfinder::render(Handler* handler) {
 		std::vector<sf::Vector2i> cP = currentPath;
 		for (sf::Vector2i pos : cP) {
 			sf::RectangleShape s;
-			s.setPosition(sf::Vector2f(pos.x * hitBoxW - handler->camera->getXOffset(), pos.y*hitBoxH - handler->camera->getYOffset()));
-			s.setSize(sf::Vector2f(hitBoxW, hitBoxH));
+			s.setPosition(sf::Vector2f(pos.x * pathfindSize - handler->camera->getXOffset(), pos.y * pathfindSize - handler->camera->getYOffset()));
+			s.setSize(sf::Vector2f(pathfindSize, pathfindSize));
 			s.setFillColor(sf::Color(0, 0, 255, 175));
 			handler->window->draw(s);
 		}
 
 		if (currentPath.size() != 0) {
-			float tX = currentPath[spotInpath].x*hitBoxW - handler->camera->getXOffset();
-			float tY = currentPath[spotInpath].y*hitBoxH - handler->camera->getYOffset();
+			float tX = currentPath[spotInpath].x * pathfindSize - handler->camera->getXOffset();
+			float tY = currentPath[spotInpath].y * pathfindSize - handler->camera->getYOffset();
 			float cX = x + hitBoxX - handler->camera->getXOffset();
 			float cY = y + hitBoxY - handler->camera->getYOffset();
 
@@ -162,19 +154,18 @@ void Pathfinder::render(Handler* handler) {
 
 
 void Pathfinder::generatePath() {
-	// Todo: Reimpliment pathfinder on a 16x16 basis, since it somehow got deleted :(
-
 	sf::Int32 msToWait = 300;
 	sf::Clock clock;
 	while (true) {
+
 		if (!active || following->getRidingOn() != nullptr) {
 			sf::sleep(sf::milliseconds(msToWait));
 			continue;
 		}
 		sf::Int32 begin = clock.getElapsedTime().asMilliseconds();
 
-		int sizeX = ceil(x / hitBoxW) + ceil((world->getWidth() * 96 - x) / hitBoxW);
-		int sizeY = ceil(y / hitBoxH) + ceil((world->getHeight() * 96 - y) / hitBoxH);
+		int sizeX = ceil((world->getWidth() * 96) / pathfindSize);
+		int sizeY = ceil((world->getHeight() * 96) / pathfindSize);
 
 		// Format [x][y]
 		std::vector<std::vector<Node>> map(sizeX, std::vector<Node>(sizeY));
@@ -182,14 +173,40 @@ void Pathfinder::generatePath() {
 		std::vector<sf::Vector2i> openList; // Contain the indicies of the nodes in the map;
 		std::vector<sf::Vector2i> closedList;
 
-		sf::Vector2i start;
+		sf::Vector2i start = sf::Vector2i(ceil((x + hitBoxX) / pathfindSize), ceil((y + hitBoxY) / pathfindSize));;
+		sf::Vector2i target(ceil(following->getCollisionBox().left / pathfindSize), ceil(following->getCollisionBox().top / pathfindSize));
 
-		if (currentPath.size() != 0) {
-			start = sf::Vector2i(currentPath[spotInpath]);
-		} else {
-			start = sf::Vector2i(ceil((x + hitBoxX) / hitBoxW), ceil((y + hitBoxY) / hitBoxH));
+		if (checkForCollision(target.x * pathfindSize - hitBoxX, target.y * pathfindSize - hitBoxY, false)) {
+
+			int dist = INT_MAX;
+			int tdx = 0;
+			int tdy = 0;
+
+			for (int tx = -3; tx <= 3; tx++) {
+				for (int ty = -3; ty <= 3; ty++) {
+					if (!checkForCollision((target.x + tx) * pathfindSize - hitBoxX, (target.y + ty) * pathfindSize - hitBoxY, false)) {
+						if (abs(tx) + abs(ty) < dist) {
+							tdx = tx;
+							tdy = ty;
+							dist = abs(tx) + abs(ty);
+						}
+					}
+				}
+			}
+
+
+			target.x += tdx;
+			target.y += tdy;
+
+
+			if (checkForCollision(target.x * pathfindSize - hitBoxX, target.y * pathfindSize - hitBoxY, false)) {
+				sf::sleep(sf::milliseconds(msToWait));
+				continue;
+			}
+
 		}
-		sf::Vector2i target(ceil(following->getCollisionBox().left / hitBoxW), ceil(following->getCollisionBox().top / hitBoxH));
+
+
 
 		openList.push_back(start);
 
@@ -230,7 +247,7 @@ void Pathfinder::generatePath() {
 				sf::Vector2i currentNeighbor = currentNodePos + neighborDelta[i];
 
 				if (std::find(closedList.begin(), closedList.end(), currentNeighbor) != closedList.end()
-					|| checkForCollision(currentNeighbor.x * hitBoxW, currentNeighbor.y * hitBoxH, false)) {
+					|| checkForCollision(currentNeighbor.x * pathfindSize - hitBoxX, currentNeighbor.y * pathfindSize - hitBoxY, false)) {
 					// Already in closed list
 					continue;
 				}

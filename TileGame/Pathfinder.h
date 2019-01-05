@@ -39,7 +39,7 @@ namespace tg {
 
 		sf::Thread pathThread;
 
-		float initX = 0, initY = 0;
+		int pathfindSize = 16;
 
 
 	};
