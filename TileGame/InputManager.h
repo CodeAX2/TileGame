@@ -25,18 +25,32 @@ namespace tg {
 
 	public:
 
-		void updateKeys(sf::Event e);
-		void mouseClicked(sf::Event e);
+		void handleEvents(sf::Event e, sf::Uint32 dt);
 		bool getKey(int index) { return keys[index]; }
 		bool* getAllKeys();
 		bool getToggleKey() { return toggleKey; }
 		bool hitboxIsShown() { return hitboxShown; }
 		bool getRunningKey() { return runningKey; }
 		bool getAttackKey() { return attackKey; }
-		void updateJoystick(sf::Uint32 dt);
 		float getZoomLevel() { return zoom; }
 		void setZoomLevel(float z) { zoom = z; }
+
+	private:
+		void updateKeys(sf::Event e);
+		void mouseClicked(sf::Event e);
 		void mouseScrolled(sf::Event e);
+
+		void updateJoystick(sf::Uint32 dt);
+		void updateMouse();
+
+
+		// Playing state versions
+		void mouseClickedPlaying(sf::Event e);
+		void updateMousePlaying();
+
+		// Main Menu state versions
+		void mouseClickedMainMenu(sf::Event e);
+		void updateMouseMainMenu();
 
 
 	};

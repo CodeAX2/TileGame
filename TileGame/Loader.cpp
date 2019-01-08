@@ -76,7 +76,6 @@ void Loader::loadEntities() {
 
 
 	handler->camera = new Camera(handler);
-	handler->inputManager = new InputManager(handler);
 
 	loadingMessage = "Loading player...";
 

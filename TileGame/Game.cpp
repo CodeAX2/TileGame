@@ -36,6 +36,7 @@ commandThread(&Game::commandLoop, this), debugThread(&Game::debugLoop, this) {
 	handler.window = window;
 	handler.saveDirName = "Save1";
 	handler.guiView = window->getView();
+	handler.inputManager = new InputManager(&handler);
 
 }
 
@@ -185,11 +186,6 @@ void Game::tickLoop() {
 
 		handler.getCurrentState()->tick(dt);
 
-
-
-		if (now >= 3000 && handler.getCurrentState()->getType() == MAIN_MENU) {
-			handler.setGameState(LOADING);
-		}
 		last = now;
 		sf::Int32 end = clock.getElapsedTime().asMilliseconds();
 
@@ -226,11 +222,7 @@ void Game::start() {
 				if (event.type == sf::Event::Closed) {
 					handler.window->close();
 				} else {
-					if (handler.getCurrentState()->getType() == LOADING || handler.getCurrentState()->getType() == MAIN_MENU) continue;
-					handler.inputManager->mouseClicked(event);
-					handler.inputManager->mouseScrolled(event);
-					handler.inputManager->updateKeys(event);
-					handler.inputManager->updateJoystick(dt);
+					handler.inputManager->handleEvents(event, dt);
 				}
 
 
@@ -254,11 +246,17 @@ void Game::start() {
 		playerFile.saveFile();
 	}
 
-	std::vector<World*> worlds = handler.worldManager->getAllWorlds();
-	for (World* w : worlds) {
-		WorldFile curWorldFile(w, &handler);
-		curWorldFile.saveFile();
+	if (handler.worldManager != nullptr) {
+		std::vector<World*> worlds = handler.worldManager->getAllWorlds();
+		if (worlds.size() == 0) {
+			return;
+		}
+		for (World* w : worlds) {
+			WorldFile curWorldFile(w, &handler);
+			curWorldFile.saveFile();
+		}
 	}
+
 
 }
 

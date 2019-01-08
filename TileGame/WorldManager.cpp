@@ -2,7 +2,7 @@
 #include "World.h"
 using namespace tg;
 
-WorldManager::WorldManager(Handler* handler) : handler(handler){
+WorldManager::WorldManager(Handler* handler) : handler(handler), allWorlds() {
 }
 
 

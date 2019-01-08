@@ -17,10 +17,12 @@ MainMenuState::MainMenuState(Handler* handler) : GameState(MAIN_MENU), handler(h
 		mainMenuButtons.push_back(curButton);
 	}
 
+	mainMenuButtonsPos.push_back(sf::Vector2i(459, 404));
+	mainMenuButtonsPos.push_back(sf::Vector2i(459, 552));
 
 
-
-
+	mainMenuButtonHovering.push_back(false);
+	mainMenuButtonHovering.push_back(false);
 }
 
 
@@ -36,19 +38,24 @@ MainMenuState::~MainMenuState() {
 
 void MainMenuState::render() {
 
+	handler->worldView = sf::View(sf::Vector2f(handler->window->getSize().x / 2, handler->window->getSize().y / 2), sf::Vector2f(1280.f, 720.f));
+	handler->window->setView(handler->guiView);
+
+
+
 	sf::RectangleShape bg(sf::Vector2f(1280, 720));
 	bg.setTexture(mainMenuBG);
 
 	handler->window->draw(bg);
 
-	sf::RectangleShape playButton(sf::Vector2f(361,132));
-	playButton.setPosition(459, 405);
-	playButton.setTexture(mainMenuButtons[0]);
+	sf::RectangleShape playButton(sf::Vector2f(361, 134));
+	playButton.setPosition(sf::Vector2f(mainMenuButtonsPos[0]));
+	playButton.setTexture(mainMenuButtons[0 + mainMenuButtonHovering[0]]);
 	handler->window->draw(playButton);
 
-	sf::RectangleShape exitButton(sf::Vector2f(361, 132));
-	exitButton.setPosition(459, 553);
-	exitButton.setTexture(mainMenuButtons[2]);
+	sf::RectangleShape exitButton(sf::Vector2f(361, 134));
+	exitButton.setPosition(sf::Vector2f(mainMenuButtonsPos[1]));
+	exitButton.setTexture(mainMenuButtons[2 + mainMenuButtonHovering[1]]);
 	handler->window->draw(exitButton);
 
 
@@ -60,4 +67,9 @@ void MainMenuState::tick(sf::Int32 dt) {
 
 void MainMenuState::exit() {
 
+}
+
+
+void MainMenuState::setButtonHover(bool hovering, int buttonId) {
+	mainMenuButtonHovering[buttonId] = hovering;
 }
