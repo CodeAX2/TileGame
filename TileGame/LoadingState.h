@@ -15,6 +15,7 @@ namespace tg {
 		Loader loader;
 		sf::Font* loadingFont = nullptr;
 		float transp = 0;
+		bool beganLoading = false;
 
 	public:
 		LoadingState(Handler* handler);

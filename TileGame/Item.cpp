@@ -28,6 +28,9 @@ Item::~Item()
 // Item update loop
 void Item::tick(sf::Int32 dt) {
 
+	float prevX = x;
+	float prevY = y;
+
 	timeAlive += dt;
 	offsetHeight = sin(timeAlive / 200.f + waveOffset) * 6 + 3;
 	float dX = handler->player->getX() - x;
@@ -63,7 +66,7 @@ void Item::tick(sf::Int32 dt) {
 
 	}
 
-	em->fixEntityMoved(this);
+	em->fixEntityMoved(this, prevX, prevY);
 }
 
 // Render the item

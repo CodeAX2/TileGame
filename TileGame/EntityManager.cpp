@@ -105,7 +105,7 @@ void EntityManager::removeEntity(Entity* entity) {
 
 }
 
-void EntityManager::fixEntityMoved(Entity* entity) {
+void EntityManager::fixEntityMoved(Entity* entity, int prevX, int prevY) {
 	// The entity moved, so we need to remove it from the render order, and add it back in
 
 	std::vector<Entity*> curRO = renderOrder;
@@ -145,9 +145,9 @@ void EntityManager::fixEntityMoved(Entity* entity) {
 
 	renderOrder = curRO;
 	// Todo: Change how the entity is removed from the entityTileMap
-	for (int y = 0; y < entityTileMap.size(); y++) {
-		for (int x = 0; x < entityTileMap[y].size(); x++) {
-			for (int i = entityTileMap[y][x].size() - 1; i >= 0; i--) {
+	for (int y = floor(prevY / 96.f); y < ceil((prevY + entity->getHeight()) / 96.f); y++) {
+		for (int x = floor(prevX / 96.f); x < ceil((prevX + entity->getWidth()) / 96.f); x++) {
+			for (int i = (int)entityTileMap[y][x].size() - 1; i >= 0; i--) {
 				if (entityTileMap[y][x][i] == entity) {
 					entityTileMap[y][x].erase(entityTileMap[y][x].begin() + i);
 				}

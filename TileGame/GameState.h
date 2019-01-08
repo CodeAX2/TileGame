@@ -3,6 +3,7 @@
 
 #define PLAYING 0
 #define LOADING 1
+#define MAIN_MENU 2
 namespace tg {
 	class GameState
 	{

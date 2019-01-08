@@ -97,6 +97,9 @@
     <ClCompile Include="Node.cpp">
       <Filter>Source Files\Entities\Non-Statics</Filter>
     </ClCompile>
+    <ClCompile Include="MainMenuState.cpp">
+      <Filter>Source Files\Game States</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -194,6 +197,9 @@
     </ClInclude>
     <ClInclude Include="Node.h">
       <Filter>Header Files\Entities\Non-Statics</Filter>
+    </ClInclude>
+    <ClInclude Include="MainMenuState.h">
+      <Filter>Header Files\Game States</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -405,6 +411,12 @@
       <Filter>Resource Files\Textures</Filter>
     </Image>
     <Image Include="Resources\Textures\Vignette.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\TileGame Menu.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\MainMenu Buttons.png">
       <Filter>Resource Files\Textures</Filter>
     </Image>
   </ItemGroup>

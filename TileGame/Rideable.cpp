@@ -3,8 +3,8 @@
 
 using namespace tg;
 
-Rideable::Rideable(float x, float y, Handler* handler, int hitBoxX, int hitBoxY, 
-	int hitBoxW, int hitBoxH, int w, int h, int type, World* world) : 
+Rideable::Rideable(float x, float y, Handler* handler, int hitBoxX, int hitBoxY,
+	int hitBoxW, int hitBoxH, int w, int h, int type, World* world) :
 	Entity(x, y, handler, hitBoxX, hitBoxY, hitBoxW, hitBoxH, w, h, true, type, true, world) {
 
 	setRideable(true);
@@ -104,6 +104,9 @@ void Rideable::render(Handler* handler) {
 
 bool Rideable::move(float dx, float dy) {
 
+	float prevX = x;
+	float prevY = y;
+
 	if (checkForCollision()) {
 		if (rider != nullptr)
 			rider->setRiding(nullptr);
@@ -126,7 +129,7 @@ bool Rideable::move(float dx, float dy) {
 		movedY = false;
 	}
 
-	world->getEntityManager()->fixEntityMoved(this);
+	world->getEntityManager()->fixEntityMoved(this, prevX, prevY);
 
 	if (movedX || movedY) {
 		return true;

@@ -32,7 +32,7 @@ commandThread(&Game::commandLoop, this), debugThread(&Game::debugLoop, this) {
 
 	handler.assets = new Assets;
 	handler.initGameStates();
-	handler.setGameState(LOADING);
+	handler.setGameState(MAIN_MENU);
 	handler.window = window;
 	handler.saveDirName = "Save1";
 	handler.guiView = window->getView();
@@ -176,15 +176,20 @@ void Game::tickLoop() {
 	sf::Clock clock;
 	sf::Int32 last = clock.getElapsedTime().asMilliseconds();
 	while (handler.window->isOpen()) {
+
 		if (togglingFullscreen) {
 			sf::sleep(sf::milliseconds(msToSleep));
 		}
 		sf::Int32 now = clock.getElapsedTime().asMilliseconds();
 		sf::Int32 dt = now - last;
 
-
 		handler.getCurrentState()->tick(dt);
 
+
+
+		if (now >= 3000 && handler.getCurrentState()->getType() == MAIN_MENU) {
+			handler.setGameState(LOADING);
+		}
 		last = now;
 		sf::Int32 end = clock.getElapsedTime().asMilliseconds();
 
@@ -221,7 +226,7 @@ void Game::start() {
 				if (event.type == sf::Event::Closed) {
 					handler.window->close();
 				} else {
-					if (handler.getCurrentState()->getType() == LOADING) continue;
+					if (handler.getCurrentState()->getType() == LOADING || handler.getCurrentState()->getType() == MAIN_MENU) continue;
 					handler.inputManager->mouseClicked(event);
 					handler.inputManager->mouseScrolled(event);
 					handler.inputManager->updateKeys(event);
@@ -244,8 +249,10 @@ void Game::start() {
 	renderThread.wait();
 	tickThread.wait();
 
-	PlayerFile playerFile(handler.player, &handler);
-	playerFile.saveFile();
+	if (handler.player != nullptr) {
+		PlayerFile playerFile(handler.player, &handler);
+		playerFile.saveFile();
+	}
 
 	std::vector<World*> worlds = handler.worldManager->getAllWorlds();
 	for (World* w : worlds) {

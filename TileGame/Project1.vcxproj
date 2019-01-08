@@ -34,6 +34,7 @@
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="Loader.cpp" />
     <ClCompile Include="LoadingState.cpp" />
+    <ClCompile Include="MainMenuState.cpp" />
     <ClCompile Include="Node.cpp" />
     <ClCompile Include="Pathfinder.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -68,6 +69,7 @@
     <ClInclude Include="Item.h" />
     <ClInclude Include="Loader.h" />
     <ClInclude Include="LoadingState.h" />
+    <ClInclude Include="MainMenuState.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="Pathfinder.h" />
     <ClInclude Include="Player.h" />
@@ -111,6 +113,7 @@
     <Image Include="Resources\Textures\HalloweenCandy.png" />
     <Image Include="Resources\Textures\icon.ico" />
     <Image Include="Resources\Textures\Log.png" />
+    <Image Include="Resources\Textures\MainMenu Buttons.png" />
     <Image Include="Resources\Textures\Path24.png" />
     <Image Include="Resources\Textures\Pumpkin.png" />
     <Image Include="Resources\Textures\PumpkinLit.png" />
@@ -122,6 +125,7 @@
     <Image Include="Resources\Textures\SS-Player.png" />
     <Image Include="Resources\Textures\TallGrass.png" />
     <Image Include="Resources\Textures\TallGrassSnow.png" />
+    <Image Include="Resources\Textures\TileGame Menu.png" />
     <Image Include="Resources\Textures\TileGameIcon.png" />
     <Image Include="Resources\Textures\TileGameIcon2.png" />
     <Image Include="Resources\Textures\Tower.png" />

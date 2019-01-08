@@ -3,6 +3,7 @@
 #include "LoadingState.h"
 #include "PlayingState.h"
 #include "WorldManager.h"
+#include "MainMenuState.h"
 
 using namespace tg;
 
@@ -38,6 +39,7 @@ Handler::~Handler() {
 void Handler::initGameStates() {
 	allStates.push_back(new PlayingState(this));
 	allStates.push_back(new LoadingState(this));
+	allStates.push_back(new MainMenuState(this));
 
 }
 
@@ -51,6 +53,9 @@ void Handler::setGameState(int stateId) {
 		break;
 	case PLAYING:
 		currentState = allStates[PLAYING];
+		break;
+	case MAIN_MENU:
+		currentState = allStates[MAIN_MENU];
 		break;
 	}
 

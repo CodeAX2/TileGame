@@ -8,9 +8,6 @@ using namespace tg;
 
 LoadingState::LoadingState(Handler* handler) : GameState(LOADING), handler(handler), loader(handler) {
 
-
-	loader.beginLoading();
-
 }
 
 
@@ -59,6 +56,11 @@ void LoadingState::render() {
 
 // Update the loading percent
 void LoadingState::tick(sf::Int32 dt) {
+
+	if (!beganLoading) {
+		loader.beginLoading();
+		beganLoading = true;
+	}
 
 	transp += dt / 5.f;
 

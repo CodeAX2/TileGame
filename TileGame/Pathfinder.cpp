@@ -82,13 +82,20 @@ void Pathfinder::tick(sf::Int32 dt) {
 		float checkY = currentPath[spotInpath].y * pathfindSize;
 
 		if (ogX + hitBoxX < checkX && x + hitBoxX > checkX || ogX + hitBoxX > checkX && x + hitBoxX < checkX ||
-			ogY + hitBoxY < checkY && y + hitBoxY > checkY || ogY + hitBoxY > checkY && y + hitBoxY < checkY ||
-			(dx == 0 && dy == 0)) {
-			if (moved) {
-				spotInpath++;
-			}
+			ogY + hitBoxY < checkY && y + hitBoxY > checkY || ogY + hitBoxY > checkY && y + hitBoxY < checkY) {
+
+			spotInpath++;
 
 
+
+		} else if (dx == 0 && dy == 0) {
+			spotInpath++;
+		} else if (dx <= 1 && dy <= 1 && !moved) {
+			spotInpath++;
+		}
+
+		if (spotInpath >= currentPath.size()) {
+			spotInpath = 0;
 		}
 
 		if (pathIsQueued) {
@@ -99,7 +106,7 @@ void Pathfinder::tick(sf::Int32 dt) {
 
 		roundedHitBox = sf::IntRect(sf::Vector2i(std::round(x + (float)hitBoxX), std::round(y + (float)hitBoxY)), sf::Vector2i(hitBoxW, hitBoxH));
 
-		world->getEntityManager()->fixEntityMoved(this);
+		world->getEntityManager()->fixEntityMoved(this, ogX, ogY);
 
 
 	} else if (pathIsQueued) {
@@ -176,7 +183,7 @@ void Pathfinder::generatePath() {
 		sf::Vector2i start = sf::Vector2i(ceil((x + hitBoxX) / pathfindSize), ceil((y + hitBoxY) / pathfindSize));;
 		sf::Vector2i target(ceil(following->getCollisionBox().left / pathfindSize), ceil(following->getCollisionBox().top / pathfindSize));
 
-		if (checkForCollision(target.x * pathfindSize - hitBoxX, target.y * pathfindSize - hitBoxY, false)) {
+		if (checkForCollision(target.x * pathfindSize - hitBoxX, target.y * pathfindSize - hitBoxY, false, false)) {
 
 			int dist = INT_MAX;
 			int tdx = 0;
@@ -184,7 +191,7 @@ void Pathfinder::generatePath() {
 
 			for (int tx = -3; tx <= 3; tx++) {
 				for (int ty = -3; ty <= 3; ty++) {
-					if (!checkForCollision((target.x + tx) * pathfindSize - hitBoxX, (target.y + ty) * pathfindSize - hitBoxY, false)) {
+					if (!checkForCollision((target.x + tx) * pathfindSize - hitBoxX, (target.y + ty) * pathfindSize - hitBoxY, false, false)) {
 						if (abs(tx) + abs(ty) < dist) {
 							tdx = tx;
 							tdy = ty;
@@ -199,7 +206,7 @@ void Pathfinder::generatePath() {
 			target.y += tdy;
 
 
-			if (checkForCollision(target.x * pathfindSize - hitBoxX, target.y * pathfindSize - hitBoxY, false)) {
+			if (checkForCollision(target.x * pathfindSize - hitBoxX, target.y * pathfindSize - hitBoxY, false, false)) {
 				sf::sleep(sf::milliseconds(msToWait));
 				continue;
 			}
@@ -247,7 +254,7 @@ void Pathfinder::generatePath() {
 				sf::Vector2i currentNeighbor = currentNodePos + neighborDelta[i];
 
 				if (std::find(closedList.begin(), closedList.end(), currentNeighbor) != closedList.end()
-					|| checkForCollision(currentNeighbor.x * pathfindSize - hitBoxX, currentNeighbor.y * pathfindSize - hitBoxY, false)) {
+					|| checkForCollision(currentNeighbor.x * pathfindSize - hitBoxX, currentNeighbor.y * pathfindSize - hitBoxY, false, false)) {
 					// Already in closed list
 					continue;
 				}
@@ -293,7 +300,7 @@ void Pathfinder::addChild(int x, int y, int parentX, int parentY, std::vector<st
 
 
 
-bool Pathfinder::checkForCollision(float nX, float nY, bool collideWithPlayer) {
+bool Pathfinder::checkForCollision(float nX, float nY, bool collideWithPlayer, bool collideWithPathfinder) {
 	sf::IntRect pBox = sf::IntRect(sf::Vector2i(std::round(nX + (float)hitBoxX), std::round(nY + (float)hitBoxY)), sf::Vector2i(hitBoxW, hitBoxH));
 	EntityManager* em = world->getEntityManager();
 
@@ -313,6 +320,11 @@ bool Pathfinder::checkForCollision(float nX, float nY, bool collideWithPlayer) {
 
 				if (cur == this) {
 					continue;
+				}
+				if (Pathfinder* pathCur = dynamic_cast<Pathfinder*>(cur)) {
+					if (!collideWithPathfinder) {
+						continue;
+					}
 				}
 
 				sf::IntRect eBox = cur->getCollisionBox();

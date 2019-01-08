@@ -42,14 +42,14 @@ namespace tg {
 		void loadFull(int base, int bId, int priority);
 		void addItemTexture(int base, int bId);
 
-
-		sf::Image loadImageFromResource(int name);
 		std::string loadMapFromResource(int name);
 		sf::Font loadFontFromResource(int name);
 
 	public:
 
 		void init();
+
+		sf::Image loadImageFromResource(int name);
 
 		float getPercentLoaded() {
 

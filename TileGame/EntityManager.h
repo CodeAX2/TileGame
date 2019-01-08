@@ -25,7 +25,7 @@ namespace tg {
 		void updateRenderOrder(Entity* entity);
 		void tick(sf::Int32 dt);
 		void removeEntity(Entity* entity);
-		void fixEntityMoved(Entity* entity);
+		void fixEntityMoved(Entity* entity, int prevX, int prevY);
 		int getNumEntities() { return allEntities.size(); }
 		Entity* getEntityById(UUID id);
 		void setWorld(World* world);
