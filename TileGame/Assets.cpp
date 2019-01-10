@@ -166,11 +166,11 @@ void Assets::init() {
 	loadFull(CAVE_FLOOR_TILE, 6, 5);
 	loadFull(SNOW_TILE, 7, 7);
 	// ID 8 - 15 is used for walls
-	for (int i = 8; i < 16; i++) {
+	for (int i = 8; i < 18; i++) {
 		loadWall(i, i + 9, i - 8);
 	}
 
-	// ID 16 is used for blank tiles
+	// ID 18 is used for blank tiles
 
 	// Load all the items
 	addItemTexture(LOG_ITEM, 0);
@@ -292,8 +292,10 @@ void Assets::loadWall(int id, int priority, int wallSpot) {
 		curWallText->loadFromImage(fullWallSheet, sf::IntRect(0, 0, 32, 64));
 	} else if (wallSpot >= 1 && wallSpot <= 3) {
 		curWallText->loadFromImage(fullWallSheet, sf::IntRect(32 * wallSpot, 0, 32, 32));
-	} else {
+	} else if (wallSpot >= 4 && wallSpot <= 7) {
 		curWallText->loadFromImage(fullWallSheet, sf::IntRect(32 * (wallSpot - 3), 32, 32, 32));
+	} else {
+		curWallText->loadFromImage(fullWallSheet, sf::IntRect(32 * (wallSpot - 4), 0, 32, 32));
 	}
 	allTiles[id][0][0] = curWallText;
 	renderPriority[priority] = id;
