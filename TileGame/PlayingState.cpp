@@ -118,7 +118,7 @@ void PlayingState::renderWorld() {
 			sf::VertexArray tile(sf::Quads, 4);
 			sf::Texture* t;
 
-			if (tileId != 8) {
+			if (tileId != 8 && tileId != 12 && tileId != 14) {
 				tile[0].position = basicPosition;
 				tile[1].position = sf::Vector2f(basicPosition.x + tileSize, basicPosition.y);
 				tile[2].position = sf::Vector2f(basicPosition.x + tileSize, basicPosition.y + tileSize);
@@ -128,99 +128,45 @@ void PlayingState::renderWorld() {
 				tile[1].texCoords = sf::Vector2f(32, 0);
 				tile[2].texCoords = sf::Vector2f(32, 32);
 				tile[3].texCoords = sf::Vector2f(0, 32);
-
-				t = handler->assets->getBaseTexture(tileId);
 			} else {
-				if (y >= world->getHeight() - 1)
-					continue;
-				TileData currentTileData = world->getTileData(x, y);
-				int pos = 0;
-				if (world->getTile(x - 1, y) == 8 && world->getTile(x + 1, y) == 8) {
-					tile[0].position = basicPosition;
-					tile[0].position.y -= 96;
-					tile[1].position = sf::Vector2f(basicPosition.x + tileSize, basicPosition.y - 96);
-					tile[2].position = sf::Vector2f(basicPosition.x + tileSize, basicPosition.y + tileSize);
-					tile[3].position = sf::Vector2f(basicPosition.x, basicPosition.y + tileSize);
 
-					tile[0].texCoords = sf::Vector2f(0, 0);
-					tile[1].texCoords = sf::Vector2f(32, 0);
-					tile[2].texCoords = sf::Vector2f(32, 64);
-					tile[3].texCoords = sf::Vector2f(0, 64);
-				} else {
-					tile[0].position = basicPosition;
-					tile[1].position = sf::Vector2f(basicPosition.x + tileSize, basicPosition.y);
-					tile[2].position = sf::Vector2f(basicPosition.x + tileSize, basicPosition.y + tileSize);
-					tile[3].position = sf::Vector2f(basicPosition.x, basicPosition.y + tileSize);
+				tile[0].position = basicPosition;
+				tile[0].position.y -= 96;
+				tile[1].position = sf::Vector2f(basicPosition.x + tileSize, basicPosition.y - 96);
+				tile[2].position = sf::Vector2f(basicPosition.x + tileSize, basicPosition.y + tileSize);
+				tile[3].position = sf::Vector2f(basicPosition.x, basicPosition.y + tileSize);
 
-					tile[0].texCoords = sf::Vector2f(0, 0);
-					tile[1].texCoords = sf::Vector2f(32, 0);
-					tile[2].texCoords = sf::Vector2f(32, 64);
-					tile[3].texCoords = sf::Vector2f(0, 64);
-
-					if (world->getTile(x + 1, y) == 8 && world->getTile(x, y + 1) == 8) {
-						pos = 1;
-
-						tile[0].position.y -= 96;
-						tile[1].position.y -= 96;
-
-					} else if (world->getTile(x, y - 1) == 8 && world->getTile(x, y + 1) == 8) {
-						if (x < world->getWidth() / 2) {
-							pos = 2;
-						} else {
-							pos = 4;
-						}
-					} else if (world->getTile(x - 1, y) == 8 && world->getTile(x, y + 1) == 8) {
-						pos = 3;
-
-
-						tile[0].position.y -= 96;
-						tile[1].position.y -= 96;
-
-					}
-
-
-				}
-				t = handler->assets->getWallTexture(pos);
-
-				if (pos == 1 || pos == 3) {
-					sf::Image img;
-					img.create(32, 64);
-					img.copy(t->copyToImage(), 0, 0);
-					int nextPos = 2;
-					if (pos == 3) {
-						nextPos = 4;
-					}
-					img.copy(handler->assets->getWallTexture(nextPos)->copyToImage(), 0, 32);
-					t->loadFromImage(img);
-				}
-
+				tile[0].texCoords = sf::Vector2f(0, 0);
+				tile[1].texCoords = sf::Vector2f(32, 0);
+				tile[2].texCoords = sf::Vector2f(32, 64);
+				tile[3].texCoords = sf::Vector2f(0, 64);
 			}
+
+			t = handler->assets->getBaseTexture(tileId);
 
 			if (t != nullptr) {
 				renderOrderT[0].push_back(t); // We always want the base tiles to be drawn first
 				renderOrderV[0].push_back(tile);
 			}
 
+			TileData currentTileData = world->getTileData(x, y);
 
-			if (tileId != 8) {
-				TileData currentTileData = world->getTileData(x, y);
+			std::map<sf::Uint8, sf::Uint8> adjInfo = currentTileData.getAdjacentInfo();
+			for (std::map<sf::Uint8, sf::Uint8>::iterator it = adjInfo.begin(); it != adjInfo.end(); it++) {
 
-				std::map<sf::Uint8, sf::Uint8> adjInfo = currentTileData.getAdjacentInfo();
-				for (std::map<sf::Uint8, sf::Uint8>::iterator it = adjInfo.begin(); it != adjInfo.end(); it++) {
+				sf::Uint8 key = it->first;
+				sf::Uint8 value = it->second;
 
-					sf::Uint8 key = it->first;
-					sf::Uint8 value = it->second;
-
-					const sf::Texture* newT = handler->assets->getOuterTexture(key, value, x, y);
-					if (newT == nullptr) continue;
-					if (handler->assets->getTilePriority(key) == -1) {
-						std::cout << "Invalid tile priority!" << std::endl;
-						continue;
-					}
-					renderOrderT[handler->assets->getTilePriority(key) + 1].push_back(newT);
-					renderOrderV[handler->assets->getTilePriority(key) + 1].push_back(tile);
+				const sf::Texture* newT = handler->assets->getOuterTexture(key, value, x, y);
+				if (newT == nullptr) continue;
+				if (handler->assets->getTilePriority(key) == -1) {
+					std::cout << "Invalid tile priority!" << std::endl;
+					continue;
 				}
+				renderOrderT[handler->assets->getTilePriority(key) + 1].push_back(newT);
+				renderOrderV[handler->assets->getTilePriority(key) + 1].push_back(tile);
 			}
+
 		}
 	}
 

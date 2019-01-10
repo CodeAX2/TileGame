@@ -138,7 +138,7 @@ bool World::tileIsSolid(int x, int y) {
 	}
 
 	int tileId = map[y][x];
-	if (tileId == 1 || tileId == 2 || tileId == 8) {
+	if (tileId == 1 || tileId == 2 || (tileId >= 8 && tileId <= 16)) {
 		return true;
 	}
 

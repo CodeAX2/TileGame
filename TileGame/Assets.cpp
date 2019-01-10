@@ -165,8 +165,12 @@ void Assets::init() {
 	loadFull(PATH_TILE, 5, 3);
 	loadFull(CAVE_FLOOR_TILE, 6, 5);
 	loadFull(SNOW_TILE, 7, 7);
-	// ID 8 is taken for walls
-	renderPriority[9] = 8; // Set the priority of walls to be the highest
+	// ID 8 - 15 is used for walls
+	for (int i = 8; i < 16; i++) {
+		loadWall(i, i + 9, i - 8);
+	}
+
+	// ID 16 is used for blank tiles
 
 	// Load all the items
 	addItemTexture(LOG_ITEM, 0);
@@ -213,20 +217,6 @@ void Assets::init() {
 		curPlayerAnim->loadFromImage(img,
 			sf::IntRect(20 * (i % 12), 39 * (i / 12), 20, 39));
 		playerAnimation->addFrame(curPlayerAnim);
-		operations++;
-	}
-
-	sf::Image wallSheet = loadImageFromResource(WALL_TILE_SHEET);
-
-	sf::Texture* wallFull = new sf::Texture();
-	wallFull->loadFromImage(wallSheet, sf::IntRect(0, 0, 32, 64));
-	wallTextures[0] = wallFull;
-	operations++;
-
-	for (int i = 0; i < 4; i++) {
-		sf::Texture* curWallTile = new sf::Texture();
-		curWallTile->loadFromImage(wallSheet, sf::IntRect(32 * i + 32, 32, 32, 32));
-		wallTextures[i + 1] = curWallTile;
 		operations++;
 	}
 
@@ -291,6 +281,22 @@ void Assets::addItemTexture(int base, int bId) {
 	allItems[bId] = item;
 	operations++;
 
+}
+
+void Assets::loadWall(int id, int priority, int wallSpot) {
+
+	sf::Image fullWallSheet = loadImageFromResource(WALL_TILE_SHEET);
+	sf::Texture* curWallText = new sf::Texture();
+
+	if (wallSpot == 0) {
+		curWallText->loadFromImage(fullWallSheet, sf::IntRect(0, 0, 32, 64));
+	} else if (wallSpot >= 1 && wallSpot <= 3) {
+		curWallText->loadFromImage(fullWallSheet, sf::IntRect(32 * wallSpot, 0, 32, 32));
+	} else {
+		curWallText->loadFromImage(fullWallSheet, sf::IntRect(32 * (wallSpot - 3), 32, 32, 32));
+	}
+	allTiles[id][0][0] = curWallText;
+	renderPriority[priority] = id;
 }
 
 void Assets::loadFull(int base, int bId, int priority) {
