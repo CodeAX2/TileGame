@@ -13,7 +13,7 @@ TileData::TileData(sf::Uint8 baseId, std::vector<sf::Uint8> surroundingData, Han
 		sf::Uint8 curId = surroundingData[i];
 		//if (curId == -1) continue;
 
-		if (handler->assets->getTilePriority(curId) <= handler->assets->getTilePriority(baseId)) continue;
+		if (handler->assets->getTilePriority(curId) <= handler->assets->getTilePriority(baseId) && baseId != 8) continue;
 
 		std::map<sf::Uint8, sf::Uint8>::iterator it = adjacentInfo.find(curId);
 		if (it == adjacentInfo.end()) {

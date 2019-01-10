@@ -112,6 +112,7 @@
     <Image Include="Resources\Textures\GUI-Inventory.png" />
     <Image Include="Resources\Textures\HalloweenCandy.png" />
     <Image Include="Resources\Textures\icon.ico" />
+    <Image Include="Resources\Textures\InsideWall Tiles.png" />
     <Image Include="Resources\Textures\Log.png" />
     <Image Include="Resources\Textures\MainMenu Buttons.png" />
     <Image Include="Resources\Textures\Path24.png" />

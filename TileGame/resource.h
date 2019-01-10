@@ -37,12 +37,13 @@
 #define VIGNETTE                        133
 #define MENU_MAIN                       134
 #define MENU_MAIN_BUTTONS               135
+#define WALL_TILE_SHEET                 136
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        136
+#define _APS_NEXT_RESOURCE_VALUE        137
 #define _APS_NEXT_COMMAND_VALUE         40002
 #define _APS_NEXT_CONTROL_VALUE         1001
 #define _APS_NEXT_SYMED_VALUE           101

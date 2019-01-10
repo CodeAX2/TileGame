@@ -165,6 +165,8 @@ void Assets::init() {
 	loadFull(PATH_TILE, 5, 3);
 	loadFull(CAVE_FLOOR_TILE, 6, 5);
 	loadFull(SNOW_TILE, 7, 7);
+	// ID 8 is taken for walls
+	renderPriority[9] = 8; // Set the priority of walls to be the highest
 
 	// Load all the items
 	addItemTexture(LOG_ITEM, 0);
@@ -213,6 +215,23 @@ void Assets::init() {
 		playerAnimation->addFrame(curPlayerAnim);
 		operations++;
 	}
+
+	sf::Image wallSheet = loadImageFromResource(WALL_TILE_SHEET);
+
+	sf::Texture* wallFull = new sf::Texture();
+	wallFull->loadFromImage(wallSheet, sf::IntRect(0, 0, 32, 64));
+	wallTextures[0] = wallFull;
+	operations++;
+
+	for (int i = 0; i < 4; i++) {
+		sf::Texture* curWallTile = new sf::Texture();
+		curWallTile->loadFromImage(wallSheet, sf::IntRect(32 * i + 32, 32, 32, 32));
+		wallTextures[i + 1] = curWallTile;
+		operations++;
+	}
+
+
+
 
 	std::cout << "GFX OPERATIONS: " << operations << std::endl;
 }

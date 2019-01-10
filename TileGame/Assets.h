@@ -15,6 +15,7 @@ namespace tg {
 		sf::Texture* allTiles[256][256][3];
 		sf::Texture* allItems[256];
 		sf::Texture* gemTextures[4];
+		sf::Texture* wallTextures[5];
 		int renderPriority[256];
 		Animation* playerAnimation;
 		std::string map;
@@ -180,6 +181,8 @@ namespace tg {
 		sf::Texture* getSandCastleTexture() { return sandCastle; }
 		sf::Texture* getTallSnowGrassTexture() { return snowTallGrass; }
 		sf::Texture* getTreasureChestTexture() { return treasureChest; }
+
+		sf::Texture* getWallTexture(int pos) { return wallTextures[pos]; }
 
 
 	};

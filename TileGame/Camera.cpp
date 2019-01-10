@@ -18,8 +18,18 @@ void Camera::centerAt(float x, float y, World* world) {
 	if (x >= world->getWidth() * 96 - handler->worldView.getSize().x / 2)
 		newX = world->getWidth() * 96 - handler->worldView.getSize().x / 2 - 1;
 
-	if (y < handler->worldView.getSize().y / 2)
+
+
+	if (world->getTile(0, 0) == 8) {
+
+		if (y < handler->worldView.getSize().y / 2 - 96) {
+			newY = handler->worldView.getSize().y / 2 - 96;
+		}
+
+
+	} else if (y < handler->worldView.getSize().y / 2) {
 		newY = handler->worldView.getSize().y / 2;
+	}
 	if (y >= world->getHeight() * 96 - handler->worldView.getSize().y / 2)
 		newY = world->getHeight() * 96 - handler->worldView.getSize().y / 2 - 1;
 
@@ -29,6 +39,8 @@ void Camera::centerAt(float x, float y, World* world) {
 
 	if (handler->worldView.getSize().y >= world->getHeight() * 96) {
 		newY = world->getHeight() * 96 / 2;
+		if (world->getTile(0, 0) == 8)
+			newY -= 96 / 2;
 	}
 
 
