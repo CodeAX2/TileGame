@@ -22,6 +22,8 @@ namespace tg {
 		void nextFrame();
 		int getSize() { return animFrames.size(); }
 
+		void clear() { animFrames = std::vector<sf::Texture*>(); }
+
 
 	};
 

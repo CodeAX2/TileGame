@@ -182,6 +182,7 @@ void Game::tickLoop() {
 			sf::sleep(sf::milliseconds(msToSleep));
 		}
 		sf::Int32 now = clock.getElapsedTime().asMilliseconds();
+
 		sf::Int32 dt = now - last;
 
 		handler.getCurrentState()->tick(dt);

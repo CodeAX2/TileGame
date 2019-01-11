@@ -27,7 +27,7 @@ namespace tg {
 		sf::Texture* vignette;
 		sf::Texture* guiInv;
 		int operations = 0;
-		sf::Color playerColorP, playerColorS;
+		sf::Color playerColorP;
 		sf::Texture* sandCastle;
 		sf::Texture* snowTallGrass;
 		sf::Texture* treasureChest;
@@ -46,6 +46,7 @@ namespace tg {
 		sf::Font loadFontFromResource(int name);
 
 		void loadWall(int id, int priority, int wallSpot);
+
 
 	public:
 
@@ -183,6 +184,26 @@ namespace tg {
 		sf::Texture* getTallSnowGrassTexture() { return snowTallGrass; }
 		sf::Texture* getTreasureChestTexture() { return treasureChest; }
 
+		sf::Color getPlayerColor() { return playerColorP; }
+
+
+		void setPlayerColor(sf::Color newColor) {
+			int red = newColor.r;
+			int blue = newColor.b;
+			int green = newColor.g;
+
+			red -= 25;
+			if (red < 0) red = 0;
+
+			green -= 25;
+			if (green < 0) green = 0;
+
+			blue -= 25;
+			if (blue < 0) blue = 0;
+
+			playerColorP = newColor;
+
+		}
 
 	};
 

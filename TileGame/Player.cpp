@@ -21,12 +21,7 @@ Player::~Player()
 // Render the player
 void Player::render(Handler* handler) {
 
-	sf::RectangleShape shape(sf::Vector2f(w, h));
-
 	int pX = (x - handler->camera->getXOffset()), pY = (y - handler->camera->getYOffset());
-
-
-	shape.setTexture(texture);
 
 	int accuratePX = std::round(handler->window->getSize().x / 2.0 - 20.0*1.5);
 	int accuratePY = std::round(handler->window->getSize().y / 2.0 - 39.0*1.5);
@@ -38,16 +33,17 @@ void Player::render(Handler* handler) {
 	if (std::abs(pY - accuratePY) <= 4) {
 		pY = accuratePY;
 	}
-
-	shape.setPosition(pX, pY);
-
+	sf::Sprite sprite(*texture);
+	sprite.setPosition(pX, pY);
+	sprite.setScale(3, 3);
+	sprite.setColor(handler->assets->getPlayerColor());
 
 
 	if (horiDirection == WEST) {
-		shape.setScale(-1.f, 1.f);
-		shape.move(w, 0);
+		sprite.setScale(-3.f, 3.f);
+		sprite.move(w, 0);
 	} else {
-		shape.setScale(1.f, 1.f);
+		sprite.setScale(3.f, 3.f);
 	}
 
 	GameState* gs = handler->getCurrentState();
@@ -62,7 +58,7 @@ void Player::render(Handler* handler) {
 		}
 	}
 
-	handler->window->draw(shape);
+	handler->window->draw(sprite);
 
 
 	if (handler->inputManager->hitboxIsShown()) {

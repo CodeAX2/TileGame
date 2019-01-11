@@ -85,7 +85,6 @@ Assets::Assets() {
 
 
 	playerColorP = sf::Color(red, green, blue, 255);
-	playerColorS = sf::Color(red - 25, green - 25, blue - 25, 255);
 }
 
 void Assets::init() {
@@ -199,17 +198,6 @@ void Assets::init() {
 	playerAnimation = new Animation();
 
 	sf::Image img = loadImageFromResource(PLAYER_SHEET);
-
-	for (int x = 0; x < img.getSize().x; x++) {
-		for (int y = 0; y < img.getSize().y; y++) {
-
-			if (img.getPixel(x, y) == sf::Color(255, 255, 255, 255)) {
-				img.setPixel(x, y, playerColorP);
-			} else if (img.getPixel(x, y) == sf::Color(230, 230, 230, 255)) {
-				img.setPixel(x, y, playerColorS);
-			}
-		}
-	}
 
 	for (int i = 0; i < 18; i++) {
 		sf::Texture* curPlayerAnim = new sf::Texture();
@@ -419,5 +407,3 @@ void Assets::loadFull(int base, int bId, int priority) {
 
 
 }
-
-

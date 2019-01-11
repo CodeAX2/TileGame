@@ -78,6 +78,7 @@ void PlayingState::tick(sf::Int32 dt) {
 	world->getEntityManager()->tick(dt);
 
 
+
 }
 
 // Draw the world to the screen
