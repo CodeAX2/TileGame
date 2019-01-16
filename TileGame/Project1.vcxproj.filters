@@ -91,14 +91,17 @@
     <ClCompile Include="PlayerFile.cpp">
       <Filter>Source Files\Entities\Non-Statics</Filter>
     </ClCompile>
-    <ClCompile Include="Pathfinder.cpp">
-      <Filter>Source Files\Entities\Non-Statics</Filter>
-    </ClCompile>
     <ClCompile Include="Node.cpp">
       <Filter>Source Files\Entities\Non-Statics</Filter>
     </ClCompile>
     <ClCompile Include="MainMenuState.cpp">
       <Filter>Source Files\Game States</Filter>
+    </ClCompile>
+    <ClCompile Include="Pathfinder.cpp">
+      <Filter>Source Files\Entities\Non-Statics\Pathfinder</Filter>
+    </ClCompile>
+    <ClCompile Include="Zombie.cpp">
+      <Filter>Source Files\Entities\Non-Statics\Pathfinder</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -192,14 +195,17 @@
     <ClInclude Include="Entity.h">
       <Filter>Header Files\Entities\Non-Statics</Filter>
     </ClInclude>
-    <ClInclude Include="Pathfinder.h">
-      <Filter>Header Files\Entities\Non-Statics</Filter>
-    </ClInclude>
     <ClInclude Include="Node.h">
       <Filter>Header Files\Entities\Non-Statics</Filter>
     </ClInclude>
     <ClInclude Include="MainMenuState.h">
       <Filter>Header Files\Game States</Filter>
+    </ClInclude>
+    <ClInclude Include="Pathfinder.h">
+      <Filter>Header Files\Entities\Non-Statics\Pathfinder</Filter>
+    </ClInclude>
+    <ClInclude Include="Zombie.h">
+      <Filter>Header Files\Entities\Non-Statics\Pathfinder</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -303,6 +309,12 @@
     </Filter>
     <Filter Include="Resource Files\Fonts">
       <UniqueIdentifier>{95abcb19-c3a2-42ec-bfa5-6aa3682611ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Entities\Non-Statics\Pathfinder">
+      <UniqueIdentifier>{a2147ed6-d770-43ca-adb1-5cdd9985f265}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Entities\Non-Statics\Pathfinder">
+      <UniqueIdentifier>{149a709c-6f53-41c8-99b2-6e61a4b6ac82}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -420,6 +432,9 @@
       <Filter>Resource Files\Textures</Filter>
     </Image>
     <Image Include="Resources\Textures\InsideWall Tiles.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\Zombie.png">
       <Filter>Resource Files\Textures</Filter>
     </Image>
   </ItemGroup>
