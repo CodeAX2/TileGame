@@ -14,4 +14,8 @@ private:
 public:
 	Zombie(float x, float y, Handler* handler, World* world);
 	~Zombie();
+
+protected:
+	void dropItems() override;
+
 };
