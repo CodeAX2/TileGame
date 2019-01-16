@@ -18,7 +18,7 @@
 #define PUMPKIN_E 6
 #define BOAT_E 7
 #define BUILDING_E 8
-#define PATHFINDER 9
+#define ZOMBIE_E 9
 
 namespace tg {
 	class Rideable;

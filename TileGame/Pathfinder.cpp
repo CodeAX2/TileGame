@@ -6,8 +6,9 @@
 
 using namespace tg;
 
-Pathfinder::Pathfinder(float x, float y, Handler* handler, World* world, float speed) :
-	Entity(x, y, handler, 8, 8, 48, 48, 64, 64, true, PATHFINDER, true, world),
+Pathfinder::Pathfinder(float x, float y, Handler* handler, int hitBoxX, int hitBoxY,
+	int hitBoxW, int hitBoxH, int w, int h, int type, World* world, float speed) :
+	Entity(x, y, handler, hitBoxX, hitBoxY, hitBoxW, hitBoxH, w, h, true, type, true, world),
 	speed(speed), pathThread(&Pathfinder::generatePath, this) {
 
 

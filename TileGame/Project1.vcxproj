@@ -52,6 +52,7 @@
     <ClCompile Include="World.cpp" />
     <ClCompile Include="WorldFile.cpp" />
     <ClCompile Include="WorldManager.cpp" />
+    <ClCompile Include="Zombie.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
@@ -87,6 +88,7 @@
     <ClInclude Include="World.h" />
     <ClInclude Include="WorldFile.h" />
     <ClInclude Include="WorldManager.h" />
+    <ClInclude Include="Zombie.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="BuildingFileOutline.txt" />
@@ -138,6 +140,7 @@
     <Image Include="Resources\Textures\WaterTile.png" />
     <Image Include="Resources\Textures\Wood24.png" />
     <Image Include="Resources\Textures\WoodHut.png" />
+    <Image Include="Resources\Textures\Zombie.png" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="Resources\Sounds\sans.mp3" />

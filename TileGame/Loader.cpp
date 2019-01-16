@@ -16,7 +16,7 @@
 #include "WorldManager.h"
 #include "BuildingFile.h"
 #include <filesystem>
-#include "Pathfinder.h"
+#include "Zombie.h"
 
 using namespace tg;
 namespace fs = std::experimental::filesystem;
@@ -107,10 +107,10 @@ void Loader::loadEntities() {
 		Building* bldg = BuildingFile::loadBuildingFile(s + ".tgb", handler);
 	}
 
-	Pathfinder* pf = new Pathfinder(44 * 96.f + 2, 24 * 96.f + 2, handler, mainWorld, 2.f);
+	Pathfinder* pf = new Zombie(43 * 96 + 2, 23 * 96 + 2, handler, mainWorld);
 	pf->setFollowing(handler->player);
 
-	pf = new Pathfinder(45 * 96.f + 2, 25 * 96.f + 2, handler, mainWorld, 2.f);
+	pf = new Zombie(44 * 96 + 2, 24 * 96 + 2, handler, mainWorld);
 	pf->setFollowing(handler->player);
 
 

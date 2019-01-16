@@ -208,7 +208,11 @@ void Assets::init() {
 		operations++;
 	}
 
-
+	zombieAnimation = new Animation();
+	sf::Texture* zombieTexture = new sf::Texture();
+	zombieTexture->loadFromImage(loadImageFromResource(ZOMBIE_SHEET));
+	zombieAnimation->addFrame(zombieTexture);
+	operations++;
 
 
 	std::cout << "GFX OPERATIONS: " << operations << std::endl;

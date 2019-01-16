@@ -9,7 +9,8 @@ namespace tg {
 	class Pathfinder :
 		public Entity {
 	public:
-		Pathfinder(float x, float y, Handler* handler, World* world, float speed);
+		Pathfinder(float x, float y, Handler* handler, int hitBoxX, int hitBoxY,
+			int hitBoxW, int hitBoxH, int w, int h, int type, World* world, float speed);
 		~Pathfinder();
 
 	public:

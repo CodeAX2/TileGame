@@ -17,6 +17,7 @@ namespace tg {
 		sf::Texture* gemTextures[4];
 		int renderPriority[256];
 		Animation* playerAnimation;
+		Animation* zombieAnimation;
 		std::string map;
 		Animation* treeAnimation;
 		Animation* snowyTreeAnimation;
@@ -186,6 +187,7 @@ namespace tg {
 
 		sf::Color getPlayerColor() { return playerColorP; }
 
+		Animation* getZombieAnimation() { return zombieAnimation; }
 		sf::Color createHSVColor(int hue, float sat, float val);
 
 
