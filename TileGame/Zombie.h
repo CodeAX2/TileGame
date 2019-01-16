@@ -8,11 +8,10 @@ class Zombie :
 {
 
 private:
-	const float speed = .25f;
+	static const float SPEED;
 	int curAnim = 0;
 
 public:
 	Zombie(float x, float y, Handler* handler, World* world);
 	~Zombie();
 };
-

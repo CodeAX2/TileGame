@@ -9,7 +9,8 @@ using namespace tg;
 Pathfinder::Pathfinder(float x, float y, Handler* handler, int hitBoxX, int hitBoxY,
 	int hitBoxW, int hitBoxH, int w, int h, int type, World* world, float speed) :
 	Entity(x, y, handler, hitBoxX, hitBoxY, hitBoxW, hitBoxH, w, h, true, type, true, world),
-	speed(speed), pathThread(&Pathfinder::generatePath, this) {
+	pathThread(&Pathfinder::generatePath, this),
+	speed(speed) {
 
 
 	pathThread.launch();
@@ -48,7 +49,7 @@ void Pathfinder::tick(sf::Int32 dt) {
 
 
 
-		float dist = .2f * dt;
+		float dist = speed * dt;
 
 		float ogX = x;
 		float ogY = y;
@@ -323,6 +324,7 @@ bool Pathfinder::checkForCollision(float nX, float nY, bool collideWithPlayer, b
 					continue;
 				}
 				if (Pathfinder* pathCur = dynamic_cast<Pathfinder*>(cur)) {
+
 					if (!collideWithPathfinder) {
 						continue;
 					}
