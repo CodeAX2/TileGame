@@ -3,7 +3,15 @@ A game about Tiles! Explore, fight, and quest!
 
 <p align="center">
   <img width="128" height="160" src="https://github.com/CodeAX2/TileGame/blob/master/TileGame/Resources/Textures/WoodHut.png">
+  &emsp;&emsp;&emsp;&emsp;
+  <img width="128" height="384" src="https://github.com/CodeAX2/TileGame/blob/master/TileGame/Resources/Textures/Tower.png">
+  &emsp;&emsp;&emsp;&emsp;
+  <img width="128" height="96" src="https://github.com/CodeAX2/TileGame/blob/master/TileGame/Resources/Textures/CaveEntrance.png">
+  
 </p>
+
+
+
 
 ## About This Game
 Tile Game is a fun little project I have created
