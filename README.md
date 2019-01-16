@@ -35,6 +35,10 @@ useful items, such as weapons, armor, or food.
 There will also be quests given from NPC's,
 and some traditional RPG elements.
 
+<p align="center">
+  <img width="512" height="64" src="https://github.com/CodeAX2/TileGame/blob/master/README%20Images/Items.png">
+</p>
+
 
 
 ### Created by Jacob Hofer
