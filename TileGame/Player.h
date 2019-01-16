@@ -29,6 +29,8 @@ namespace tg {
 		bool settingNewPos = false;
 		float newX = 0, newY = 0;
 
+		float hue = 0;
+
 	public:
 		Player(float x, float y, Handler* handler, World* world);
 		~Player();

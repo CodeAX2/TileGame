@@ -186,6 +186,8 @@ namespace tg {
 
 		sf::Color getPlayerColor() { return playerColorP; }
 
+		sf::Color createHSVColor(int hue, float sat, float val);
+
 
 		void setPlayerColor(sf::Color newColor) {
 			int red = newColor.r;

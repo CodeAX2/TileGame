@@ -33,17 +33,25 @@ void Player::render(Handler* handler) {
 	if (std::abs(pY - accuratePY) <= 4) {
 		pY = accuratePY;
 	}
+
 	sf::Sprite sprite(*texture);
 	sprite.setPosition(pX, pY);
-	sprite.setScale(3, 3);
+
+
+	float xScale = w / texture->getSize().x;
+	float yScale = h / texture->getSize().y;
+
+
+	sprite.setScale(xScale, yScale);
+
 	sprite.setColor(handler->assets->getPlayerColor());
 
 
 	if (horiDirection == WEST) {
-		sprite.setScale(-3.f, 3.f);
+		sprite.setScale(-xScale, yScale);
 		sprite.move(w, 0);
 	} else {
-		sprite.setScale(3.f, 3.f);
+		sprite.setScale(xScale, yScale);
 	}
 
 	GameState* gs = handler->getCurrentState();
@@ -86,7 +94,6 @@ void Player::tick(sf::Int32 dt) {
 			ps->setWorld(world);
 		}
 	}
-
 
 	moving = false;
 
