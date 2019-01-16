@@ -11,6 +11,11 @@ in order to improve my skills in programming,
 as well as to just have some fun! Everything,
 from the code to the art is created by me. 
 
+
+<p align="center">
+  <img width="128" height="160" src="https://github.com/CodeAX2/TileGame/blob/master/README%20Images/Capture4.PNG">
+</p>
+
 ## But, What Do You DO In The Game?
 This game combines many aspects from my most
 favorite games, such as The Legend of Zelda,
