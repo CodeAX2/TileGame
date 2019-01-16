@@ -13,7 +13,7 @@ from the code to the art is created by me.
 
 
 <p align="center">
-  <img width="1280" height="720" src="https://github.com/CodeAX2/TileGame/blob/master/README%20Images/Capture4.PNG">
+  <img src="https://github.com/CodeAX2/TileGame/blob/master/README%20Images/Capture4.PNG">
 </p>
 
 ## But, What Do You DO In The Game?
