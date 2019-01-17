@@ -39,6 +39,11 @@ and some traditional RPG elements.
   <img width="512" height="64" src="https://github.com/CodeAX2/TileGame/blob/master/README%20Images/Items.png">
 </p>
 
-
+## Want Updates?
+Follow me on instagram @jacobdhofer  
+Or you can scan the image below!
+<p align="center">
+<img width="375" height="563" src="https://github.com/CodeAX2/TileGame/blob/master/README%20Images/Image-1.jpg">
+ </p>
 
 ### Created by Jacob Hofer
