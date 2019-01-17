@@ -64,7 +64,12 @@ void PlayingState::render() {
 	handler->window->setView(handler->guiView);
 	//renderVignette();
 	//renderAllTextures();
-	renderGUI();
+
+	if (!deathScreen) {
+		renderGUI();
+	} else {
+		renderDeathScreen();
+	}
 
 }
 
@@ -73,10 +78,21 @@ void PlayingState::tick(sf::Int32 dt) {
 	if (world == nullptr) {
 		world = handler->player->getWorld();
 	}
-	handler->player->tick(dt);
-	handler->camera->tick();
-	world->getEntityManager()->tick(dt);
 
+	if (!deathScreen) {
+		handler->player->tick(dt);
+		handler->camera->tick();
+		world->getEntityManager()->tick(dt);
+	} else {
+		deathFade += (float)dt * .001;
+		if (deathFade > 1)
+			deathFade = 1.f;
+
+		gameOverFade += (float)dt * .0007;
+		if (gameOverFade > 1)
+			gameOverFade = 1.f;
+
+	}
 
 
 }
@@ -232,6 +248,36 @@ void PlayingState::renderGUI() {
 		}
 	}
 
+	sf::RectangleShape healthBarBackground(sf::Vector2f(300, 20));
+	float yPos = handler->window->getView().getSize().y - 160;
+	if (!guiOnBottom) {
+		yPos = 140;
+	}
+	healthBarBackground.setPosition(handler->window->getView().getSize().x / 2 - healthBarBackground.getSize().x / 2, yPos);
+	healthBarBackground.setFillColor(sf::Color(40, 2, 2));
+
+	handler->window->draw(healthBarBackground);
+
+	sf::RectangleShape healthBar(sf::Vector2f((float)handler->player->getHealth() / handler->player->getMaxHealth() * 300, 20));
+	healthBar.setPosition(handler->window->getView().getSize().x / 2 - healthBar.getSize().x / 2, yPos);
+	healthBar.setFillColor(sf::Color(132, 5, 5));
+
+	handler->window->draw(healthBar);
+
+
+	sf::Text healthText;
+	sf::Font f = *(handler->assets->getArialiFont());
+	healthText.setFont(f);
+	std::stringstream ss;
+	ss << handler->player->getHealth() << "/" << handler->player->getMaxHealth();
+
+	healthText.setString(ss.str());
+	healthText.setCharacterSize(20);
+	healthText.setPosition(handler->window->getView().getSize().x / 2 - healthText.getLocalBounds().width / 2, yPos - 10 + healthText.getLocalBounds().height / 2);
+
+
+	handler->window->draw(healthText);
+
 }
 
 void PlayingState::renderAllTextures() {
@@ -264,4 +310,27 @@ void PlayingState::renderVignette() {
 	sf::RectangleShape shape(sf::Vector2f(1280, 720));
 	shape.setTexture(handler->assets->getVignette());
 	handler->window->draw(shape);
+}
+
+void PlayingState::renderDeathScreen() {
+
+	sf::RectangleShape deathOverlay(handler->window->getView().getSize());
+	deathOverlay.setFillColor(sf::Color(0, 0, 0, deathFade * 255));
+
+	handler->window->draw(deathOverlay);
+
+	sf::Text gameOverText((std::string)"GAME OVER!", *(handler->assets->getArialiFont()));
+	gameOverText.setCharacterSize(80);
+	sf::Vector2f viewSize = handler->window->getView().getSize();
+	gameOverText.setPosition(
+		viewSize.x / 2 - gameOverText.getGlobalBounds().width / 2,
+		viewSize.y / 2 - gameOverText.getGlobalBounds().height / 2
+	);
+	gameOverText.setFillColor(sf::Color(145, 4, 4, gameOverFade * 255));
+
+	handler->window->draw(gameOverText);
+
+
+
+
 }

@@ -58,6 +58,7 @@ namespace tg {
 		}
 
 		void setInventory(std::map<sf::Uint8, int> newInv) { inventory = newInv; }
+		void damage(int dmg) override;
 
 	private:
 		bool checkForCollision();

@@ -1,5 +1,6 @@
 #include "Zombie.h"
 #include "Item.h"
+#include "Player.h"
 
 const float Zombie::SPEED = .1f;
 
@@ -25,4 +26,15 @@ void Zombie::dropItems() {
 	}
 
 
+}
+
+void Zombie::onCollisionWithFollowing(sf::Int32 dt) {
+	timeSinceAttacking += dt;
+	if (following == handler->player) {
+		if (timeSinceAttacking >= 500) {
+			following->damage(5);
+			timeSinceAttacking = 0;
+		}
+
+	}
 }

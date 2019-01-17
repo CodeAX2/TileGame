@@ -17,12 +17,14 @@ namespace tg {
 		World* getWorld() { return world; }
 		void setWorld(World* world) { this->world = world; }
 		void setGuiToBottom(bool onBottom) { guiOnBottom = onBottom; }
+		void playerDeath() { deathScreen = true; }
 
 	private:
 		void renderWorld();
 		void renderGUI();
 		void renderAllTextures();
 		void renderVignette();
+		void renderDeathScreen();
 
 	private:
 		Handler * handler;
@@ -30,6 +32,9 @@ namespace tg {
 		float prevZoom;
 		World* world;
 		bool guiOnBottom = true;
+		bool deathScreen = false;
+		float deathFade = 0;
+		float gameOverFade = 0;
 
 
 

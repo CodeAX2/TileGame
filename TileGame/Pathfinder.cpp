@@ -3,6 +3,7 @@
 #include <math.h>
 #include "InputManager.h"
 #include "Player.h"
+#include "Game.h"
 
 using namespace tg;
 
@@ -80,21 +81,25 @@ void Pathfinder::tick(sf::Int32 dt) {
 		}
 
 
+		if (checkForCollisionWithFollowing(x, y)) {
+			onCollisionWithFollowing(dt);
+		}
+
 		float checkX = currentPath[spotInpath].x * pathfindSize;
 		float checkY = currentPath[spotInpath].y * pathfindSize;
 
-		if (ogX + hitBoxX < checkX && x + hitBoxX > checkX || ogX + hitBoxX > checkX && x + hitBoxX < checkX ||
-			ogY + hitBoxY < checkY && y + hitBoxY > checkY || ogY + hitBoxY > checkY && y + hitBoxY < checkY) {
-
+		if (linesCross(ogX, ogY, x, y, checkX, checkY, checkX + pathfindSize, checkY)) {
 			spotInpath++;
-
-
-
-		} else if (dx == 0 && dy == 0) {
+		} else if (linesCross(ogX, ogY, x, y, checkX, checkY, checkX, checkY + pathfindSize)) {
 			spotInpath++;
-		} else if (dx <= 1 && dy <= 1 && !moved) {
+		} else if (abs(dx) <= .25f && abs(dy) <= .25f) {
+			spotInpath++;
+		} else if (spotInpath == 0 && !moved) {
 			spotInpath++;
 		}
+
+
+
 
 		if (spotInpath >= currentPath.size()) {
 			spotInpath = 0;
@@ -167,7 +172,7 @@ void Pathfinder::generatePath() {
 	sf::Clock clock;
 	while (true) {
 
-		if (!active || following->getRidingOn() != nullptr) {
+		if (!active || following->getRidingOn() != nullptr || following == nullptr) {
 			sf::sleep(sf::milliseconds(msToWait));
 			continue;
 		}
@@ -209,6 +214,38 @@ void Pathfinder::generatePath() {
 
 
 			if (checkForCollision(target.x * pathfindSize - hitBoxX, target.y * pathfindSize - hitBoxY, false, false)) {
+				sf::sleep(sf::milliseconds(msToWait));
+				continue;
+			}
+
+		}
+
+
+
+		if (checkForCollision(start.x * pathfindSize - hitBoxX, start.y * pathfindSize - hitBoxY, true, true)) {
+
+			int dist = INT_MAX;
+			int tdx = 0;
+			int tdy = 0;
+
+			for (int tx = -3; tx <= 3; tx++) {
+				for (int ty = -3; ty <= 3; ty++) {
+					if (!checkForCollision((start.x + tx) * pathfindSize - hitBoxX, (start.y + ty) * pathfindSize - hitBoxY, true, true)) {
+						if (abs(tx) + abs(ty) < dist) {
+							tdx = tx;
+							tdy = ty;
+							dist = abs(tx) + abs(ty);
+						}
+					}
+				}
+			}
+
+
+			start.x += tdx;
+			start.y += tdy;
+
+
+			if (checkForCollision(start.x * pathfindSize - hitBoxX, start.y * pathfindSize - hitBoxY, true, true)) {
 				sf::sleep(sf::milliseconds(msToWait));
 				continue;
 			}
@@ -375,6 +412,95 @@ bool Pathfinder::checkForCollision(float nX, float nY, bool collideWithPlayer, b
 	return false;
 }
 
+
+bool Pathfinder::linesCross(float x11, float y11, float x12, float y12, float x21, float y21, float x22, float y22) {
+
+	float crossX, crossY = NAN;
+	float m1 = NAN, m2 = NAN;
+
+	if (x12 - x11 == 0 && x22 - x21 != 0) {
+		crossX = x12;
+		m2 = (y22 - y21) / (x22 - x21);
+	} else if (x22 - x21 == 0 && x12 - x11 != 0) {
+		crossX = x22;
+		m1 = (y12 - y11) / (x12 - x11);
+	} else {
+
+		if (m1 == m2) {
+			// Parallel lines
+			return false;
+		}
+
+		m1 = (y12 - y11) / (x12 - x11);
+		m2 = (y22 - y21) / (x22 - x21);
+
+		crossX = (-m2 * x21 + y21 + m1 * x11 - y11) / (m1 - m2);
+		crossY = m1 * crossX - m1 * x11 + y11;
+	}
+
+	if (crossY == NAN) {
+		if (m1 == NAN) {
+			crossY = m2 * crossX - m2 * x21 + y21;
+		} else {
+			crossY = m1 * crossX - m1 * x11 + y11;
+		}
+	}
+
+
+
+	float lowx1 = x11;
+	float highx1 = x12;
+	if (x12 < lowx1) {
+		lowx1 = x12;
+		highx1 = x11;
+	}
+
+	float lowx2 = x21;
+	float highx2 = x22;
+	if (x22 < lowx2) {
+		lowx2 = x22;
+		highx2 = x21;
+	}
+
+
+	float lowy1 = y11;
+	float highy1 = y12;
+	if (y12 < lowy1) {
+		lowy1 = y12;
+		highy1 = y11;
+	}
+
+	float lowy2 = y21;
+	float highy2 = y22;
+	if (y22 < lowy2) {
+		lowy2 = y22;
+		highy2 = y21;
+	}
+
+
+	if (crossX >= lowx1 && crossX <= highx1 && crossX >= lowx2 && crossX <= highx2 &&
+		crossY >= lowy1 && crossY <= highy1 && crossY >= lowy2 && crossY <= highy2) {
+		return true;
+	}
+
+	return false;
+}
+
+
+bool Pathfinder::checkForCollisionWithFollowing(float nX, float nY) {
+	sf::IntRect pBox = sf::IntRect(sf::Vector2i(std::round(nX + (float)hitBoxX) - 6, std::round(nY + (float)hitBoxY) - 6), sf::Vector2i(hitBoxW + 12, hitBoxH + 12));
+
+	if (following->getWorld() == world) {
+		if (following->getCollisionBox().intersects(pBox)) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
+
+void Pathfinder::onCollisionWithFollowing(sf::Int32 dt) {}
 
 
 

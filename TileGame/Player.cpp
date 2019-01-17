@@ -11,6 +11,8 @@ Player::Player(float x, float y, Handler* handler, World* world) : Entity(x, y, 
 	texture = handler->assets->getPlayerAnim()->getFrame(0);
 	handler->player = this;
 
+	health = 100;
+
 }
 
 
@@ -558,4 +560,15 @@ bool Player::inventoryContains(int itemId) {
 	}
 
 	return true;
+}
+
+void Player::damage(int dmg) {
+	health -= dmg;
+	if (health <= 0) {
+		if (handler->getCurrentState()->getType() == PLAYING) {
+			PlayingState* state = dynamic_cast<PlayingState*>(handler->getCurrentState());
+			state->playerDeath();
+		}
+	}
+
 }
