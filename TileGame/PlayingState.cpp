@@ -330,7 +330,15 @@ void PlayingState::renderDeathScreen() {
 
 	handler->window->draw(gameOverText);
 
+	sf::Text deathText(deathMessage, *(handler->assets->getArialiFont()));
+	deathText.setCharacterSize(30);
+	deathText.setPosition(
+		viewSize.x / 2 - deathText.getGlobalBounds().width / 2,
+		gameOverText.getPosition().y + gameOverText.getGlobalBounds().height + 10
+	);
+	deathText.setFillColor(sf::Color(255, 232, 232, gameOverFade * 255));
 
+	handler->window->draw(deathText);
 
 
 }

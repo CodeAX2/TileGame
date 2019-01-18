@@ -75,7 +75,7 @@ namespace tg {
 		virtual bool equals(Entity other);
 		int getHealth() { return health; }
 		int getMaxHealth() { return maxHealth; }
-		virtual void damage(int dmg);
+		virtual void damage(int dmg, Entity* damager);
 		bool isRideable() { return isARideable; }
 		UUID getId() { return uuid; }
 		void setId(UUID id) { uuid = id; }

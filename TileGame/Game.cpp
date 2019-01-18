@@ -17,6 +17,7 @@
 #include "WorldFile.h"
 #include "PlayerFile.h"
 #include "WorldManager.h"
+#include "DeathQuotes.h"
 
 using namespace tg;
 
@@ -37,6 +38,8 @@ commandThread(&Game::commandLoop, this), debugThread(&Game::debugLoop, this) {
 	handler.saveDirName = "Save1";
 	handler.guiView = window->getView();
 	handler.inputManager = new InputManager(&handler);
+
+	DeathQuotes::init();
 
 }
 

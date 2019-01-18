@@ -17,7 +17,7 @@ namespace tg {
 		World* getWorld() { return world; }
 		void setWorld(World* world) { this->world = world; }
 		void setGuiToBottom(bool onBottom) { guiOnBottom = onBottom; }
-		void playerDeath() { deathScreen = true; }
+		void playerDeath(std::string msg) { deathScreen = true; deathMessage = msg; }
 
 	private:
 		void renderWorld();
@@ -35,6 +35,7 @@ namespace tg {
 		bool deathScreen = false;
 		float deathFade = 0;
 		float gameOverFade = 0;
+		std::string deathMessage = "";
 
 
 

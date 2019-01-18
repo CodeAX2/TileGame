@@ -13,7 +13,7 @@ Boat::~Boat()
 {
 }
 
-void Boat::damage(int dmg) {
+void Boat::damage(int dmg, Entity* damager) {
 }
 
 bool Boat::checkForCollision() {

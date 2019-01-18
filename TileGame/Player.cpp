@@ -4,6 +4,7 @@
 #include "Rideable.h"
 #include "Building.h"
 #include "PlayingState.h"
+#include "DeathQuotes.h"
 
 using namespace tg;
 
@@ -524,9 +525,9 @@ void Player::hitEntities() {
 		sf::IntRect eBox = cur->getCollisionBox();
 		if (eBox.intersects(aBox)) {
 			if (inventory[2] == 0) {
-				cur->damage(20);
+				cur->damage(20, this);
 			} else {
-				cur->damage(30);
+				cur->damage(30, this);
 			}
 
 		}
@@ -562,12 +563,14 @@ bool Player::inventoryContains(int itemId) {
 	return true;
 }
 
-void Player::damage(int dmg) {
+void Player::damage(int dmg, Entity* damager) {
 	health -= dmg;
 	if (health <= 0) {
 		if (handler->getCurrentState()->getType() == PLAYING) {
+			std::string playingMessage = "";
 			PlayingState* state = dynamic_cast<PlayingState*>(handler->getCurrentState());
-			state->playerDeath();
+			playingMessage = DeathQuotes::getRandomDeathQuote(damager->type);
+			state->playerDeath(playingMessage);
 		}
 	}
 

@@ -12,7 +12,7 @@ namespace tg {
 
 
 	public:
-		void damage(int dmg) override;
+		void damage(int dmg, Entity* damager) override;
 
 	protected:
 		bool checkForCollision() override;

@@ -33,7 +33,7 @@ void Zombie::onCollisionWithFollowing(sf::Int32 dt) {
 	if (following == handler->player) {
 		if (!attacking) {
 			attacking = true;
-			following->damage(5);
+			following->damage(5, this);
 		}
 
 	}

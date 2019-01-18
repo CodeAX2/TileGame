@@ -150,7 +150,7 @@ bool Entity::equals(Entity other) {
 
 // Apply some damage to the entity, and remove it if health
 // is below 0
-void Entity::damage(int dmg) {
+void Entity::damage(int dmg, Entity* damager) {
 	health -= dmg;
 	if (health <= 0) {
 		dropItems();

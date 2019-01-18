@@ -25,6 +25,7 @@
     <ClCompile Include="Building.cpp" />
     <ClCompile Include="BuildingFile.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="DeathQuotes.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -61,6 +62,7 @@
     <ClInclude Include="Building.h" />
     <ClInclude Include="BuildingFile.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="DeathQuotes.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityManager.h" />
     <ClInclude Include="Game.h" />
