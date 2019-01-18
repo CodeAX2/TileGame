@@ -209,10 +209,17 @@ void Assets::init() {
 	}
 
 	zombieAnimation = new Animation();
-	sf::Texture* zombieTexture = new sf::Texture();
-	zombieTexture->loadFromImage(loadImageFromResource(ZOMBIE_SHEET));
-	zombieAnimation->addFrame(zombieTexture);
-	operations++;
+	sf::Image zombieSheet;
+	zombieSheet = loadImageFromResource(ZOMBIE_SHEET);
+
+	for (int i = 0; i < 3; i++) {
+		for (int j = 0; j < 8; j++) {
+			sf::Texture* cur = new sf::Texture();
+			cur->loadFromImage(zombieSheet, sf::IntRect(32 * j, 32 * i, 32, 32));
+			zombieAnimation->addFrame(cur);
+			operations++;
+		}
+	}
 
 
 	std::cout << "GFX OPERATIONS: " << operations << std::endl;

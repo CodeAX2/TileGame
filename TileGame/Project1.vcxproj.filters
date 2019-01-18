@@ -192,9 +192,6 @@
     <ClInclude Include="WorldManager.h">
       <Filter>Header Files\Worlds</Filter>
     </ClInclude>
-    <ClInclude Include="Entity.h">
-      <Filter>Header Files\Entities\Non-Statics</Filter>
-    </ClInclude>
     <ClInclude Include="Node.h">
       <Filter>Header Files\Entities\Non-Statics</Filter>
     </ClInclude>
@@ -206,6 +203,9 @@
     </ClInclude>
     <ClInclude Include="Zombie.h">
       <Filter>Header Files\Entities\Non-Statics\Pathfinder</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>Header Files\Entities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
