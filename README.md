@@ -39,6 +39,27 @@ and some traditional RPG elements.
   <img width="512" height="64" src="https://github.com/CodeAX2/TileGame/blob/master/README%20Images/Items.png">
 </p>
 
+ ## What Kind Of Code Goes Into The Game?
+ Tile Game is written entierly in C++ with the use of the SFML library. 
+ There are a lot of different techniques and coding features that go into
+ creating a game like this, so here is a short list describing many of the primary ones:
+ - Multithreading
+   - Used to seperate different tasks withing the game, such as specific threads used for pathfinding alrogirthims.
+   - Helpful to ensure that the overall game doesn't slow when one specific task gets run.
+ - Resource Files
+   - Encodes textures, sounds, etc. into the actual .exe to prevent being tampered with by users.
+   - Easily load resources into memory to be used in the actual game.
+ - Custom Binary Files
+   - Allows the saving of world, building, and player data.
+   - Prevents hard-coding certain features of the game.
+   - Allows the game to be more versatile, allowing users to change their worlds to their liking.
+ - External Tools
+   - Used for creating the .tgw .tgb files easily.
+ - Optimization Algorithims
+   - Helps lower CPU usage and makes the game run faster overall.
+   - Makes the game run easier on lower-end computers.
+   - Unfortunately uses more RAM, as per the RAM-CPU Tradeoff Rule.
+
 ## Want Updates?
 Follow me on instagram @jacobdhofer  
 Or you can scan the image below!
