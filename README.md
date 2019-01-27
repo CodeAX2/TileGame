@@ -2,11 +2,11 @@
 A game about Tiles! Explore, fight, and quest!
 
 <p align="center">
-  <img width="128" height="160" src="https://github.com/CodeAX2/TileGame/blob/master/TileGame/Resources/Textures/WoodHut.png">
+  <img width="128" height="160" src="https://raw.githubusercontent.com/CodeAX2/TileGame/master/TileGame/Resources/Textures/WoodHut.png">
   &emsp;&emsp;&emsp;&emsp;
-  <img width="128" height="384" src="https://github.com/CodeAX2/TileGame/blob/master/TileGame/Resources/Textures/Tower.png">
+  <img width="128" height="384" src="https://raw.githubusercontent.com/CodeAX2/TileGame/master/TileGame/Resources/Textures/Tower.png">
   &emsp;&emsp;&emsp;&emsp;
-  <img width="128" height="96" src="https://github.com/CodeAX2/TileGame/blob/master/TileGame/Resources/Textures/CaveEntrance.png">
+  <img width="128" height="96" src="https://raw.githubusercontent.com/CodeAX2/TileGame/master/TileGame/Resources/Textures/CaveEntrance.png">
   
 </p>
 
@@ -21,7 +21,7 @@ from the code to the art is created by me.
 
 
 <p align="center">
-  <img src="https://github.com/CodeAX2/TileGame/blob/master/README%20Images/Capture4.PNG">
+  <img src="https://raw.githubusercontent.com/CodeAX2/TileGame/master/README%20Images/Capture4.PNG">
 </p>
 
 ## But, What Do You DO In The Game?
@@ -36,7 +36,7 @@ There will also be quests given from NPC's,
 and some traditional RPG elements.
 
 <p align="center">
-  <img width="512" height="64" src="https://github.com/CodeAX2/TileGame/blob/master/README%20Images/Items.png">
+  <img width="512" height="64" src="https://raw.githubusercontent.com/CodeAX2/TileGame/master/README%20Images/Items.png">
 </p>
 
  ## What Kind Of Code Goes Into The Game?
@@ -64,7 +64,7 @@ and some traditional RPG elements.
 Follow me on instagram @jacobdhofer  
 Or you can scan the image below!
 <p align="center">
-<img width="375" height="563" src="https://github.com/CodeAX2/TileGame/blob/master/README%20Images/Image-1.jpg">
+<img width="375" height="563" src="https://raw.githubusercontent.com/CodeAX2/TileGame/master/README%20Images/Image-1.jpg">
  </p>
 
 ### Created by Jacob Hofer
