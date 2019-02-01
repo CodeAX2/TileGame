@@ -15,6 +15,9 @@ namespace tg {
 	public:
 		void saveFile();
 
+	private:
+		template<typename T> static T safeLoad(std::ifstream& file);
+
 
 	private:
 		Player * player;

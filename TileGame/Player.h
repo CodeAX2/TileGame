@@ -29,6 +29,14 @@ namespace tg {
 		bool settingNewPos = false;
 		float newX = 0, newY = 0;
 
+		int maxStam = 100;
+		float stam = maxStam;
+		sf::Int32 stamRegenCooldown = 0;
+		bool slowRegen = false;
+
+		int maxMagic = 100;
+		int magic = maxMagic;
+
 		float hue = 0;
 
 	public:
@@ -59,6 +67,18 @@ namespace tg {
 
 		void setInventory(std::map<sf::Uint8, int> newInv) { inventory = newInv; }
 		void damage(int dmg, Entity* damager) override;
+
+		int getStamina() { return stam; }
+		int getMaxStamina() { return maxStam; }
+		int getMagic() { return magic; }
+		int getMaxMagic() { return maxMagic; }
+		bool stamIsRegeningSlowly() { return slowRegen; }
+
+		void setStamina(int stamina) { stam = stamina; }
+		void setMaxStamina(int maxStamina) { maxStam = maxStamina; }
+		void setMagic(int magic) { this->magic = magic; }
+		void setMaxMagic(int maxMagic) { this->maxMagic = maxMagic; }
+		void setStamIsRegeningSlowly(bool isRegeningSlow) { slowRegen = isRegeningSlow; }
 
 	private:
 		bool checkForCollision();

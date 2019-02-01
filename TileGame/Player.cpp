@@ -143,10 +143,24 @@ void Player::tick(sf::Int32 dt) {
 	}
 
 
-	if (handler->inputManager->getRunningKey()) {
+	if (handler->inputManager->getRunningKey() && stam > 0 &&
+		(keys[0] || keys[1] || keys[2] || keys[3]) && !slowRegen) {
 		speed = 0.15;
+		stam -= dt / 20.f;
+		if (stam <= 0) { stam = 0; slowRegen = true; }
+		stamRegenCooldown = 0;
 	} else {
-		speed = 0.1;
+		if (stamRegenCooldown >= 350) {
+			if (slowRegen) {
+				speed = 0.075;
+				stam += dt / 80.f;
+			} else {
+				speed = 0.1;
+				stam += dt / 40.f;
+			}
+			if (stam >= maxStam) { stam = maxStam; slowRegen = false; }
+		}
+		stamRegenCooldown += dt;
 	}
 
 	// Simple update of directions

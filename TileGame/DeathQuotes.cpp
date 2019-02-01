@@ -14,7 +14,11 @@ void DeathQuotes::init() {
 		"\"Major OOF!\"",
 		"\"RIP\"",
 		"\"Don't look now!\"",
-		"\"In the words of Nelson Muntz: Ha Ha\""
+		"\"In the words of Nelson Muntz: Ha Ha\"",
+		"\"You have fallen to the brain lover!\"",
+		"\"Forgot to stay at range?\"",
+		"\"Brains... BRAINS!\"",
+		"\"You have joined the walking dead!\""
 	};
 	addQuotesToEntity(ZOMBIE_E, zombieQuotes);
 

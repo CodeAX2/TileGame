@@ -278,6 +278,67 @@ void PlayingState::renderGUI() {
 
 	handler->window->draw(healthText);
 
+
+
+	sf::RectangleShape stamBarBackground(sf::Vector2f(300, 20));
+	if (!guiOnBottom) {
+		yPos = 140;
+	}
+	stamBarBackground.setPosition(3 * handler->window->getView().getSize().x / 4 - stamBarBackground.getSize().x / 2, yPos);
+	stamBarBackground.setFillColor(sf::Color(2, 40, 2));
+
+	handler->window->draw(stamBarBackground);
+
+	sf::RectangleShape stamBar(sf::Vector2f((float)handler->player->getStamina() / handler->player->getMaxStamina() * 300, 20));
+	stamBar.setPosition(3 * handler->window->getView().getSize().x / 4 - stamBar.getSize().x / 2, yPos);
+	stamBar.setFillColor(sf::Color(5, 132, 5));
+	if (handler->player->stamIsRegeningSlowly()) {
+		stamBar.setFillColor(sf::Color(150, 100, 5));
+	}
+
+	handler->window->draw(stamBar);
+
+
+	sf::Text stamText;
+	stamText.setFont(f);
+	ss = std::stringstream();
+	ss << handler->player->getStamina() << "/" << handler->player->getMaxStamina();
+
+	stamText.setString(ss.str());
+	stamText.setCharacterSize(20);
+	stamText.setPosition(3 * handler->window->getView().getSize().x / 4 - stamText.getLocalBounds().width / 2, yPos - 10 + stamText.getLocalBounds().height / 2);
+
+
+	handler->window->draw(stamText);
+
+	sf::RectangleShape magicBarBackground(sf::Vector2f(300, 20));
+	if (!guiOnBottom) {
+		yPos = 140;
+	}
+	magicBarBackground.setPosition(handler->window->getView().getSize().x / 4 - magicBarBackground.getSize().x / 2, yPos);
+	magicBarBackground.setFillColor(sf::Color(2, 2, 40));
+
+	handler->window->draw(magicBarBackground);
+
+	sf::RectangleShape magicBar(sf::Vector2f((float)handler->player->getMagic() / handler->player->getMaxMagic() * 300, 20));
+	magicBar.setPosition(handler->window->getView().getSize().x / 4 - magicBar.getSize().x / 2, yPos);
+	magicBar.setFillColor(sf::Color(5, 5, 132));
+
+	handler->window->draw(magicBar);
+
+
+	sf::Text magicText;
+	magicText.setFont(f);
+	ss = std::stringstream();
+	ss << handler->player->getMagic() << "/" << handler->player->getMaxMagic();
+
+	magicText.setString(ss.str());
+	magicText.setCharacterSize(20);
+	magicText.setPosition(handler->window->getView().getSize().x / 4 - magicText.getLocalBounds().width / 2, yPos - 10 + stamText.getLocalBounds().height / 2);
+
+
+	handler->window->draw(magicText);
+
 }
 
 void PlayingState::renderAllTextures() {
