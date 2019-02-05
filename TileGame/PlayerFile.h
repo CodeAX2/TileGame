@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Player.h"
+#include "Nullable.h"
+
 namespace tg {
 	class PlayerFile
 	{
@@ -16,7 +18,7 @@ namespace tg {
 		void saveFile();
 
 	private:
-		template<typename T> static T safeLoad(std::ifstream& file);
+		template<typename T> static Nullable<T> safeLoad(std::ifstream& file);
 
 
 	private:

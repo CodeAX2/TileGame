@@ -4,6 +4,7 @@
 #include "WorldManager.h"
 #include "WorldFile.h"
 
+
 using namespace tg;
 
 Player* PlayerFile::loadPlayerFile(std::string fileName, Handler* handler) {
@@ -12,50 +13,64 @@ Player* PlayerFile::loadPlayerFile(std::string fileName, Handler* handler) {
 	if (!file.is_open()) {
 		return nullptr;
 	}
-	int health;
-	int maxHealth;
-	UUID id;
-	float x;
-	float y;
+	Nullable<int> health;
+	Nullable<int> maxHealth;
+	Nullable<UUID> id;
+	Nullable<float> x;
+	Nullable<float> y;
 	std::map<sf::Uint8, int> inv;
 
 
-	file.read((char*)&health, sizeof(int));
-	file.read((char*)&maxHealth, sizeof(int));
-	file.read((char*)&id, sizeof(UUID));
-	file.read((char*)&x, sizeof(float));
-	file.read((char*)&y, sizeof(float));
+	health = safeLoad<int>(file);
+	maxHealth = safeLoad<int>(file);
+	id = safeLoad<UUID>(file);
+	x = safeLoad<float>(file);
+	y = safeLoad<float>(file);
 
 	for (int i = 0; i < 256; i++) {
-		int amount;
-		file.read((char*)&amount, sizeof(int));
+		Nullable<int> amount;
+		amount = safeLoad<int>(file);
 		inv[i] = amount;
 	}
 
 
-	std::string worldName;
-	size_t worldNameSize;
+	Nullable<std::string> worldName;
+	Nullable<size_t> worldNameSize;
 
-	file.read((char*)&worldNameSize, sizeof(size_t));
-	worldName.resize(worldNameSize);
-	file.read((char*)&worldName[0], worldNameSize);
+	worldNameSize = safeLoad<size_t>(file);
+	worldName.value().resize(worldNameSize);
+	file.read((char*)&worldName.value()[0], worldNameSize);
 
 	World* world = handler->worldManager->getWorld(worldName);
 
 	if (world == nullptr) {
-		world = WorldFile::loadWorldFile(worldName + ".tgw", handler);
+		world = WorldFile::loadWorldFile(worldName.value() + ".tgw", handler);
 	}
 
-	int stam, maxStam, magic, maxMagic;
-	bool regenSlow;
+	Nullable<int> stam, maxStam, magic, maxMagic;
+	Nullable<bool> regenSlow;
 
 	stam = safeLoad<int>(file);
-	std::cout << stam << std::endl;
+	maxStam = safeLoad<int>(file);
+	magic = safeLoad<int>(file);
+	maxMagic = safeLoad<int>(file);
+	regenSlow = safeLoad<bool>(file);
 
-	file.read((char*)&maxStam, sizeof(int));
-	file.read((char*)&magic, sizeof(int));
-	file.read((char*)&maxMagic, sizeof(int));
-	file.read((char*)&regenSlow, sizeof(bool));
+	if (stam.getIsNull())
+		stam = 100;
+
+	if (maxStam.getIsNull())
+		maxStam = 100;
+
+	if (magic.getIsNull())
+		magic = 100;
+
+	if (maxMagic.getIsNull())
+		maxMagic = 100;
+
+	if (regenSlow.getIsNull())
+		regenSlow = false;
+
 
 	Player* p = new Player(x, y, handler, world);
 	p->setHealth(health);
@@ -65,7 +80,7 @@ Player* PlayerFile::loadPlayerFile(std::string fileName, Handler* handler) {
 	p->setStamina(stam);
 	p->setMaxStamina(maxStam);
 	p->setMagic(magic);
-	p->setMaxMagic(magic);
+	p->setMaxMagic(maxMagic);
 	p->setStamIsRegeningSlowly(regenSlow);
 
 	return p;
@@ -73,14 +88,16 @@ Player* PlayerFile::loadPlayerFile(std::string fileName, Handler* handler) {
 
 
 
-template<typename T> T PlayerFile::safeLoad(std::ifstream& file) {
-	T item;
-	file.read((char*)&item, sizeof(T));
+template<typename T> Nullable<T> PlayerFile::safeLoad(std::ifstream& file) {
+	T readItem;
+	Nullable<T> item;
+	file.read((char*)&readItem, sizeof(T));
 
 	if (file.eof()) {
-		return NULL;
+		return item;
 	}
 
+	item = readItem;
 	return item;
 }
 
@@ -132,10 +149,10 @@ void PlayerFile::saveFile() {
 	maxMagic = player->getMaxMagic();
 	regenSlow = player->stamIsRegeningSlowly();
 
-	/*file.write((char*)&stam, sizeof(int));
+	file.write((char*)&stam, sizeof(int));
 	file.write((char*)&maxStam, sizeof(int));
 	file.write((char*)&magic, sizeof(int));
 	file.write((char*)&maxMagic, sizeof(int));
-	file.write((char*)&regenSlow, sizeof(bool));*/
+	file.write((char*)&regenSlow, sizeof(bool));
 
 }

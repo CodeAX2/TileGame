@@ -213,6 +213,9 @@
     <ClInclude Include="DeathQuotes.h">
       <Filter>Header Files\Main Engine</Filter>
     </ClInclude>
+    <ClInclude Include="Nullable.h">
+      <Filter>Header Files\Main Engine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="BuildingFileOutline.txt">
