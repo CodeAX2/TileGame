@@ -154,6 +154,10 @@ void Zombie::render(Handler* handler) {
 
 void Zombie::tick(sf::Int32 dt) {
 
+	if (following == nullptr && followingId != GUID_NULL) {
+		following = world->getEntityManager()->getEntityById(followingId);
+	}
+
 	bool moved = false;
 
 	// Make sure destination is correct
@@ -306,7 +310,7 @@ void Zombie::tick(sf::Int32 dt) {
 
 		int newAnim = curAnim;
 
-		if ((directionX != STILL || directionY != STILL) && timeSinceLastAnim) {
+		if ((directionX != STILL || directionY != STILL)) {
 			if (timeSinceLastAnim >= 150 / (speed * 10)) {
 				timeSinceLastAnim = 0;
 				newAnim++;
@@ -319,16 +323,21 @@ void Zombie::tick(sf::Int32 dt) {
 			if (dy > 0) {
 				directionY = SOUTH;
 				facing = SOUTH;
-				if (newAnim > 2 || newAnim < 1)
+				if ((newAnim > 2 || newAnim < 1) && directionX == STILL)
 					newAnim = 1;
 			} else if (dy < 0) {
 				directionY = NORTH;
 				facing = NORTH;
-				if (newAnim < 17 || newAnim > 18)
+				if ((newAnim < 17 || newAnim > 18) && directionX == STILL)
 					newAnim = 17;
 			}
 
 			if (y == ogY) {
+				if (directionY == NORTH && directionX == STILL) {
+					newAnim = 17;
+				} else if (directionY == SOUTH && directionX == STILL) {
+					newAnim = 1;
+				}
 				directionY = STILL;
 			}
 
@@ -345,17 +354,10 @@ void Zombie::tick(sf::Int32 dt) {
 			}
 
 			if (x == ogX) {
-				directionX = STILL;
-			}
-
-			if (directionX == STILL && directionY == STILL) {
-				if (newAnim >= 1 && newAnim <= 2) {
-					newAnim = 0;
-				} else if (newAnim >= 9 && newAnim <= 12) {
-					newAnim = 8;
-				} else if (newAnim >= 17 && newAnim <= 18) {
-					newAnim = 16;
+				if (directionX == EAST || directionX == WEST) {
+					newAnim = 9;
 				}
+				directionX = STILL;
 			}
 
 			timeSinceDirChange = 0;
@@ -363,10 +365,27 @@ void Zombie::tick(sf::Int32 dt) {
 
 		curAnim = newAnim;
 
-	} else if (pathIsQueued) {
-		currentPath = queuedPath;
-		spotInpath = 0;
-		pathIsQueued = false;
+	} else {
+
+		directionX = STILL;
+		directionY = STILL;
+
+		if (pathIsQueued) {
+
+			currentPath = queuedPath;
+			spotInpath = 0;
+			pathIsQueued = false;
+		}
+	}
+
+	if (directionX == STILL && directionY == STILL) {
+		if (curAnim >= 1 && curAnim <= 2) {
+			curAnim = 0;
+		} else if (curAnim >= 9 && curAnim <= 12) {
+			curAnim = 8;
+		} else if (curAnim >= 17 && curAnim <= 18) {
+			curAnim = 16;
+		}
 	}
 
 
