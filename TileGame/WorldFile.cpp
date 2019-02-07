@@ -6,6 +6,7 @@
 #include "TreasureChest.h"
 #include "Pumpkin.h"
 #include "Boat.h"
+#include "Zombie.h"
 using namespace tg;
 World* WorldFile::loadWorldFile(std::string fileName, Handler * handler) {
 	std::ifstream file(handler->saveDirName + "\\" + fileName, std::ios::in | std::ios::binary);
@@ -181,6 +182,18 @@ World* WorldFile::loadWorldFile(std::string fileName, Handler * handler) {
 			b->setId(id);
 			b->setRiderId(rId);
 
+		} else if (type == ZOMBIE_E) {
+			float x, y;
+			UUID fId;
+			file.read((char*)&x, sizeof(float));
+			file.read((char*)&y, sizeof(float));
+			file.read((char*)&fId, sizeof(UUID));
+
+			Zombie* z = new Zombie(x, y, handler, world);
+			z->setFollowingId(fId);
+			z->setHealth(health);
+			z->setMaxHealth(maxHealth);
+			z->setId(id);
 		}
 	}
 
@@ -374,6 +387,26 @@ void WorldFile::saveFile() {
 			file.write((char*)&y, sizeof(float));
 			file.write((char*)&rId, sizeof(UUID));
 
+		} else if (type == ZOMBIE_E) {
+			Zombie* curZ = dynamic_cast<Zombie*>(cur);
+			float x = curZ->getX();
+			float y = curZ->getY();
+
+			Entity* following = curZ->getFollowing();
+			UUID fId = GUID_NULL;
+
+			if (following != nullptr) {
+				fId = following->getId();
+			}
+
+			file.write((char*)&type, sizeof(int));
+			file.write((char*)&health, sizeof(int));
+			file.write((char*)&maxHealth, sizeof(int));
+			file.write((char*)&id, sizeof(UUID));
+
+			file.write((char*)&x, sizeof(float));
+			file.write((char*)&y, sizeof(float));
+			file.write((char*)&fId, sizeof(UUID));
 		}
 	}
 }

@@ -116,6 +116,13 @@ void Game::commandLoop() {
 
 			}
 
+		} else if (cmd == "killzombies") {
+			std::vector <Entity*> allEntities = handler.player->getWorld()->getEntityManager()->getAllEntities();
+			for (Entity* e : allEntities) {
+				if (e->type == ZOMBIE_E) {
+					e->damage(e->getHealth(), nullptr);
+				}
+			}
 		} else {
 			std::cout << "Invalid command!" << std::endl;
 		}

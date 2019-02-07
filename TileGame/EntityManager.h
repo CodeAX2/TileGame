@@ -30,6 +30,7 @@ namespace tg {
 		Entity* getEntityById(UUID id);
 		void setWorld(World* world);
 		std::vector<Entity*> getEntitiesAtTile(int x, int y);
+		std::vector<Entity*> getAllEntities() { return allEntities; }
 
 
 	private:

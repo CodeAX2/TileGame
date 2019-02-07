@@ -41,7 +41,8 @@ int main() {
 		- Dalphat on TPH discord for helping me with some
 		issues with tile textures glitching.
 
-
+		- markhc on TPH discord for helping me with
+		issues regarding the Nullable class.
 
 
 

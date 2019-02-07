@@ -25,6 +25,10 @@ Pathfinder::~Pathfinder() {
 
 void Pathfinder::tick(sf::Int32 dt) {
 
+	if (following == nullptr && followingId != GUID_NULL) {
+		following = world->getEntityManager()->getEntityById(followingId);
+	}
+
 	bool moved = false;
 
 	// Make sure destination is correct
@@ -173,6 +177,7 @@ void Pathfinder::generatePath() {
 	while (true) {
 
 		if (!active || following->getRidingOn() != nullptr || following == nullptr) {
+			currentPath.clear();
 			sf::sleep(sf::milliseconds(msToWait));
 			continue;
 		}
@@ -214,6 +219,7 @@ void Pathfinder::generatePath() {
 
 
 			if (checkForCollision(target.x * pathfindSize - hitBoxX, target.y * pathfindSize - hitBoxY, false, false)) {
+				currentPath.clear();
 				sf::sleep(sf::milliseconds(msToWait));
 				continue;
 			}
@@ -246,6 +252,7 @@ void Pathfinder::generatePath() {
 
 
 			if (checkForCollision(start.x * pathfindSize - hitBoxX, start.y * pathfindSize - hitBoxY, true, true)) {
+				currentPath.clear();
 				sf::sleep(sf::milliseconds(msToWait));
 				continue;
 			}

@@ -15,8 +15,10 @@ namespace tg {
 
 	public:
 		void setFollowing(Entity* entity) { following = entity; }
+		void setFollowingId(UUID id) { followingId = id; }
 		void tick(sf::Int32 dt) override;
 		void render(Handler* handler) override;
+		Entity* getFollowing() { return following; }
 
 	protected:
 		bool checkForCollision(float nX, float nY, bool collideWithPlayer = true, bool colideWithPathfinder = true);
@@ -30,6 +32,7 @@ namespace tg {
 		float speed;
 
 		Entity* following;
+		UUID followingId = GUID_NULL;
 		bool active = false;
 
 		std::vector<sf::Vector2i> currentPath;

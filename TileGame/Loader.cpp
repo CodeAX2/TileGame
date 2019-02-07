@@ -107,12 +107,13 @@ void Loader::loadEntities() {
 		Building* bldg = BuildingFile::loadBuildingFile(s + ".tgb", handler);
 	}
 
-	Pathfinder* pf = new Zombie(43 * 96 + 2, 23 * 96 + 2, handler, mainWorld);
-	pf->setFollowing(handler->player);
+	if (worldWasNull) {
+		Pathfinder* pf = new Zombie(43 * 96 + 2, 23 * 96 + 2, handler, mainWorld);
+		pf->setFollowing(handler->player);
 
-	pf = new Zombie(44 * 96 + 2, 24 * 96 + 2, handler, mainWorld);
-	pf->setFollowing(handler->player);
-
+		pf = new Zombie(44 * 96 + 2, 24 * 96 + 2, handler, mainWorld);
+		pf->setFollowing(handler->player);
+	}
 
 	World* world = handler->mainWorld;
 	if (worldWasNull) {

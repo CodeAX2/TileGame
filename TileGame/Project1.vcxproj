@@ -74,6 +74,7 @@
     <ClInclude Include="LoadingState.h" />
     <ClInclude Include="MainMenuState.h" />
     <ClInclude Include="Node.h" />
+    <ClInclude Include="Nullable.h" />
     <ClInclude Include="Pathfinder.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerFile.h" />
