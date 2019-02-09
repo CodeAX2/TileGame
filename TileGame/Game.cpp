@@ -18,6 +18,7 @@
 #include "PlayerFile.h"
 #include "WorldManager.h"
 #include "DeathQuotes.h"
+#include "Zombie.h"
 
 using namespace tg;
 
@@ -123,6 +124,55 @@ void Game::commandLoop() {
 					e->damage(e->getHealth(), nullptr);
 				}
 			}
+		} else if (cmd == "spawnzombie") {
+			if (args.size() != 2) {
+				std::cout << "Invalid arguments!" << std::endl;
+			} else {
+
+				int spawnX, spawnY;
+
+				if (args[0].substr(0, 1) == "~") {
+					spawnX = handler.player->getX();
+					if (args[0].length() > 1) {
+						int multiplier = 1;
+						if (args[0].substr(1, 1) == "+") {
+							multiplier = 1;
+						} else if (args[0].substr(1, 1) == "-") {
+							multiplier = -1;
+						}
+
+						spawnX += multiplier * stoi(args[0].substr(2));
+
+					}
+
+				} else {
+					spawnX = stoi(args[0]);
+				}
+
+				if (args[1].substr(0, 1) == "~") {
+					spawnY = handler.player->getY();
+					if (args[1].length() > 1) {
+						int multiplier = 1;
+						if (args[1].substr(1, 1) == "+") {
+							multiplier = 1;
+						} else if (args[1].substr(1, 1) == "-") {
+							multiplier = -1;
+						}
+
+						spawnY += multiplier * stoi(args[1].substr(2));
+
+					}
+
+				} else {
+					spawnY = stoi(args[1]);
+				}
+
+				Zombie* z = new Zombie((float)spawnX, (float)spawnY, &handler, handler.player->getWorld());
+				z->setFollowing(handler.player);
+			}
+
+		} else if (cmd == "getpos") {
+			std::cout << handler.player->getX() << " " << handler.player->getY() << std::endl;
 		} else {
 			std::cout << "Invalid command!" << std::endl;
 		}

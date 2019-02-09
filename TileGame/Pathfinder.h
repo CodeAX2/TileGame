@@ -4,6 +4,11 @@
 #include "Node.h"
 #include <SFML/System.hpp>
 
+struct cmpVectorForMap {
+	bool operator()(const sf::Vector2i& a, const sf::Vector2i b) const {
+		return a.x < b.x || (a.x == b.x && a.y < b.y);
+	}
+};
 
 namespace tg {
 	class Pathfinder :
@@ -23,7 +28,7 @@ namespace tg {
 	protected:
 		bool checkForCollision(float nX, float nY, bool collideWithPlayer = true, bool colideWithPathfinder = true);
 		void generatePath();
-		void addChild(int x, int y, int parentX, int parentY, std::vector<std::vector<Node>>* map, std::vector<sf::Vector2i>* openList, int targetX, int targetY);
+		void addChild(int x, int y, int parentX, int parentY, std::map<sf::Vector2i, Node, cmpVectorForMap>* map, std::vector<sf::Vector2i>* openList, int targetX, int targetY);
 		bool linesCross(float x11, float y11, float x12, float y12, float x21, float y21, float x22, float y22);
 		bool checkForCollisionWithFollowing(float nX, float nY);
 		virtual void onCollisionWithFollowing(sf::Int32 dt);

@@ -7,6 +7,7 @@
 
 using namespace tg;
 
+
 Pathfinder::Pathfinder(float x, float y, Handler* handler, int hitBoxX, int hitBoxY,
 	int hitBoxW, int hitBoxH, int w, int h, int type, World* world, float speed) :
 	Entity(x, y, handler, hitBoxX, hitBoxY, hitBoxW, hitBoxH, w, h, true, type, true, world),
@@ -187,14 +188,14 @@ void Pathfinder::generatePath() {
 		int sizeY = ceil((world->getHeight() * 96) / pathfindSize);
 
 		// Format [x][y]
-		std::vector<std::vector<Node>> map(sizeX, std::vector<Node>(sizeY));
+		std::map<sf::Vector2i, Node, cmpVectorForMap> nodeMap;
+		//std::vector<std::vector<Node>> map(sizeX, std::vector<Node>(sizeY));
 
 		std::vector<sf::Vector2i> openList; // Contain the indicies of the nodes in the map;
 		std::vector<sf::Vector2i> closedList;
 
 		sf::Vector2i start = sf::Vector2i(ceil((x + hitBoxX) / pathfindSize), ceil((y + hitBoxY) / pathfindSize));;
 		sf::Vector2i target(ceil(following->getCollisionBox().left / pathfindSize), ceil(following->getCollisionBox().top / pathfindSize));
-
 		if (checkForCollision(target.x * pathfindSize - hitBoxX, target.y * pathfindSize - hitBoxY, false, false)) {
 
 			int dist = INT_MAX;
@@ -262,13 +263,15 @@ void Pathfinder::generatePath() {
 
 
 		openList.push_back(start);
+		nodeMap[start] = Node();
+		nodeMap[target] = Node();
 
 		while (openList.size() > 0) {
 
 			sf::Vector2i currentNodePos = openList[0];
 			int index = 0;
 			for (int i = 1; i < openList.size(); i++) {
-				if (map[openList[i].x][openList[i].y].getFValue() < map[currentNodePos.x][currentNodePos.y].getFValue()) {
+				if ((nodeMap[sf::Vector2i(openList[i].x, openList[i].y)].getFValue()) < (nodeMap[sf::Vector2i(currentNodePos.x, currentNodePos.y)].getFValue())) {
 					currentNodePos = openList[i];
 					index = i;
 				}
@@ -276,15 +279,15 @@ void Pathfinder::generatePath() {
 
 			openList.erase(openList.begin() + index);
 			closedList.push_back(currentNodePos);
-
 			if (currentNodePos == target) {
 				// Path found!
 				std::vector<sf::Vector2i> path;
 				sf::Vector2i curPath = currentNodePos;
-				while (map[curPath.x][curPath.y].getParentX() != -1) {
+				while (nodeMap[curPath].getParentX() != -1) {
 					path.insert(path.begin(), curPath);
-					Node child = map[curPath.x][curPath.y];
+					Node child = nodeMap[curPath];
 					sf::Vector2i newPath(child.getParentX(), child.getParentY());
+					std::stringstream ss;
 					curPath = newPath;
 				}
 
@@ -307,12 +310,14 @@ void Pathfinder::generatePath() {
 
 				if (std::find(openList.begin(), openList.end(), currentNeighbor) == openList.end()) {
 					// Not in open list
-					addChild(currentNeighbor.x, currentNeighbor.y, currentNodePos.x, currentNodePos.y, &map, &openList, target.x, target.y);
+
+					addChild(currentNeighbor.x, currentNeighbor.y, currentNodePos.x, currentNodePos.y, &nodeMap, &openList, target.x, target.y);
+				
 				} else {
 					// Already in open list
-					Node& existingNode = map[currentNeighbor.x][currentNeighbor.y];
-					if (existingNode.getGValue() > map[currentNodePos.x][currentNodePos.y].getGValue() + 1) {
-						existingNode.setGValue(map[currentNodePos.x][currentNodePos.y].getGValue() + 1);
+					Node& existingNode = nodeMap[sf::Vector2i(currentNeighbor.x, currentNeighbor.y)];
+					if (existingNode.getGValue() > nodeMap[sf::Vector2i(currentNodePos.x, currentNodePos.y)].getGValue() + 1) {
+						existingNode.setGValue(nodeMap[sf::Vector2i(currentNodePos.x, currentNodePos.y)].getGValue() + 1);
 						existingNode.setParent(currentNodePos.x, currentNodePos.y);
 					}
 				}
@@ -334,12 +339,16 @@ void Pathfinder::generatePath() {
 	}
 }
 
-void Pathfinder::addChild(int x, int y, int parentX, int parentY, std::vector<std::vector<Node>>* map, std::vector<sf::Vector2i>* openList, int targetX, int targetY) {
+
+void Pathfinder::addChild(int x, int y, int parentX, int parentY, std::map<sf::Vector2i, Node, cmpVectorForMap>* map, std::vector<sf::Vector2i>* openList, int targetX, int targetY) {
 	sf::Vector2i child = sf::Vector2i(x, y);
-	map->at(x).at(y).setParent(parentX, parentY);
-	map->at(x).at(y).setGValue(map->at(parentX).at(parentY).getGValue() + 1);
-	map->at(x).at(y).setHValue(abs(x - targetX) + abs(y - targetY));
-	openList->push_back(sf::Vector2i(x, y));
+	Node nd;
+	nd.setGValue(map->at(sf::Vector2i(parentX, parentY)).getGValue() + 1);
+	nd.setHValue(abs(x - targetX) + abs(y - targetY));
+	nd.setParent(parentX, parentY);
+	(*map)[child] = nd;
+
+	openList->push_back(child);
 
 }
 
