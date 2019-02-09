@@ -66,5 +66,11 @@ Or you can scan the image below!
 <p align="center">
 <img width="375" height="563" src="https://raw.githubusercontent.com/CodeAX2/TileGame/master/README%20Images/Image-1.jpg">
  </p>
+ 
+## Credit
+<div class="attribution-block"><a href="http://dig.ccmixter.org/files/airtone/57606">panspermia</a> by airtone (c) copyright 2018</div>
+<div id="2">
+Licensed under a Creative Commons <a href="http://creativecommons.org/licenses/by-nc/3.0/">Attribution Noncommercial  (3.0)</a> license.
+</div>
 
 ### Created by Jacob Hofer
