@@ -22,7 +22,7 @@ Handler::~Handler() {
 		entityManager->deleteEntities();
 	}
 
-	
+
 
 	delete entityManager;
 	delete inputManager;
@@ -46,6 +46,8 @@ void Handler::initGameStates() {
 // Set the current gameState
 void Handler::setGameState(int stateId) {
 
+	if (currentState != nullptr)
+		currentState->pause();
 
 	switch (stateId) {
 	case LOADING:
@@ -58,5 +60,7 @@ void Handler::setGameState(int stateId) {
 		currentState = allStates[MAIN_MENU];
 		break;
 	}
+
+	currentState->resume();
 
 }

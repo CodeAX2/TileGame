@@ -18,10 +18,13 @@ using namespace tg;
 PlayingState::PlayingState(Handler* handler) : GameState(PLAYING), handler(handler) {
 	prevZoom = 1.f;
 	world = handler->mainWorld;
+	bgMusic.openFromFile("Audio/airtone_-_panspermia_1.wav");
+	bgMusic.setLoop(true);
 }
 
 
 PlayingState::~PlayingState() {
+	bgMusic.stop();
 }
 
 void PlayingState::zoom() {
@@ -75,6 +78,14 @@ void PlayingState::render() {
 
 // Update every part of the game
 void PlayingState::tick(sf::Int32 dt) {
+
+	std::stringstream ss;
+	ss << trunc(bgMusic.getPlayingOffset().asSeconds());
+	ss << "/" << trunc(bgMusic.getDuration().asSeconds());
+
+	handler->game->debugLog(ss.str());
+
+
 	if (world == nullptr) {
 		world = handler->player->getWorld();
 	}
@@ -402,4 +413,12 @@ void PlayingState::renderDeathScreen() {
 	handler->window->draw(deathText);
 
 
+}
+
+void PlayingState::pause() {
+	bgMusic.pause();
+}
+
+void PlayingState::resume() {
+	bgMusic.play();
 }

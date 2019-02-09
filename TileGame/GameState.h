@@ -21,6 +21,8 @@ namespace tg {
 		virtual void render();
 		virtual void tick(sf::Int32 dt);
 		virtual void exit();
+		virtual void pause();
+		virtual void resume();
 
 
 	};
