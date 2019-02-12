@@ -17,6 +17,7 @@ namespace tg {
 		std::vector<std::pair<int, int>> getInventory() { return inventory; }
 		void addItemToInv(int item, int amount);
 		int getAmountOfItem(int item);
+		void swapItems(int spot1, int spot2);
 
 	private:
 		std::vector<std::pair<int, int>> inventory;

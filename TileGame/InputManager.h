@@ -14,10 +14,12 @@ namespace tg {
 		bool hitboxShown = false;
 		bool runningKey = false;
 		bool attackKey = false;
-		bool mouseIsPressed = false;
-		bool usingController = false;
 		Handler* handler;
 		float zoom = 1.f;
+
+	public:
+		bool mouseIsPressed = false;
+		bool usingController = false;
 
 	public:
 
@@ -43,16 +45,6 @@ namespace tg {
 
 		void updateJoystick(sf::Uint32 dt);
 		void updateMouse();
-
-
-		// Playing state versions
-		void mouseClickedPlaying(sf::Event e);
-		void updateMousePlaying();
-
-		// Main Menu state versions
-		void mouseClickedMainMenu(sf::Event e);
-		void updateMouseMainMenu();
-
 
 	};
 

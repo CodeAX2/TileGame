@@ -73,3 +73,60 @@ void MainMenuState::exit() {
 void MainMenuState::setButtonHover(bool hovering, int buttonId) {
 	mainMenuButtonHovering[buttonId] = hovering;
 }
+
+void MainMenuState::mouseClicked(sf::Event e) {
+
+	if (e.type != sf::Event::MouseButtonPressed && e.type != sf::Event::MouseButtonReleased) {
+		return;
+	}
+
+	sf::Vector2f v = handler->window->getView().getSize();
+	sf::Vector2u w = handler->window->getSize();
+	int mx = v.x * sf::Mouse::getPosition(*(handler->window)).x / w.x;
+	int my = v.y * sf::Mouse::getPosition(*(handler->window)).y / w.y;
+
+	sf::Vector2i mp(mx, my);
+	MainMenuState* state = dynamic_cast<MainMenuState*>(handler->getCurrentState());
+
+	std::vector<sf::Vector2i> buttonPos = state->getButtonPositions();
+
+	sf::Vector2i buttonSize(361, 132);
+
+	for (int i = 0; i < buttonPos.size(); i++) {
+		sf::IntRect buttonBounds(buttonPos[i], buttonSize);
+		if (buttonBounds.contains(mp)) {
+			if (i == 0) {
+				handler->setGameState(LOADING);
+				return;
+			} else if (i == 1) {
+				handler->window->close();
+				return;
+			}
+		}
+	}
+}
+
+void MainMenuState::updateMouse() {
+
+	sf::Vector2f v = handler->window->getView().getSize();
+	sf::Vector2u w = handler->window->getSize();
+	int mx = v.x * sf::Mouse::getPosition(*(handler->window)).x / w.x;
+	int my = v.y * sf::Mouse::getPosition(*(handler->window)).y / w.y;
+
+	sf::Vector2i mp(mx, my);
+	MainMenuState* state = dynamic_cast<MainMenuState*>(handler->getCurrentState());
+
+	std::vector<sf::Vector2i> buttonPos = state->getButtonPositions();
+
+	sf::Vector2i buttonSize(361, 134);
+
+	for (int i = 0; i < buttonPos.size(); i++) {
+		sf::IntRect buttonBounds(buttonPos[i], buttonSize);
+		if (buttonBounds.contains(mp)) {
+			state->setButtonHover(true, i);
+		} else {
+			state->setButtonHover(false, i);
+		}
+	}
+
+}

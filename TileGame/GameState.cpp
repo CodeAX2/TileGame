@@ -39,4 +39,12 @@ void GameState::resume() {
 
 }
 
+void GameState::mouseClicked(sf::Event e) {
+
+}
+
+void GameState::updateMouse() {
+
+}
+
 // Not much here, as this is just the base of other classes

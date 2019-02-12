@@ -14,10 +14,13 @@ namespace tg {
 		void render() override;
 		void tick(sf::Int32 dt) override;
 		void resume() override;
+		void updateMouse() override;
+		void mouseClicked(sf::Event e) override;
 
 	private:
 		void renderInventory();
 		void renderHighlight();
+		void swapItems(int fromX, int fromY, int toX, int toY);
 
 	private:
 		sf::Texture* invBg;
@@ -35,6 +38,8 @@ namespace tg {
 			{0,1,1,1,1,1,1,1,0},
 			{1,1,1,1,1,1,1,1,1}
 		};
+
+		int clickedSlotX = -1, clickedSlotY = -1;
 
 	private:
 		Handler* handler;

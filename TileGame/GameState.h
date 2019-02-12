@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Main.hpp>
+#include <SFML/Window.hpp>
 
 #define PLAYING 0
 #define LOADING 1
@@ -25,6 +26,8 @@ namespace tg {
 		virtual void exit();
 		virtual void pause();
 		virtual void resume();
+		virtual void mouseClicked(sf::Event e);
+		virtual void updateMouse();
 
 
 	};

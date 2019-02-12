@@ -12,6 +12,7 @@
 #include "Game.h"
 #include <sstream>
 #include <math.h>
+#include "InputManager.h"
 
 using namespace tg;
 
@@ -424,4 +425,85 @@ void PlayingState::pause() {
 void PlayingState::resume() {
 	if (bgMusic.getStatus() != sf::Music::Playing)
 		bgMusic.play();
+}
+
+void PlayingState::mouseClicked(sf::Event e) {
+	if (e.type != sf::Event::MouseButtonPressed && e.type != sf::Event::MouseButtonReleased) {
+		return;
+	}
+
+
+	World* world = handler->mainWorld;
+	if (handler->getCurrentState()->getType() == PLAYING) {
+		PlayingState* ps = (PlayingState*)handler->getCurrentState();
+		world = ps->getWorld();
+	}
+
+
+	handler->inputManager->usingController = false;
+
+	if (e.type == sf::Event::MouseButtonPressed) {
+		if (handler->inputManager->mouseIsPressed || e.mouseButton.button != sf::Mouse::Button::Left) {
+			return;
+		} else {
+			handler->inputManager->mouseIsPressed = true;
+			// Add blocks
+			sf::Vector2i htp = world->getHighlightedTile();
+
+			// Check if the block is too far away
+
+			if (world->highlightIsGood()) {
+				if (world->getTile(htp.x, htp.y) == 2 || world->getTile(htp.x, htp.y) == 3) {
+					if (handler->player->getInventory()->getAmountOfItem(0) >= 1) {
+						world->setTile(htp.x, htp.y, 4);
+						handler->player->removeItemFromInv(0);
+					}
+				} else if (world->getTile(htp.x, htp.y) == 0 && handler->player->getInventory()->getAmountOfItem(0) >= 1) {
+					world->setTile(htp.x, htp.y, 5);
+					handler->player->removeItemFromInv(0);
+				} else if (world->getTile(htp.x, htp.y) == 7 && handler->player->getInventory()->getAmountOfItem(0) >= 1) {
+					world->setTile(htp.x, htp.y, 5);
+					handler->player->removeItemFromInv(0);
+				}
+			}
+
+
+
+		}
+	} else {
+		handler->inputManager->mouseIsPressed = false;
+	}
+}
+
+void PlayingState::updateMouse() {
+	World* world = handler->mainWorld;
+	if (handler->getCurrentState()->getType() == PLAYING) {
+		PlayingState* ps = (PlayingState*)handler->getCurrentState();
+		world = ps->getWorld();
+	}
+
+	sf::Vector2i mp = sf::Mouse::getPosition(*(handler->window));
+	if (!(mp.x < 0 || mp.x > handler->window->getSize().x ||
+		mp.y < 0 || mp.y > handler->window->getSize().y) &&
+		handler->player->getInventory()->getAmountOfItem(0) >= 1 && world != nullptr) {
+		sf::Vector2f v = handler->worldView.getSize();
+		sf::Vector2u w = handler->window->getSize();
+		int mx = sf::Mouse::getPosition(*(handler->window)).x * (v.x / w.x) - ((v.x - w.x) / 2) + handler->camera->getXOffset();
+		int my = sf::Mouse::getPosition(*(handler->window)).y * (v.y / w.y) - ((v.y - w.y) / 2) + handler->camera->getYOffset();
+		world->setHighlightedTile(mx / 96, my / 96);
+
+		sf::Vector2i htp = world->getHighlightedTile();
+
+		// Check if the block is too far away
+		sf::Vector2f playerPos(handler->player->getX() + handler->player->getWidth() / 2, handler->player->getY() + handler->player->getHeight());
+		int xDist = (int)(playerPos.x / 96) - htp.x;
+		int yDist = (int)(playerPos.y / 96) - htp.y;
+
+
+		if (xDist*xDist + yDist * yDist > 5) {
+			world->setHighlightGood(false);
+		} else {
+			world->setHighlightGood(true);
+		}
+	}
 }

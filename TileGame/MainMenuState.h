@@ -24,6 +24,8 @@ public:
 	void render() override;
 	void tick(sf::Int32 dt) override;
 	void exit() override;
+	void mouseClicked(sf::Event e) override;
+	void updateMouse() override;
 
 	std::vector<sf::Vector2i> getButtonPositions() { return mainMenuButtonsPos; }
 	void setButtonHover(bool hovering, int buttonId);

@@ -22,6 +22,8 @@ namespace tg {
 		void pause() override;
 		void resume() override;
 		void playBGMusic() { bgMusic.play(); }
+		void mouseClicked(sf::Event e) override;
+		void updateMouse() override;
 
 	private:
 		void renderWorld();

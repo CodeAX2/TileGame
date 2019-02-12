@@ -33,6 +33,119 @@ void InventoryState::render() {
 void InventoryState::tick(sf::Int32 dt) {
 	handler->getCustomState(PLAYING)->tick(dt);
 
+}
+
+void InventoryState::resume() {
+	handler->inputManager->disableCurrentMovement();
+	PlayingState* ps = dynamic_cast<PlayingState*>(handler->getCustomState(PLAYING));
+	ps->playBGMusic();
+}
+
+void InventoryState::renderInventory() {
+	sf::RectangleShape invRect(handler->window->getView().getSize());
+	invRect.setTexture(invBg);
+
+	handler->window->draw(invRect);
+
+
+
+	Inventory* inv = handler->player->getInventory();
+
+	for (int i = 0; i < 9; i++) {
+		if (inv->getInventory()[i].first != -1) {
+			sf::RectangleShape curItem(sf::Vector2f(96, 96));
+			curItem.setTexture(handler->assets->getItemTexture(inv->getInventory()[i].first));
+			curItem.setPosition(xOffset + (size + xSpace) * i + 6, bottomRowOffset + 6);
+			handler->window->draw(curItem);
+
+			sf::Text count;
+			count.setString(std::to_string(inv->getInventory()[i].second));
+			count.setFont(*(handler->assets->getArialiFont()));
+			count.setCharacterSize(16);
+			count.setPosition(sf::Vector2f(i * 42 * 3 + 28 * 3 + 12, bottomRowOffset + 108 - count.getGlobalBounds().height - 10));
+			handler->window->draw(count);
+
+
+		}
+	}
+
+	for (int i = 0; i < 2; i++) {
+		for (int j = 0; j < 7; j++) {
+			int index = 9;
+			index += i * 7 + j;
+			if (inv->getInventory()[index].first != -1) {
+				sf::RectangleShape curItem(sf::Vector2f(96, 96));
+				curItem.setTexture(handler->assets->getItemTexture(inv->getInventory()[index].first));
+				curItem.setPosition(xOffset + (size + xSpace) * (j + 1) + 6, yOffset + (size + ySpace) * (i + 1) + 6);
+				handler->window->draw(curItem);
+
+				sf::Text count;
+				count.setString(std::to_string(inv->getInventory()[index].second));
+				count.setFont(*(handler->assets->getArialiFont()));
+				count.setCharacterSize(16);
+				count.setPosition(sf::Vector2f((j + 1) * 42 * 3 + 28 * 3 + 12, yOffset + (size + ySpace) * (i + 1) + size - count.getGlobalBounds().height - 10));
+				handler->window->draw(count);
+
+
+			}
+		}
+	}
+
+
+
+}
+
+void InventoryState::renderHighlight() {
+	if (xSlot == -1 || ySlot == -1) return;
+
+	sf::RectangleShape highlight(sf::Vector2f(size, size));
+	highlight.setTexture(invHighlight);
+
+	highlight.setPosition(xOffset + size * (xSlot)+xSpace * xSlot, yOffset + size * (ySlot)+ySpace * ySlot);
+	if (ySlot == 3) {
+		highlight.setPosition(highlight.getPosition().x, bottomRowOffset);
+	}
+	handler->window->draw(highlight);
+
+}
+
+void InventoryState::mouseClicked(sf::Event e) {
+
+	if (e.type != sf::Event::MouseButtonPressed && e.type != sf::Event::MouseButtonReleased) {
+		return;
+	}
+
+	bool changedFromPrev = false;
+
+	if (e.type == sf::Event::MouseButtonPressed) {
+		if (!handler->inputManager->mouseIsPressed) {
+			changedFromPrev = true;
+		}
+		handler->inputManager->mouseIsPressed = true;
+	} else {
+		if (handler->inputManager->mouseIsPressed) {
+			changedFromPrev = true;
+		}
+		handler->inputManager->mouseIsPressed = false;
+	}
+
+	if (changedFromPrev && handler->inputManager->mouseIsPressed) {
+		if (clickedSlotX == -1 || clickedSlotY == -1) {
+			// Clicked to pickup
+			clickedSlotX = xSlot;
+			clickedSlotY = ySlot;
+		} else {
+			// Clicked to place
+			swapItems(clickedSlotX, clickedSlotY, xSlot, ySlot);
+			clickedSlotX = -1;
+			clickedSlotY = -1;
+		}
+	}
+
+
+}
+
+void InventoryState::updateMouse() {
 	sf::Vector2f v = handler->guiView.getSize();
 	sf::Vector2u w = handler->window->getSize();
 	int mx = sf::Mouse::getPosition(*(handler->window)).x * (v.x / w.x);
@@ -93,54 +206,28 @@ void InventoryState::tick(sf::Int32 dt) {
 
 }
 
-void InventoryState::resume() {
-	handler->inputManager->disableCurrentMovement();
-	PlayingState* ps = dynamic_cast<PlayingState*>(handler->getCustomState(PLAYING));
-	ps->playBGMusic();
-}
 
-void InventoryState::renderInventory() {
-	sf::RectangleShape invRect(handler->window->getView().getSize());
-	invRect.setTexture(invBg);
+void InventoryState::swapItems(int fromX, int fromY, int toX, int toY) {
+	int fromInvId, toInvId;
 
-	handler->window->draw(invRect);
-
-
-
-	Inventory* inv = handler->player->getInventory();
-
-	for (int i = 0; i < 9; i++) {
-		if (inv->getInventory()[i].first != -1) {
-			sf::RectangleShape curItem(sf::Vector2f(96, 96));
-			curItem.setTexture(handler->assets->getItemTexture(inv->getInventory()[i].first));
-			curItem.setPosition(xOffset + (size + xSpace) * i + 6, bottomRowOffset + 6);
-			handler->window->draw(curItem);
-
-			sf::Text count;
-			count.setString(std::to_string(inv->getInventory()[i].second));
-			count.setFont(*(handler->assets->getArialiFont()));
-			count.setCharacterSize(16);
-			count.setPosition(sf::Vector2f(i * 42 * 3 + 28 * 3 + 12, bottomRowOffset + 108 - count.getGlobalBounds().height - 10));
-			handler->window->draw(count);
-
-
-		}
+	if (fromY == 3) {
+		fromInvId = fromX;
+	} else {
+		fromInvId = 9;
+		fromInvId += (fromY - 1) * 7 + (fromX - 1);
 	}
 
-
-
-}
-
-void InventoryState::renderHighlight() {
-	if (xSlot == -1 || ySlot == -1) return;
-
-	sf::RectangleShape highlight(sf::Vector2f(size, size));
-	highlight.setTexture(invHighlight);
-
-	highlight.setPosition(xOffset + size * (xSlot)+xSpace * xSlot, yOffset + size * (ySlot)+ySpace * ySlot);
-	if (ySlot == 3) {
-		highlight.setPosition(highlight.getPosition().x, bottomRowOffset);
+	if (toY == 3) {
+		toInvId = toX;
+	} else {
+		toInvId = 9;
+		toInvId += (toY - 1) * 7 + (toX - 1);
 	}
-	handler->window->draw(highlight);
+
+	std::cout << fromInvId << " " << toInvId << std::endl;
+
+
+	handler->player->getInventory()->swapItems(fromInvId, toInvId);
+
 
 }

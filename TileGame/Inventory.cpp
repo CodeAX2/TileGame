@@ -51,3 +51,10 @@ int Inventory::getAmountOfItem(int item) {
 
 	return 0;
 }
+
+void Inventory::swapItems(int spot1, int spot2) {
+	std::pair<int, int> a = inventory[spot1];
+	std::pair<int, int> b = inventory[spot2];
+	inventory[spot1] = b;
+	inventory[spot2] = a;
+}
