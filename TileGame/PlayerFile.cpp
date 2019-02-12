@@ -18,7 +18,7 @@ Player* PlayerFile::loadPlayerFile(std::string fileName, Handler* handler) {
 	Nullable<UUID> id;
 	Nullable<float> x;
 	Nullable<float> y;
-	std::map<sf::Uint8, int> inv;
+	std::vector<std::pair<int, int>> rawInv;
 
 
 	health = safeLoad<int>(file);
@@ -27,11 +27,14 @@ Player* PlayerFile::loadPlayerFile(std::string fileName, Handler* handler) {
 	x = safeLoad<float>(file);
 	y = safeLoad<float>(file);
 
-	for (int i = 0; i < 256; i++) {
-		Nullable<int> amount;
-		amount = safeLoad<int>(file);
-		inv[i] = amount;
+	for (int i = 0; i < Inventory::INV_SIZE; i++) {
+		int first = safeLoad<int>(file);
+		int second = safeLoad<int>(file);
+		std::pair<int, int> curItem(first, second);
+		rawInv.push_back(curItem);
 	}
+
+	Inventory* inv = new Inventory(rawInv);
 
 
 	Nullable<std::string> worldName;
@@ -120,7 +123,7 @@ void PlayerFile::saveFile() {
 	UUID id = player->getId();
 	float x = player->getX();
 	float y = player->getY();
-	std::map<sf::Uint8, int> inv = player->getInventory();
+	Inventory* inv = player->getInventory();
 
 	file.write((char*)&health, sizeof(int));
 	file.write((char*)&maxHealth, sizeof(int));
@@ -128,9 +131,10 @@ void PlayerFile::saveFile() {
 	file.write((char*)&x, sizeof(float));
 	file.write((char*)&y, sizeof(float));
 
-	for (int i = 0; i < 256; i++) {
-		int amount = inv[i];
-		file.write((char*)&amount, sizeof(int));
+	for (int i = 0; i < Inventory::INV_SIZE; i++) {
+		std::pair<int, int> curItem = inv->getInventory()[i];
+		file.write((char*)&curItem.first, sizeof(int));
+		file.write((char*)&curItem.second, sizeof(int));
 	}
 
 	std::string worldName = player->getWorld()->getNameId();

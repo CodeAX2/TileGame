@@ -34,6 +34,7 @@ namespace tg {
 		bool getAttackKey() { return attackKey; }
 		float getZoomLevel() { return zoom; }
 		void setZoomLevel(float z) { zoom = z; }
+		void disableCurrentMovement();
 
 	private:
 		void updateKeys(sf::Event e);

@@ -4,6 +4,7 @@
 #include "PlayingState.h"
 #include "WorldManager.h"
 #include "MainMenuState.h"
+#include "InventoryState.h"
 
 using namespace tg;
 
@@ -40,7 +41,7 @@ void Handler::initGameStates() {
 	allStates.push_back(new PlayingState(this));
 	allStates.push_back(new LoadingState(this));
 	allStates.push_back(new MainMenuState(this));
-
+	allStates.push_back(new InventoryState(this));
 }
 
 // Set the current gameState
@@ -58,6 +59,9 @@ void Handler::setGameState(int stateId) {
 		break;
 	case MAIN_MENU:
 		currentState = allStates[MAIN_MENU];
+		break;
+	case INVENTORY:
+		currentState = allStates[INVENTORY];
 		break;
 	}
 

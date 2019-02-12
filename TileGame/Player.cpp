@@ -8,17 +8,20 @@
 
 using namespace tg;
 
-Player::Player(float x, float y, Handler* handler, World* world) : Entity(x, y, handler, 14, 117 - 25, 31, 25, 20 * 3, 39 * 3, true, PLAYER_E, true, world) {
+Player::Player(float x, float y, Handler* handler, World* world) :
+	Entity(x, y, handler, 14, 117 - 25, 31, 25, 20 * 3, 39 * 3, true, PLAYER_E, true, world) {
 	texture = handler->assets->getPlayerAnim()->getFrame(0);
 	handler->player = this;
 
 	health = 100;
 
+	inventory = new Inventory();
+
 }
 
 
-Player::~Player()
-{
+Player::~Player() {
+	delete inventory;
 }
 
 // Render the player
@@ -538,7 +541,7 @@ void Player::hitEntities() {
 
 		sf::IntRect eBox = cur->getCollisionBox();
 		if (eBox.intersects(aBox)) {
-			if (inventory[2] == 0) {
+			if (inventory->getAmountOfItem(2) == 0) {
 				cur->damage(20, this);
 			} else {
 				cur->damage(30, this);
@@ -558,21 +561,18 @@ void Player::hitEntities() {
 
 // Add an item to the player's inventory
 void Player::addItemToInv(int itemId) {
-	inventory[itemId]++;
+	inventory->addItemToInv(itemId, 1);
 }
 
 // Remove an item from the player's inventory
 void Player::removeItemFromInv(int itemId) {
-	if (inventory[itemId] >= 1) {
-		inventory[itemId]--;
-	}
+	inventory->addItemToInv(itemId, -1);
 }
 
 // Check to see if the player's inventory contains an item
 bool Player::inventoryContains(int itemId) {
-	if (inventory[itemId] == 0) {
+	if (inventory->getAmountOfItem(itemId) == 0)
 		return false;
-	}
 
 	return true;
 }

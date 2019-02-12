@@ -183,6 +183,7 @@ World* WorldFile::loadWorldFile(std::string fileName, Handler * handler) {
 			b->setRiderId(rId);
 
 		} else if (type == ZOMBIE_E) {
+			std::cout << "Zombie" << std::endl;
 			float x, y;
 			UUID fId;
 			file.read((char*)&x, sizeof(float));
@@ -239,7 +240,10 @@ void WorldFile::saveFile() {
 	EntityManager* em = world->getEntityManager();
 
 	int numEntities = em->getNumEntities();
+	std::streampos numEntPos = file.tellp();
 	file.write((char*)&numEntities, sizeof(int));
+
+	int totalWrittenEntities = 0;
 
 	for (int i = 0; i < numEntities; i++) {
 		Entity* cur = em->getEntity(i);
@@ -256,7 +260,6 @@ void WorldFile::saveFile() {
 
 		if (type == TALL_GRASS_E) {
 
-
 			TallGrass* curTg = dynamic_cast<TallGrass*>(cur);
 
 			float x = curTg->getX();
@@ -272,6 +275,8 @@ void WorldFile::saveFile() {
 			file.write((char*)&x, sizeof(float));
 			file.write((char*)&y, sizeof(float));
 			file.write((char*)&eType, sizeof(int));
+
+			totalWrittenEntities++;
 
 		} else if (type == TREE_E) {
 
@@ -291,6 +296,8 @@ void WorldFile::saveFile() {
 			file.write((char*)&tY, sizeof(int));
 			file.write((char*)&eType, sizeof(int));
 
+			totalWrittenEntities++;
+
 		} else if (type == ITEM_E) {
 
 			Item* curI = dynamic_cast<Item*>(cur);
@@ -308,6 +315,8 @@ void WorldFile::saveFile() {
 			file.write((char*)&y, sizeof(float));
 			file.write((char*)&itemType, sizeof(int));
 
+			totalWrittenEntities++;
+
 		} else if (type == SAND_CASTLE_E) {
 
 			SandCastle* curSc = dynamic_cast<SandCastle*>(cur);
@@ -322,6 +331,8 @@ void WorldFile::saveFile() {
 
 			file.write((char*)&tX, sizeof(int));
 			file.write((char*)&tY, sizeof(int));
+
+			totalWrittenEntities++;
 
 		} else if (type == TREASURE_CHEST_E) {
 
@@ -347,6 +358,8 @@ void WorldFile::saveFile() {
 				file.write((char*)&amount, sizeof(int));
 			}
 
+			totalWrittenEntities++;
+
 		} else if (type == PUMPKIN_E) {
 
 			Pumpkin* curP = dynamic_cast<Pumpkin*>(cur);
@@ -363,6 +376,8 @@ void WorldFile::saveFile() {
 			file.write((char*)&tX, sizeof(int));
 			file.write((char*)&tY, sizeof(int));
 			file.write((char*)&isLit, sizeof(bool));
+
+			totalWrittenEntities++;
 
 		} else if (type == BOAT_E) {
 
@@ -387,6 +402,8 @@ void WorldFile::saveFile() {
 			file.write((char*)&y, sizeof(float));
 			file.write((char*)&rId, sizeof(UUID));
 
+			totalWrittenEntities++;
+
 		} else if (type == ZOMBIE_E) {
 			Zombie* curZ = dynamic_cast<Zombie*>(cur);
 			float x = curZ->getX();
@@ -407,6 +424,12 @@ void WorldFile::saveFile() {
 			file.write((char*)&x, sizeof(float));
 			file.write((char*)&y, sizeof(float));
 			file.write((char*)&fId, sizeof(UUID));
+
+			totalWrittenEntities++;
+
 		}
 	}
+
+	file.seekp(numEntPos);
+	file.write((char*)&totalWrittenEntities, sizeof(int));
 }

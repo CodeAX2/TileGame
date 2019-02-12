@@ -4,6 +4,7 @@
 #include "Handler.h"
 #include <SFML/Graphics/Rect.hpp>
 #include <math.h>
+#include "Inventory.h"
 
 #define STILL 0
 #define NORTH 1
@@ -25,7 +26,7 @@ namespace tg {
 		int vertDirection = STILL;
 		int horiDirection = STILL;
 		sf::RectangleShape atBox;
-		std::map<sf::Uint8, int> inventory;
+		Inventory* inventory;
 		bool settingNewPos = false;
 		float newX = 0, newY = 0;
 
@@ -59,13 +60,16 @@ namespace tg {
 
 		void setWorld(World* world) { this->world = world; }
 
-		std::map<sf::Uint8, int> getInventory() { return inventory; }
+		Inventory* getInventory() { return inventory; }
 
 		sf::IntRect getCollisionBox() {
 			return sf::IntRect(sf::Vector2i(std::round(x + hitBoxX), std::round(y + hitBoxY)), sf::Vector2i(hitBoxW, hitBoxH));
 		}
 
-		void setInventory(std::map<sf::Uint8, int> newInv) { inventory = newInv; }
+		void setInventory(Inventory* newInv) {
+			delete inventory;
+			inventory = newInv;
+		}
 		void damage(int dmg, Entity* damager) override;
 
 		int getStamina() { return stam; }

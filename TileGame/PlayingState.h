@@ -21,6 +21,7 @@ namespace tg {
 		void playerDeath(std::string msg) { deathScreen = true; deathMessage = msg; }
 		void pause() override;
 		void resume() override;
+		void playBGMusic() { bgMusic.play(); }
 
 	private:
 		void renderWorld();

@@ -40,7 +40,7 @@ void InputManager::updateMousePlaying() {
 	sf::Vector2i mp = sf::Mouse::getPosition(*(handler->window));
 	if (!(mp.x < 0 || mp.x > handler->window->getSize().x ||
 		mp.y < 0 || mp.y > handler->window->getSize().y) &&
-		handler->player->getInventory()[0] >= 1 && world != nullptr) {
+		handler->player->getInventory()->getAmountOfItem(0) >= 1 && world != nullptr) {
 		sf::Vector2f v = handler->worldView.getSize();
 		sf::Vector2u w = handler->window->getSize();
 		int mx = sf::Mouse::getPosition(*(handler->window)).x * (v.x / w.x) - ((v.x - w.x) / 2) + handler->camera->getXOffset();
@@ -132,14 +132,14 @@ void InputManager::mouseClickedPlaying(sf::Event e) {
 
 			if (world->highlightIsGood()) {
 				if (world->getTile(htp.x, htp.y) == 2 || world->getTile(htp.x, htp.y) == 3) {
-					if (handler->player->getInventory()[0] >= 1) {
+					if (handler->player->getInventory()->getAmountOfItem(0) >= 1) {
 						world->setTile(htp.x, htp.y, 4);
 						handler->player->removeItemFromInv(0);
 					}
-				} else if (world->getTile(htp.x, htp.y) == 0 && handler->player->getInventory()[0] >= 1) {
+				} else if (world->getTile(htp.x, htp.y) == 0 && handler->player->getInventory()->getAmountOfItem(0) >= 1) {
 					world->setTile(htp.x, htp.y, 5);
 					handler->player->removeItemFromInv(0);
-				} else if (world->getTile(htp.x, htp.y) == 7 && handler->player->getInventory()[0] >= 1) {
+				} else if (world->getTile(htp.x, htp.y) == 7 && handler->player->getInventory()->getAmountOfItem(0) >= 1) {
 					world->setTile(htp.x, htp.y, 5);
 					handler->player->removeItemFromInv(0);
 				}
@@ -319,14 +319,14 @@ void InputManager::updateJoystick(sf::Uint32 dt) {
 
 				if (world->highlightIsGood()) {
 					if (world->getTile(htp.x, htp.y) == 2 || world->getTile(htp.x, htp.y) == 3) {
-						if (handler->player->getInventory()[0] >= 1) {
+						if (handler->player->getInventory()->getAmountOfItem(0) >= 1) {
 							world->setTile(htp.x, htp.y, 4);
 							handler->player->removeItemFromInv(0);
 						}
-					} else if (world->getTile(htp.x, htp.y) == 0 && handler->player->getInventory()[0] >= 1) {
+					} else if (world->getTile(htp.x, htp.y) == 0 && handler->player->getInventory()->getAmountOfItem(0) >= 1) {
 						world->setTile(htp.x, htp.y, 5);
 						handler->player->removeItemFromInv(0);
-					} else if (world->getTile(htp.x, htp.y) == 7 && handler->player->getInventory()[0] >= 1) {
+					} else if (world->getTile(htp.x, htp.y) == 7 && handler->player->getInventory()->getAmountOfItem(0) >= 1) {
 						world->setTile(htp.x, htp.y, 5);
 						handler->player->removeItemFromInv(0);
 					}
@@ -362,16 +362,24 @@ void InputManager::updateKeys(sf::Event e) {
 	switch (key) {
 
 	case sf::Keyboard::W:
-		keys[0] = value;
+		if (handler->getCurrentState()->getType() == PLAYING)
+			keys[0] = value;
+
 		break;
 	case sf::Keyboard::D:
-		keys[1] = value;
+		if (handler->getCurrentState()->getType() == PLAYING)
+			keys[1] = value;
+
 		break;
 	case sf::Keyboard::S:
-		keys[2] = value;
+		if (handler->getCurrentState()->getType() == PLAYING)
+			keys[2] = value;
+
 		break;
 	case sf::Keyboard::A:
-		keys[3] = value;
+		if (handler->getCurrentState()->getType() == PLAYING)
+			keys[3] = value;
+
 		break;
 	case sf::Keyboard::Q:
 		if (handler->getCurrentState()->getType() == PLAYING) {
@@ -382,15 +390,33 @@ void InputManager::updateKeys(sf::Event e) {
 		runningKey = value;
 		break;
 	case sf::Keyboard::Space:
-		attackKey = value;
+		if (handler->getCurrentState()->getType() == PLAYING)
+			attackKey = value;
+
 		break;
 	case sf::Keyboard::F11:
 		if (value && handler->getCurrentState()->getType() != LOADING)
 			handler->game->toggleFullscreen();
 		break;
 	case sf::Keyboard::Escape:
-		if (value && handler->getCurrentState()->getType() == PLAYING)
+		if (value && handler->getCurrentState()->getType() == PLAYING) {
 			handler->setGameState(MAIN_MENU);
+		} else if (value && handler->getCurrentState()->getType() == INVENTORY) {
+			handler->setGameState(PLAYING);
+		} else if (value && handler->getCurrentState()->getType() == MAIN_MENU) {
+			handler->setGameState(PLAYING);
+		}
+		break;
+	case sf::Keyboard::E:
+		if (value) {
+
+			if (handler->getCurrentState()->getType() == PLAYING) {
+				handler->setGameState(INVENTORY);
+			} else if (handler->getCurrentState()->getType() == INVENTORY) {
+				handler->setGameState(PLAYING);
+			}
+		}
+
 		break;
 	}
 
@@ -410,14 +436,25 @@ bool* InputManager::getAllKeys() {
 
 
 void InputManager::mouseScrolled(sf::Event e) {
-	if (e.type == sf::Event::MouseWheelScrolled) {
-		float delta = e.mouseWheelScroll.delta;
-		zoom += delta * .05f;
-		if (zoom > 1.2f)
-			zoom = 1.2f;
-		if (zoom < .55f)
-			zoom = .55f;
+	if (handler->getCurrentState()->getType() != INVENTORY) {
+		if (e.type == sf::Event::MouseWheelScrolled) {
+			float delta = e.mouseWheelScroll.delta;
+			zoom += delta * .05f;
+			if (zoom > 1.2f)
+				zoom = 1.2f;
+			if (zoom < .55f)
+				zoom = .55f;
 
 
+		}
 	}
+}
+
+void InputManager::disableCurrentMovement() {
+	keys[0] = false;
+	keys[1] = false;
+	keys[2] = false;
+	keys[3] = false;
+	runningKey = false;
+	attackKey = false;
 }

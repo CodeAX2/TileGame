@@ -39,12 +39,14 @@
 #define MENU_MAIN_BUTTONS               135
 #define WALL_TILE_SHEET                 136
 #define ZOMBIE_SHEET                    137
+#define MENU_INV                        138
+#define INV_HIGHLIGHT                   139
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        138
+#define _APS_NEXT_RESOURCE_VALUE        140
 #define _APS_NEXT_COMMAND_VALUE         40002
 #define _APS_NEXT_CONTROL_VALUE         1001
 #define _APS_NEXT_SYMED_VALUE           101

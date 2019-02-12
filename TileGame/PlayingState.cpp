@@ -64,7 +64,12 @@ void PlayingState::render() {
 	renderWorld();
 	world->getEntityManager()->render();
 
+
 	handler->window->setView(handler->guiView);
+	if (handler->getCurrentState()->getType() == INVENTORY) {
+		// Actually rendering inventory state, so we don't want GUI
+		return;
+	}
 	//renderVignette();
 	//renderAllTextures();
 
@@ -78,12 +83,6 @@ void PlayingState::render() {
 
 // Update every part of the game
 void PlayingState::tick(sf::Int32 dt) {
-
-	std::stringstream ss;
-	ss << trunc(bgMusic.getPlayingOffset().asSeconds());
-	ss << "/" << trunc(bgMusic.getDuration().asSeconds());
-
-	handler->game->debugLog(ss.str());
 
 
 	if (world == nullptr) {
@@ -206,6 +205,10 @@ void PlayingState::renderWorld() {
 		}
 	}
 
+	if (handler->getCurrentState()->getType() == INVENTORY) {
+		return;
+	}
+
 	sf::Vector2i hT = world->getHighlightedTile();
 	if (hT.x == -1 || hT.y == -1) {
 		return;
@@ -239,23 +242,22 @@ void PlayingState::renderGUI() {
 	}
 
 	handler->window->draw(inventory);
-	std::map<sf::Uint8, int> pInv = handler->player->getInventory();
-	int hotbarSpot = 0;
+	Inventory* pInv = handler->player->getInventory();
+
 	float y = inventory.getPosition().y + 5;
-	for (int i = 0; i < pInv.size(); i++) {
-		if (pInv[i] != 0) {
-			const sf::Texture* curItemTexture = handler->assets->getItemTexture(i);
+	for (int i = 0; i < 9; i++) {
+		if (pInv->getInventory()[i].second != 0) {
+			const sf::Texture* curItemTexture = handler->assets->getItemTexture(pInv->getInventory()[i].first);
 			sf::RectangleShape curItem(sf::Vector2f(96, 96));
 			curItem.setTexture(curItemTexture);
-			curItem.setPosition(sf::Vector2f(hotbarSpot * 42 * 3 + 28 * 3 + 6, y));
+			curItem.setPosition(sf::Vector2f(i * 42 * 3 + 28 * 3 + 6, y));
 			handler->window->draw(curItem);
 			sf::Text count;
-			count.setString(std::to_string(pInv[i]));
+			count.setString(std::to_string(pInv->getInventory()[i].second));
 			count.setFont(*(handler->assets->getArialiFont()));
 			count.setCharacterSize(16);
-			count.setPosition(sf::Vector2f(hotbarSpot * 42 * 3 + 28 * 3 + 12, y + 102 - count.getGlobalBounds().height - 10));
+			count.setPosition(sf::Vector2f(i * 42 * 3 + 28 * 3 + 12, y + 102 - count.getGlobalBounds().height - 10));
 			handler->window->draw(count);
-			hotbarSpot++;
 		}
 	}
 
@@ -420,5 +422,6 @@ void PlayingState::pause() {
 }
 
 void PlayingState::resume() {
-	bgMusic.play();
+	if (bgMusic.getStatus() != sf::Music::Playing)
+		bgMusic.play();
 }

@@ -106,6 +106,12 @@
     <ClCompile Include="DeathQuotes.cpp">
       <Filter>Source Files\Main Engine</Filter>
     </ClCompile>
+    <ClCompile Include="InventoryState.cpp">
+      <Filter>Source Files\Game States</Filter>
+    </ClCompile>
+    <ClCompile Include="Inventory.cpp">
+      <Filter>Source Files\Main Engine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -214,6 +220,12 @@
       <Filter>Header Files\Main Engine</Filter>
     </ClInclude>
     <ClInclude Include="Nullable.h">
+      <Filter>Header Files\Main Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="InventoryState.h">
+      <Filter>Header Files\Game States</Filter>
+    </ClInclude>
+    <ClInclude Include="Inventory.h">
       <Filter>Header Files\Main Engine</Filter>
     </ClInclude>
   </ItemGroup>
@@ -444,6 +456,15 @@
       <Filter>Resource Files\Textures</Filter>
     </Image>
     <Image Include="Resources\Textures\Zombie.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\InventoryMenu.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\SS-Zombie.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\InvHighlight.png">
       <Filter>Resource Files\Textures</Filter>
     </Image>
   </ItemGroup>

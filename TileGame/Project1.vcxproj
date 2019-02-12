@@ -32,6 +32,8 @@
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="Handler.cpp" />
     <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="Inventory.cpp" />
+    <ClCompile Include="InventoryState.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="Loader.cpp" />
     <ClCompile Include="LoadingState.cpp" />
@@ -69,6 +71,8 @@
     <ClInclude Include="GameState.h" />
     <ClInclude Include="Handler.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="Inventory.h" />
+    <ClInclude Include="InventoryState.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="Loader.h" />
     <ClInclude Include="LoadingState.h" />
@@ -118,6 +122,8 @@
     <Image Include="Resources\Textures\HalloweenCandy.png" />
     <Image Include="Resources\Textures\icon.ico" />
     <Image Include="Resources\Textures\InsideWall Tiles.png" />
+    <Image Include="Resources\Textures\InventoryMenu.png" />
+    <Image Include="Resources\Textures\InvHighlight.png" />
     <Image Include="Resources\Textures\Log.png" />
     <Image Include="Resources\Textures\MainMenu Buttons.png" />
     <Image Include="Resources\Textures\Path24.png" />
@@ -129,6 +135,7 @@
     <Image Include="Resources\Textures\Snow24.png" />
     <Image Include="Resources\Textures\SpritesSheet-Player.png" />
     <Image Include="Resources\Textures\SS-Player.png" />
+    <Image Include="Resources\Textures\SS-Zombie.png" />
     <Image Include="Resources\Textures\TallGrass.png" />
     <Image Include="Resources\Textures\TallGrassSnow.png" />
     <Image Include="Resources\Textures\TileGame Menu.png" />
