@@ -21,7 +21,7 @@ void Inventory::addItemToInv(int item, int amount) {
 	int extra = amount;
 	for (int i = 0; i < INV_SIZE; i++) {
 		std::pair<int, int> cur = inventory[i];
-		if (cur.first == item || cur.first == -1 && amount > 0) {
+		if (cur.first == item || cur.first == -1 && amount > 0 && getAmountOfItem(item) % 99 == 0) {
 			cur.first = item;
 			cur.second += extra;
 			if (cur.second == 0) {
