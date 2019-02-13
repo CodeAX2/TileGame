@@ -21,6 +21,7 @@ namespace tg {
 		void renderInventory();
 		void renderHighlight();
 		void swapItems(int fromX, int fromY, int toX, int toY);
+		int posToId(int posX, int posY);
 
 	private:
 		sf::Texture* invBg;

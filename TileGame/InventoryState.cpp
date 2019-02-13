@@ -27,7 +27,6 @@ void InventoryState::render() {
 
 	handler->getCustomState(PLAYING)->render();
 	renderInventory();
-	renderHighlight();
 
 }
 void InventoryState::tick(sf::Int32 dt) {
@@ -53,6 +52,9 @@ void InventoryState::renderInventory() {
 
 	for (int i = 0; i < 9; i++) {
 		if (inv->getInventory()[i].first != -1) {
+			if (clickedSlotY == 3 && clickedSlotX == i) {
+				continue;
+			}
 			sf::RectangleShape curItem(sf::Vector2f(96, 96));
 			curItem.setTexture(handler->assets->getItemTexture(inv->getInventory()[i].first));
 			curItem.setPosition(xOffset + (size + xSpace) * i + 6, bottomRowOffset + 6);
@@ -71,6 +73,7 @@ void InventoryState::renderInventory() {
 
 	for (int i = 0; i < 2; i++) {
 		for (int j = 0; j < 7; j++) {
+			if (clickedSlotY == i + 1 && clickedSlotX == j + 1) continue;
 			int index = 9;
 			index += i * 7 + j;
 			if (inv->getInventory()[index].first != -1) {
@@ -89,6 +92,35 @@ void InventoryState::renderInventory() {
 
 			}
 		}
+	}
+
+
+	renderHighlight();
+
+	// Draw the item on the cursor
+	if (clickedSlotX != -1 && clickedSlotY != -1) {
+
+		sf::Vector2f v = handler->guiView.getSize();
+		sf::Vector2u w = handler->window->getSize();
+		int mx = sf::Mouse::getPosition(*(handler->window)).x * (v.x / w.x);
+		int my = sf::Mouse::getPosition(*(handler->window)).y * (v.y / w.y);
+
+		int index = posToId(clickedSlotX, clickedSlotY);
+		int itemId = inv->getInventory()[index].first;
+		if (itemId != -1) {
+			sf::RectangleShape curItem(sf::Vector2f(96, 96));
+			curItem.setTexture(handler->assets->getItemTexture(itemId));
+			curItem.setPosition(mx - 96 / 2, my - 96 / 2);
+			handler->window->draw(curItem);
+
+			sf::Text count;
+			count.setString(std::to_string(inv->getInventory()[index].second));
+			count.setFont(*(handler->assets->getArialiFont()));
+			count.setCharacterSize(16);
+			count.setPosition(sf::Vector2f(mx + 14 - size / 2, my + size - count.getGlobalBounds().height - 10 - size / 2));
+			handler->window->draw(count);
+		}
+
 	}
 
 
@@ -132,13 +164,17 @@ void InventoryState::mouseClicked(sf::Event e) {
 	if (changedFromPrev && handler->inputManager->mouseIsPressed) {
 		if (clickedSlotX == -1 || clickedSlotY == -1) {
 			// Clicked to pickup
-			clickedSlotX = xSlot;
-			clickedSlotY = ySlot;
+			if (handler->player->getInventory()->getInventory()[posToId(xSlot, ySlot)].first != -1) {
+				clickedSlotX = xSlot;
+				clickedSlotY = ySlot;
+			}
 		} else {
 			// Clicked to place
-			swapItems(clickedSlotX, clickedSlotY, xSlot, ySlot);
-			clickedSlotX = -1;
-			clickedSlotY = -1;
+			if (xSlot != -1 && ySlot != -1) {
+				swapItems(clickedSlotX, clickedSlotY, xSlot, ySlot);
+				clickedSlotX = -1;
+				clickedSlotY = -1;
+			}
 		}
 	}
 
@@ -210,24 +246,24 @@ void InventoryState::updateMouse() {
 void InventoryState::swapItems(int fromX, int fromY, int toX, int toY) {
 	int fromInvId, toInvId;
 
-	if (fromY == 3) {
-		fromInvId = fromX;
-	} else {
-		fromInvId = 9;
-		fromInvId += (fromY - 1) * 7 + (fromX - 1);
-	}
-
-	if (toY == 3) {
-		toInvId = toX;
-	} else {
-		toInvId = 9;
-		toInvId += (toY - 1) * 7 + (toX - 1);
-	}
-
-	std::cout << fromInvId << " " << toInvId << std::endl;
-
+	fromInvId = posToId(fromX, fromY);
+	toInvId = posToId(toX, toY);
 
 	handler->player->getInventory()->swapItems(fromInvId, toInvId);
 
+
+}
+
+int InventoryState::posToId(int posX, int posY) {
+	int id;
+
+	if (posY == 3) {
+		id = posX;
+	} else {
+		id = 9;
+		id += (posY - 1) * 7 + (posX - 1);
+	}
+
+	return id;
 
 }
