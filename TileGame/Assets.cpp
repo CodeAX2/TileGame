@@ -176,6 +176,7 @@ void Assets::init() {
 	addItemTexture(AXE_ITEM, 2);
 	addItemTexture(CANDY_ITEM, 3);
 	addItemTexture(CAVE_CANDY_ITEM, 4);
+	addItemTexture(WOOD_BRIDGE_ITEM, 5);
 
 	for (int i = 0; i < 4; i++) {
 		sf::Texture* curGem = new sf::Texture();

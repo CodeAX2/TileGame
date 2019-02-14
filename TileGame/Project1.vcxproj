@@ -151,6 +151,7 @@
     <Image Include="Resources\Textures\Vignette.png" />
     <Image Include="Resources\Textures\WaterTile.png" />
     <Image Include="Resources\Textures\Wood24.png" />
+    <Image Include="Resources\Textures\Woodbridge.png" />
     <Image Include="Resources\Textures\WoodHut.png" />
     <Image Include="Resources\Textures\Zombie.png" />
   </ItemGroup>

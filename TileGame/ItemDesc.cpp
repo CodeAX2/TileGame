@@ -6,7 +6,7 @@ std::map<int, std::string> ItemDesc::itemDescriptions;
 void ItemDesc::init() {
 	itemDescriptions[0] =
 		"LOG:\n"
-		" Used for building bridges\n"
+		" Used for crafting tools\n"
 		" and other various things.";
 
 	itemDescriptions[1] = 
@@ -28,6 +28,11 @@ void ItemDesc::init() {
 		"CAVE CANDY:\n"
 		" Eat it to restore 15\n"
 		" of your stamina points.";
+
+	itemDescriptions[5] =
+		"WOOD BRIDGE:\n"
+		" Place it on some water\n"
+		" and walk across it.";
 
 }
 
