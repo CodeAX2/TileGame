@@ -43,6 +43,7 @@ namespace tg {
 		float gameOverFade = 0;
 		std::string deathMessage = "";
 		sf::Music bgMusic;
+		sf::Texture* hotBarSlotHighlight;
 
 
 	};

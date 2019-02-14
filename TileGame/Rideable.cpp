@@ -68,7 +68,7 @@ void Rideable::render(Handler* handler) {
 
 		sf::RectangleShape healthBar(sf::Vector2f(w * (float)health / maxHealth, 10));
 		healthBar.setPosition((int)(x - floor(handler->camera->getXOffset())), (int)(y + 40 - floor(handler->camera->getYOffset())));
-		if (health >= maxHealth / 2.f) {
+		if (health > maxHealth / 2.f) {
 			healthBar.setFillColor(sf::Color(
 				255 - (float)health / (maxHealth / 2.f) * 255,
 				255,

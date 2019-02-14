@@ -35,6 +35,7 @@
     <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="InventoryState.cpp" />
     <ClCompile Include="Item.cpp" />
+    <ClCompile Include="ItemDesc.cpp" />
     <ClCompile Include="Loader.cpp" />
     <ClCompile Include="LoadingState.cpp" />
     <ClCompile Include="MainMenuState.cpp" />
@@ -74,6 +75,7 @@
     <ClInclude Include="Inventory.h" />
     <ClInclude Include="InventoryState.h" />
     <ClInclude Include="Item.h" />
+    <ClInclude Include="ItemDesc.h" />
     <ClInclude Include="Loader.h" />
     <ClInclude Include="LoadingState.h" />
     <ClInclude Include="MainMenuState.h" />

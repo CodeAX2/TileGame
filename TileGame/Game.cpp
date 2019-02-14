@@ -19,6 +19,7 @@
 #include "WorldManager.h"
 #include "DeathQuotes.h"
 #include "Zombie.h"
+#include "ItemDesc.h"
 
 using namespace tg;
 
@@ -41,6 +42,7 @@ commandThread(&Game::commandLoop, this), debugThread(&Game::debugLoop, this) {
 	handler.inputManager = new InputManager(&handler);
 
 	DeathQuotes::init();
+	ItemDesc::init();
 
 }
 

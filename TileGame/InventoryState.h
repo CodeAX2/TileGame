@@ -24,6 +24,7 @@ namespace tg {
 		void swapItems(int fromX, int fromY, int toX, int toY);
 		void combineItems(int fromX, int fromY, int toX, int toY);
 		int posToId(int posX, int posY);
+		void renderItemInfo();
 
 	private:
 		sf::Texture* invBg;

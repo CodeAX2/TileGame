@@ -21,6 +21,8 @@ PlayingState::PlayingState(Handler* handler) : GameState(PLAYING), handler(handl
 	world = handler->mainWorld;
 	bgMusic.openFromFile("Audio/airtone_-_panspermia_1.wav");
 	bgMusic.setLoop(true);
+	hotBarSlotHighlight = new sf::Texture();
+	hotBarSlotHighlight->loadFromImage(handler->assets->loadImageFromResource(INV_HIGHLIGHT));
 }
 
 
@@ -210,8 +212,12 @@ void PlayingState::renderWorld() {
 		return;
 	}
 
+
+
+	int hotBarItemId = handler->player->getItemInfoInHotBar().first;
+	int hotBarItemAmount = handler->player->getItemInfoInHotBar().second;
 	sf::Vector2i hT = world->getHighlightedTile();
-	if (hT.x == -1 || hT.y == -1) {
+	if (hT.x == -1 || hT.y == -1 || hotBarItemId != 0 || hotBarItemAmount == 0) {
 		return;
 	}
 	sf::Uint8 hId = world->getTile(hT.x, hT.y);
@@ -243,6 +249,19 @@ void PlayingState::renderGUI() {
 	}
 
 	handler->window->draw(inventory);
+
+	int hotBarSlot = handler->player->getHotBarSlot();
+	sf::RectangleShape hotBarHighlight(sf::Vector2f(hotBarSlotHighlight->getSize().x * 3, hotBarSlotHighlight->getSize().y * 3));
+	if (guiOnBottom) {
+		hotBarHighlight.setPosition(sf::Vector2f(handler->window->getView().getSize().x / 2 - inventory.getSize().x / 2 + (108 + 18) * hotBarSlot, handler->window->getView().getSize().y - inventory.getSize().y - 20));
+	} else {
+		hotBarHighlight.setPosition(sf::Vector2f(handler->window->getView().getSize().x / 2 - inventory.getSize().x / 2 + (108 + 18) * hotBarSlot, 20));
+	}
+	hotBarHighlight.setTexture(hotBarSlotHighlight);
+	handler->window->draw(hotBarHighlight);
+
+
+
 	Inventory* pInv = handler->player->getInventory();
 
 	float y = inventory.getPosition().y + 5;
@@ -447,24 +466,44 @@ void PlayingState::mouseClicked(sf::Event e) {
 			return;
 		} else {
 			handler->inputManager->mouseIsPressed = true;
-			// Add blocks
-			sf::Vector2i htp = world->getHighlightedTile();
 
-			// Check if the block is too far away
-
-			if (world->highlightIsGood()) {
+			int hotBarItemId = handler->player->getItemInfoInHotBar().first;
+			int hotBarItemAmount = handler->player->getItemInfoInHotBar().second;
+			// Add blocks (if holding wood and the highlight is good)
+			if (world->highlightIsGood() && hotBarItemId == 0 && hotBarItemAmount >= 1) {
+				sf::Vector2i htp = world->getHighlightedTile();
 				if (world->getTile(htp.x, htp.y) == 2 || world->getTile(htp.x, htp.y) == 3) {
-					if (handler->player->getInventory()->getAmountOfItem(0) >= 1) {
-						world->setTile(htp.x, htp.y, 4);
-						handler->player->removeItemFromInv(0);
-					}
-				} else if (world->getTile(htp.x, htp.y) == 0 && handler->player->getInventory()->getAmountOfItem(0) >= 1) {
+
+					world->setTile(htp.x, htp.y, 4);
+					handler->player->removeItemFromHotbar();
+
+				} else if (world->getTile(htp.x, htp.y)) {
+
 					world->setTile(htp.x, htp.y, 5);
-					handler->player->removeItemFromInv(0);
-				} else if (world->getTile(htp.x, htp.y) == 7 && handler->player->getInventory()->getAmountOfItem(0) >= 1) {
+					handler->player->removeItemFromHotbar();
+
+				} else if (world->getTile(htp.x, htp.y) == 7) {
+
 					world->setTile(htp.x, htp.y, 5);
-					handler->player->removeItemFromInv(0);
+					handler->player->removeItemFromHotbar();
+
 				}
+			} else if ((hotBarItemId == 3 || hotBarItemId == 4) &&
+				hotBarItemAmount >= 1) {
+
+				int amountToIncreasyBy = 10;
+				if (hotBarItemId == 4)
+					amountToIncreasyBy = 15;
+
+				handler->player->removeItemFromHotbar();
+				int stam = handler->player->getStamina();
+				stam += amountToIncreasyBy;
+				if (stam > handler->player->getMaxStamina()) {
+					stam = handler->player->getMaxStamina();
+				}
+
+				handler->player->setStamina(stam);
+
 			}
 
 
@@ -485,7 +524,7 @@ void PlayingState::updateMouse() {
 	sf::Vector2i mp = sf::Mouse::getPosition(*(handler->window));
 	if (!(mp.x < 0 || mp.x > handler->window->getSize().x ||
 		mp.y < 0 || mp.y > handler->window->getSize().y) &&
-		handler->player->getInventory()->getAmountOfItem(0) >= 1 && world != nullptr) {
+		handler->player->getItemInfoInHotBar().first == 0 && handler->player->getItemInfoInHotBar().second >= 1 && world != nullptr) {
 		sf::Vector2f v = handler->worldView.getSize();
 		sf::Vector2u w = handler->window->getSize();
 		int mx = sf::Mouse::getPosition(*(handler->window)).x * (v.x / w.x) - ((v.x - w.x) / 2) + handler->camera->getXOffset();

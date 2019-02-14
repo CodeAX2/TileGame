@@ -3,6 +3,7 @@
 #include "InputManager.h"
 #include "Assets.h"
 #include "Player.h"
+#include "ItemDesc.h"
 
 using namespace tg;
 
@@ -119,6 +120,10 @@ void InventoryState::renderInventory() {
 		handler->window->draw(count);
 
 
+	} else {
+		// We only want to render item info
+		// If we don't have an item on the cursor
+		renderItemInfo();
 	}
 
 
@@ -136,6 +141,41 @@ void InventoryState::renderHighlight() {
 		highlight.setPosition(highlight.getPosition().x, bottomRowOffset);
 	}
 	handler->window->draw(highlight);
+
+}
+
+void InventoryState::renderItemInfo() {
+	int itemId = handler->player->getInventory()->getInventory()[posToId(xSlot, ySlot)].first;
+	int itemAmnt = handler->player->getInventory()->getInventory()[posToId(xSlot, ySlot)].second;
+
+	if (itemId != -1 && itemAmnt != 0) {
+
+		sf::Vector2f v = handler->guiView.getSize();
+		sf::Vector2u w = handler->window->getSize();
+		int mx = sf::Mouse::getPosition(*(handler->window)).x * (v.x / w.x);
+		int my = (sf::Mouse::getPosition(*(handler->window)).y) * (v.y / w.y);
+
+
+		sf::Text infoText;
+		infoText.setFont(*(handler->assets->getArialiFont()));
+		infoText.setString(ItemDesc::getInfo(itemId));
+		infoText.setCharacterSize(16);
+		infoText.setLineSpacing(1.2f);
+		infoText.setOrigin(infoText.getGlobalBounds().left, infoText.getGlobalBounds().top + infoText.getGlobalBounds().height);
+		infoText.setPosition(mx + 10, my - 10);
+		infoText.setFillColor(sf::Color::White);
+
+
+		sf::RectangleShape infoBoxBg(sf::Vector2f(infoText.getGlobalBounds().width + 20, infoText.getGlobalBounds().height + 20));
+		infoBoxBg.setFillColor(sf::Color(0, 8, 20, 225));
+		infoBoxBg.setPosition(mx, my - infoBoxBg.getSize().y);
+		handler->window->draw(infoBoxBg);
+
+		handler->window->draw(infoText);
+
+
+	}
+
 
 }
 
@@ -168,7 +208,7 @@ void InventoryState::mouseClicked(sf::Event e) {
 			}
 		} else {
 			// Clicked to place
-			if (clickedSlotX != xSlot || clickedSlotY != ySlot) {
+			if ((clickedSlotX != xSlot || clickedSlotY != ySlot) && (xSlot != -1 && ySlot != -1)) {
 				if (handler->player->getInventory()->getInventory()[posToId(xSlot, ySlot)].first != handler->player->getInventory()->getInventory()[posToId(clickedSlotX, clickedSlotY)].first)
 					swapItems(clickedSlotX, clickedSlotY, xSlot, ySlot);
 				else

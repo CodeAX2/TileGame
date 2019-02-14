@@ -541,12 +541,18 @@ void Player::hitEntities() {
 
 		sf::IntRect eBox = cur->getCollisionBox();
 		if (eBox.intersects(aBox)) {
-			if (inventory->getAmountOfItem(2) == 0) {
-				cur->damage(20, this);
-			} else {
-				cur->damage(30, this);
+
+			int damage = 20;
+
+			if (cur->type == TREE_E) {
+				if (getItemInfoInHotBar().first != 2) {
+					damage = 5;
+				}
 			}
 
+			if (damage != 0) {
+				cur->damage(damage, this);
+			}
 		}
 
 
@@ -566,7 +572,12 @@ void Player::addItemToInv(int itemId) {
 
 // Remove an item from the player's inventory
 void Player::removeItemFromInv(int itemId) {
-	inventory->addItemToInv(itemId, -1);
+	inventory->removeItemFromInv(itemId, 1);
+}
+
+void Player::removeItemFromHotbar() {
+	inventory->removeItemAtIndex(hotBarSlot, 1);
+
 }
 
 // Check to see if the player's inventory contains an item

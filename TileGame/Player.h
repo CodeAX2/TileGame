@@ -40,6 +40,8 @@ namespace tg {
 
 		float hue = 0;
 
+		int hotBarSlot = 0;
+
 	public:
 		Player(float x, float y, Handler* handler, World* world);
 		~Player();
@@ -83,6 +85,10 @@ namespace tg {
 		void setMagic(int magic) { this->magic = magic; }
 		void setMaxMagic(int maxMagic) { this->maxMagic = maxMagic; }
 		void setStamIsRegeningSlowly(bool isRegeningSlow) { slowRegen = isRegeningSlow; }
+		int getHotBarSlot() { return hotBarSlot; }
+		void setHotBarSlot(int slot) { hotBarSlot = slot; }
+		std::pair<int, int> getItemInfoInHotBar() { return inventory->getInventory()[hotBarSlot]; }
+		void removeItemFromHotbar();
 
 	private:
 		bool checkForCollision();

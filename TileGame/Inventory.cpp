@@ -100,3 +100,41 @@ void Inventory::combineItems(int spot1, int spot2) {
 	inventory[spot2] = b;
 
 }
+
+void Inventory::removeItemAtIndex(int index, int amnt) {
+	int id = inventory[index].first;
+	int curAmnt = inventory[index].second;
+	curAmnt -= amnt;
+	if (curAmnt <= 0) {
+		id = -1;
+		curAmnt = 0;
+	}
+
+	inventory[index] = std::pair<int, int>(id, curAmnt);
+}
+
+void Inventory::removeItemFromInv(int item, int amnt) {
+	int extra = amnt;
+	for (int i = 0; i < INV_SIZE; i++) {
+		std::pair<int, int> cur = inventory[i];
+
+		if (cur.first == item) {
+			int toRemove = extra;
+			if (cur.second - toRemove < 0) {
+				toRemove = cur.second;
+			}
+
+			cur.second -= toRemove;
+			extra -= toRemove;
+			if (cur.second == 0) {
+				cur.first = -1;
+			}
+			inventory[i] = cur;
+		}
+
+
+	}
+
+
+
+}

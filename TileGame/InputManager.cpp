@@ -264,8 +264,17 @@ void InputManager::updateKeys(sf::Event e) {
 				handler->setGameState(PLAYING);
 			}
 		}
-
 		break;
+
+	default:
+		if (handler->getCurrentState()->getType() == PLAYING && value) {
+			std::vector<sf::Keyboard::Key>::iterator pos = std::find(numberKeys.begin(), numberKeys.end(), key);
+			if (pos != numberKeys.end()) {
+				int index = pos - numberKeys.begin();
+				handler->player->setHotBarSlot(index);
+			}
+		}
+
 	}
 
 	if (previousToggleKey != getToggleKey() && getToggleKey()) {
