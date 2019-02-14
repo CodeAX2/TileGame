@@ -14,6 +14,7 @@ namespace tg {
 		void render() override;
 		void tick(sf::Int32 dt) override;
 		void resume() override;
+		void pause() override;
 		void updateMouse() override;
 		void mouseClicked(sf::Event e) override;
 
@@ -21,6 +22,7 @@ namespace tg {
 		void renderInventory();
 		void renderHighlight();
 		void swapItems(int fromX, int fromY, int toX, int toY);
+		void combineItems(int fromX, int fromY, int toX, int toY);
 		int posToId(int posX, int posY);
 
 	private:

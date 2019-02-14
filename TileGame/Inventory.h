@@ -18,6 +18,7 @@ namespace tg {
 		void addItemToInv(int item, int amount);
 		int getAmountOfItem(int item);
 		void swapItems(int spot1, int spot2);
+		void combineItems(int spot1, int spot2);
 
 	private:
 		std::vector<std::pair<int, int>> inventory;

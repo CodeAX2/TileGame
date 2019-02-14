@@ -78,3 +78,25 @@ void Inventory::swapItems(int spot1, int spot2) {
 	inventory[spot1] = b;
 	inventory[spot2] = a;
 }
+
+void Inventory::combineItems(int spot1, int spot2) {
+	std::pair<int, int> a = inventory[spot1];
+	std::pair<int, int> b = inventory[spot2];
+
+	if (b.second == 99) {
+		return;
+	}
+
+	if (b.second + a.second > 99) {
+		a.second -= (99 - b.second);
+		b.second = 99;
+	} else {
+		b.second += a.second;
+		a.first = -1;
+		a.second = 0;
+	}
+
+	inventory[spot1] = a;
+	inventory[spot2] = b;
+
+}
