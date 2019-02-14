@@ -82,7 +82,7 @@ void Game::commandLoop() {
 			}
 		}
 
-		while (handler.getCurrentState()->getType() != PLAYING) {
+		while (handler.getCurrentState()->getType() != PLAYING && handler.getCurrentState()->getType() != INVENTORY) {
 			sf::sleep(sf::milliseconds(10));
 		}
 

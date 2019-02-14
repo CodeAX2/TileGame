@@ -106,20 +106,18 @@ void InventoryState::renderInventory() {
 		int my = sf::Mouse::getPosition(*(handler->window)).y * (v.y / w.y);
 
 		int index = posToId(clickedSlotX, clickedSlotY);
-		int itemId = inv->getInventory()[index].first;
-		if (itemId != -1) {
-			sf::RectangleShape curItem(sf::Vector2f(96, 96));
-			curItem.setTexture(handler->assets->getItemTexture(itemId));
-			curItem.setPosition(mx - 96 / 2, my - 96 / 2);
-			handler->window->draw(curItem);
+		sf::RectangleShape curItem(sf::Vector2f(96, 96));
+		curItem.setTexture(handler->assets->getItemTexture(inv->getInventory()[index].first));
+		curItem.setPosition(mx - 96 / 2, my - 96 / 2);
+		handler->window->draw(curItem);
 
-			sf::Text count;
-			count.setString(std::to_string(inv->getInventory()[index].second));
-			count.setFont(*(handler->assets->getArialiFont()));
-			count.setCharacterSize(16);
-			count.setPosition(sf::Vector2f(mx + 14 - size / 2, my + size - count.getGlobalBounds().height - 10 - size / 2));
-			handler->window->draw(count);
-		}
+		sf::Text count;
+		count.setString(std::to_string(inv->getInventory()[index].second));
+		count.setFont(*(handler->assets->getArialiFont()));
+		count.setCharacterSize(16);
+		count.setPosition(sf::Vector2f(mx + 14 - size / 2, my + size - count.getGlobalBounds().height - 10 - size / 2));
+		handler->window->draw(count);
+
 
 	}
 
@@ -163,18 +161,21 @@ void InventoryState::mouseClicked(sf::Event e) {
 
 	if (changedFromPrev && handler->inputManager->mouseIsPressed) {
 		if (clickedSlotX == -1 || clickedSlotY == -1) {
-			// Clicked to pickup
 			if (handler->player->getInventory()->getInventory()[posToId(xSlot, ySlot)].first != -1) {
+				// Clicked to pickup
 				clickedSlotX = xSlot;
 				clickedSlotY = ySlot;
 			}
 		} else {
 			// Clicked to place
-			if (xSlot != -1 && ySlot != -1) {
-				swapItems(clickedSlotX, clickedSlotY, xSlot, ySlot);
-				clickedSlotX = -1;
-				clickedSlotY = -1;
+			if (clickedSlotX != xSlot || clickedSlotY != ySlot) {
+				if (handler->player->getInventory()->getInventory()[posToId(xSlot, ySlot)].first != handler->player->getInventory()->getInventory()[posToId(clickedSlotX, clickedSlotY)].first)
+					swapItems(clickedSlotX, clickedSlotY, xSlot, ySlot);
+				else
+					combineItems(clickedSlotX, clickedSlotY, xSlot, ySlot);
 			}
+			clickedSlotX = -1;
+			clickedSlotY = -1;
 		}
 	}
 
@@ -254,6 +255,17 @@ void InventoryState::swapItems(int fromX, int fromY, int toX, int toY) {
 
 }
 
+// This assumes that the items at (fromX, fromY) are the same type as those at (toX, toY)
+void InventoryState::combineItems(int fromX, int fromY, int toX, int toY) {
+	int fromInvId, toInvId;
+
+	fromInvId = posToId(fromX, fromY);
+	toInvId = posToId(toX, toY);
+
+	handler->player->getInventory()->combineItems(fromInvId, toInvId);
+
+}
+
 int InventoryState::posToId(int posX, int posY) {
 	int id;
 
@@ -266,4 +278,9 @@ int InventoryState::posToId(int posX, int posY) {
 
 	return id;
 
+}
+
+void InventoryState::pause() {
+	clickedSlotX = -1;
+	clickedSlotY = -1;
 }

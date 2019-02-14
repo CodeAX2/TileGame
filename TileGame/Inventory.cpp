@@ -21,21 +21,41 @@ void Inventory::addItemToInv(int item, int amount) {
 	int extra = amount;
 	for (int i = 0; i < INV_SIZE; i++) {
 		std::pair<int, int> cur = inventory[i];
-		if (cur.first == item || cur.first == -1 && amount > 0 && getAmountOfItem(item) % 99 == 0) {
-			cur.first = item;
-			cur.second += extra;
-			if (cur.second == 0) {
-				cur.first = -1;
-				extra = 0;
-			} else if (cur.second > 99) {
-				extra = cur.second - 99;
-				cur.second = 99;
+		if (cur.first == item) {
+			int toAdd = 99 - cur.second;
+			if (extra - toAdd >= 0) {
+				cur.second += toAdd;
+				extra -= toAdd;
+				inventory[i] = cur;
 			} else {
+				cur.second += extra;
 				extra = 0;
+				inventory[i] = cur;
+				break;
 			}
-			inventory[i] = cur;
-			if (extra <= 0)
-				return;
+		}
+	}
+
+	if (extra != 0) {
+		for (int i = 0; i < INV_SIZE; i++) {
+			std::pair<int, int> cur = inventory[i];
+			if (cur.first == -1) {
+				if (extra - 99 >= 0) {
+
+					cur.first = item;
+					cur.second = 99;
+					extra -= 99;
+					inventory[i] = cur;
+
+				} else {
+					cur.first = item;
+					cur.second = extra;
+					extra = 0;
+					inventory[i] = cur;
+					break;
+				}
+
+			}
 		}
 	}
 
@@ -57,4 +77,26 @@ void Inventory::swapItems(int spot1, int spot2) {
 	std::pair<int, int> b = inventory[spot2];
 	inventory[spot1] = b;
 	inventory[spot2] = a;
+}
+
+void Inventory::combineItems(int spot1, int spot2) {
+	std::pair<int, int> a = inventory[spot1];
+	std::pair<int, int> b = inventory[spot2];
+
+	if (b.second == 99) {
+		return;
+	}
+
+	if (b.second + a.second > 99) {
+		a.second -= (99 - b.second);
+		b.second = 99;
+	} else {
+		b.second += a.second;
+		a.first = -1;
+		a.second = 0;
+	}
+
+	inventory[spot1] = a;
+	inventory[spot2] = b;
+
 }

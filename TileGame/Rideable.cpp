@@ -27,7 +27,10 @@ void Rideable::tick(sf::Int32 dt) {
 	} else if (riderId != UUID()) {
 		// Change the rider
 		rider = world->getEntityManager()->getEntityById(riderId);
-		rider->setRiding(this);
+		if (rider != nullptr)
+			rider->setRiding(this);
+		else
+			riderId = GUID_NULL;
 	}
 }
 
