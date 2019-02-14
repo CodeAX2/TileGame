@@ -145,6 +145,7 @@ void InventoryState::renderHighlight() {
 }
 
 void InventoryState::renderItemInfo() {
+	if (xSlot == -1 || ySlot == -1) return;
 	int itemId = handler->player->getInventory()->getInventory()[posToId(xSlot, ySlot)].first;
 	int itemAmnt = handler->player->getInventory()->getInventory()[posToId(xSlot, ySlot)].second;
 
