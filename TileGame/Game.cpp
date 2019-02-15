@@ -279,6 +279,8 @@ void Game::start() {
 		sf::Int32 now = clock.getElapsedTime().asMilliseconds();
 		sf::Int32 dt = now - last;
 		if (!togglingFullscreen) {
+			handler.inputManager->updateJoystick(dt);
+			handler.inputManager->updateMouse();
 			sf::Event event;
 			while (handler.window->pollEvent(event)) {
 

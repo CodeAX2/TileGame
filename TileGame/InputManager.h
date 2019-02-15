@@ -8,14 +8,7 @@ namespace tg {
 	{
 
 	private:
-		bool keys[4] = { false }; // Up, right, down, left
-		bool toggleKey = false;
-		bool previousToggleKey = false;
-		bool hitboxShown = false;
-		bool runningKey = false;
-		bool attackKey = false;
 		Handler* handler;
-		float zoom = 1.f;
 		std::vector<sf::Keyboard::Key> numberKeys = {
 			sf::Keyboard::Key::Num1,
 			sf::Keyboard::Key::Num2,
@@ -31,6 +24,14 @@ namespace tg {
 	public:
 		bool mouseIsPressed = false;
 		bool usingController = false;
+		bool runningKey = false;
+		bool keys[4] = { false }; // Up, right, down, left
+		bool toggleKey = false;
+		bool previousToggleKey = false;
+		bool hitboxShown = false;
+		bool attackKey = false;
+		float zoom = 1.f;
+		bool joyStickButtons[8] = { false };
 
 	public:
 
@@ -48,14 +49,15 @@ namespace tg {
 		float getZoomLevel() { return zoom; }
 		void setZoomLevel(float z) { zoom = z; }
 		void disableCurrentMovement();
+		void updateJoystick(sf::Uint32 dt);
+		void updateMouse();
 
 	private:
 		void updateKeys(sf::Event e);
 		void mouseClicked(sf::Event e);
 		void mouseScrolled(sf::Event e);
 
-		void updateJoystick(sf::Uint32 dt);
-		void updateMouse();
+
 
 	};
 

@@ -28,6 +28,7 @@ namespace tg {
 		virtual void resume();
 		virtual void mouseClicked(sf::Event e);
 		virtual void updateMouse();
+		virtual void updateJoystick(sf::Int32 dt);
 
 
 	};

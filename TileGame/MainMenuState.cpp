@@ -1,7 +1,7 @@
 #include "MainMenuState.h"
 #include "Assets.h"
 #include "resource.h"
-
+#include "InputManager.h"
 
 MainMenuState::MainMenuState(Handler* handler) : GameState(MAIN_MENU), handler(handler) {
 
@@ -128,5 +128,96 @@ void MainMenuState::updateMouse() {
 			state->setButtonHover(false, i);
 		}
 	}
+
+}
+
+void MainMenuState::updateJoystick(sf::Int32 dt) {
+	InputManager* im = handler->inputManager;
+
+	float jX = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
+	float jY = sf::Joystick::getAxisPosition(0, sf::Joystick::Y);
+	sf::Vector2f v = handler->window->getView().getSize();
+	sf::Vector2u w = handler->window->getSize();
+	sf::Vector2i buttonSize(361, 134);
+
+	if (jY <= -30) {
+		im->usingController = true;
+		if (prevJoystickPos == 0) {
+			// Move down a selection
+			controllerSelectedButton++;
+			if (controllerSelectedButton > 1)
+				controllerSelectedButton = 0;
+			std::vector<sf::Vector2i> buttonPos = getButtonPositions();
+			sf::Vector2i curButton = buttonPos[controllerSelectedButton];
+			curButton += buttonSize / 2;
+			curButton.x *= w.x / v.x;
+			curButton.y *= w.y / v.y;
+
+			sf::Mouse::setPosition(curButton, *(handler->window));
+		}
+
+		prevJoystickPos = -30;
+
+	} else if (jY >= 30) {
+
+		im->usingController = true;
+		if (prevJoystickPos == 0) {
+			// Move up a selection
+			controllerSelectedButton--;
+			if (controllerSelectedButton < 0)
+				controllerSelectedButton = 1;
+
+			std::vector<sf::Vector2i> buttonPos = getButtonPositions();
+			sf::Vector2i curButton = buttonPos[controllerSelectedButton];
+			curButton += buttonSize / 2;
+			curButton.x *= w.x / v.x;
+			curButton.y *= w.y / v.y;
+
+			sf::Mouse::setPosition(curButton, *(handler->window));
+		}
+
+		prevJoystickPos = 30;
+
+	} else {
+		prevJoystickPos = 0;
+	}
+
+
+
+
+	// Select an option
+	if (sf::Joystick::isButtonPressed(0, 1)) {
+		bool prevValue = im->joyStickButtons[1];
+		im->joyStickButtons[1] = true;
+		if (!prevValue) {
+
+			int mx = v.x * sf::Mouse::getPosition(*(handler->window)).x / w.x;
+			int my = v.y * sf::Mouse::getPosition(*(handler->window)).y / w.y;
+
+			sf::Vector2i mp(mx, my);
+			MainMenuState* state = dynamic_cast<MainMenuState*>(handler->getCurrentState());
+
+			std::vector<sf::Vector2i> buttonPos = state->getButtonPositions();
+
+			sf::Vector2i buttonSize(361, 132);
+
+			for (int i = 0; i < buttonPos.size(); i++) {
+				sf::IntRect buttonBounds(buttonPos[i], buttonSize);
+				if (buttonBounds.contains(mp)) {
+					if (i == 0) {
+						handler->setGameState(LOADING);
+						return;
+					} else if (i == 1) {
+						handler->window->close();
+						return;
+					}
+				}
+			}
+
+		}
+	} else {
+		im->joyStickButtons[1] = false;
+	}
+
 
 }

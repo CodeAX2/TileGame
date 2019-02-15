@@ -15,6 +15,8 @@ private:
 	std::vector<sf::Vector2i> mainMenuButtonsPos;
 	std::vector<bool> mainMenuButtonHovering;
 	Handler* handler;
+	int controllerSelectedButton = 0;
+	float prevJoystickPos = 0;
 
 public:
 	MainMenuState(Handler* handler);
@@ -26,6 +28,7 @@ public:
 	void exit() override;
 	void mouseClicked(sf::Event e) override;
 	void updateMouse() override;
+	void updateJoystick(sf::Int32 dt) override;
 
 	std::vector<sf::Vector2i> getButtonPositions() { return mainMenuButtonsPos; }
 	void setButtonHover(bool hovering, int buttonId);

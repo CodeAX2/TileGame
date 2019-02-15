@@ -17,6 +17,7 @@ namespace tg {
 		void pause() override;
 		void updateMouse() override;
 		void mouseClicked(sf::Event e) override;
+		void updateJoystick(sf::Int32 dt) override;
 
 	private:
 		void renderInventory();

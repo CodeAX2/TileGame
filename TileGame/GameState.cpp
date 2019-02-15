@@ -47,4 +47,8 @@ void GameState::updateMouse() {
 
 }
 
+void GameState::updateJoystick(sf::Int32 dt) {
+
+}
+
 // Not much here, as this is just the base of other classes
