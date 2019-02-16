@@ -5,6 +5,7 @@
 #include "Building.h"
 #include "PlayingState.h"
 #include "DeathQuotes.h"
+#include "ItemMeta.h"
 
 using namespace tg;
 
@@ -542,17 +543,9 @@ void Player::hitEntities() {
 		sf::IntRect eBox = cur->getCollisionBox();
 		if (eBox.intersects(aBox)) {
 
-			int damage = 20;
+			int damage = ItemMeta::getItemDamage(cur->type, getItemInfoInHotBar().first);
 
-			if (cur->type == TREE_E) {
-				if (getItemInfoInHotBar().first != 2) {
-					damage = 5;
-				}
-			}
-
-			if (damage != 0) {
-				cur->damage(damage, this);
-			}
+			cur->damage(damage, this);
 		}
 
 

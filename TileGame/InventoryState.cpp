@@ -26,6 +26,10 @@ InventoryState::~InventoryState() {
 
 void InventoryState::render() {
 
+	if (guiFont.getInfo().family == "") {
+		guiFont = handler->assets->getArialiFont();
+	}
+
 	handler->getCustomState(PLAYING)->render();
 	renderInventory();
 
@@ -63,7 +67,7 @@ void InventoryState::renderInventory() {
 
 			sf::Text count;
 			count.setString(std::to_string(inv->getInventory()[i].second));
-			count.setFont(*(handler->assets->getArialiFont()));
+			count.setFont(guiFont);
 			count.setCharacterSize(16);
 			count.setPosition(sf::Vector2f(i * 42 * 3 + 28 * 3 + 12, bottomRowOffset + 108 - count.getGlobalBounds().height - 10));
 			handler->window->draw(count);
@@ -85,7 +89,7 @@ void InventoryState::renderInventory() {
 
 				sf::Text count;
 				count.setString(std::to_string(inv->getInventory()[index].second));
-				count.setFont(*(handler->assets->getArialiFont()));
+				count.setFont(guiFont);
 				count.setCharacterSize(16);
 				count.setPosition(sf::Vector2f((j + 1) * 42 * 3 + 28 * 3 + 12, yOffset + (size + ySpace) * (i + 1) + size - count.getGlobalBounds().height - 10));
 				handler->window->draw(count);
@@ -114,7 +118,7 @@ void InventoryState::renderInventory() {
 
 		sf::Text count;
 		count.setString(std::to_string(inv->getInventory()[index].second));
-		count.setFont(*(handler->assets->getArialiFont()));
+		count.setFont(guiFont);
 		count.setCharacterSize(16);
 		count.setPosition(sf::Vector2f(mx + 14 - size / 2, my + size - count.getGlobalBounds().height - 10 - size / 2));
 		handler->window->draw(count);
@@ -158,7 +162,7 @@ void InventoryState::renderItemInfo() {
 
 
 		sf::Text infoText;
-		infoText.setFont(*(handler->assets->getArialiFont()));
+		infoText.setFont(guiFont);
 		infoText.setString(ItemDesc::getInfo(itemId));
 		infoText.setCharacterSize(16);
 		infoText.setLineSpacing(1.2f);

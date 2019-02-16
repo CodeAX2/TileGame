@@ -43,7 +43,6 @@ namespace tg {
 		bool isARideable = false;
 		UUID uuid;
 
-
 	public:
 		const bool needsTicking;
 		const int type;

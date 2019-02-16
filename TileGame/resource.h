@@ -42,12 +42,13 @@
 #define MENU_INV                        138
 #define INV_HIGHLIGHT                   139
 #define WOOD_BRIDGE_ITEM                140
+#define METAL_SWORD_ITEM                141
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        141
+#define _APS_NEXT_RESOURCE_VALUE        142
 #define _APS_NEXT_COMMAND_VALUE         40002
 #define _APS_NEXT_CONTROL_VALUE         1001
 #define _APS_NEXT_SYMED_VALUE           101

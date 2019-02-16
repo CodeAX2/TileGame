@@ -40,6 +40,10 @@ void PlayingState::zoom() {
 // Render every part of the game
 void PlayingState::render() {
 
+	if (guiFont.getInfo().family == "") {
+		guiFont = handler->assets->getArialiFont();
+	}
+
 	if (world == nullptr) {
 		world = handler->mainWorld;
 	}
@@ -274,7 +278,7 @@ void PlayingState::renderGUI() {
 			handler->window->draw(curItem);
 			sf::Text count;
 			count.setString(std::to_string(pInv->getInventory()[i].second));
-			count.setFont(*(handler->assets->getArialiFont()));
+			count.setFont(guiFont);
 			count.setCharacterSize(16);
 			count.setPosition(sf::Vector2f(i * 42 * 3 + 28 * 3 + 12, y + 102 - count.getGlobalBounds().height - 10));
 			handler->window->draw(count);
@@ -299,8 +303,7 @@ void PlayingState::renderGUI() {
 
 
 	sf::Text healthText;
-	sf::Font f = *(handler->assets->getArialiFont());
-	healthText.setFont(f);
+	healthText.setFont(guiFont);
 	std::stringstream ss;
 	ss << handler->player->getHealth() << "/" << handler->player->getMaxHealth();
 
@@ -333,7 +336,7 @@ void PlayingState::renderGUI() {
 
 
 	sf::Text stamText;
-	stamText.setFont(f);
+	stamText.setFont(guiFont);
 	ss = std::stringstream();
 	ss << handler->player->getStamina() << "/" << handler->player->getMaxStamina();
 
@@ -361,7 +364,7 @@ void PlayingState::renderGUI() {
 
 
 	sf::Text magicText;
-	magicText.setFont(f);
+	magicText.setFont(guiFont);
 	ss = std::stringstream();
 	ss << handler->player->getMagic() << "/" << handler->player->getMaxMagic();
 
@@ -413,7 +416,7 @@ void PlayingState::renderDeathScreen() {
 
 	handler->window->draw(deathOverlay);
 
-	sf::Text gameOverText((std::string)"GAME OVER!", *(handler->assets->getArialiFont()));
+	sf::Text gameOverText((std::string)"GAME OVER!", guiFont);
 	gameOverText.setCharacterSize(80);
 	sf::Vector2f viewSize = handler->window->getView().getSize();
 	gameOverText.setPosition(
@@ -424,7 +427,7 @@ void PlayingState::renderDeathScreen() {
 
 	handler->window->draw(gameOverText);
 
-	sf::Text deathText(deathMessage, *(handler->assets->getArialiFont()));
+	sf::Text deathText(deathMessage, guiFont);
 	deathText.setCharacterSize(30);
 	deathText.setPosition(
 		viewSize.x / 2 - deathText.getGlobalBounds().width / 2,

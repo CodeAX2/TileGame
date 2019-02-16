@@ -110,11 +110,12 @@
       <Filter>Source Files\Game States</Filter>
     </ClCompile>
     <ClCompile Include="Inventory.cpp">
-      <Filter>Source Files\Main Engine</Filter>
+      <Filter>Source Files\Items</Filter>
     </ClCompile>
     <ClCompile Include="ItemDesc.cpp">
-      <Filter>Source Files\Main Engine</Filter>
+      <Filter>Source Files\Items</Filter>
     </ClCompile>
+    <ClCompile Include="ItemMeta.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -229,11 +230,12 @@
       <Filter>Header Files\Game States</Filter>
     </ClInclude>
     <ClInclude Include="Inventory.h">
-      <Filter>Header Files\Main Engine</Filter>
+      <Filter>Header Files\Items</Filter>
     </ClInclude>
     <ClInclude Include="ItemDesc.h">
-      <Filter>Header Files\Main Engine</Filter>
+      <Filter>Header Files\Items</Filter>
     </ClInclude>
+    <ClInclude Include="ItemMeta.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="BuildingFileOutline.txt">
@@ -342,6 +344,12 @@
     </Filter>
     <Filter Include="Header Files\Entities\Non-Statics\Pathfinder">
       <UniqueIdentifier>{149a709c-6f53-41c8-99b2-6e61a4b6ac82}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Items">
+      <UniqueIdentifier>{6f873b21-e93f-47b4-b49e-59c43f0c82d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Items">
+      <UniqueIdentifier>{c917ae02-7493-45ce-b898-804d8e5c07dc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -474,6 +482,9 @@
       <Filter>Resource Files\Textures</Filter>
     </Image>
     <Image Include="Resources\Textures\Woodbridge.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\MetalSword.png">
       <Filter>Resource Files\Textures</Filter>
     </Image>
   </ItemGroup>

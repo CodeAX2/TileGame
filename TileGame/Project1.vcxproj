@@ -36,6 +36,7 @@
     <ClCompile Include="InventoryState.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="ItemDesc.cpp" />
+    <ClCompile Include="ItemMeta.cpp" />
     <ClCompile Include="Loader.cpp" />
     <ClCompile Include="LoadingState.cpp" />
     <ClCompile Include="MainMenuState.cpp" />
@@ -76,6 +77,7 @@
     <ClInclude Include="InventoryState.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="ItemDesc.h" />
+    <ClInclude Include="ItemMeta.h" />
     <ClInclude Include="Loader.h" />
     <ClInclude Include="LoadingState.h" />
     <ClInclude Include="MainMenuState.h" />
@@ -128,6 +130,7 @@
     <Image Include="Resources\Textures\InvHighlight.png" />
     <Image Include="Resources\Textures\Log.png" />
     <Image Include="Resources\Textures\MainMenu Buttons.png" />
+    <Image Include="Resources\Textures\MetalSword.png" />
     <Image Include="Resources\Textures\Path24.png" />
     <Image Include="Resources\Textures\Pumpkin.png" />
     <Image Include="Resources\Textures\PumpkinLit.png" />

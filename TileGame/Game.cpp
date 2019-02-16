@@ -20,6 +20,7 @@
 #include "DeathQuotes.h"
 #include "Zombie.h"
 #include "ItemDesc.h"
+#include "ItemMeta.h"
 
 using namespace tg;
 
@@ -43,6 +44,7 @@ commandThread(&Game::commandLoop, this), debugThread(&Game::debugLoop, this) {
 
 	DeathQuotes::init();
 	ItemDesc::init();
+	ItemMeta::init();
 
 }
 

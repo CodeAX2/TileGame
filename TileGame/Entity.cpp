@@ -70,8 +70,7 @@ void Entity::render(Handler* handler) {
 	// The health bar changes color based on the health variable
 	if (health < maxHealth && health >= 0) {
 		sf::Text healthText;
-		sf::Font f = *(handler->assets->getArialiFont());
-		healthText.setFont(f);
+		healthText.setFont(handler->assets->getArialiFont());
 
 		std::stringstream ss;
 		ss << health << "/" << maxHealth;

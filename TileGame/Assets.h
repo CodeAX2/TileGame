@@ -24,7 +24,7 @@ namespace tg {
 		sf::Texture* tallGrass;
 		sf::Texture* boat;
 		sf::Texture* pumpkin[2];
-		sf::Font* ariali;
+		sf::Font ariali;
 		sf::Texture* vignette;
 		sf::Texture* guiInv;
 		int operations = 0;
@@ -104,7 +104,7 @@ namespace tg {
 
 		}
 
-		sf::Font* getArialiFont() {
+		sf::Font& getArialiFont() {
 			return ariali;
 		}
 

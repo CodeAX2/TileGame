@@ -13,7 +13,7 @@ namespace tg {
 		Handler * handler;
 		bool loaded = false;
 		Loader loader;
-		sf::Font* loadingFont = nullptr;
+		sf::Font loadingFont;
 		float transp = 0;
 		bool beganLoading = false;
 

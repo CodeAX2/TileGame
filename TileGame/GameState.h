@@ -1,6 +1,7 @@
 #pragma once
 #include <SFML/Main.hpp>
 #include <SFML/Window.hpp>
+#include <SFML/Graphics.hpp>
 
 #define PLAYING 0
 #define LOADING 1
@@ -13,6 +14,9 @@ namespace tg {
 
 	private:
 		int type;
+
+	protected:
+		sf::Font guiFont;
 
 	public:
 		GameState(int type);

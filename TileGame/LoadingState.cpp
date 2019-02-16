@@ -24,10 +24,10 @@ void LoadingState::render() {
 	handler->window->draw(bg);
 
 	sf::Text loadingMessage;
-	if (loadingFont == nullptr) {
+	if (guiFont.getInfo().family == "") {
 		return;
 	}
-	loadingMessage.setFont(*loadingFont);
+	loadingMessage.setFont(guiFont);
 
 	std::stringstream ss;
 	ss << loader.getLoadingMessage();
@@ -42,7 +42,7 @@ void LoadingState::render() {
 	handler->window->draw(loadingMessage);
 
 	sf::Text signature;
-	signature.setFont(*loadingFont);
+	signature.setFont(guiFont);
 
 	signature.setString("Created by Jacob Hofer");
 	signature.setCharacterSize(45);
@@ -64,8 +64,8 @@ void LoadingState::tick(sf::Int32 dt) {
 
 	transp += dt / 5.f;
 
-	if (loadingFont == nullptr) {
-		loadingFont = handler->assets->getArialiFont();
+	if (guiFont.getInfo().family == "") {
+		guiFont = handler->assets->getArialiFont();
 	}
 
 	if (loader.isFinished()) {

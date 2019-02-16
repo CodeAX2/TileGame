@@ -75,7 +75,7 @@ sf::Font Assets::loadFontFromResource(int name) {
 }
 
 Assets::Assets() {
-	ariali = new sf::Font(loadFontFromResource(ARIALI));
+	ariali = sf::Font(loadFontFromResource(ARIALI));
 
 	srand(time(NULL));
 
@@ -177,6 +177,7 @@ void Assets::init() {
 	addItemTexture(CANDY_ITEM, 3);
 	addItemTexture(CAVE_CANDY_ITEM, 4);
 	addItemTexture(WOOD_BRIDGE_ITEM, 5);
+	addItemTexture(METAL_SWORD_ITEM, 6);
 
 	for (int i = 0; i < 4; i++) {
 		sf::Texture* curGem = new sf::Texture();
@@ -245,7 +246,6 @@ Assets::~Assets() {
 	delete snowyTreeAnimation;
 	delete tallGrass;
 	delete guiInv;
-	delete ariali;
 
 }
 
