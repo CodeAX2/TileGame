@@ -177,6 +177,10 @@ void Game::commandLoop() {
 
 		} else if (cmd == "getpos") {
 			std::cout << handler.player->getX() << " " << handler.player->getY() << std::endl;
+		} else if (cmd == "mutemusic") {
+			PlayingState* ps = dynamic_cast<PlayingState*>(handler.getCustomState(PLAYING));
+			ps->pauseBGMusic();
+		
 		} else {
 			std::cout << "Invalid command!" << std::endl;
 		}

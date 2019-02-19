@@ -72,10 +72,7 @@ void Entity::render(Handler* handler) {
 		sf::Text healthText;
 		healthText.setFont(handler->assets->getArialiFont());
 
-		std::stringstream ss;
-		ss << health << "/" << maxHealth;
-
-		healthText.setString(ss.str());
+		healthText.setString(std::to_string(health) + "/" + std::to_string(maxHealth));
 		healthText.setCharacterSize(15);
 		healthText.setPosition((int)(x - floor(handler->camera->getXOffset())) - healthText.getLocalBounds().width / 2 + w / 2, (int)(y + 23 - floor(handler->camera->getYOffset())));
 		if (health > maxHealth || health < 0 || handler == nullptr) return;

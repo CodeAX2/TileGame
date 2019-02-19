@@ -105,7 +105,7 @@ void InputManager::updateKeys(sf::Event e) {
 			handler->setGameState(PLAYING);
 		}
 		break;
-	case sf::Keyboard::E:
+	case sf::Keyboard::Tab:
 		if (value) {
 
 			if (handler->getCurrentState()->getType() == PLAYING) {
