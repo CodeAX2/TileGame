@@ -34,6 +34,11 @@ void ItemDesc::init() {
 		" Place it on some water\n"
 		" and walk across it.";
 
+	itemDescriptions[6] =
+		"METAL SWORD:\n"
+		" Use this weapon to\n"
+		" effectively kill monsters.";
+
 }
 
 std::string ItemDesc::getInfo(int id) {

@@ -32,6 +32,7 @@ namespace tg {
 		sf::Texture* sandCastle;
 		sf::Texture* snowTallGrass;
 		sf::Texture* treasureChest;
+		sf::Texture* interactPrompt;
 
 	public:
 		Assets();
@@ -113,6 +114,7 @@ namespace tg {
 		}
 
 		sf::Texture* getVignette() { return vignette; }
+		sf::Texture* getInteractPrompt() { return interactPrompt; }
 
 		sf::Texture* getOuterTexture(sf::Uint8 baseTileId, sf::Uint8 outsideData, int x, int y, bool random = true) {
 

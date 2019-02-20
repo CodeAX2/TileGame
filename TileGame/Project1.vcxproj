@@ -32,6 +32,7 @@
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="Handler.cpp" />
     <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="Interactable.cpp" />
     <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="InventoryState.cpp" />
     <ClCompile Include="Item.cpp" />
@@ -73,6 +74,7 @@
     <ClInclude Include="GameState.h" />
     <ClInclude Include="Handler.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="Interactable.h" />
     <ClInclude Include="Inventory.h" />
     <ClInclude Include="InventoryState.h" />
     <ClInclude Include="Item.h" />
@@ -126,6 +128,7 @@
     <Image Include="Resources\Textures\HalloweenCandy.png" />
     <Image Include="Resources\Textures\icon.ico" />
     <Image Include="Resources\Textures\InsideWall Tiles.png" />
+    <Image Include="Resources\Textures\InteractIcon.png" />
     <Image Include="Resources\Textures\InventoryMenu.png" />
     <Image Include="Resources\Textures\InvHighlight.png" />
     <Image Include="Resources\Textures\Log.png" />

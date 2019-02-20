@@ -1,10 +1,9 @@
 #include "TreasureChest.h"
 #include "Item.h"
-
 using namespace tg;
 
 TreasureChest::TreasureChest(int x, int y, Handler* handler, World* world) :
-	Static(x, y, handler, 9, 32 * 3 - 25, 32 * 3 - 18, 25, 32 * 3, 32 * 3, false, TREASURE_CHEST_E, 73, world) {
+	Interactable(x, y, handler, 9, 32 * 3 - 25, 32 * 3 - 18, 25, 32 * 3, 32 * 3, true, TREASURE_CHEST_E, 73, world) {
 
 	this->texture = handler->assets->getTreasureChestTexture();
 	this->maxHealth = 140;
@@ -62,3 +61,23 @@ void TreasureChest::setItemAmount(int itemId, int amount) {
 	contains[itemId] = amount;
 }
 
+void TreasureChest::tick(sf::Int32 dt) {
+	updateState();
+	timeAlive += dt;
+}
+
+void TreasureChest::render(Handler* handler) {
+	Entity::render(handler);
+	if (enabled) {
+		sf::Texture* interactTexture = handler->assets->getInteractPrompt();
+		sf::RectangleShape interact(sf::Vector2f(interactTexture->getSize().x * 3, interactTexture->getSize().y * 3));
+		float yExtra = sin(timeAlive / 200.f) * 5;
+		interact.setPosition(x - handler->camera->getXOffset(), y - handler->camera->getYOffset() + yExtra - interactTexture->getSize().y * 3.f / 2.f + 5);
+		interact.setTexture(interactTexture);
+		handler->window->draw(interact);
+	}
+}
+
+void TreasureChest::onInteract() {
+	damage(health, nullptr);
+}

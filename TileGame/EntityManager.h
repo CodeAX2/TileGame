@@ -48,7 +48,7 @@ namespace tg {
 		World* world = nullptr;
 
 		std::vector<std::vector<std::vector<Entity*>>> entityTileMap; // Format of [y][x]
-
+		
 
 	};
 

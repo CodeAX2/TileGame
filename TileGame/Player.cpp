@@ -170,18 +170,22 @@ void Player::tick(sf::Int32 dt) {
 	// Simple update of directions
 	if (keys[0]) {
 		vertDirection = NORTH;
+		facingVert = NORTH;
 	}
 
 	if (keys[2]) {
 		vertDirection = SOUTH;
+		facingVert = SOUTH;
 	}
 
 	if (keys[1]) {
 		horiDirection = EAST;
+		facingHori = EAST;
 	}
 
 	if (keys[3]) {
 		horiDirection = WEST;
+		facingHori = WEST;
 	}
 
 	if (keys[3] && keys[1]) {
@@ -200,6 +204,15 @@ void Player::tick(sf::Int32 dt) {
 	if ((keys[1] || keys[3]) && vertDirection != STILL && !(keys[0] || keys[2])) {
 		vertDirection = STILL;
 	}
+
+	if ((keys[0] || keys[2]) && !(keys[1] || keys[3])) {
+		facingHori = STILL;
+	}
+
+	if (!(keys[0] || keys[2]) && (keys[1] || keys[3])) {
+		facingVert = STILL;
+	}
+
 
 
 	// Update textures
@@ -592,4 +605,10 @@ void Player::damage(int dmg, Entity* damager) {
 		}
 	}
 
+}
+
+void Player::interact() {
+	if (curInteracting != nullptr) {
+		curInteracting->onInteract();
+	}
 }

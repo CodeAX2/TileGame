@@ -5,6 +5,7 @@
 #include <SFML/Graphics/Rect.hpp>
 #include <math.h>
 #include "Inventory.h"
+#include "Interactable.h"
 
 #define STILL 0
 #define NORTH 1
@@ -25,22 +26,21 @@ namespace tg {
 		bool attacking = false;
 		int vertDirection = STILL;
 		int horiDirection = STILL;
+		int facingVert = SOUTH;
+		int facingHori = STILL;
 		sf::RectangleShape atBox;
 		Inventory* inventory;
 		bool settingNewPos = false;
 		float newX = 0, newY = 0;
-
 		int maxStam = 100;
 		float stam = maxStam;
 		sf::Int32 stamRegenCooldown = 0;
 		bool slowRegen = false;
-
 		int maxMagic = 100;
 		int magic = maxMagic;
-
 		float hue = 0;
-
 		int hotBarSlot = 0;
+		Interactable* curInteracting = nullptr;
 
 	public:
 		Player(float x, float y, Handler* handler, World* world);
@@ -90,6 +90,14 @@ namespace tg {
 		std::pair<int, int> getItemInfoInHotBar() { return inventory->getInventory()[hotBarSlot]; }
 		void removeItemFromHotbar();
 
+		int getFacingVert() { return facingVert; }
+		int getFacingHori() { return facingHori; }
+
+		Interactable* getCurrentInteracting() { return curInteracting; }
+		void setCurrentInteracting(Interactable* interactable) { curInteracting = interactable; }
+
+		void interact();
+		
 	private:
 		bool checkForCollision();
 		void hitEntities();

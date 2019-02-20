@@ -115,7 +115,12 @@
     <ClCompile Include="ItemDesc.cpp">
       <Filter>Source Files\Items</Filter>
     </ClCompile>
-    <ClCompile Include="ItemMeta.cpp" />
+    <ClCompile Include="ItemMeta.cpp">
+      <Filter>Source Files\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="Interactable.cpp">
+      <Filter>Source Files\Entities\Statics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -235,7 +240,12 @@
     <ClInclude Include="ItemDesc.h">
       <Filter>Header Files\Items</Filter>
     </ClInclude>
-    <ClInclude Include="ItemMeta.h" />
+    <ClInclude Include="ItemMeta.h">
+      <Filter>Header Files\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="Interactable.h">
+      <Filter>Header Files\Entities\Statics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="BuildingFileOutline.txt">
@@ -485,6 +495,9 @@
       <Filter>Resource Files\Textures</Filter>
     </Image>
     <Image Include="Resources\Textures\MetalSword.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\InteractIcon.png">
       <Filter>Resource Files\Textures</Filter>
     </Image>
   </ItemGroup>

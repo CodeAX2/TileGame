@@ -116,6 +116,13 @@ void InputManager::updateKeys(sf::Event e) {
 		}
 		break;
 
+	case sf::Keyboard::E:
+		if (value) {
+
+			handler->player->interact();
+		}
+		break;
+
 	default:
 		if (handler->getCurrentState()->getType() == PLAYING && value) {
 			std::vector<sf::Keyboard::Key>::iterator pos = std::find(numberKeys.begin(), numberKeys.end(), key);

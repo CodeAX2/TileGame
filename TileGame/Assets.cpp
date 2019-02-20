@@ -103,6 +103,10 @@ void Assets::init() {
 	vignette->loadFromImage(loadImageFromResource(VIGNETTE));
 	operations++;
 
+	interactPrompt = new sf::Texture();
+	interactPrompt->loadFromImage(loadImageFromResource(INTERACT_PROMPT));
+	operations++;
+
 	treeAnimation = new Animation();
 
 	sf::Image treeSheet = loadImageFromResource(TREE_SHEET);
