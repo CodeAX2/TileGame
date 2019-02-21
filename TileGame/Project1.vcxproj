@@ -25,6 +25,7 @@
     <ClCompile Include="Building.cpp" />
     <ClCompile Include="BuildingFile.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="ChestInventoryState.cpp" />
     <ClCompile Include="DeathQuotes.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EntityManager.cpp" />
@@ -67,6 +68,7 @@
     <ClInclude Include="Building.h" />
     <ClInclude Include="BuildingFile.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="ChestInventoryState.h" />
     <ClInclude Include="DeathQuotes.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityManager.h" />
@@ -122,6 +124,7 @@
     <Image Include="Resources\Textures\CaveCandy.png" />
     <Image Include="Resources\Textures\CaveEntrance.png" />
     <Image Include="Resources\Textures\CaveFloor24.png" />
+    <Image Include="Resources\Textures\ChestInventoryMenu.png" />
     <Image Include="Resources\Textures\Gems.png" />
     <Image Include="Resources\Textures\Grass24.png" />
     <Image Include="Resources\Textures\GUI-Inventory.png" />

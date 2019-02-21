@@ -1,5 +1,8 @@
 #include "TreasureChest.h"
 #include "Item.h"
+#include "GameState.h"
+#include "ChestInventoryState.h"
+
 using namespace tg;
 
 TreasureChest::TreasureChest(int x, int y, Handler* handler, World* world) :
@@ -79,5 +82,14 @@ void TreasureChest::render(Handler* handler) {
 }
 
 void TreasureChest::onInteract() {
-	damage(health, nullptr);
+	if (handler->getCurrentState()->getType() != CHEST_INVENTORY) {
+		handler->setGameState(CHEST_INVENTORY);
+		ChestInventoryState* state = dynamic_cast<ChestInventoryState*>(handler->getCurrentState());
+		state->setOpenChest(this);
+	} else {
+		ChestInventoryState* state = dynamic_cast<ChestInventoryState*>(handler->getCurrentState());
+		state->setOpenChest(nullptr);
+		handler->setGameState(PLAYING);
+	}
+
 }

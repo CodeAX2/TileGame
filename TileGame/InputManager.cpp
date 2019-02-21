@@ -103,6 +103,8 @@ void InputManager::updateKeys(sf::Event e) {
 			handler->setGameState(PLAYING);
 		} else if (value && handler->getCurrentState()->getType() == MAIN_MENU) {
 			handler->setGameState(PLAYING);
+		} else if (value && handler->getCurrentState()->getType() == CHEST_INVENTORY) {
+			handler->setGameState(PLAYING);
 		}
 		break;
 	case sf::Keyboard::Tab:

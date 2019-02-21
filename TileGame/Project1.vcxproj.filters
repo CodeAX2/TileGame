@@ -121,6 +121,9 @@
     <ClCompile Include="Interactable.cpp">
       <Filter>Source Files\Entities\Statics</Filter>
     </ClCompile>
+    <ClCompile Include="ChestInventoryState.cpp">
+      <Filter>Source Files\Game States</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -245,6 +248,9 @@
     </ClInclude>
     <ClInclude Include="Interactable.h">
       <Filter>Header Files\Entities\Statics</Filter>
+    </ClInclude>
+    <ClInclude Include="ChestInventoryState.h">
+      <Filter>Header Files\Game States</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -498,6 +504,9 @@
       <Filter>Resource Files\Textures</Filter>
     </Image>
     <Image Include="Resources\Textures\InteractIcon.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\ChestInventoryMenu.png">
       <Filter>Resource Files\Textures</Filter>
     </Image>
   </ItemGroup>
