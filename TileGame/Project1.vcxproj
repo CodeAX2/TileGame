@@ -162,6 +162,7 @@
     <Image Include="Resources\Textures\Wood24.png" />
     <Image Include="Resources\Textures\Woodbridge.png" />
     <Image Include="Resources\Textures\WoodHut.png" />
+    <Image Include="Resources\Textures\WoodSword.png" />
     <Image Include="Resources\Textures\Zombie.png" />
   </ItemGroup>
   <ItemGroup>

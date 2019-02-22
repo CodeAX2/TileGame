@@ -8,7 +8,7 @@ std::map<int, ItemMeta*> ItemMeta::allItemMetas;
 
 void ItemMeta::init() {
 
-	for (int i = 0; i <= 6; i++) {
+	for (int i = 0; i <= 7; i++) {
 		new ItemMeta(i);
 		allItemMetas.at(i)->setEntityDamage(TREE_E, 5);
 		allItemMetas.at(i)->setEntityDamage(ZOMBIE_E, 5);
@@ -18,6 +18,8 @@ void ItemMeta::init() {
 	allItemMetas[2]->setEntityDamage(ZOMBIE_E, 10);
 
 	allItemMetas[6]->setEntityDamage(ZOMBIE_E, 20);
+
+	allItemMetas[7]->setEntityDamage(ZOMBIE_E, 10);
 
 }
 

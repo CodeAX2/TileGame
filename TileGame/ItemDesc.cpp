@@ -39,6 +39,11 @@ void ItemDesc::init() {
 		" Use this weapon to\n"
 		" effectively kill monsters.";
 
+	itemDescriptions[7] =
+		"WOODEN SWORD:\n"
+		" Use this weapon to\n"
+		" damage and kill monsters.";
+
 }
 
 std::string ItemDesc::getInfo(int id) {

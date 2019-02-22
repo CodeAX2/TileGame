@@ -124,7 +124,7 @@ void Loader::loadEntities() {
 		loadingMessage = "Loading treasure chests...";
 		TreasureChest* startIsland = new TreasureChest(51, 45, handler, world);
 		startIsland->setItem(5, 10, 0);
-		startIsland->setItem(6, 1, 7);
+		startIsland->setItem(7, 1, 7);
 		(new TreasureChest(83, 53, handler, world))->setItem(5, 10, 0);
 		(new TreasureChest(146, 37, handler, world))->setItem(2, 1, 0);
 		(new TreasureChest(212, 90, handler, world))->setItem(2, 1, 0);
