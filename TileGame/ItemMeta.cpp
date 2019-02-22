@@ -22,6 +22,9 @@ void ItemMeta::init() {
 }
 
 int ItemMeta::getItemDamage(int entityType, int itemId) {
+	if (itemId == -1) {
+		itemId = 0; // Use the log as the base hitting item
+	}
 	std::map<int, int> curEntityDamageMap = allItemMetas[itemId]->entityDamageMap;
 	if (curEntityDamageMap.find(entityType) != curEntityDamageMap.end()) {
 

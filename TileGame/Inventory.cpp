@@ -138,3 +138,8 @@ void Inventory::removeItemFromInv(int item, int amnt) {
 
 
 }
+
+
+void Inventory::setItemAtIndex(int itemId, int amnt, int index) {
+	inventory[index] = std::pair<int, int>(itemId, amnt);
+}

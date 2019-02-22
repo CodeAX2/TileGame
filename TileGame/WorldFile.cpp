@@ -131,22 +131,27 @@ World* WorldFile::loadWorldFile(std::string fileName, Handler * handler) {
 
 			file.read((char*)&tX, sizeof(int));
 			file.read((char*)&tY, sizeof(int));
-			file.read((char*)&defaultContents, sizeof(bool));
 
-			std::vector<int> contents;
+			std::vector<std::pair<int, int>> contents;
+			for (int i = 0; i < TreasureChest::CONTENTS_SIZE; i++) {
+				contents.push_back(std::pair<int, int>(-1, -1));
+			}
 
-			for (int i = 0; i < 256; i++) {
-				int amount;
+			for (int i = 0; i < TreasureChest::CONTENTS_SIZE; i++) {
+				int id, amount, pos;
+				file.read((char*)&id, sizeof(int));
 				file.read((char*)&amount, sizeof(int));
-				contents.push_back(amount);
+				file.read((char*)&pos, sizeof(int));
+				contents[pos] = std::pair<int, int>(id, amount);
 			}
 
 			TreasureChest* tc = new TreasureChest(tX, tY, handler, world);
-			if (!defaultContents) {
-				for (int i = 0; i < 256; i++) {
-					tc->setItemAmount(i, contents[i]);
-				}
+
+			for (int i = 0; i < contents.size(); i++) {
+				if (contents[i].first != -1)
+					tc->setItem(contents[i].first, contents[i].second, i);
 			}
+
 			tc->setHealth(health);
 			tc->setMaxHealth(maxHealth);
 			tc->setId(id);
@@ -341,7 +346,6 @@ void WorldFile::saveFile() {
 
 			int tX = curTc->getTX();
 			int tY = curTc->getTY();
-			bool defaultContents = curTc->contentsAreDefault();
 
 			file.write((char*)&type, sizeof(int));
 			file.write((char*)&health, sizeof(int));
@@ -350,12 +354,14 @@ void WorldFile::saveFile() {
 
 			file.write((char*)&tX, sizeof(int));
 			file.write((char*)&tY, sizeof(int));
-			file.write((char*)&defaultContents, sizeof(bool));
-			std::vector<int> contents = curTc->getContents();
+			std::vector<std::pair<int, int>> contents = curTc->getContents();
 
-			for (int i = 0; i < 256; i++) {
-				int amount = contents[i];
+			for (int i = 0; i < contents.size(); i++) {
+				int id = contents[i].first;
+				int amount = contents[i].second;
+				file.write((char*)&id, sizeof(int));
 				file.write((char*)&amount, sizeof(int));
+				file.write((char*)&i, sizeof(int));
 			}
 
 			totalWrittenEntities++;

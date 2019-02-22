@@ -270,7 +270,7 @@ void PlayingState::renderGUI() {
 
 	float y = inventory.getPosition().y + 5;
 	for (int i = 0; i < 9; i++) {
-		if (pInv->getInventory()[i].second != 0) {
+		if (pInv->getInventory()[i].first != -1 && pInv->getInventory()[i].second > 0) {
 			const sf::Texture* curItemTexture = handler->assets->getItemTexture(pInv->getInventory()[i].first);
 			sf::RectangleShape curItem(sf::Vector2f(96, 96));
 			curItem.setTexture(curItemTexture);

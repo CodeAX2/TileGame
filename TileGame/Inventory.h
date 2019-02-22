@@ -21,6 +21,7 @@ namespace tg {
 		void combineItems(int spot1, int spot2);
 		void removeItemAtIndex(int index, int amnt);
 		void removeItemFromInv(int item, int amnt);
+		void setItemAtIndex(int itemId, int amnt, int index);
 
 	private:
 		std::vector<std::pair<int, int>> inventory;

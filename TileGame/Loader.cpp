@@ -122,15 +122,17 @@ void Loader::loadEntities() {
 		new Boat(60 * 96, 24 * 96 - 2, handler, world);
 
 		loadingMessage = "Loading treasure chests...";
-		(new TreasureChest(51, 45, handler, world))->setItemAmount(5, 10);
-		(new TreasureChest(83, 53, handler, world))->setItemAmount(5, 10);
-		(new TreasureChest(146, 37, handler, world))->setItemAmount(2, 1);
-		(new TreasureChest(212, 90, handler, world))->setItemAmount(2, 1);
-		(new TreasureChest(107, 189, handler, world))->setItemAmount(5, 10);
-		(new TreasureChest(103, 186, handler, world))->setItemAmount(0, 10);
-		(new TreasureChest(102, 183, handler, world))->setItemAmount(0, 10);
-		(new TreasureChest(109, 193, handler, world))->setItemAmount(0, 10);
-		(new TreasureChest(111, 197, handler, world))->setItemAmount(0, 10);
+		TreasureChest* startIsland = new TreasureChest(51, 45, handler, world);
+		startIsland->setItem(5, 10, 0);
+		startIsland->setItem(6, 1, 7);
+		(new TreasureChest(83, 53, handler, world))->setItem(5, 10, 0);
+		(new TreasureChest(146, 37, handler, world))->setItem(2, 1, 0);
+		(new TreasureChest(212, 90, handler, world))->setItem(2, 1, 0);
+		(new TreasureChest(107, 189, handler, world))->setItem(5, 10, 0);
+		(new TreasureChest(103, 186, handler, world))->setItem(0, 10, 0);
+		(new TreasureChest(102, 183, handler, world))->setItem(0, 10, 0);
+		(new TreasureChest(109, 193, handler, world))->setItem(0, 10, 0);
+		(new TreasureChest(111, 197, handler, world))->setItem(0, 10, 0);
 		new TreasureChest(135, 160, handler, world);
 		new TreasureChest(120, 232, handler, world);
 		new TreasureChest(201, 224, handler, world);

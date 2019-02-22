@@ -15,6 +15,19 @@ namespace tg {
 		sf::Texture* invBg;
 		sf::Texture* invHighlight;
 		TreasureChest* openChest = nullptr;
+		bool grid[5][9] = {
+			{0,1,1,1,1,1,0,0,0},
+			{0,1,1,1,1,1,0,0,0},
+			{0,1,1,1,1,1,1,1,0},
+			{0,1,1,1,1,1,1,1,0},
+			{1,1,1,1,1,1,1,1,1}
+		};
+
+		const int size = 108;
+		const int xSpace = 18, ySpace = 15;
+		const int xOffset = 82, yOffsetTop = 25, yOffsetMid = 299, yOffsetBottom = 563;
+		int xSlot = -1, ySlot = -1;
+		int clickedSlotX = -1, clickedSlotY = -1;
 
 	public:
 		void render() override;
@@ -22,9 +35,18 @@ namespace tg {
 		void setOpenChest(TreasureChest* chest) { openChest = chest; }
 		void resume() override;
 		void pause() override;
+		void updateMouse() override;
+		void mouseClicked(sf::Event e) override;
+		void updateJoystick(sf::Int32 dt) override;
 
 	private:
-		void renderChestInventory();
+		void renderBackground();
+		void renderItems();
+		void renderHighlight();
+		void renderItemInfo();
+		void swapItems(int itemAx, int itemAy, int itemBx, int itemBy);
+		std::pair<int, int> getItemAt(int x, int y);
+		std::pair<int, bool> getItemIndex(int x, int y);
 
 
 

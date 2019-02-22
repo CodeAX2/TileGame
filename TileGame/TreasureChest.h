@@ -9,14 +9,14 @@ namespace tg {
 		~TreasureChest();
 
 	public:
-		void setItemAmount(int itemId, int amount);
+		void setItem(int itemId, int amount, int spot);
 		void render(Handler* handler) override;
-		std::vector<int> getContents() { return contains; }
-		bool contentsAreDefault() { return defaultContents; }
+		std::vector<std::pair<int, int>> getContents() { return contents; }
+
+		static const int CONTENTS_SIZE = 10;
 
 	private:
-		std::vector<int> contains;
-		bool defaultContents = true;
+		std::vector<std::pair<int, int>> contents;
 		sf::Int32 timeAlive = 0;
 
 	protected:

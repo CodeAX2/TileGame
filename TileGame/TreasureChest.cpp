@@ -12,9 +12,9 @@ TreasureChest::TreasureChest(int x, int y, Handler* handler, World* world) :
 	this->maxHealth = 140;
 	this->health = 140;
 
-	if (contains.size() == 0) {
-		for (int i = 0; i < 256; i++) {
-			contains.push_back(0);
+	if (contents.size() == 0) {
+		for (int i = 0; i < CONTENTS_SIZE; i++) {
+			contents.push_back(std::pair<int, int>(-1, -1));
 		}
 	}
 
@@ -31,37 +31,23 @@ void TreasureChest::dropItems() {
 
 	srand(time(NULL));
 	rand();
-	if (defaultContents) {
-		for (int i = 0; i < 5; i++) {
-			new Item(x + (float)w / 2 - 32 + rand() % 21 - 10, y + h - 64 + rand() % 21 - 10, handler, 1, world);
+
+	for (int i = 0; i < contents.size(); i++) {
+
+		for (int j = 0; j < contents[i].second; j++) {
+			new Item(x + (float)w / 2 - 32 + rand() % 21 - 10, y + h - 64 + rand() % 21 - 10, handler, contents[i].first, world);
 		}
 
-		if (rand() % 5 == 0) {
-			for (int i = 0; i < 3; i++) {
-				new Item(x + (float)w / 2 - 32 + rand() % 21 - 10, y + h - 64 + rand() % 21 - 10, handler, 1, world);
-			}
-		}
-	} else {
-		for (int i = 0; i < contains.size(); i++) {
-			for (int j = 0; j < contains[i]; j++) {
-				new Item(x + (float)w / 2 - 32 + rand() % 21 - 10, y + h - 64 + rand() % 21 - 10, handler, i, world);
-			}
-		}
+
 	}
+
 
 
 }
 
 // Set the amount of a specific item in the chest
-void TreasureChest::setItemAmount(int itemId, int amount) {
-	if (contains.size() == 0) {
-		for (int i = 0; i < 256; i++) {
-			contains.push_back(0);
-		}
-	}
-
-	defaultContents = false;
-	contains[itemId] = amount;
+void TreasureChest::setItem(int itemId, int amount, int spot) {
+	contents[spot] = std::pair<int, int>(itemId, amount);
 }
 
 void TreasureChest::tick(sf::Int32 dt) {
