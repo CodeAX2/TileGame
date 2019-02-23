@@ -44,6 +44,11 @@ void ItemDesc::init() {
 		" Use this weapon to\n"
 		" damage and kill monsters.";
 
+	itemDescriptions[8] =
+		"CHEST:\n"
+		" Stores a variety of\n"
+		" items. Contains 10 slots.";
+
 }
 
 std::string ItemDesc::getInfo(int id) {

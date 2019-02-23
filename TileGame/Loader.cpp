@@ -122,22 +122,23 @@ void Loader::loadEntities() {
 		new Boat(60 * 96, 24 * 96 - 2, handler, world);
 
 		loadingMessage = "Loading treasure chests...";
-		TreasureChest* startIsland = new TreasureChest(51, 45, handler, world);
-		startIsland->setItem(5, 10, 0);
-		startIsland->setItem(7, 1, 7);
-		(new TreasureChest(83, 53, handler, world))->setItem(5, 10, 0);
-		(new TreasureChest(146, 37, handler, world))->setItem(2, 1, 0);
-		(new TreasureChest(212, 90, handler, world))->setItem(2, 1, 0);
-		(new TreasureChest(107, 189, handler, world))->setItem(5, 10, 0);
-		(new TreasureChest(103, 186, handler, world))->setItem(0, 10, 0);
-		(new TreasureChest(102, 183, handler, world))->setItem(0, 10, 0);
-		(new TreasureChest(109, 193, handler, world))->setItem(0, 10, 0);
-		(new TreasureChest(111, 197, handler, world))->setItem(0, 10, 0);
-		new TreasureChest(135, 160, handler, world);
-		new TreasureChest(120, 232, handler, world);
-		new TreasureChest(201, 224, handler, world);
-		new TreasureChest(207, 226, handler, world);
-		new TreasureChest(202, 222, handler, world);
+		TreasureChest* chest = new TreasureChest(51, 45, handler, world);
+		chest->setItem(5, 10, 0);
+		chest->setItem(7, 1, 7);
+
+		(new TreasureChest(83, 53, handler, world))->setItem(5, 10, 2);
+		(new TreasureChest(146, 37, handler, world))->setItem(2, 1, 2);
+		(new TreasureChest(212, 90, handler, world))->setItem(2, 1, 2);
+		(new TreasureChest(107, 189, handler, world))->setItem(5, 10, 2);
+		(new TreasureChest(103, 186, handler, world))->setItem(0, 10, 2);
+		(new TreasureChest(102, 183, handler, world))->setItem(0, 10, 2);
+		(new TreasureChest(109, 193, handler, world))->setItem(0, 10, 2);
+		(new TreasureChest(111, 197, handler, world))->setItem(0, 10, 2);
+		(new TreasureChest(135, 160, handler, world))->setItem(1, 5, 2);
+		(new TreasureChest(120, 232, handler, world))->setItem(1, 5, 2);
+		(new TreasureChest(201, 224, handler, world))->setItem(1, 5, 2);
+		(new TreasureChest(207, 226, handler, world))->setItem(1, 5, 2);
+		(new TreasureChest(202, 222, handler, world))->setItem(1, 5, 2);
 
 		loadingMessage = "Loading trees...";
 

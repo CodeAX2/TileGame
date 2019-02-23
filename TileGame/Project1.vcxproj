@@ -154,6 +154,7 @@
     <Image Include="Resources\Textures\TileGameIcon2.png" />
     <Image Include="Resources\Textures\Tower.png" />
     <Image Include="Resources\Textures\TreasureChest.png" />
+    <Image Include="Resources\Textures\TreasureChestItem.png" />
     <Image Include="Resources\Textures\Tree.png" />
     <Image Include="Resources\Textures\TreeAnim.png" />
     <Image Include="Resources\Textures\TreeSnowAnim.png" />

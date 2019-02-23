@@ -345,7 +345,31 @@ void ChestInventoryState::swapItems(int itemAx, int itemAy, int itemBx, int item
 	itemA = getItemAt(itemAx, itemAy);
 	itemB = getItemAt(itemBx, itemBy);
 
-	if (itemA.first == itemB.first) {
+	if (itemA.first == itemB.first && !(itemAx == itemBx && itemAy == itemBy)) {
+		// Combine items
+		int totalAmount = itemA.second + itemB.second;
+		if (totalAmount > 99) {
+			itemB.second = 99;
+			totalAmount -= 99;
+			itemA.second = totalAmount;
+		} else {
+			itemB.second = totalAmount;
+			itemA.first = -1;
+			itemA.second = -1;
+		}
+
+		if (itemAInfo.second) {
+			openChest->setItem(itemA.first, itemA.second, itemAInfo.first);
+		} else {
+			handler->player->getInventory()->setItemAtIndex(itemA.first, itemA.second, itemAInfo.first);
+		}
+
+		if (itemBInfo.second) {
+			openChest->setItem(itemB.first, itemB.second, itemBInfo.first);
+		} else {
+			handler->player->getInventory()->setItemAtIndex(itemB.first, itemB.second, itemBInfo.first);
+		}
+
 
 	} else {
 		// Swap the items

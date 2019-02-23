@@ -9,8 +9,8 @@ TreasureChest::TreasureChest(int x, int y, Handler* handler, World* world) :
 	Interactable(x, y, handler, 9, 32 * 3 - 25, 32 * 3 - 18, 25, 32 * 3, 32 * 3, true, TREASURE_CHEST_E, 73, world) {
 
 	this->texture = handler->assets->getTreasureChestTexture();
-	this->maxHealth = 140;
-	this->health = 140;
+	this->maxHealth = 60;
+	this->health = 60;
 
 	if (contents.size() == 0) {
 		for (int i = 0; i < CONTENTS_SIZE; i++) {
@@ -41,12 +41,14 @@ void TreasureChest::dropItems() {
 
 	}
 
-
+	new Item(x + (float)w / 2 - 32 + rand() % 21 - 10, y + h - 64 + rand() % 21 - 10, handler, 8, world);
 
 }
 
 // Set the amount of a specific item in the chest
 void TreasureChest::setItem(int itemId, int amount, int spot) {
+	if (amount > 99)
+		amount = 99;
 	contents[spot] = std::pair<int, int>(itemId, amount);
 }
 

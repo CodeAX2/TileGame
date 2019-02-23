@@ -13,6 +13,7 @@
 #include <sstream>
 #include <math.h>
 #include "InputManager.h"
+#include "ItemMeta.h"
 
 using namespace tg;
 
@@ -221,11 +222,11 @@ void PlayingState::renderWorld() {
 	int hotBarItemId = handler->player->getItemInfoInHotBar().first;
 	int hotBarItemAmount = handler->player->getItemInfoInHotBar().second;
 	sf::Vector2i hT = world->getHighlightedTile();
-	if (hT.x == -1 || hT.y == -1 || hotBarItemId != 5 || hotBarItemAmount == 0) {
+	if (hT.x == -1 || hT.y == -1 || !ItemMeta::itemIsPlacable(hotBarItemId) || hotBarItemAmount == 0) {
 		return;
 	}
 	sf::Uint8 hId = world->getTile(hT.x, hT.y);
-	if (hId == 2) {
+	if (ItemMeta::canPlaceOnTile(hotBarItemId, hId)) {
 		sf::RectangleShape highlight(sf::Vector2f(tileSize - 10, tileSize - 10));
 		highlight.setPosition((int)(hT.x * tileSize - xOffset + 5), (int)(hT.y * tileSize - yOffset + 5));
 		if (world->highlightIsGood()) {
@@ -472,35 +473,12 @@ void PlayingState::mouseClicked(sf::Event e) {
 
 			int hotBarItemId = handler->player->getItemInfoInHotBar().first;
 			int hotBarItemAmount = handler->player->getItemInfoInHotBar().second;
-			// Add blocks (if holding wood and the highlight is good)
-			if (world->highlightIsGood() && hotBarItemId == 5 && hotBarItemAmount >= 1) {
-				sf::Vector2i htp = world->getHighlightedTile();
-				if (world->getTile(htp.x, htp.y) == 2) {
-
-					world->setTile(htp.x, htp.y, 4);
-					handler->player->removeItemFromHotbar();
-
-				}
-			} else if ((hotBarItemId == 3 || hotBarItemId == 4) &&
-				hotBarItemAmount >= 1) {
-
-				int amountToIncreasyBy = 10;
-				if (hotBarItemId == 4)
-					amountToIncreasyBy = 15;
-
-				handler->player->removeItemFromHotbar();
-				int stam = handler->player->getStamina();
-				stam += amountToIncreasyBy;
-				if (stam > handler->player->getMaxStamina()) {
-					stam = handler->player->getMaxStamina();
-				}
-
-				handler->player->setStamina(stam);
-
+			
+			if (world->highlightIsGood() && ItemMeta::itemIsPlacable(hotBarItemId) && hotBarItemAmount >= 1) {
+				ItemMeta::placeItem(hotBarItemId, world, handler);
+			} else if (ItemMeta::itemIsUsable(hotBarItemId) && hotBarItemAmount >= 1) {
+				ItemMeta::useItem(hotBarItemId, world, handler);
 			}
-
-
-
 		}
 	} else {
 		handler->inputManager->mouseIsPressed = false;
@@ -517,7 +495,7 @@ void PlayingState::updateMouse() {
 	sf::Vector2i mp = sf::Mouse::getPosition(*(handler->window));
 	if (!(mp.x < 0 || mp.x > handler->window->getSize().x ||
 		mp.y < 0 || mp.y > handler->window->getSize().y) &&
-		handler->player->getItemInfoInHotBar().first == 5 && handler->player->getItemInfoInHotBar().second >= 1 && world != nullptr) {
+		ItemMeta::itemIsPlacable(handler->player->getItemInfoInHotBar().first) && handler->player->getItemInfoInHotBar().second >= 1 && world != nullptr) {
 
 		sf::Vector2f v = handler->worldView.getSize();
 		sf::Vector2u w = handler->window->getSize();
@@ -668,28 +646,11 @@ void PlayingState::updateJoystick(sf::Int32 dt) {
 
 			int hotBarItemId = handler->player->getItemInfoInHotBar().first;
 			int hotBarItemAmount = handler->player->getItemInfoInHotBar().second;
-			if (hotBarItemId == 5 && hotBarItemAmount >= 1) {
-				if (world->getTile(htp.x, htp.y) == 2 && world->highlightIsGood()) {
-					world->setTile(htp.x, htp.y, 4);
-					handler->player->removeItemFromHotbar();
 
-				}
-			} else if ((hotBarItemId == 3 || hotBarItemId == 4) &&
-				hotBarItemAmount >= 1) {
-
-				int amountToIncreasyBy = 10;
-				if (hotBarItemId == 4)
-					amountToIncreasyBy = 15;
-
-				handler->player->removeItemFromHotbar();
-				int stam = handler->player->getStamina();
-				stam += amountToIncreasyBy;
-				if (stam > handler->player->getMaxStamina()) {
-					stam = handler->player->getMaxStamina();
-				}
-
-				handler->player->setStamina(stam);
-
+			if (world->highlightIsGood() && ItemMeta::itemIsPlacable(hotBarItemId) && hotBarItemAmount >= 1) {
+				ItemMeta::placeItem(hotBarItemId, world, handler);
+			} else if (ItemMeta::itemIsUsable(hotBarItemId) && hotBarItemAmount >= 1) {
+				ItemMeta::useItem(hotBarItemId, world, handler);
 			}
 
 		}
