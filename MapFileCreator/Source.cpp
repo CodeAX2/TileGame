@@ -209,16 +209,12 @@ int main() {
 			int type2 = TREASURE_CHEST_E;
 			int tX;
 			int tY;
-			bool defaultContents;
 
 			std::cout << "Enter the tile x pos: " << flush;
 			cin >> tX;
 
 			std::cout << "Enter the tile y pos: " << flush;
 			cin >> tY;
-
-			std::cout << "Does it have default contents, 0 for false, 1 for true: " << flush;
-			cin >> defaultContents;
 
 			file.write((char*)&type2, sizeof(int));
 			file.write((char*)&health, sizeof(int));
@@ -227,38 +223,39 @@ int main() {
 
 			file.write((char*)&tX, sizeof(int));
 			file.write((char*)&tY, sizeof(int));
-			file.write((char*)&defaultContents, sizeof(bool));
-			vector<int> contents(256, 0);
-
-			if (!defaultContents) {
-
-
-
-				while (true) {
-
-					int itemType;
-					int amount;
-
-					std::cout << "Enter the item id, or -1 to exit: " << flush;
-					cin >> itemType;
-
-					if (itemType == -1) {
-						break;
-					}
-
-					std::cout << "Enter the amount: " << flush;
-					cin >> amount;
-
-					contents[itemType] = amount;
-				}
-
-
-
+			std::vector<std::pair<int, int>> contents;
+			for (int i = 0; i < 10; i++) {
+				contents.push_back(std::pair<int, int>(-1, -1));
 			}
 
-			for (int i = 0; i < 256; i++) {
-				int amount = contents[i];
+			while (true) {
+
+				int itemType;
+				int amount;
+				int position;
+
+				std::cout << "Enter the item id, or -1 to exit: " << flush;
+				cin >> itemType;
+
+				if (itemType == -1) {
+					break;
+				}
+
+				std::cout << "Enter the amount: " << flush;
+				cin >> amount;
+
+				std::cout << "Enter the position in chest: " << flush;
+				cin >> position;
+
+				contents[position] = std::pair<int, int>(itemType, amount);
+			}
+
+			for (int i = 0; i < contents.size(); i++) {
+				int id = contents[i].first;
+				int amount = contents[i].second;
+				file.write((char*)&id, sizeof(int));
 				file.write((char*)&amount, sizeof(int));
+				file.write((char*)&i, sizeof(int));
 			}
 
 		} else if (type == "PUMPKIN_E") {

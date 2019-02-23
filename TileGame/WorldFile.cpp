@@ -127,7 +127,6 @@ World* WorldFile::loadWorldFile(std::string fileName, Handler * handler) {
 
 			int tX;
 			int tY;
-			bool defaultContents;
 
 			file.read((char*)&tX, sizeof(int));
 			file.read((char*)&tY, sizeof(int));
