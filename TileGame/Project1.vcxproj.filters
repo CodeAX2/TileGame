@@ -127,130 +127,130 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
-      <Filter>Header Files\GFX</Filter>
+      <Filter>Resource Files\Header Files\GFX</Filter>
     </ClInclude>
     <ClInclude Include="Assets.h">
-      <Filter>Header Files\GFX</Filter>
+      <Filter>Resource Files\Header Files\GFX</Filter>
     </ClInclude>
     <ClInclude Include="Pumpkin.h">
-      <Filter>Header Files\Entities\Statics</Filter>
+      <Filter>Resource Files\Header Files\Entities\Statics</Filter>
     </ClInclude>
     <ClInclude Include="SandCastle.h">
-      <Filter>Header Files\Entities\Statics</Filter>
+      <Filter>Resource Files\Header Files\Entities\Statics</Filter>
     </ClInclude>
     <ClInclude Include="Static.h">
-      <Filter>Header Files\Entities\Statics</Filter>
+      <Filter>Resource Files\Header Files\Entities\Statics</Filter>
     </ClInclude>
     <ClInclude Include="TreasureChest.h">
-      <Filter>Header Files\Entities\Statics</Filter>
+      <Filter>Resource Files\Header Files\Entities\Statics</Filter>
     </ClInclude>
     <ClInclude Include="Tree.h">
-      <Filter>Header Files\Entities\Statics</Filter>
+      <Filter>Resource Files\Header Files\Entities\Statics</Filter>
     </ClInclude>
     <ClInclude Include="Item.h">
-      <Filter>Header Files\Entities\Non-Statics</Filter>
+      <Filter>Resource Files\Header Files\Entities\Non-Statics</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
-      <Filter>Header Files\Entities\Non-Statics</Filter>
+      <Filter>Resource Files\Header Files\Entities\Non-Statics</Filter>
     </ClInclude>
     <ClInclude Include="PlayerFile.h">
-      <Filter>Header Files\Entities\Non-Statics</Filter>
+      <Filter>Resource Files\Header Files\Entities\Non-Statics</Filter>
     </ClInclude>
     <ClInclude Include="TallGrass.h">
-      <Filter>Header Files\Entities\Non-Statics</Filter>
+      <Filter>Resource Files\Header Files\Entities\Non-Statics</Filter>
     </ClInclude>
     <ClInclude Include="Boat.h">
-      <Filter>Header Files\Entities\Non-Statics\Rideable</Filter>
+      <Filter>Resource Files\Header Files\Entities\Non-Statics\Rideable</Filter>
     </ClInclude>
     <ClInclude Include="Rideable.h">
-      <Filter>Header Files\Entities\Non-Statics\Rideable</Filter>
+      <Filter>Resource Files\Header Files\Entities\Non-Statics\Rideable</Filter>
     </ClInclude>
     <ClInclude Include="Building.h">
-      <Filter>Header Files\Buildings</Filter>
+      <Filter>Resource Files\Header Files\Buildings</Filter>
     </ClInclude>
     <ClInclude Include="BuildingFile.h">
-      <Filter>Header Files\Buildings</Filter>
+      <Filter>Resource Files\Header Files\Buildings</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
-      <Filter>Header Files\Main Engine</Filter>
+      <Filter>Resource Files\Header Files\Main Engine</Filter>
     </ClInclude>
     <ClInclude Include="Game.h">
-      <Filter>Header Files\Main Engine</Filter>
+      <Filter>Resource Files\Header Files\Main Engine</Filter>
     </ClInclude>
     <ClInclude Include="Handler.h">
-      <Filter>Header Files\Main Engine</Filter>
+      <Filter>Resource Files\Header Files\Main Engine</Filter>
     </ClInclude>
     <ClInclude Include="InputManager.h">
-      <Filter>Header Files\Main Engine</Filter>
+      <Filter>Resource Files\Header Files\Main Engine</Filter>
     </ClInclude>
     <ClInclude Include="Loader.h">
-      <Filter>Header Files\Main Engine</Filter>
+      <Filter>Resource Files\Header Files\Main Engine</Filter>
     </ClInclude>
     <ClInclude Include="GameState.h">
-      <Filter>Header Files\Game States</Filter>
+      <Filter>Resource Files\Header Files\Game States</Filter>
     </ClInclude>
     <ClInclude Include="LoadingState.h">
-      <Filter>Header Files\Game States</Filter>
+      <Filter>Resource Files\Header Files\Game States</Filter>
     </ClInclude>
     <ClInclude Include="PlayingState.h">
-      <Filter>Header Files\Game States</Filter>
+      <Filter>Resource Files\Header Files\Game States</Filter>
     </ClInclude>
     <ClInclude Include="resource.h">
-      <Filter>Header Files\GFX</Filter>
+      <Filter>Resource Files\Header Files\GFX</Filter>
     </ClInclude>
     <ClInclude Include="EntityManager.h">
-      <Filter>Header Files\Worlds</Filter>
+      <Filter>Resource Files\Header Files\Worlds</Filter>
     </ClInclude>
     <ClInclude Include="TileData.h">
-      <Filter>Header Files\Worlds</Filter>
+      <Filter>Resource Files\Header Files\Worlds</Filter>
     </ClInclude>
     <ClInclude Include="World.h">
-      <Filter>Header Files\Worlds</Filter>
+      <Filter>Resource Files\Header Files\Worlds</Filter>
     </ClInclude>
     <ClInclude Include="WorldFile.h">
-      <Filter>Header Files\Worlds</Filter>
+      <Filter>Resource Files\Header Files\Worlds</Filter>
     </ClInclude>
     <ClInclude Include="WorldManager.h">
-      <Filter>Header Files\Worlds</Filter>
+      <Filter>Resource Files\Header Files\Worlds</Filter>
     </ClInclude>
     <ClInclude Include="Node.h">
-      <Filter>Header Files\Entities\Non-Statics</Filter>
+      <Filter>Resource Files\Header Files\Entities\Non-Statics</Filter>
     </ClInclude>
     <ClInclude Include="MainMenuState.h">
-      <Filter>Header Files\Game States</Filter>
+      <Filter>Resource Files\Header Files\Game States</Filter>
     </ClInclude>
     <ClInclude Include="Pathfinder.h">
-      <Filter>Header Files\Entities\Non-Statics\Pathfinder</Filter>
+      <Filter>Resource Files\Header Files\Entities\Non-Statics\Pathfinder</Filter>
     </ClInclude>
     <ClInclude Include="Zombie.h">
-      <Filter>Header Files\Entities\Non-Statics\Pathfinder</Filter>
+      <Filter>Resource Files\Header Files\Entities\Non-Statics\Pathfinder</Filter>
     </ClInclude>
     <ClInclude Include="Entity.h">
-      <Filter>Header Files\Entities</Filter>
+      <Filter>Resource Files\Header Files\Entities</Filter>
     </ClInclude>
     <ClInclude Include="DeathQuotes.h">
-      <Filter>Header Files\Main Engine</Filter>
+      <Filter>Resource Files\Header Files\Main Engine</Filter>
     </ClInclude>
     <ClInclude Include="Nullable.h">
-      <Filter>Header Files\Main Engine</Filter>
+      <Filter>Resource Files\Header Files\Main Engine</Filter>
     </ClInclude>
     <ClInclude Include="InventoryState.h">
-      <Filter>Header Files\Game States</Filter>
+      <Filter>Resource Files\Header Files\Game States</Filter>
     </ClInclude>
     <ClInclude Include="Inventory.h">
-      <Filter>Header Files\Items</Filter>
+      <Filter>Resource Files\Header Files\Items</Filter>
     </ClInclude>
     <ClInclude Include="ItemDesc.h">
-      <Filter>Header Files\Items</Filter>
+      <Filter>Resource Files\Header Files\Items</Filter>
     </ClInclude>
     <ClInclude Include="ItemMeta.h">
-      <Filter>Header Files\Items</Filter>
+      <Filter>Resource Files\Header Files\Items</Filter>
     </ClInclude>
     <ClInclude Include="Interactable.h">
-      <Filter>Header Files\Entities\Statics</Filter>
+      <Filter>Resource Files\Header Files\Entities\Statics</Filter>
     </ClInclude>
     <ClInclude Include="ChestInventoryState.h">
-      <Filter>Header Files\Game States</Filter>
+      <Filter>Resource Files\Header Files\Game States</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -279,9 +279,6 @@
   <ItemGroup>
     <Filter Include="Source Files">
       <UniqueIdentifier>{a65ce374-831f-4255-9316-c4ce8d49e04c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{a38656f1-666a-4253-9a3f-626a38167827}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\GFX">
       <UniqueIdentifier>{668655a8-a1c7-4923-bd86-e2a22d2c7477}</UniqueIdentifier>
@@ -313,33 +310,6 @@
     <Filter Include="File Outlines">
       <UniqueIdentifier>{52a1d8f9-141a-422f-9ea3-d72bec312dab}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\GFX">
-      <UniqueIdentifier>{3c395644-8b43-4d0a-a3e6-12f2532576da}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Entities">
-      <UniqueIdentifier>{733cd242-1d68-45fb-8f69-57f1dedd5dd8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Entities\Statics">
-      <UniqueIdentifier>{9d05e9da-5fc1-4a2d-8514-ab16d11f033f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Entities\Non-Statics">
-      <UniqueIdentifier>{c431db30-1509-4d19-860d-58059f4966bd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Entities\Non-Statics\Rideable">
-      <UniqueIdentifier>{e5816300-d1ea-4fac-afd8-d1d1e61371bb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Buildings">
-      <UniqueIdentifier>{298ca6e1-9e11-4c68-baa0-6814d8cf00cd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Main Engine">
-      <UniqueIdentifier>{37a71b28-772e-407e-a574-f01705bc9252}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Game States">
-      <UniqueIdentifier>{8b1eba93-1a06-432a-af11-c20947263fcd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Worlds">
-      <UniqueIdentifier>{bf0f71ca-4f7e-494d-87e1-d7c66998bbf8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Resource Files">
       <UniqueIdentifier>{7a720991-dedb-41fa-b9a0-059ba6c22968}</UniqueIdentifier>
     </Filter>
@@ -358,13 +328,43 @@
     <Filter Include="Source Files\Entities\Non-Statics\Pathfinder">
       <UniqueIdentifier>{a2147ed6-d770-43ca-adb1-5cdd9985f265}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Entities\Non-Statics\Pathfinder">
-      <UniqueIdentifier>{149a709c-6f53-41c8-99b2-6e61a4b6ac82}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Items">
       <UniqueIdentifier>{6f873b21-e93f-47b4-b49e-59c43f0c82d4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Items">
+    <Filter Include="Resource Files\Header Files">
+      <UniqueIdentifier>{a38656f1-666a-4253-9a3f-626a38167827}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Header Files\GFX">
+      <UniqueIdentifier>{3c395644-8b43-4d0a-a3e6-12f2532576da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Header Files\Entities">
+      <UniqueIdentifier>{733cd242-1d68-45fb-8f69-57f1dedd5dd8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Header Files\Entities\Statics">
+      <UniqueIdentifier>{9d05e9da-5fc1-4a2d-8514-ab16d11f033f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Header Files\Entities\Non-Statics">
+      <UniqueIdentifier>{c431db30-1509-4d19-860d-58059f4966bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Header Files\Entities\Non-Statics\Rideable">
+      <UniqueIdentifier>{e5816300-d1ea-4fac-afd8-d1d1e61371bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Header Files\Entities\Non-Statics\Pathfinder">
+      <UniqueIdentifier>{149a709c-6f53-41c8-99b2-6e61a4b6ac82}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Header Files\Buildings">
+      <UniqueIdentifier>{298ca6e1-9e11-4c68-baa0-6814d8cf00cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Header Files\Main Engine">
+      <UniqueIdentifier>{37a71b28-772e-407e-a574-f01705bc9252}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Header Files\Game States">
+      <UniqueIdentifier>{8b1eba93-1a06-432a-af11-c20947263fcd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Header Files\Worlds">
+      <UniqueIdentifier>{bf0f71ca-4f7e-494d-87e1-d7c66998bbf8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Header Files\Items">
       <UniqueIdentifier>{c917ae02-7493-45ce-b898-804d8e5c07dc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -513,6 +513,9 @@
       <Filter>Resource Files\Textures</Filter>
     </Image>
     <Image Include="Resources\Textures\TreasureChestItem.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\InteractIconController.png">
       <Filter>Resource Files\Textures</Filter>
     </Image>
   </ItemGroup>

@@ -473,7 +473,7 @@ void PlayingState::mouseClicked(sf::Event e) {
 
 			int hotBarItemId = handler->player->getItemInfoInHotBar().first;
 			int hotBarItemAmount = handler->player->getItemInfoInHotBar().second;
-			
+
 			if (world->highlightIsGood() && ItemMeta::itemIsPlacable(hotBarItemId) && hotBarItemAmount >= 1) {
 				ItemMeta::placeItem(hotBarItemId, world, handler);
 			} else if (ItemMeta::itemIsUsable(hotBarItemId) && hotBarItemAmount >= 1) {
@@ -722,6 +722,16 @@ void PlayingState::updateJoystick(sf::Int32 dt) {
 
 	handler->player->setHotBarSlot(curSlot);
 
+	if (sf::Joystick::isButtonPressed(0, 3)) {
+		bool prevValue = im->joyStickButtons[3];
+		im->joyStickButtons[3] = true;
+		im->usingController = true;
+		if (!prevValue) {
+			handler->player->interact();
+		}
 
+	} else {
+		im->joyStickButtons[3] = false;
+	}
 
 }

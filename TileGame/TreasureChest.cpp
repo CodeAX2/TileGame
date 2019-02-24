@@ -2,6 +2,7 @@
 #include "Item.h"
 #include "GameState.h"
 #include "ChestInventoryState.h"
+#include "InputManager.h"
 
 using namespace tg;
 
@@ -60,7 +61,13 @@ void TreasureChest::tick(sf::Int32 dt) {
 void TreasureChest::render(Handler* handler) {
 	Entity::render(handler);
 	if (enabled) {
-		sf::Texture* interactTexture = handler->assets->getInteractPrompt();
+
+		sf::Texture* interactTexture = nullptr;
+		if (handler->inputManager->usingController)
+			interactTexture = handler->assets->getControllerInteractPrompt();
+		else
+			interactTexture = handler->assets->getInteractPrompt();
+
 		sf::RectangleShape interact(sf::Vector2f(interactTexture->getSize().x * 3, interactTexture->getSize().y * 3));
 		float yExtra = sin(timeAlive / 200.f) * 5;
 		interact.setPosition(x - handler->camera->getXOffset(), y - handler->camera->getYOffset() + yExtra - interactTexture->getSize().y * 3.f / 2.f + 5);

@@ -435,5 +435,4 @@ void InventoryState::updateJoystick(sf::Int32 dt) {
 		im->joyStickButtons[7] = false;
 	}
 
-
 }

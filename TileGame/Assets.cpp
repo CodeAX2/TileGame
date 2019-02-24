@@ -107,6 +107,10 @@ void Assets::init() {
 	interactPrompt->loadFromImage(loadImageFromResource(INTERACT_PROMPT));
 	operations++;
 
+	interactPromptController = new sf::Texture();
+	interactPromptController->loadFromImage(loadImageFromResource(INTERACT_PROMPT_CONTROLLER));
+	operations++;
+
 	treeAnimation = new Animation();
 
 	sf::Image treeSheet = loadImageFromResource(TREE_SHEET);

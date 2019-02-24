@@ -608,7 +608,9 @@ void Player::damage(int dmg, Entity* damager) {
 }
 
 void Player::interact() {
-	if (curInteracting != nullptr) {
-		curInteracting->onInteract();
+	if (handler->getCurrentState()->getType() == PLAYING) {
+		if (curInteracting != nullptr) {
+			curInteracting->onInteract();
+		}
 	}
 }
