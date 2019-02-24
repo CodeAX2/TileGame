@@ -118,11 +118,11 @@
     <ClCompile Include="ItemMeta.cpp">
       <Filter>Source Files\Items</Filter>
     </ClCompile>
-    <ClCompile Include="Interactable.cpp">
-      <Filter>Source Files\Entities\Statics</Filter>
-    </ClCompile>
     <ClCompile Include="ChestInventoryState.cpp">
       <Filter>Source Files\Game States</Filter>
+    </ClCompile>
+    <ClCompile Include="Interactable.cpp">
+      <Filter>Source Files\Entities</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

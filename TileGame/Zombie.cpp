@@ -389,3 +389,13 @@ void Zombie::tick(sf::Int32 dt) {
 
 
 }
+
+void Zombie::damage(int dmg, Entity* damager) {
+
+	if (damager != nullptr) {
+		following = damager;
+		followingId = damager->getId();
+	}
+
+	Entity::damage(dmg, damager);
+}

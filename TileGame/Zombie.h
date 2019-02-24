@@ -30,6 +30,7 @@ namespace tg {
 		void onCollisionWithFollowing(sf::Int32 dt);
 		void tick(sf::Int32 dt) override;
 		void render(Handler* handler) override;
+		void damage(int dmg, Entity* damager) override;
 
 	};
 }
