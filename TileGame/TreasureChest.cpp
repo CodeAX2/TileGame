@@ -7,7 +7,8 @@
 using namespace tg;
 
 TreasureChest::TreasureChest(int x, int y, Handler* handler, World* world) :
-	Interactable(x, y, handler, 9, 32 * 3 - 25, 32 * 3 - 18, 25, 32 * 3, 32 * 3, true, TREASURE_CHEST_E, 73, world) {
+	Static(x, y, handler, 9, 32 * 3 - 25, 32 * 3 - 18, 25, 32 * 3, 32 * 3, true, TREASURE_CHEST_E, 73, world),
+	Interactable(handler) {
 
 	this->texture = handler->assets->getTreasureChestTexture();
 	this->maxHealth = 60;
@@ -54,7 +55,7 @@ void TreasureChest::setItem(int itemId, int amount, int spot) {
 }
 
 void TreasureChest::tick(sf::Int32 dt) {
-	updateState();
+	updateState(this);
 	timeAlive += dt;
 }
 

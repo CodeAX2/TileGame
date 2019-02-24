@@ -1,8 +1,9 @@
 #pragma once
+#include "Static.h"
 #include "Interactable.h"
 namespace tg {
 
-	class TreasureChest : public Interactable
+	class TreasureChest : public Static, public Interactable
 	{
 	public:
 		TreasureChest(int x, int y, Handler* handler, World* world);

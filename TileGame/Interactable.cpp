@@ -4,27 +4,32 @@
 using namespace tg;
 
 
-Interactable::Interactable(int x, int y, Handler* handler, int hitBoxX, int hitBoxY,
-	int hitBoxW, int hitBoxH, int w, int h, bool needsTicking, int type, float tileOffset, World* world) :
-	Static(x, y, handler, hitBoxX, hitBoxY, hitBoxW, hitBoxH, w, h, needsTicking, type, tileOffset, world) {
-
-
+Interactable::Interactable(Handler* handler) {
+	this->interactHandler = handler;
 }
 
 Interactable::~Interactable() {
-	if (handler->player->getCurrentInteracting() == this) {
-		handler->player->setCurrentInteracting(nullptr);
+	if (interactHandler->player->getCurrentInteracting() == this) {
+		interactHandler->player->setCurrentInteracting(nullptr);
 	}
 }
 
 void Interactable::onInteract(){}
 
-void Interactable::updateState() {
-	Player* p = handler->player;
-	if (p->getWorld() != world) return;
+void Interactable::updateState(Entity* caller) {
+	Player* p = interactHandler->player;
+	if (p->getWorld() != caller->getWorld()) return;
+
+
+	float x = caller->getX();
+	float y = caller->getY();
+	float collisionBoxX = caller->getCollisionBox().left; // (x,y) + (hitBoxX, hitBoxY)
+	float collisionBoxY = caller->getCollisionBox().top;
+	float hitBoxW = caller->getCollisionBox().width;
+	float hitBoxH = caller->getCollisionBox().height;
 
 	sf::Vector2f toPlayer(p->getCollisionBox().left, p->getCollisionBox().top); // Add this to x,y to get player's pos
-	toPlayer -= sf::Vector2f(x + hitBoxX, y + hitBoxY);
+	toPlayer -= sf::Vector2f(collisionBoxX, collisionBoxY);
 
 	int pFacingHori = p->getFacingHori();
 	int pFacingVert = p->getFacingVert();
@@ -71,19 +76,19 @@ void Interactable::updateState() {
 		p->getCollisionBox().top + p->getCollisionBox().height / 2
 	);
 
-	toPCenter -= sf::Vector2f(x + hitBoxX + hitBoxW / 2, y + hitBoxY + hitBoxH / 2);
+	toPCenter -= sf::Vector2f(collisionBoxX + hitBoxW / 2, collisionBoxY + hitBoxH / 2);
 
 	if (horiGood && vertGood && toPCenter.x * toPCenter.x + toPCenter.y * toPCenter.y <= 75 * 75) {
-		if (handler->player->getCurrentInteracting() == nullptr || handler->player->getCurrentInteracting() == this) {
-			handler->player->setCurrentInteracting(this);
+		if (interactHandler->player->getCurrentInteracting() == nullptr || interactHandler->player->getCurrentInteracting() == this) {
+			interactHandler->player->setCurrentInteracting(this);
 			enabled = true;
 		} else {
 			enabled = false;
 		}
 		// TODO Make it so that the interacting is based on the closest one
 	} else {
-		if (handler->player->getCurrentInteracting() == this) {
-			handler->player->setCurrentInteracting(nullptr);
+		if (interactHandler->player->getCurrentInteracting() == this) {
+			interactHandler->player->setCurrentInteracting(nullptr);
 		}
 		enabled = false;
 	}
