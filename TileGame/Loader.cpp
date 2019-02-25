@@ -142,7 +142,7 @@ void Loader::loadEntities() {
 
 		loadingMessage = "Loading trees...";
 
-		for (int i = 0; i < 30000; i++) {
+		for (int i = 0; i < 120000; i++) {
 
 			int x = rand() % world->getWidth(), y = rand() % world->getHeight();
 
@@ -161,7 +161,7 @@ void Loader::loadEntities() {
 		}
 
 
-		for (int i = 0; i < 15000; i++) {
+		for (int i = 0; i < 30000; i++) {
 
 			int x = rand() % world->getWidth(), y = rand() % world->getHeight();
 
@@ -179,7 +179,7 @@ void Loader::loadEntities() {
 		}
 
 		loadingMessage = "Loading spooky scary skeletons...";
-		for (int i = 0; i < 3000; i++) {
+		for (int i = 0; i < 12000; i++) {
 
 			int x = rand() % world->getWidth(), y = rand() % world->getHeight();
 
@@ -203,7 +203,7 @@ void Loader::loadEntities() {
 		int grassWidth = handler->assets->getTallGrassTexture()->getSize().x * 3;
 		int grassHeight = handler->assets->getTallGrassTexture()->getSize().y * 3;
 
-		for (int i = 0; i < 30000; i++) {
+		for (int i = 0; i < 120000; i++) {
 			float x = rand() % (world->getWidth() * 96), y = rand() % (world->getHeight() * 96);
 
 			if (world->getTile((x + grassWidth) / 96, (y + grassHeight) / 96) == 0 &&
@@ -221,7 +221,7 @@ void Loader::loadEntities() {
 
 		}
 
-		for (int i = 0; i < 15000; i++) {
+		for (int i = 0; i < 30000; i++) {
 			float x = rand() % (world->getWidth() * 96), y = rand() % (world->getHeight() * 96);
 
 			if (world->getTile((x + grassWidth) / 96, (y + grassHeight) / 96) == 7 &&
@@ -241,7 +241,7 @@ void Loader::loadEntities() {
 
 		loadingMessage = "Loading sand castles...";
 
-		for (int i = 0; i < 2000; i++) {
+		for (int i = 0; i < 8000; i++) {
 
 			int x = rand() % (world->getWidth()), y = rand() % (world->getHeight());
 			if (x == world->getSpawn().x && y == world->getSpawn().y) {
