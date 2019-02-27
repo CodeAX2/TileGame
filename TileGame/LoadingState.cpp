@@ -3,6 +3,7 @@
 #include <iostream>
 #include "Assets.h"
 #include <sstream>
+#include "Game.h"
 
 using namespace tg;
 
@@ -51,6 +52,9 @@ void LoadingState::render() {
 	if (transp > 255) transp = 255;
 	signature.setFillColor(sf::Color(255, 255, 255, (int)transp));
 	handler->window->draw(signature);
+
+
+
 
 }
 

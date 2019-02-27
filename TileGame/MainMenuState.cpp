@@ -5,8 +5,7 @@
 
 MainMenuState::MainMenuState(Handler* handler) : GameState(MAIN_MENU), handler(handler) {
 
-	mainMenuBG = new sf::Texture();
-	mainMenuBG->loadFromImage(handler->assets->loadImageFromResource(MENU_MAIN));
+	mainMenuBG = handler->assets->loadTextureFromResource(MENU_MAIN);
 
 	sf::Image buttons = handler->assets->loadImageFromResource(MENU_MAIN_BUTTONS);
 

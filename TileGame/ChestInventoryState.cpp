@@ -10,11 +10,9 @@ using namespace tg;
 
 ChestInventoryState::ChestInventoryState(Handler* handler) : GameState(CHEST_INVENTORY) {
 	this->handler = handler;
-	invBg = new sf::Texture();
-	invBg->loadFromImage(handler->assets->loadImageFromResource(MENU_CHEST_INV));
+	invBg = handler->assets->loadTextureFromResource(MENU_CHEST_INV);
 
-	invHighlight = new sf::Texture();
-	invHighlight->loadFromImage(handler->assets->loadImageFromResource(INV_HIGHLIGHT));
+	invHighlight = handler->assets->loadTextureFromResource(INV_HIGHLIGHT);
 
 }
 

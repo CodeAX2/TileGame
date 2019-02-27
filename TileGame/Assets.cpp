@@ -2,6 +2,33 @@
 
 using namespace tg;
 
+sf::Texture* Assets::loadTextureFromResource(int name) {
+	HRSRC rsrcData = FindResource(NULL, MAKEINTRESOURCE(name), "PNG");
+	if (!rsrcData)
+		throw std::runtime_error("Failed to find resource.");
+
+	DWORD rsrcDataSize = SizeofResource(NULL, rsrcData);
+	if (rsrcDataSize <= 0)
+		throw std::runtime_error("Size of resource is 0.");
+
+	HGLOBAL grsrcData = LoadResource(NULL, rsrcData);
+	if (!grsrcData)
+		throw std::runtime_error("Failed to load resource.");
+
+	LPVOID firstByte = LockResource(grsrcData);
+	if (!firstByte)
+		throw std::runtime_error("Failed to lock resource.");
+
+	sf::Texture* image = new sf::Texture();
+	if (!image->loadFromMemory(firstByte, rsrcDataSize))
+		throw std::runtime_error("Failed to load image from memory.");
+
+
+
+	return image;
+}
+
+
 sf::Image Assets::loadImageFromResource(int name) {
 	HRSRC rsrcData = FindResource(NULL, MAKEINTRESOURCE(name), "PNG");
 	if (!rsrcData)
@@ -27,6 +54,9 @@ sf::Image Assets::loadImageFromResource(int name) {
 
 	return image;
 }
+
+
+
 
 std::string Assets::loadMapFromResource(int name) {
 	HRSRC rsrcData = FindResource(NULL, MAKEINTRESOURCE(name), "TEXT");
@@ -94,21 +124,17 @@ void Assets::init() {
 	operations++;
 
 	// Load the gui
-	guiInv = new sf::Texture();
-	guiInv->loadFromImage(loadImageFromResource(GUI_INV));
+	guiInv = loadTextureFromResource(GUI_INV);
 	operations++;
 
 	// Load other textures
-	vignette = new sf::Texture();
-	vignette->loadFromImage(loadImageFromResource(VIGNETTE));
+	vignette = loadTextureFromResource(VIGNETTE);
 	operations++;
 
-	interactPrompt = new sf::Texture();
-	interactPrompt->loadFromImage(loadImageFromResource(INTERACT_PROMPT));
+	interactPrompt = loadTextureFromResource(INTERACT_PROMPT);
 	operations++;
 
-	interactPromptController = new sf::Texture();
-	interactPromptController->loadFromImage(loadImageFromResource(INTERACT_PROMPT_CONTROLLER));
+	interactPromptController = loadTextureFromResource(INTERACT_PROMPT_CONTROLLER);
 	operations++;
 
 	treeAnimation = new Animation();
@@ -132,29 +158,21 @@ void Assets::init() {
 	}
 
 
-	tallGrass = new sf::Texture();
-	tallGrass->loadFromImage(loadImageFromResource(TALL_GRASS));
+	tallGrass = loadTextureFromResource(TALL_GRASS);
 	operations++;
 
-	boat = new sf::Texture();
-	boat->loadFromImage(loadImageFromResource(BOAT));
-
+	boat = loadTextureFromResource(BOAT);
 	operations++;
 
-	pumpkin[0] = new sf::Texture();
-	pumpkin[0]->loadFromImage(loadImageFromResource(PUMPKIN));
+	pumpkin[0] = loadTextureFromResource(PUMPKIN);
 
-	pumpkin[1] = new sf::Texture();
-	pumpkin[1]->loadFromImage(loadImageFromResource(PUMPKIN_LIT));
+	pumpkin[1] = loadTextureFromResource(PUMPKIN_LIT);
 
-	sandCastle = new sf::Texture();
-	sandCastle->loadFromImage(loadImageFromResource(SAND_CASTLE));
+	sandCastle = loadTextureFromResource(SAND_CASTLE);
 
-	snowTallGrass = new sf::Texture();
-	snowTallGrass->loadFromImage(loadImageFromResource(TALL_GRASS_SNOW));
+	snowTallGrass = loadTextureFromResource(TALL_GRASS_SNOW);
 
-	treasureChest = new sf::Texture();
-	treasureChest->loadFromImage(loadImageFromResource(TREASURE_CHEST));
+	treasureChest = loadTextureFromResource(TREASURE_CHEST);
 
 
 	for (int i = 0; i < 256; i++) {
@@ -287,7 +305,7 @@ void Assets::addItemTexture(int base, int bId) {
 	rect.left = 0;
 	rect.top = 0;
 
-	item->loadFromImage(loadImageFromResource(base), rect);
+	item = loadTextureFromResource(base);
 	allItems[bId] = item;
 	operations++;
 

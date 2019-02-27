@@ -2,10 +2,12 @@
 #include "Game.h"
 #include <iostream>
 #include <SFML/System.hpp>
+#include <random>
 
 using namespace tg;
 
 int main() {
+
 	sf::ContextSettings settings;
 	settings.depthBits = 24;
 	settings.stencilBits = 8;

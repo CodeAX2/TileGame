@@ -17,6 +17,7 @@
 #include "BuildingFile.h"
 #include <filesystem>
 #include "Zombie.h"
+#include <random>
 
 using namespace tg;
 namespace fs = std::experimental::filesystem;
@@ -144,7 +145,7 @@ void Loader::loadEntities() {
 
 		for (int i = 0; i < 120000; i++) {
 
-			int x = rand() % world->getWidth(), y = rand() % world->getHeight();
+			int x = std::random_device{}() % world->getWidth(), y = std::random_device{}() % world->getHeight();
 
 			if (x == world->getSpawn().x && y == world->getSpawn().y) {
 				continue;
@@ -163,7 +164,7 @@ void Loader::loadEntities() {
 
 		for (int i = 0; i < 30000; i++) {
 
-			int x = rand() % world->getWidth(), y = rand() % world->getHeight();
+			int x = std::random_device{}() % world->getWidth(), y = std::random_device{}() % world->getHeight();
 
 			if (x == world->getSpawn().x && y == world->getSpawn().y) {
 				continue;
@@ -181,7 +182,7 @@ void Loader::loadEntities() {
 		loadingMessage = "Loading spooky scary skeletons...";
 		for (int i = 0; i < 12000; i++) {
 
-			int x = rand() % world->getWidth(), y = rand() % world->getHeight();
+			int x = std::random_device{}() % world->getWidth(), y = std::random_device{}() % world->getHeight();
 
 			if (x == world->getSpawn().x && y == world->getSpawn().y) {
 				continue;
@@ -204,7 +205,7 @@ void Loader::loadEntities() {
 		int grassHeight = handler->assets->getTallGrassTexture()->getSize().y * 3;
 
 		for (int i = 0; i < 120000; i++) {
-			float x = rand() % (world->getWidth() * 96), y = rand() % (world->getHeight() * 96);
+			float x = std::random_device{}() % (world->getWidth() * 96), y = std::random_device{}() % (world->getHeight() * 96);
 
 			if (world->getTile((x + grassWidth) / 96, (y + grassHeight) / 96) == 0 &&
 				world->getTile(x / 96, (y + grassHeight) / 96) == 0 &&
@@ -222,7 +223,7 @@ void Loader::loadEntities() {
 		}
 
 		for (int i = 0; i < 30000; i++) {
-			float x = rand() % (world->getWidth() * 96), y = rand() % (world->getHeight() * 96);
+			float x = std::random_device{}() % (world->getWidth() * 96), y = std::random_device{}() % (world->getHeight() * 96);
 
 			if (world->getTile((x + grassWidth) / 96, (y + grassHeight) / 96) == 7 &&
 				world->getTile(x / 96, (y + grassHeight) / 96) == 7 &&

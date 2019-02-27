@@ -55,6 +55,7 @@ namespace tg {
 
 		void init();
 
+		sf::Texture* loadTextureFromResource(int name);
 		sf::Image loadImageFromResource(int name);
 
 		float getPercentLoaded() {
@@ -179,8 +180,7 @@ namespace tg {
 		}
 		sf::Texture* getBoatTexture() { return boat; }
 		sf::Texture* getBuildingTexture(int tId) {
-			sf::Texture* bt = new sf::Texture();
-			bt->loadFromImage(loadImageFromResource(tId));
+			sf::Texture* bt = loadTextureFromResource(tId);
 			return bt;
 		}
 

@@ -22,8 +22,7 @@ PlayingState::PlayingState(Handler* handler) : GameState(PLAYING), handler(handl
 	world = handler->mainWorld;
 	bgMusic.openFromFile("Audio/airtone_-_panspermia_1.wav");
 	bgMusic.setLoop(true);
-	hotBarSlotHighlight = new sf::Texture();
-	hotBarSlotHighlight->loadFromImage(handler->assets->loadImageFromResource(INV_HIGHLIGHT));
+	hotBarSlotHighlight = handler->assets->loadTextureFromResource(INV_HIGHLIGHT);
 }
 
 

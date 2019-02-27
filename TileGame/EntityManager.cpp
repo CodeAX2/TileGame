@@ -258,14 +258,14 @@ void EntityManager::tick(sf::Int32 dt) {
 void EntityManager::updateRenderOrder(Entity* newEntity) {
 
 
-	for (int i = 0; i < renderOrder.size(); i++) {
-		if (renderOrder[i] == nullptr) continue;
-		if (newEntity->equals(*renderOrder[i])) {
-			// An equal entity already exists, so don't add this one
-			allEntities.pop_back();
-			return;
-		}
-	}
+	//for (int i = 0; i < renderOrder.size(); i++) {
+	//	if (renderOrder[i] == nullptr) continue;
+	//	if (newEntity->equals(*renderOrder[i])) {
+	//		// An equal entity already exists, so don't add this one
+	//		allEntities.pop_back();
+	//		return;
+	//	}
+	//}
 
 	bool isAdded = false;
 	for (int i = 0; i < renderOrder.size(); i++) {
