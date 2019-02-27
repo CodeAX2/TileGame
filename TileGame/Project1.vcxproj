@@ -135,6 +135,7 @@
     <Image Include="Resources\Textures\InteractIconController.png" />
     <Image Include="Resources\Textures\InventoryMenu.png" />
     <Image Include="Resources\Textures\InvHighlight.png" />
+    <Image Include="Resources\Textures\IslandHut.png" />
     <Image Include="Resources\Textures\Log.png" />
     <Image Include="Resources\Textures\MainMenu Buttons.png" />
     <Image Include="Resources\Textures\MetalSword.png" />
