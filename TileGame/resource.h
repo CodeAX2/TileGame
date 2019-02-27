@@ -48,12 +48,13 @@
 #define WOOD_SWORD_ITEM                 144
 #define TREASURE_CHEST_ITEM             145
 #define INTERACT_PROMPT_CONTROLLER      146
+#define ISLAND_HUT_BUILDING             147
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        147
+#define _APS_NEXT_RESOURCE_VALUE        148
 #define _APS_NEXT_COMMAND_VALUE         40003
 #define _APS_NEXT_CONTROL_VALUE         1001
 #define _APS_NEXT_SYMED_VALUE           101
