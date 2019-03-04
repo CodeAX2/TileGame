@@ -8,6 +8,7 @@
 #define MAIN_MENU 2
 #define INVENTORY 3
 #define CHEST_INVENTORY 4
+#define CRAFTING_INVENTORY 5
 
 namespace tg {
 	class GameState

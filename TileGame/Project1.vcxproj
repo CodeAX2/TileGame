@@ -26,6 +26,7 @@
     <ClCompile Include="BuildingFile.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="ChestInventoryState.cpp" />
+    <ClCompile Include="CraftingState.cpp" />
     <ClCompile Include="DeathQuotes.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EntityManager.cpp" />
@@ -69,6 +70,7 @@
     <ClInclude Include="BuildingFile.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="ChestInventoryState.h" />
+    <ClInclude Include="CraftingState.h" />
     <ClInclude Include="DeathQuotes.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityManager.h" />
@@ -125,6 +127,11 @@
     <Image Include="Resources\Textures\CaveEntrance.png" />
     <Image Include="Resources\Textures\CaveFloor24.png" />
     <Image Include="Resources\Textures\ChestInventoryMenu.png" />
+    <Image Include="Resources\Textures\CraftingInventoryMenu.png" />
+    <Image Include="Resources\Textures\CraftingInventoryMenuAllow.png" />
+    <Image Include="Resources\Textures\CraftingInventoryMenuDeny.png" />
+    <Image Include="Resources\Textures\CraftingInventoryMenuDownOn.png" />
+    <Image Include="Resources\Textures\CraftingInventoryMenuUpOn.png" />
     <Image Include="Resources\Textures\Gems.png" />
     <Image Include="Resources\Textures\Grass24.png" />
     <Image Include="Resources\Textures\GUI-Inventory.png" />

@@ -49,12 +49,17 @@
 #define TREASURE_CHEST_ITEM             145
 #define INTERACT_PROMPT_CONTROLLER      146
 #define ISLAND_HUT_BUILDING             147
+#define MENU_CRAFTING_INV               148
+#define CRAFTING_ICON_ALLOW             149
+#define CRAFTING_ICON_DENY              150
+#define CRAFTING_ICON_DOWN              151
+#define CRAFTING_ICON_UP                152
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        148
+#define _APS_NEXT_RESOURCE_VALUE        153
 #define _APS_NEXT_COMMAND_VALUE         40003
 #define _APS_NEXT_CONTROL_VALUE         1001
 #define _APS_NEXT_SYMED_VALUE           101

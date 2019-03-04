@@ -73,7 +73,9 @@ void PlayingState::render() {
 
 
 	handler->window->setView(handler->guiView);
-	if (handler->getCurrentState()->getType() == INVENTORY || handler->getCurrentState()->getType() == CHEST_INVENTORY) {
+	if (handler->getCurrentState()->getType() == INVENTORY ||
+		handler->getCurrentState()->getType() == CHEST_INVENTORY ||
+		handler->getCurrentState()->getType() == CRAFTING_INVENTORY) {
 		// Actually rendering inventory state, so we don't want GUI
 		return;
 	}

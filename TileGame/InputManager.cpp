@@ -117,7 +117,17 @@ void InputManager::updateKeys(sf::Event e) {
 			}
 		}
 		break;
-
+	
+	case sf::Keyboard::Tilde:
+		// Temporary value, simply to access the crafting state
+		if (value) {
+			if (handler->getCurrentState()->getType() == PLAYING) {
+				handler->setGameState(CRAFTING_INVENTORY);
+			} else if (handler->getCurrentState()->getType() == CRAFTING_INVENTORY) {
+				handler->setGameState(PLAYING);
+			}
+		}
+		break;
 	case sf::Keyboard::E:
 		if (value) {
 
