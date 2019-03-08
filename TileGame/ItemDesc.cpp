@@ -12,7 +12,7 @@ void ItemDesc::init() {
 	itemDescriptions[1] = 
 		"GEM:\n"
 		" Used as a form of currency\n"
-		" and not fully implemented yet.";
+		" and for crafting.";
 
 	itemDescriptions[2] =
 		"AXE:\n"

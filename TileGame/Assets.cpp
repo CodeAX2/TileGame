@@ -174,6 +174,8 @@ void Assets::init() {
 
 	treasureChest = loadTextureFromResource(TREASURE_CHEST);
 
+	workbench = loadTextureFromResource(WORKBENCH);
+
 
 	for (int i = 0; i < 256; i++) {
 		renderPriority[i] = -1; // Declare each spot in the priorities as empty

@@ -62,14 +62,15 @@ void Inventory::addItemToInv(int item, int amount) {
 }
 
 int Inventory::getAmountOfItem(int item) {
+	int total = 0;
 	for (int i = 0; i < INV_SIZE; i++) {
 		std::pair<int, int> cur = inventory[i];
 		if (cur.first == item) {
-			return cur.second;
+			total += cur.second;
 		}
 	}
 
-	return 0;
+	return total;
 }
 
 void Inventory::swapItems(int spot1, int spot2) {

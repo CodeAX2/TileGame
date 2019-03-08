@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "Inventory.h"
 #include "ItemDesc.h"
+#include "ItemMeta.h"
 
 using namespace tg;
 
@@ -27,7 +28,13 @@ CraftingState::~CraftingState()
 }
 
 void CraftingState::tick(sf::Int32 dt) {
-
+	if (selectedCraftSlotX != -1 && selectedCraftSlotY != -1) {
+		if (playerHasIngredients()) {
+			canCraftSelected = true;
+		} else {
+			canCraftSelected = false;
+		}
+	}
 }
 
 void CraftingState::render() {
@@ -38,9 +45,9 @@ void CraftingState::render() {
 	handler->getCustomState(PLAYING)->render();
 	renderBackground();
 	renderHighlight();
-	//	renderIcons();
+	renderIcons();
+	renderCraftables();
 	renderItems();
-
 
 }
 
@@ -112,7 +119,6 @@ void CraftingState::renderItems() {
 				count.setPosition(sf::Vector2f((j + 1) * 42 * 3 + 28 * 3 + 12, yOffsetMid + (size + ySpace) * i + size - count.getGlobalBounds().height - 10));
 				handler->window->draw(count);
 
-
 			}
 		}
 	}
@@ -169,11 +175,25 @@ void CraftingState::renderItemInfo() {
 		infoText.setFillColor(sf::Color::White);
 
 
+
 		sf::RectangleShape infoBoxBg(sf::Vector2f(infoText.getGlobalBounds().width + 20, infoText.getGlobalBounds().height + 20));
 		infoBoxBg.setFillColor(sf::Color(0, 8, 20, 225));
 		infoBoxBg.setPosition(mx, my - infoBoxBg.getSize().y);
-		handler->window->draw(infoBoxBg);
 
+
+		// Allign text correctly
+		if (infoText.getGlobalBounds().left + infoText.getGlobalBounds().width > v.x || infoBoxBg.getPosition().x + infoBoxBg.getSize().x > v.x) {
+			infoText.setPosition(infoText.getPosition().x - infoBoxBg.getGlobalBounds().width, infoText.getPosition().y);
+			infoBoxBg.setPosition(infoBoxBg.getPosition().x - infoBoxBg.getSize().x, infoBoxBg.getPosition().y);
+		}
+
+		if (infoText.getGlobalBounds().top < 0 || infoBoxBg.getPosition().y < 0) {
+			infoText.setPosition(infoText.getPosition().x, infoText.getPosition().y + infoBoxBg.getSize().y);
+			infoBoxBg.setPosition(infoBoxBg.getPosition().x, infoBoxBg.getPosition().y + infoBoxBg.getSize().y);
+		}
+
+
+		handler->window->draw(infoBoxBg);
 		handler->window->draw(infoText);
 
 
@@ -182,7 +202,79 @@ void CraftingState::renderItemInfo() {
 
 }
 
+void CraftingState::renderIcons() {
+	if (hoverUp) {
+		sf::RectangleShape upArrowIcon(sf::Vector2f(upArrow->getSize()));
+		upArrowIcon.setTexture(upArrow);
+		handler->window->draw(upArrowIcon);
+	}
 
+	if (hoverDown) {
+		sf::RectangleShape downArrowIcon(sf::Vector2f(downArrow->getSize()));
+		downArrowIcon.setTexture(downArrow);
+		handler->window->draw(downArrowIcon);
+	}
+
+	if (canCraftSelected) {
+		sf::RectangleShape canCraftIcon(sf::Vector2f(allow->getSize()));
+		canCraftIcon.setTexture(allow);
+		handler->window->draw(canCraftIcon);
+	} else {
+		sf::RectangleShape cannotCraftIcon(sf::Vector2f(deny->getSize()));
+		cannotCraftIcon.setTexture(deny);
+		handler->window->draw(cannotCraftIcon);
+	}
+
+}
+
+void CraftingState::renderCraftables() {
+	std::vector<int> craftableItems = ItemMeta::getCraftableItems();
+	int row = 0;
+	for (int i = 0; i < craftableItems.size(); i++) {
+		if (i == 5) {
+			row = 1;
+		}
+		int itemId = craftableItems[i];
+		sf::RectangleShape curItem(sf::Vector2f(96, 96));
+		curItem.setTexture(handler->assets->getItemTexture(itemId));
+		curItem.setPosition(xOffset + (size + xSpace) * (i)+6, yOffsetTop + (size + ySpace) * row + 6);
+		handler->window->draw(curItem);
+
+		if (selectedCraftSlotX != i || selectedCraftSlotY != row)
+			continue;
+
+		std::map<int, int> recipe = ItemMeta::getCraftingRecipe(itemId);
+		if (recipe.size() != 0) {
+			int ingredientRow = 0;
+			int ingredientPos = 0;
+			for (std::map<int, int>::iterator iter = recipe.begin(); iter != recipe.end(); ++iter) {
+
+				if (ingredientPos == 4) {
+					ingredientRow++;
+					ingredientPos = 0;
+				}
+				int key = iter->first;
+				int value = iter->second;
+
+				sf::RectangleShape curIngredient(sf::Vector2f(96, 96));
+				curIngredient.setTexture(handler->assets->getItemTexture(key));
+				curIngredient.setPosition(xOffsetIngredients + (96 + xIngredientSpace) * ingredientPos, yOffsetIngredients + (96 + yIngredientSpace) * ingredientRow);
+				handler->window->draw(curIngredient);
+
+				sf::Text count;
+				count.setString(std::to_string(value));
+				count.setFont(guiFont);
+				count.setCharacterSize(16);
+				count.setPosition(sf::Vector2f(curIngredient.getPosition().x + 8, yOffsetIngredients + (96 + yIngredientSpace) * ingredientRow + 102 - count.getGlobalBounds().height - 10));
+				handler->window->draw(count);
+
+				ingredientPos++;
+
+			}
+		}
+
+	}
+}
 
 void CraftingState::updateMouse() {
 	sf::Vector2f v = handler->guiView.getSize();
@@ -190,6 +282,27 @@ void CraftingState::updateMouse() {
 	int mx = sf::Mouse::getPosition(*(handler->window)).x * (v.x / w.x);
 	int my = sf::Mouse::getPosition(*(handler->window)).y * (v.y / w.y);
 	sf::Vector2i mousePos(mx, my);
+
+	// Check for hovering on arrows
+	if (mx >= 22 && mx <= 60 && my >= 46 && my <= 111) {
+		hoverUp = true;
+	} else {
+		hoverUp = false;
+	}
+
+
+	if (mx >= 22 && mx <= 60 && my >= 169 && my <= 234) {
+		hoverDown = true;
+	} else {
+		hoverDown = false;
+	}
+
+	if (mx >= 712 && mx <= 807 && my >= 90 && my <= 185) {
+		hoverCraft = true;
+	} else {
+		hoverCraft = false;
+	}
+
 
 	int section = 0; // Indicates what section the mouse is in, 0 for crafting, 1 for inv, 2 for hotbar
 
@@ -289,20 +402,54 @@ void CraftingState::mouseClicked(sf::Event e) {
 					clickedSlotY = -1;
 				}
 			}
+		} else {
+			// Clicked to select a crafting item, or to interact with a button
+			if (clickedSlotX == -1 && clickedSlotY == -1) {
+
+				if (xSlot != -1 && ySlot != -1) {
+					// Clicked a slot
+					selectedCraftSlotX = xSlot;
+					selectedCraftSlotY = ySlot;
+
+					if (playerHasIngredients()) {
+						canCraftSelected = true;
+					} else {
+						canCraftSelected = false;
+					}
+
+				} else {
+					// Clicked a button (maybe)
+					if (hoverCraft) {
+						// Clicked the craft button
+						craftSelectedItem();
+					}
+				}
+
+			} else {
+				canCraftSelected = false;
+			}
 		}
 	}
 }
 
 
 void CraftingState::resume() {
-
+	selectedCraftSlotX = -1;
+	selectedCraftSlotY = -1;
+	canCraftSelected = false;
 }
 
 std::pair<int, int> CraftingState::getItemAt(int x, int y) {
 	std::pair<int, int> item;
 	int index;
 	if (y < 2) {
-		return std::pair<int, int>(-1, -1);
+
+		std::vector<int> craftableItems = ItemMeta::getCraftableItems();
+		int index = x + y * 5;
+		if (index >= craftableItems.size()) {
+			return std::pair<int, int>(-1, -1);
+		}
+		return std::pair<int, int>(craftableItems[index], -1);
 	} else {
 		if (y == 4) {
 			index = x;
@@ -365,4 +512,56 @@ int CraftingState::getItemIndex(int x, int y) {
 
 	return index;
 
+}
+
+bool CraftingState::playerHasIngredients() {
+	std::vector<int> craftableItems = ItemMeta::getCraftableItems();
+	int index = selectedCraftSlotX + selectedCraftSlotY * 5;
+	if (index < craftableItems.size()) {
+		int itemId = craftableItems[index];
+
+		std::map<int, int> recipe = ItemMeta::getCraftingRecipe(itemId);
+		for (std::map<int, int>::iterator iter = recipe.begin(); iter != recipe.end(); ++iter) {
+
+			int key = iter->first;
+			int value = iter->second;
+
+			if (handler->player->getInventory()->getAmountOfItem(key) < value) {
+				return false;
+			}
+		}
+		return true;
+	}
+	return false;
+}
+
+void CraftingState::craftSelectedItem() {
+	if (selectedCraftSlotX != -1 && selectedCraftSlotY != -1) {
+
+		if (canCraftSelected) {
+
+			std::vector<int> craftableItems = ItemMeta::getCraftableItems();
+			int index = selectedCraftSlotX + selectedCraftSlotY * 5;
+			if (index < craftableItems.size()) {
+				int itemId = craftableItems[index];
+
+				std::map<int, int> recipe = ItemMeta::getCraftingRecipe(itemId);
+				for (std::map<int, int>::iterator iter = recipe.begin(); iter != recipe.end(); ++iter) {
+
+					int key = iter->first;
+					int value = iter->second;
+
+					handler->player->getInventory()->removeItemFromInv(key, value);
+
+				}
+
+				handler->player->addItemToInv(itemId);
+
+			}
+
+
+
+		}
+
+	}
 }

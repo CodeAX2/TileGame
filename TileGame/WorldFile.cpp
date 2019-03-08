@@ -7,6 +7,9 @@
 #include "Pumpkin.h"
 #include "Boat.h"
 #include "Zombie.h"
+#include "Workbench.h"
+
+
 using namespace tg;
 World* WorldFile::loadWorldFile(std::string fileName, Handler * handler) {
 	std::ifstream file(handler->saveDirName + "\\" + fileName, std::ios::in | std::ios::binary);
@@ -187,7 +190,6 @@ World* WorldFile::loadWorldFile(std::string fileName, Handler * handler) {
 			b->setRiderId(rId);
 
 		} else if (type == ZOMBIE_E) {
-			std::cout << "Zombie" << std::endl;
 			float x, y;
 			UUID fId;
 			file.read((char*)&x, sizeof(float));
@@ -199,6 +201,19 @@ World* WorldFile::loadWorldFile(std::string fileName, Handler * handler) {
 			z->setHealth(health);
 			z->setMaxHealth(maxHealth);
 			z->setId(id);
+		} else if (type == WORKBENCH_E) {
+
+			int tX;
+			int tY;
+
+			file.read((char*)&tX, sizeof(int));
+			file.read((char*)&tY, sizeof(int));
+
+			Workbench* w = new Workbench(tX, tY, handler, world);
+			w->setHealth(health);
+			w->setMaxHealth(maxHealth);
+			w->setId(id);
+
 		}
 	}
 
@@ -429,6 +444,23 @@ void WorldFile::saveFile() {
 			file.write((char*)&x, sizeof(float));
 			file.write((char*)&y, sizeof(float));
 			file.write((char*)&fId, sizeof(UUID));
+
+			totalWrittenEntities++;
+
+		} else if (type == WORKBENCH_E) {
+
+			Workbench* curP = dynamic_cast<Workbench*>(cur);
+
+			int tX = curP->getTX();
+			int tY = curP->getTY();
+
+			file.write((char*)&type, sizeof(int));
+			file.write((char*)&health, sizeof(int));
+			file.write((char*)&maxHealth, sizeof(int));
+			file.write((char*)&id, sizeof(UUID));
+
+			file.write((char*)&tX, sizeof(int));
+			file.write((char*)&tY, sizeof(int));
 
 			totalWrittenEntities++;
 

@@ -11,7 +11,7 @@ std::map<int, ItemMeta*> ItemMeta::allItemMetas;
 
 void ItemMeta::init() {
 
-	for (int i = 0; i <= 8; i++) {
+	for (int i = 0; i <= MAX_ITEM_ID; i++) {
 		new ItemMeta(i);
 		allItemMetas.at(i)->setEntityDamage(TREE_E, 5);
 		allItemMetas.at(i)->setEntityDamage(ZOMBIE_E, 5);
@@ -92,6 +92,19 @@ void ItemMeta::init() {
 
 	});
 
+	// Set recipes
+	allItemMetas[5]->craftable = true;
+	allItemMetas[5]->setRecipeItem(0, 2);
+	allItemMetas[5]->setRecipeItem(1, 1);
+
+	allItemMetas[7]->craftable = true;
+	allItemMetas[7]->setRecipeItem(0, 5);
+	allItemMetas[7]->setRecipeItem(1, 2);
+
+	allItemMetas[8]->craftable = true;
+	allItemMetas[8]->setRecipeItem(0, 10);
+	allItemMetas[8]->setRecipeItem(1, 5);
+
 
 }
 
@@ -133,6 +146,7 @@ ItemMeta::ItemMeta(int id) {
 	this->id = id;
 	allItemMetas.insert_or_assign(id, this);
 	entityDamageMap = std::map<int, int>();
+	recipe = std::map<int, int>();
 
 }
 
@@ -151,4 +165,31 @@ void ItemMeta::useItem(int itemId, World* world, Handler* handler) {
 		return;
 	if (allItemMetas[itemId]->itemIsUsable)
 		allItemMetas[itemId]->interactFunction(world, handler);
+}
+
+bool ItemMeta::isCraftable(int itemId) {
+	if (itemId != -1)
+		return allItemMetas[itemId]->craftable;
+
+	return false;
+
+}
+std::map<int, int> ItemMeta::getCraftingRecipe(int itemId) {
+	if (itemId != -1 && isCraftable(itemId)) {
+		return allItemMetas[itemId]->recipe;
+	}
+
+	return std::map<int, int>();
+}
+
+std::vector<int> ItemMeta::getCraftableItems() {
+	std::vector<int> craftables;
+	for (int i = 0; i <= MAX_ITEM_ID; i++) {
+		if (allItemMetas[i]->craftable) {
+			craftables.push_back(i);
+		}
+	}
+
+	return craftables;
+
 }

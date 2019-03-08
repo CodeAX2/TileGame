@@ -125,6 +125,7 @@
       <Filter>Source Files\Entities</Filter>
     </ClCompile>
     <ClCompile Include="CraftingState.cpp" />
+    <ClCompile Include="Workbench.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -254,6 +255,7 @@
       <Filter>Header Files\Game States</Filter>
     </ClInclude>
     <ClInclude Include="CraftingState.h" />
+    <ClInclude Include="Workbench.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="BuildingFileOutline.txt">
@@ -536,6 +538,12 @@
       <Filter>Resource Files\Textures</Filter>
     </Image>
     <Image Include="Resources\Textures\CraftingInventoryMenuUpOn.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\Workbench.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\Rock.png">
       <Filter>Resource Files\Textures</Filter>
     </Image>
   </ItemGroup>

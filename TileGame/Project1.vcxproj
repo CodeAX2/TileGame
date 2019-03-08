@@ -57,6 +57,7 @@
     <ClCompile Include="TileData.cpp" />
     <ClCompile Include="TreasureChest.cpp" />
     <ClCompile Include="Tree.cpp" />
+    <ClCompile Include="Workbench.cpp" />
     <ClCompile Include="World.cpp" />
     <ClCompile Include="WorldFile.cpp" />
     <ClCompile Include="WorldManager.cpp" />
@@ -102,6 +103,7 @@
     <ClInclude Include="TileData.h" />
     <ClInclude Include="TreasureChest.h" />
     <ClInclude Include="Tree.h" />
+    <ClInclude Include="Workbench.h" />
     <ClInclude Include="World.h" />
     <ClInclude Include="WorldFile.h" />
     <ClInclude Include="WorldManager.h" />
@@ -149,6 +151,7 @@
     <Image Include="Resources\Textures\Path24.png" />
     <Image Include="Resources\Textures\Pumpkin.png" />
     <Image Include="Resources\Textures\PumpkinLit.png" />
+    <Image Include="Resources\Textures\Rock.png" />
     <Image Include="Resources\Textures\Rock24.png" />
     <Image Include="Resources\Textures\Sand24.png" />
     <Image Include="Resources\Textures\SandCastle.png" />
@@ -173,6 +176,7 @@
     <Image Include="Resources\Textures\Woodbridge.png" />
     <Image Include="Resources\Textures\WoodHut.png" />
     <Image Include="Resources\Textures\WoodSword.png" />
+    <Image Include="Resources\Textures\Workbench.png" />
     <Image Include="Resources\Textures\Zombie.png" />
   </ItemGroup>
   <ItemGroup>

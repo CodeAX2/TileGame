@@ -54,12 +54,14 @@
 #define CRAFTING_ICON_DENY              150
 #define CRAFTING_ICON_DOWN              151
 #define CRAFTING_ICON_UP                152
+#define WORKBENCH                       153
+#define ROCK                            154
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        153
+#define _APS_NEXT_RESOURCE_VALUE        155
 #define _APS_NEXT_COMMAND_VALUE         40003
 #define _APS_NEXT_CONTROL_VALUE         1001
 #define _APS_NEXT_SYMED_VALUE           101

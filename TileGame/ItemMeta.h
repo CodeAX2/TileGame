@@ -11,12 +11,14 @@ namespace tg {
 
 	private:
 		int id;
-		std::map<int, int> entityDamageMap;
-		std::function<void(World*, Handler*)> placeFunction;
-		bool placable = false;
-		std::function<void(World*, Handler*)> interactFunction;
-		bool interactable = false;
-		std::vector<int> placableTiles;
+		std::map<int, int> entityDamageMap; // First: entity type to damage, Second: amount of damage
+		std::function<void(World*, Handler*)> placeFunction; // Function to run when placed
+		bool placable = false; // If the item can be placed in the world
+		std::function<void(World*, Handler*)> interactFunction; // Function to run when used
+		bool interactable = false; // If the item can be used
+		std::vector<int> placableTiles; // What tiles the item can be placed on
+		bool craftable = false; // If the item can be crafted
+		std::map<int, int> recipe; // First: item id used in crafting, Second: amount of item
 
 	private:
 		ItemMeta(int id);
@@ -36,10 +38,12 @@ namespace tg {
 		void setPlacableTiles(std::vector<int> placableTilesList) { placableTiles = placableTilesList; }
 		void addPlacableTile(int tileId) { placableTiles.push_back(tileId); }
 		bool tileIsPlacable(int tileId) { return std::find(placableTiles.begin(), placableTiles.end(), tileId) != placableTiles.end(); }
+		void setRecipeItem(int item, int amount) { recipe.insert_or_assign(item, amount); }
 
 	private:
 		static std::map<int, ItemMeta*> allItemMetas;
 		static const int BASE_DAMAGE = 20;
+		static const int MAX_ITEM_ID = 8;
 
 	public:
 		static void init();
@@ -49,6 +53,9 @@ namespace tg {
 		static bool itemIsPlacable(int itemId);
 		static bool canPlaceOnTile(int itemId, int tileId);
 		static bool itemIsUsable(int itemId);
+		static bool isCraftable(int itemId);
+		static std::map<int, int> getCraftingRecipe(int itemId);
+		static std::vector<int> getCraftableItems();
 
 	};
 }

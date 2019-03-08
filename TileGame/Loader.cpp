@@ -18,6 +18,7 @@
 #include <filesystem>
 #include "Zombie.h"
 #include <random>
+#include "Workbench.h"
 
 using namespace tg;
 namespace fs = std::experimental::filesystem;
@@ -140,6 +141,8 @@ void Loader::loadEntities() {
 		(new TreasureChest(201, 224, handler, world))->setItem(1, 5, 2);
 		(new TreasureChest(207, 226, handler, world))->setItem(1, 5, 2);
 		(new TreasureChest(202, 222, handler, world))->setItem(1, 5, 2);
+
+		new Workbench(50, 24, handler, world);
 
 		loadingMessage = "Loading trees...";
 
