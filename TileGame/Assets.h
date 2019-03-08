@@ -35,6 +35,7 @@ namespace tg {
 		sf::Texture* interactPrompt;
 		sf::Texture* interactPromptController;
 		sf::Texture* workbench;
+		sf::Texture* rock;
 
 	public:
 		Assets();
@@ -190,6 +191,7 @@ namespace tg {
 		sf::Texture* getTallSnowGrassTexture() { return snowTallGrass; }
 		sf::Texture* getTreasureChestTexture() { return treasureChest; }
 		sf::Texture* getWorkbenchTexture() { return workbench; }
+		sf::Texture* getRockTexture() { return rock; }
 
 		sf::Color getPlayerColor() { return playerColorP; }
 

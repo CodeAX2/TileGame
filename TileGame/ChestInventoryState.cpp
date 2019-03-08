@@ -5,6 +5,7 @@
 #include "Inventory.h"
 #include "Player.h"
 #include "ItemDesc.h"
+#include "ItemMeta.h"
 
 using namespace tg;
 
@@ -211,13 +212,15 @@ void ChestInventoryState::renderItemInfo() {
 void ChestInventoryState::resume() {
 	handler->inputManager->disableCurrentMovement();
 	PlayingState* ps = dynamic_cast<PlayingState*>(handler->getCustomState(PLAYING));
-	ps->playBGMusic();
+	if (!ps->musicIsPaused())
+		ps->playBGMusic();
 }
 
 void ChestInventoryState::pause() {
 	handler->inputManager->disableCurrentMovement();
 	PlayingState* ps = dynamic_cast<PlayingState*>(handler->getCustomState(PLAYING));
-	ps->pauseBGMusic();
+	if (ps->musicIsPaused())
+		ps->pauseBGMusic();
 }
 
 
@@ -346,9 +349,10 @@ void ChestInventoryState::swapItems(int itemAx, int itemAy, int itemBx, int item
 	if (itemA.first == itemB.first && !(itemAx == itemBx && itemAy == itemBy)) {
 		// Combine items
 		int totalAmount = itemA.second + itemB.second;
-		if (totalAmount > 99) {
-			itemB.second = 99;
-			totalAmount -= 99;
+		int maxStackSize = ItemMeta::getMaxStackSize(itemA.first);
+		if (totalAmount > maxStackSize) {
+			itemB.second = maxStackSize;
+			totalAmount -= maxStackSize;
 			itemA.second = totalAmount;
 		} else {
 			itemB.second = totalAmount;

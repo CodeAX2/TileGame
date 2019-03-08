@@ -43,6 +43,7 @@ namespace tg {
 		sf::Texture* deny;
 		sf::Texture* allow;
 		sf::Texture* invHighlight;
+		sf::Texture* craftHighlight;
 
 		bool grid[5][9] = {
 			{1,1,1,1,1,0,0,0,0},
@@ -59,6 +60,8 @@ namespace tg {
 		int xSlot = -1, ySlot = -1;
 		int clickedSlotX = -1, clickedSlotY = -1;
 		int selectedCraftSlotX = -1, selectedCraftSlotY = -1;
+
+		int craftSlotOffset = 0;
 
 		bool hoverUp = false, hoverDown = false;
 		bool hoverCraft = false;

@@ -20,6 +20,7 @@
 #define BUILDING_E 8
 #define ZOMBIE_E 9
 #define WORKBENCH_E 10
+#define ROCK_E 11
 
 namespace tg {
 	class Rideable;

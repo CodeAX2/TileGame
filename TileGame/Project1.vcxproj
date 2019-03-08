@@ -50,6 +50,7 @@
     <ClCompile Include="PlayingState.cpp" />
     <ClCompile Include="Pumpkin.cpp" />
     <ClCompile Include="Rideable.cpp" />
+    <ClCompile Include="Rock.cpp" />
     <ClCompile Include="SandCastle.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="Static.cpp" />
@@ -97,6 +98,7 @@
     <ClInclude Include="Pumpkin.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Rideable.h" />
+    <ClInclude Include="Rock.h" />
     <ClInclude Include="SandCastle.h" />
     <ClInclude Include="Static.h" />
     <ClInclude Include="TallGrass.h" />
@@ -129,6 +131,7 @@
     <Image Include="Resources\Textures\CaveEntrance.png" />
     <Image Include="Resources\Textures\CaveFloor24.png" />
     <Image Include="Resources\Textures\ChestInventoryMenu.png" />
+    <Image Include="Resources\Textures\CraftHighlight.png" />
     <Image Include="Resources\Textures\CraftingInventoryMenu.png" />
     <Image Include="Resources\Textures\CraftingInventoryMenuAllow.png" />
     <Image Include="Resources\Textures\CraftingInventoryMenuDeny.png" />
@@ -159,6 +162,7 @@
     <Image Include="Resources\Textures\SpritesSheet-Player.png" />
     <Image Include="Resources\Textures\SS-Player.png" />
     <Image Include="Resources\Textures\SS-Zombie.png" />
+    <Image Include="Resources\Textures\Stone.png" />
     <Image Include="Resources\Textures\TallGrass.png" />
     <Image Include="Resources\Textures\TallGrassSnow.png" />
     <Image Include="Resources\Textures\TileGame Menu.png" />
@@ -175,6 +179,7 @@
     <Image Include="Resources\Textures\Wood24.png" />
     <Image Include="Resources\Textures\Woodbridge.png" />
     <Image Include="Resources\Textures\WoodHut.png" />
+    <Image Include="Resources\Textures\WoodPickaxe.png" />
     <Image Include="Resources\Textures\WoodSword.png" />
     <Image Include="Resources\Textures\Workbench.png" />
     <Image Include="Resources\Textures\Zombie.png" />

@@ -40,7 +40,8 @@ void InventoryState::tick(sf::Int32 dt) {
 void InventoryState::resume() {
 	handler->inputManager->disableCurrentMovement();
 	PlayingState* ps = dynamic_cast<PlayingState*>(handler->getCustomState(PLAYING));
-	ps->playBGMusic();
+	if (!ps->musicIsPaused())
+		ps->playBGMusic();
 }
 
 void InventoryState::renderInventory() {
@@ -328,7 +329,8 @@ void InventoryState::pause() {
 	clickedSlotY = -1;
 	handler->inputManager->disableCurrentMovement();
 	PlayingState* ps = dynamic_cast<PlayingState*>(handler->getCustomState(PLAYING));
-	ps->pauseBGMusic();
+	if (ps->musicIsPaused())
+		ps->pauseBGMusic();
 }
 
 void InventoryState::updateJoystick(sf::Int32 dt) {
@@ -400,7 +402,7 @@ void InventoryState::updateJoystick(sf::Int32 dt) {
 
 
 		}
-			
+
 
 	} else {
 		im->joyStickButtons[1] = false;

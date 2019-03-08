@@ -447,7 +447,7 @@ void PlayingState::pause() {
 }
 
 void PlayingState::resume() {
-	if (bgMusic.getStatus() != sf::Music::Playing)
+	if (bgMusic.getStatus() != sf::Music::Playing && !musicPaused)
 		bgMusic.play();
 }
 

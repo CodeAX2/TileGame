@@ -18,6 +18,7 @@ CraftingState::CraftingState(Handler* handler) : GameState(CRAFTING_INVENTORY) {
 	allow = handler->assets->loadTextureFromResource(CRAFTING_ICON_ALLOW);
 
 	invHighlight = handler->assets->loadTextureFromResource(INV_HIGHLIGHT);
+	craftHighlight = handler->assets->loadTextureFromResource(CRAFT_HIGHLIGHT);
 
 
 }
@@ -60,6 +61,21 @@ void CraftingState::renderBackground() {
 }
 
 void CraftingState::renderHighlight() {
+
+	if (selectedCraftSlotX != -1 && selectedCraftSlotY != -1) {
+
+		sf::RectangleShape highlight(sf::Vector2f(invHighlight->getSize().x * 3, invHighlight->getSize().y * 3));
+		highlight.setTexture(craftHighlight);
+		float xPos, yPos;
+		xPos = xOffset + selectedCraftSlotX * (size + xSpace);
+		yPos = yOffsetTop + selectedCraftSlotY * (size + ySpace);
+
+		highlight.setPosition(xPos, yPos);
+		handler->window->draw(highlight);
+	}
+
+
+
 	if (xSlot != -1 && ySlot != -1) {
 
 		sf::RectangleShape highlight(sf::Vector2f(invHighlight->getSize().x * 3, invHighlight->getSize().y * 3));
@@ -230,26 +246,32 @@ void CraftingState::renderIcons() {
 void CraftingState::renderCraftables() {
 	std::vector<int> craftableItems = ItemMeta::getCraftableItems();
 	int row = 0;
-	for (int i = 0; i < craftableItems.size(); i++) {
+	int pos = 0;
+	for (int i = 0; i < 10; i++, pos++) {
 		if (i == 5) {
 			row = 1;
+			pos = 0;
 		}
-		int itemId = craftableItems[i];
+
+		if (i + craftSlotOffset >= craftableItems.size()) continue;
+
+		int itemId = craftableItems[i + craftSlotOffset];
 		sf::RectangleShape curItem(sf::Vector2f(96, 96));
 		curItem.setTexture(handler->assets->getItemTexture(itemId));
-		curItem.setPosition(xOffset + (size + xSpace) * (i)+6, yOffsetTop + (size + ySpace) * row + 6);
+		curItem.setPosition(xOffset + (size + xSpace) * (pos)+6, yOffsetTop + (size + ySpace) * row + 6);
 		handler->window->draw(curItem);
 
-		if (selectedCraftSlotX != i || selectedCraftSlotY != row)
+		if (selectedCraftSlotX != pos || selectedCraftSlotY != row) {
 			continue;
+		}
 
 		std::map<int, int> recipe = ItemMeta::getCraftingRecipe(itemId);
 		if (recipe.size() != 0) {
 			int ingredientRow = 0;
 			int ingredientPos = 0;
-			for (std::map<int, int>::iterator iter = recipe.begin(); iter != recipe.end(); ++iter) {
+			for (std::map<int, int>::iterator iter = recipe.begin(); iter != recipe.end(); ++iter, ingredientPos++) {
 
-				if (ingredientPos == 4) {
+				if (ingredientPos == 5) {
 					ingredientRow++;
 					ingredientPos = 0;
 				}
@@ -267,8 +289,6 @@ void CraftingState::renderCraftables() {
 				count.setCharacterSize(16);
 				count.setPosition(sf::Vector2f(curIngredient.getPosition().x + 8, yOffsetIngredients + (96 + yIngredientSpace) * ingredientRow + 102 - count.getGlobalBounds().height - 10));
 				handler->window->draw(count);
-
-				ingredientPos++;
 
 			}
 		}
@@ -423,6 +443,24 @@ void CraftingState::mouseClicked(sf::Event e) {
 						// Clicked the craft button
 						craftSelectedItem();
 					}
+
+
+					if (hoverUp) {
+						if (craftSlotOffset != 0) {
+							craftSlotOffset -= 5;
+							selectedCraftSlotX = -1;
+							selectedCraftSlotY = -1;
+						}
+					}
+
+					if (hoverDown) {
+						if (craftSlotOffset + 10 < ItemMeta::getCraftableItems().size()) {
+							craftSlotOffset += 5;
+							selectedCraftSlotX = -1;
+							selectedCraftSlotY = -1;
+						}
+					}
+
 				}
 
 			} else {
@@ -445,7 +483,7 @@ std::pair<int, int> CraftingState::getItemAt(int x, int y) {
 	if (y < 2) {
 
 		std::vector<int> craftableItems = ItemMeta::getCraftableItems();
-		int index = x + y * 5;
+		int index = x + y * 5 + craftSlotOffset;
 		if (index >= craftableItems.size()) {
 			return std::pair<int, int>(-1, -1);
 		}
@@ -477,9 +515,10 @@ void CraftingState::swapItems(int itemAx, int itemAy, int itemBx, int itemBy) {
 	if (itemA.first == itemB.first && !(itemAx == itemBx && itemAy == itemBy)) {
 		// Combine items
 		int totalAmount = itemA.second + itemB.second;
-		if (totalAmount > 99) {
-			itemB.second = 99;
-			totalAmount -= 99;
+		int maxStackSize = ItemMeta::getMaxStackSize(itemA.first);
+		if (totalAmount > maxStackSize) {
+			itemB.second = maxStackSize;
+			totalAmount -= maxStackSize;
 			itemA.second = totalAmount;
 		} else {
 			itemB.second = totalAmount;
@@ -516,7 +555,7 @@ int CraftingState::getItemIndex(int x, int y) {
 
 bool CraftingState::playerHasIngredients() {
 	std::vector<int> craftableItems = ItemMeta::getCraftableItems();
-	int index = selectedCraftSlotX + selectedCraftSlotY * 5;
+	int index = selectedCraftSlotX + selectedCraftSlotY * 5 + craftSlotOffset;
 	if (index < craftableItems.size()) {
 		int itemId = craftableItems[index];
 
@@ -541,7 +580,7 @@ void CraftingState::craftSelectedItem() {
 		if (canCraftSelected) {
 
 			std::vector<int> craftableItems = ItemMeta::getCraftableItems();
-			int index = selectedCraftSlotX + selectedCraftSlotY * 5;
+			int index = selectedCraftSlotX + selectedCraftSlotY * 5 + craftSlotOffset;
 			if (index < craftableItems.size()) {
 				int itemId = craftableItems[index];
 

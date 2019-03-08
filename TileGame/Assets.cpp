@@ -176,6 +176,8 @@ void Assets::init() {
 
 	workbench = loadTextureFromResource(WORKBENCH);
 
+	rock = loadTextureFromResource(ROCK);
+
 
 	for (int i = 0; i < 256; i++) {
 		renderPriority[i] = -1; // Declare each spot in the priorities as empty
@@ -208,6 +210,8 @@ void Assets::init() {
 	addItemTexture(METAL_SWORD_ITEM, 6);
 	addItemTexture(WOOD_SWORD_ITEM, 7);
 	addItemTexture(TREASURE_CHEST_ITEM, 8);
+	addItemTexture(WOOD_PICKAXE_ITEM, 9);
+	addItemTexture(STONE_ITEM, 10);
 
 	for (int i = 0; i < 4; i++) {
 		sf::Texture* curGem = new sf::Texture();

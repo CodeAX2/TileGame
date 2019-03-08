@@ -86,7 +86,7 @@ void Game::commandLoop() {
 			}
 		}
 
-		while (handler.getCurrentState()->getType() != PLAYING && handler.getCurrentState()->getType() != INVENTORY) {
+		while (handler.getCurrentState()->getType() == LOADING || handler.getCurrentState()->getType() == MAIN_MENU) {
 			sf::sleep(sf::milliseconds(10));
 		}
 
@@ -180,7 +180,7 @@ void Game::commandLoop() {
 		} else if (cmd == "mutemusic") {
 			PlayingState* ps = dynamic_cast<PlayingState*>(handler.getCustomState(PLAYING));
 			ps->pauseBGMusic();
-		
+
 		} else {
 			std::cout << "Invalid command!" << std::endl;
 		}

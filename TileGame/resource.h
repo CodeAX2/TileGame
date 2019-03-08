@@ -56,12 +56,15 @@
 #define CRAFTING_ICON_UP                152
 #define WORKBENCH                       153
 #define ROCK                            154
+#define WOOD_PICKAXE_ITEM               155
+#define STONE_ITEM                      156
+#define CRAFT_HIGHLIGHT                 157
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        155
+#define _APS_NEXT_RESOURCE_VALUE        158
 #define _APS_NEXT_COMMAND_VALUE         40003
 #define _APS_NEXT_CONTROL_VALUE         1001
 #define _APS_NEXT_SYMED_VALUE           101

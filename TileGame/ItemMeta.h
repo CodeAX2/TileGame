@@ -19,6 +19,7 @@ namespace tg {
 		std::vector<int> placableTiles; // What tiles the item can be placed on
 		bool craftable = false; // If the item can be crafted
 		std::map<int, int> recipe; // First: item id used in crafting, Second: amount of item
+		int maxStackAmount; // Maximum amount that can occupy 1 slot in the inventory
 
 	private:
 		ItemMeta(int id);
@@ -40,10 +41,13 @@ namespace tg {
 		bool tileIsPlacable(int tileId) { return std::find(placableTiles.begin(), placableTiles.end(), tileId) != placableTiles.end(); }
 		void setRecipeItem(int item, int amount) { recipe.insert_or_assign(item, amount); }
 
+		void setMaxStackAmount(int amount) { maxStackAmount = amount; }
+
+
 	private:
 		static std::map<int, ItemMeta*> allItemMetas;
 		static const int BASE_DAMAGE = 20;
-		static const int MAX_ITEM_ID = 8;
+		static const int MAX_ITEM_ID = 10;
 
 	public:
 		static void init();
@@ -56,6 +60,7 @@ namespace tg {
 		static bool isCraftable(int itemId);
 		static std::map<int, int> getCraftingRecipe(int itemId);
 		static std::vector<int> getCraftableItems();
+		static int getMaxStackSize(int itemId);
 
 	};
 }

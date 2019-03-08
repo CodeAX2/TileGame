@@ -49,6 +49,16 @@ void ItemDesc::init() {
 		" Stores a variety of\n"
 		" items. Contains 10 slots.";
 
+	itemDescriptions[9] =
+		"WOODEN PICKAXE:\n"
+		" Use to mine up rocks\n"
+		" in order to make better tools.";
+
+	itemDescriptions[10] =
+		"STONE:\n"
+		" Used for crafting \n"
+		" improved tools and weapons.";
+
 }
 
 std::string ItemDesc::getInfo(int id) {

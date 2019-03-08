@@ -15,6 +15,8 @@ void ItemMeta::init() {
 		new ItemMeta(i);
 		allItemMetas.at(i)->setEntityDamage(TREE_E, 5);
 		allItemMetas.at(i)->setEntityDamage(ZOMBIE_E, 5);
+		allItemMetas.at(i)->setEntityDamage(ROCK_E, 5);
+		allItemMetas.at(i)->setMaxStackAmount(99);
 	}
 
 	// Set damages
@@ -25,6 +27,8 @@ void ItemMeta::init() {
 	allItemMetas[6]->setEntityDamage(ZOMBIE_E, 20);
 
 	allItemMetas[7]->setEntityDamage(ZOMBIE_E, 10);
+
+	allItemMetas[9]->setEntityDamage(ROCK_E, 10);
 
 	// Set place functions
 	allItemMetas[5]->setPlaceFunction(
@@ -93,9 +97,18 @@ void ItemMeta::init() {
 	});
 
 	// Set recipes
+
+	allItemMetas[2]->craftable = true;
+	allItemMetas[2]->setRecipeItem(10, 5);
+	allItemMetas[2]->setRecipeItem(1, 2);
+
 	allItemMetas[5]->craftable = true;
 	allItemMetas[5]->setRecipeItem(0, 2);
 	allItemMetas[5]->setRecipeItem(1, 1);
+
+	allItemMetas[6]->craftable = true;
+	allItemMetas[6]->setRecipeItem(10, 5);
+	allItemMetas[6]->setRecipeItem(1, 2);
 
 	allItemMetas[7]->craftable = true;
 	allItemMetas[7]->setRecipeItem(0, 5);
@@ -105,6 +118,18 @@ void ItemMeta::init() {
 	allItemMetas[8]->setRecipeItem(0, 10);
 	allItemMetas[8]->setRecipeItem(1, 5);
 
+	allItemMetas[9]->craftable = true;
+	allItemMetas[9]->setRecipeItem(0, 5);
+	allItemMetas[9]->setRecipeItem(1, 2);
+
+	// Set max stack size
+	allItemMetas[2]->setMaxStackAmount(1);
+
+	allItemMetas[6]->setMaxStackAmount(1);
+
+	allItemMetas[7]->setMaxStackAmount(1);
+
+	allItemMetas[9]->setMaxStackAmount(1);
 
 }
 
@@ -192,4 +217,10 @@ std::vector<int> ItemMeta::getCraftableItems() {
 
 	return craftables;
 
+}
+
+int ItemMeta::getMaxStackSize(int itemId) {
+	if (itemId != -1)
+		return allItemMetas[itemId]->maxStackAmount;
+	return 99;
 }

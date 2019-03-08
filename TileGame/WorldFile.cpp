@@ -8,6 +8,7 @@
 #include "Boat.h"
 #include "Zombie.h"
 #include "Workbench.h"
+#include "Rock.h"
 
 
 using namespace tg;
@@ -213,6 +214,19 @@ World* WorldFile::loadWorldFile(std::string fileName, Handler * handler) {
 			w->setHealth(health);
 			w->setMaxHealth(maxHealth);
 			w->setId(id);
+
+		} else if (type == ROCK_E) {
+
+			int tX;
+			int tY;
+
+			file.read((char*)&tX, sizeof(int));
+			file.read((char*)&tY, sizeof(int));
+
+			Rock* r = new Rock(tX, tY, handler, world);
+			r->setHealth(health);
+			r->setMaxHealth(maxHealth);
+			r->setId(id);
 
 		}
 	}
@@ -450,6 +464,23 @@ void WorldFile::saveFile() {
 		} else if (type == WORKBENCH_E) {
 
 			Workbench* curP = dynamic_cast<Workbench*>(cur);
+
+			int tX = curP->getTX();
+			int tY = curP->getTY();
+
+			file.write((char*)&type, sizeof(int));
+			file.write((char*)&health, sizeof(int));
+			file.write((char*)&maxHealth, sizeof(int));
+			file.write((char*)&id, sizeof(UUID));
+
+			file.write((char*)&tX, sizeof(int));
+			file.write((char*)&tY, sizeof(int));
+
+			totalWrittenEntities++;
+
+		} else if (type == ROCK_E) {
+
+			Rock* curP = dynamic_cast<Rock*>(cur);
 
 			int tX = curP->getTX();
 			int tY = curP->getTY();

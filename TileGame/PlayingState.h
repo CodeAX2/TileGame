@@ -21,11 +21,12 @@ namespace tg {
 		void playerDeath(std::string msg) { deathScreen = true; deathMessage = msg; }
 		void pause() override;
 		void resume() override;
-		void playBGMusic() { bgMusic.play(); }
-		void pauseBGMusic() { bgMusic.pause(); }
+		void playBGMusic() { bgMusic.play(); musicPaused = false; }
+		void pauseBGMusic() { bgMusic.pause(); musicPaused = true; }
 		void mouseClicked(sf::Event e) override;
 		void updateMouse() override;
 		void updateJoystick(sf::Int32 dt) override;
+		bool musicIsPaused() { return musicPaused; }
 
 	private:
 		void renderWorld();
@@ -46,6 +47,7 @@ namespace tg {
 		std::string deathMessage = "";
 		sf::Music bgMusic;
 		sf::Texture* hotBarSlotHighlight;
+		bool musicPaused = false;
 
 
 	};
