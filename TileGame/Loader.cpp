@@ -20,6 +20,7 @@
 #include <random>
 #include "Workbench.h"
 #include "Rock.h"
+#include "Smelter.h"
 
 using namespace tg;
 namespace fs = std::experimental::filesystem;
@@ -145,6 +146,7 @@ void Loader::loadEntities() {
 
 		new Workbench(50, 24, handler, world);
 		new Rock(51, 24, handler, world);
+		new Smelter(52, 24, handler, world);
 
 		loadingMessage = "Loading trees...";
 
@@ -178,6 +180,27 @@ void Loader::loadEntities() {
 			if (world->getTile(x, y) == 7) {
 
 				new Tree(x, y, handler, T_SNOWY, world);
+
+			}
+
+
+		}
+
+		loadingMessage = "Loading rocks...";
+		loadingMessage = "Loading trees...";
+
+		for (int i = 0; i < 60000; i++) {
+
+			int x = std::random_device{}() % world->getWidth(), y = std::random_device{}() % world->getHeight();
+
+			if (x == world->getSpawn().x && y == world->getSpawn().y) {
+				continue;
+			}
+
+			if (world->getTile(x, y) == 6) {
+
+				new Rock(x, y, handler, world);
+
 
 			}
 

@@ -178,6 +178,12 @@ void Assets::init() {
 
 	rock = loadTextureFromResource(ROCK);
 
+	sf::Image smelterSheet = loadImageFromResource(SMELTER);
+	for (int i = 0; i < 4; i++) {
+		smelter[i] = new sf::Texture();
+		smelter[i]->loadFromImage(smelterSheet, sf::IntRect(i * 32, 0, 32, 32));
+	}
+
 
 	for (int i = 0; i < 256; i++) {
 		renderPriority[i] = -1; // Declare each spot in the priorities as empty
@@ -212,6 +218,7 @@ void Assets::init() {
 	addItemTexture(TREASURE_CHEST_ITEM, 8);
 	addItemTexture(WOOD_PICKAXE_ITEM, 9);
 	addItemTexture(STONE_ITEM, 10);
+	addItemTexture(WORKBENCH_ITEM, 11);
 
 	for (int i = 0; i < 4; i++) {
 		sf::Texture* curGem = new sf::Texture();

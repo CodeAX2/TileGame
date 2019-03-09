@@ -2,6 +2,7 @@
 #include "InputManager.h"
 #include "GameState.h"
 #include "CraftingState.h"
+#include "Item.h"
 
 using namespace tg;
 
@@ -52,4 +53,8 @@ void Workbench::onInteract() {
 		handler->setGameState(PLAYING);
 	}
 
+}
+
+void Workbench::dropItems() {
+	new Item(x + (float)w / 2 - 32 + rand() % 21 - 10, y + h - 64 + rand() % 21 - 10, handler, 11, world);
 }

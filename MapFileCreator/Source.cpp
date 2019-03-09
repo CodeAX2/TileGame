@@ -9,6 +9,9 @@
 #define PUMPKIN_E 6
 #define BOAT_E 7
 #define BUILDING_E 8
+#define ZOMBIE_E 9
+#define WORKBENCH_E 10
+#define ROCK_E 11
 
 #include <iostream>
 #include <fstream>
@@ -308,6 +311,64 @@ int main() {
 			file.write((char*)&y, sizeof(float));
 			file.write((char*)&rId, sizeof(UUID));
 
+		} else if (type == "ZOMBIE_E") {
+
+			float x;
+			float y;
+
+			std::cout << "Enter the x pos: " << flush;
+			cin >> x;
+
+			std::cout << "Enter the y pos: " << flush;
+			cin >> y;
+
+			UUID fId = GUID_NULL;
+
+			file.write((char*)&type, sizeof(int));
+			file.write((char*)&health, sizeof(int));
+			file.write((char*)&maxHealth, sizeof(int));
+			file.write((char*)&id, sizeof(UUID));
+
+			file.write((char*)&x, sizeof(float));
+			file.write((char*)&y, sizeof(float));
+			file.write((char*)&fId, sizeof(UUID));
+		} else if (type == "WORKBENCH_E") {
+
+			int tX;
+			int tY;
+
+			std::cout << "Enter the tile x pos: " << flush;
+			cin >> tX;
+
+			std::cout << "Enter the tile y pos: " << flush;
+			cin >> tY;
+
+
+			file.write((char*)&type, sizeof(int));
+			file.write((char*)&health, sizeof(int));
+			file.write((char*)&maxHealth, sizeof(int));
+			file.write((char*)&id, sizeof(UUID));
+
+			file.write((char*)&tX, sizeof(int));
+			file.write((char*)&tY, sizeof(int));
+		} else if (type == "ROCK_E") {
+
+			int tX;
+			int tY;
+
+			std::cout << "Enter the tile x pos: " << flush;
+			cin >> tX;
+
+			std::cout << "Enter the tile y pos: " << flush;
+			cin >> tY;
+
+			file.write((char*)&type, sizeof(int));
+			file.write((char*)&health, sizeof(int));
+			file.write((char*)&maxHealth, sizeof(int));
+			file.write((char*)&id, sizeof(UUID));
+
+			file.write((char*)&tX, sizeof(int));
+			file.write((char*)&tY, sizeof(int));
 		}
 	}
 

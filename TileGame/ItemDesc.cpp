@@ -59,6 +59,11 @@ void ItemDesc::init() {
 		" Used for crafting \n"
 		" improved tools and weapons.";
 
+	itemDescriptions[11] =
+		"WORKBENCH:\n"
+		" Required for crafting \n"
+		" anything under the sun.";
+
 }
 
 std::string ItemDesc::getInfo(int id) {

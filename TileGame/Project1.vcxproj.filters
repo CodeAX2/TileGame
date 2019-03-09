@@ -133,6 +133,7 @@
     <ClCompile Include="Rock.cpp">
       <Filter>Source Files\Entities\Statics</Filter>
     </ClCompile>
+    <ClCompile Include="Smelter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -270,6 +271,7 @@
     <ClInclude Include="Rock.h">
       <Filter>Header Files\Entities\Statics</Filter>
     </ClInclude>
+    <ClInclude Include="Smelter.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="BuildingFileOutline.txt">
@@ -567,6 +569,12 @@
       <Filter>Resource Files\Textures</Filter>
     </Image>
     <Image Include="Resources\Textures\CraftHighlight.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\WorkbenchItem.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\Smelter.png">
       <Filter>Resource Files\Textures</Filter>
     </Image>
   </ItemGroup>

@@ -2,6 +2,7 @@
 #include "Entity.h"
 #include "Player.h"
 #include "TreasureChest.h"
+#include "Workbench.h"
 
 using namespace tg;
 
@@ -55,6 +56,18 @@ void ItemMeta::init() {
 
 	});
 
+	allItemMetas[11]->setPlaceFunction(
+		[](World* world, Handler* handler) {
+
+		sf::Vector2i htp = world->getHighlightedTile();
+		if (allItemMetas[11]->tileIsPlacable(world->getTile(htp.x, htp.y))) {
+
+			new Workbench(htp.x, htp.y, handler, world);
+			handler->player->removeItemFromHotbar();
+		}
+
+	});
+
 	// Set placable tiles
 	allItemMetas[5]->addPlacableTile(2);
 
@@ -64,6 +77,13 @@ void ItemMeta::init() {
 	allItemMetas[8]->addPlacableTile(5);
 	allItemMetas[8]->addPlacableTile(6);
 	allItemMetas[8]->addPlacableTile(7);
+
+	allItemMetas[11]->addPlacableTile(0);
+	allItemMetas[11]->addPlacableTile(3);
+	allItemMetas[11]->addPlacableTile(4);
+	allItemMetas[11]->addPlacableTile(5);
+	allItemMetas[11]->addPlacableTile(6);
+	allItemMetas[11]->addPlacableTile(7);
 
 	// Set interact functions
 	allItemMetas[3]->setInteractFunction(
@@ -121,6 +141,10 @@ void ItemMeta::init() {
 	allItemMetas[9]->craftable = true;
 	allItemMetas[9]->setRecipeItem(0, 5);
 	allItemMetas[9]->setRecipeItem(1, 2);
+
+	allItemMetas[11]->craftable = true;
+	allItemMetas[11]->setRecipeItem(0, 10);
+	allItemMetas[11]->setRecipeItem(1, 10);
 
 	// Set max stack size
 	allItemMetas[2]->setMaxStackAmount(1);

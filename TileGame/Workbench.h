@@ -13,6 +13,7 @@ namespace tg {
 		void tick(sf::Int32 dt) override;
 		void render(Handler* handler) override;
 		void onInteract() override;
+		void dropItems() override;
 	private:
 		sf::Int32 timeAlive = 0;
 

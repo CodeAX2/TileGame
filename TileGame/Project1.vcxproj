@@ -52,6 +52,7 @@
     <ClCompile Include="Rideable.cpp" />
     <ClCompile Include="Rock.cpp" />
     <ClCompile Include="SandCastle.cpp" />
+    <ClCompile Include="Smelter.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="Static.cpp" />
     <ClCompile Include="TallGrass.cpp" />
@@ -100,6 +101,7 @@
     <ClInclude Include="Rideable.h" />
     <ClInclude Include="Rock.h" />
     <ClInclude Include="SandCastle.h" />
+    <ClInclude Include="Smelter.h" />
     <ClInclude Include="Static.h" />
     <ClInclude Include="TallGrass.h" />
     <ClInclude Include="TileData.h" />
@@ -158,6 +160,7 @@
     <Image Include="Resources\Textures\Rock24.png" />
     <Image Include="Resources\Textures\Sand24.png" />
     <Image Include="Resources\Textures\SandCastle.png" />
+    <Image Include="Resources\Textures\Smelter.png" />
     <Image Include="Resources\Textures\Snow24.png" />
     <Image Include="Resources\Textures\SpritesSheet-Player.png" />
     <Image Include="Resources\Textures\SS-Player.png" />
@@ -182,6 +185,7 @@
     <Image Include="Resources\Textures\WoodPickaxe.png" />
     <Image Include="Resources\Textures\WoodSword.png" />
     <Image Include="Resources\Textures\Workbench.png" />
+    <Image Include="Resources\Textures\WorkbenchItem.png" />
     <Image Include="Resources\Textures\Zombie.png" />
   </ItemGroup>
   <ItemGroup>
