@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "TreasureChest.h"
 #include "Workbench.h"
+#include "Smelter.h"
 
 using namespace tg;
 
@@ -17,7 +18,7 @@ void ItemMeta::init() {
 		allItemMetas.at(i)->setEntityDamage(TREE_E, 5);
 		allItemMetas.at(i)->setEntityDamage(ZOMBIE_E, 5);
 		allItemMetas.at(i)->setEntityDamage(ROCK_E, 5);
-		allItemMetas.at(i)->setMaxStackAmount(99);
+
 	}
 
 	// Set damages
@@ -68,6 +69,18 @@ void ItemMeta::init() {
 
 	});
 
+	allItemMetas[13]->setPlaceFunction(
+		[](World* world, Handler* handler) {
+
+		sf::Vector2i htp = world->getHighlightedTile();
+		if (allItemMetas[11]->tileIsPlacable(world->getTile(htp.x, htp.y))) {
+
+			new Smelter(htp.x, htp.y, handler, world);
+			handler->player->removeItemFromHotbar();
+		}
+
+	});
+
 	// Set placable tiles
 	allItemMetas[5]->addPlacableTile(2);
 
@@ -84,6 +97,13 @@ void ItemMeta::init() {
 	allItemMetas[11]->addPlacableTile(5);
 	allItemMetas[11]->addPlacableTile(6);
 	allItemMetas[11]->addPlacableTile(7);
+
+	allItemMetas[13]->addPlacableTile(0);
+	allItemMetas[13]->addPlacableTile(3);
+	allItemMetas[13]->addPlacableTile(4);
+	allItemMetas[13]->addPlacableTile(5);
+	allItemMetas[13]->addPlacableTile(6);
+	allItemMetas[13]->addPlacableTile(7);
 
 	// Set interact functions
 	allItemMetas[3]->setInteractFunction(
@@ -146,6 +166,10 @@ void ItemMeta::init() {
 	allItemMetas[11]->setRecipeItem(0, 10);
 	allItemMetas[11]->setRecipeItem(1, 10);
 
+	allItemMetas[13]->craftable = true;
+	allItemMetas[13]->setRecipeItem(10, 10);
+	allItemMetas[13]->setRecipeItem(1, 10);
+
 	// Set max stack size
 	allItemMetas[2]->setMaxStackAmount(1);
 
@@ -154,6 +178,32 @@ void ItemMeta::init() {
 	allItemMetas[7]->setMaxStackAmount(1);
 
 	allItemMetas[9]->setMaxStackAmount(1);
+
+	// Set fuels
+	allItemMetas[0]->burnable = true;
+	allItemMetas[0]->burnSpeed = 1;
+
+	allItemMetas[5]->burnable = true;
+	allItemMetas[5]->burnSpeed = 1;
+
+	allItemMetas[7]->burnable = true;
+	allItemMetas[7]->burnSpeed = 1;
+
+	allItemMetas[8]->burnable = true;
+	allItemMetas[8]->burnSpeed = 1;
+
+	allItemMetas[9]->burnable = true;
+	allItemMetas[9]->burnSpeed = 1;
+
+	allItemMetas[11]->burnable = true;
+	allItemMetas[11]->burnSpeed = 1;
+
+	allItemMetas[12]->burnable = true;
+	allItemMetas[12]->burnSpeed = 1.2f;
+
+	// Set smeltables
+	allItemMetas[0]->smeltable = true;
+	allItemMetas[0]->smeltResult = std::pair<int, int>(12, 1);
 
 }
 
@@ -247,4 +297,26 @@ int ItemMeta::getMaxStackSize(int itemId) {
 	if (itemId != -1)
 		return allItemMetas[itemId]->maxStackAmount;
 	return 99;
+}
+
+bool ItemMeta::isBurnable(int itemId) {
+	if (itemId != -1)
+		return allItemMetas[itemId]->burnable;
+	return false;
+}
+float ItemMeta::getBurnSpeed(int itemId) {
+	if (itemId != -1)
+		return allItemMetas[itemId]->burnSpeed;
+	return 0;
+}
+
+bool ItemMeta::isSmelatable(int itemId) {
+	if (itemId != -1)
+		return allItemMetas[itemId]->smeltable;
+	return false;
+}
+std::pair<int, int> ItemMeta::getSmeltResult(int itemId) {
+	if (itemId != -1)
+		return allItemMetas[itemId]->smeltResult;
+	return std::pair<int, int>(-1, -1);
 }

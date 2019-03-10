@@ -19,7 +19,11 @@ namespace tg {
 		std::vector<int> placableTiles; // What tiles the item can be placed on
 		bool craftable = false; // If the item can be crafted
 		std::map<int, int> recipe; // First: item id used in crafting, Second: amount of item
-		int maxStackAmount; // Maximum amount that can occupy 1 slot in the inventory
+		int maxStackAmount = 99; // Maximum amount that can occupy 1 slot in the inventory
+		bool burnable = false; // If the item can be used as fuel in a smelter
+		float burnSpeed = 0; // Speed multiplier for burning
+		bool smeltable = false; // If the item can be smelted
+		std::pair<int, int> smeltResult = std::pair<int, int>(-1, -1); // Resulting item from smelting
 
 	private:
 		ItemMeta(int id);
@@ -47,7 +51,7 @@ namespace tg {
 	private:
 		static std::map<int, ItemMeta*> allItemMetas;
 		static const int BASE_DAMAGE = 20;
-		static const int MAX_ITEM_ID = 11;
+		static const int MAX_ITEM_ID = 13;
 
 	public:
 		static void init();
@@ -61,6 +65,10 @@ namespace tg {
 		static std::map<int, int> getCraftingRecipe(int itemId);
 		static std::vector<int> getCraftableItems();
 		static int getMaxStackSize(int itemId);
+		static bool isBurnable(int itemId);
+		static float getBurnSpeed(int itemId);
+		static bool isSmelatable(int itemId);
+		static std::pair<int, int> getSmeltResult(int itemId);
 
 	};
 }

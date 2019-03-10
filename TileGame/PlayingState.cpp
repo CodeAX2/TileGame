@@ -14,6 +14,7 @@
 #include <math.h>
 #include "InputManager.h"
 #include "ItemMeta.h"
+#include "WorldManager.h"
 
 using namespace tg;
 
@@ -102,6 +103,14 @@ void PlayingState::tick(sf::Int32 dt) {
 		handler->player->tick(dt);
 		handler->camera->tick();
 		world->getEntityManager()->tick(dt);
+
+		for (World* w : handler->worldManager->getAllWorlds()) {
+			if (w != world) {
+				w->getEntityManager()->tickExtras(dt);
+			}
+		}
+
+
 	} else {
 		deathFade += (float)dt * .001;
 		if (deathFade > 1)

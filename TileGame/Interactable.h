@@ -11,7 +11,7 @@ namespace tg {
 
 	public:
 		virtual void onInteract();
-		void updateState(Entity* caller); // Must call this on every tick
+		virtual void updateState(Entity* caller); // Must call this on every tick
 		bool isEnabled() { return enabled; }
 
 	protected:

@@ -32,6 +32,9 @@ namespace tg {
 		std::vector<Entity*> getEntitiesAtTile(int x, int y);
 		std::vector<Entity*> getAllEntities() { return allEntities; }
 
+		void addTickAnywhereEntity(Entity* entity) { tickAnywhereList.push_back(entity); }
+		void tickExtras(sf::Int32 dt);
+
 
 	private:
 
@@ -48,6 +51,9 @@ namespace tg {
 		World* world = nullptr;
 
 		std::vector<std::vector<std::vector<Entity*>>> entityTileMap; // Format of [y][x]
+
+		std::vector<Entity*> tickAnywhereList; // For the entities that need to be ticked, without regard
+													  // to the current active world
 		
 
 	};

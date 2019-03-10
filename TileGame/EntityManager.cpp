@@ -9,6 +9,7 @@
 using namespace tg;
 
 
+
 EntityManager::EntityManager(Handler* handler) {
 	this->handler = handler;
 }
@@ -382,4 +383,19 @@ std::vector<Entity*> EntityManager::getEntitiesAtTile(int x, int y) {
 	}
 
 
+}
+
+void EntityManager::tickExtras(sf::Int32 dt) {
+	for (int i = 0; i < tickAnywhereList.size(); i++) {
+
+		Entity* cur = tickAnywhereList[i];
+
+		if (std::find(doNotRender.begin(), doNotRender.end(), cur) != doNotRender.end()) {
+			continue;
+		}
+
+		if (cur != nullptr) {
+			cur->tick(dt);
+		}
+	}
 }

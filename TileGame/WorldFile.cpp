@@ -9,7 +9,7 @@
 #include "Zombie.h"
 #include "Workbench.h"
 #include "Rock.h"
-
+#include "Smelter.h"
 
 using namespace tg;
 World* WorldFile::loadWorldFile(std::string fileName, Handler * handler) {
@@ -227,6 +227,43 @@ World* WorldFile::loadWorldFile(std::string fileName, Handler * handler) {
 			r->setHealth(health);
 			r->setMaxHealth(maxHealth);
 			r->setId(id);
+
+		} else if (type == SMELTER_E) {
+			int tX;
+			int tY;
+			bool hasFuel;
+			float burnSpeed;
+
+			bool hasSmeltable;
+			int smeltingItem;
+
+			double smeltTimer;
+			bool smelting;
+
+			bool finished;
+
+			file.read((char*)&tX, sizeof(int));
+			file.read((char*)&tY, sizeof(int));
+
+			file.read((char*)&hasFuel, sizeof(bool));
+			file.read((char*)&burnSpeed, sizeof(float));
+
+			file.read((char*)&hasSmeltable, sizeof(bool));
+			file.read((char*)&smeltingItem, sizeof(int));
+
+			file.read((char*)&smeltTimer, sizeof(double));
+			file.read((char*)&smelting, sizeof(bool));
+
+			file.read((char*)&finished, sizeof(bool));
+
+			Smelter* s = new Smelter(tX, tY, handler, world);
+			s->setHasFuel(hasFuel);
+			s->setBurnSpeed(burnSpeed);
+			s->setHasSmeltable(hasSmeltable);
+			s->setSmeltingItem(smeltingItem);
+			s->setSmeltTimer(smeltTimer);
+			s->setIsSmelting(smelting);
+			s->setIsFinished(finished);
 
 		}
 	}
@@ -492,6 +529,44 @@ void WorldFile::saveFile() {
 
 			file.write((char*)&tX, sizeof(int));
 			file.write((char*)&tY, sizeof(int));
+
+			totalWrittenEntities++;
+
+		} else if (type == SMELTER_E) {
+			Smelter* curP = dynamic_cast<Smelter*>(cur);
+
+			int tX = curP->getTX();
+			int tY = curP->getTY();
+
+			file.write((char*)&type, sizeof(int));
+			file.write((char*)&health, sizeof(int));
+			file.write((char*)&maxHealth, sizeof(int));
+			file.write((char*)&id, sizeof(UUID));
+
+			file.write((char*)&tX, sizeof(int));
+			file.write((char*)&tY, sizeof(int));
+
+			bool hasFuel = curP->getHasFuel();
+			float burnSpeed = curP->getBurnSpeed();
+
+			bool hasSmeltable = curP->getHasSmeltable();
+			int smeltingItem = curP->getSmeltingItem();
+
+			double smeltTimer = curP->getSmeltTimer();
+			bool smelting = curP->getIsSmelting();
+
+			bool finished = curP->getIsFinished();
+
+			file.write((char*)&hasFuel, sizeof(bool));
+			file.write((char*)&burnSpeed, sizeof(float));
+
+			file.write((char*)&hasSmeltable, sizeof(bool));
+			file.write((char*)&smeltingItem, sizeof(int));
+
+			file.write((char*)&smeltTimer, sizeof(double));
+			file.write((char*)&smelting, sizeof(bool));
+
+			file.write((char*)&finished, sizeof(bool));
 
 			totalWrittenEntities++;
 

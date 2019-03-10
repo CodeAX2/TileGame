@@ -64,6 +64,16 @@ void ItemDesc::init() {
 		" Required for crafting \n"
 		" anything under the sun.";
 
+	itemDescriptions[12] =
+		"COAL:\n"
+		" Used as a fuel \n"
+		" in the smelter.";
+
+	itemDescriptions[13] =
+		"SMELTER:\n"
+		" Used to smelt certain\n"
+		" items into other items.";
+
 }
 
 std::string ItemDesc::getInfo(int id) {

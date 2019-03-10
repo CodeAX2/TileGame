@@ -36,7 +36,7 @@ namespace tg {
 		sf::Texture* interactPromptController;
 		sf::Texture* workbench;
 		sf::Texture* rock;
-		sf::Texture* smelter[4];
+		sf::Texture* smelter[5];
 
 	public:
 		Assets();
