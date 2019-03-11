@@ -39,6 +39,15 @@ void Tree::dropItems() {
 	}
 
 
+	new Item(x + (float)w / 2 - 32 + rand() % 21 - 10, y + h - 64 + rand() % 21 - 10, handler, 14, world);
+
+	if (rand() % 3 <= 1) {
+		new Item(x + (float)w / 2 - 32 + rand() % 21 - 10, y + h - 64 + rand() % 21 - 10, handler, 14, world);
+		if (rand() % 3 <= 1) {
+			new Item(x + (float)w / 2 - 32 + rand() % 21 - 10, y + h - 64 + rand() % 21 - 10, handler, 14, world);
+		}
+	}
+
 }
 
 void Tree::tick(sf::Int32 dt) {

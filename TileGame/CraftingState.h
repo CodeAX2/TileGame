@@ -15,7 +15,7 @@ namespace tg {
 		void tick(sf::Int32 dt) override;
 		void render() override;
 		//void exit() override;
-		//void pause() override;
+		void pause() override;
 		void resume() override;
 		void mouseClicked(sf::Event e) override;
 		void updateMouse() override;

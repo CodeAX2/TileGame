@@ -74,6 +74,16 @@ void ItemDesc::init() {
 		" Used to smelt certain\n"
 		" items into other items.";
 
+	itemDescriptions[14] =
+		"PINE NEEDLES:\n"
+		" Used to create\n"
+		" various types of medicine.";
+
+	itemDescriptions[15] =
+		"PINE SALVE:\n"
+		" Used it to restore\n"
+		" 30 of your lost health.";
+
 }
 
 std::string ItemDesc::getInfo(int id) {

@@ -220,6 +220,8 @@ void Assets::init() {
 	addItemTexture(STONE_ITEM, 10);
 	addItemTexture(WORKBENCH_ITEM, 11);
 	addItemTexture(COAL_ITEM, 12);
+	addItemTexture(PINE_NEEDLES_ITEM, 14);
+	addItemTexture(PINE_SALVE_ITEM, 15);
 
 	for (int i = 0; i < 4; i++) {
 		sf::Texture* curGem = new sf::Texture();

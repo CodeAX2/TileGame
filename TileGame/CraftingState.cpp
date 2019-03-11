@@ -4,6 +4,8 @@
 #include "Inventory.h"
 #include "ItemDesc.h"
 #include "ItemMeta.h"
+#include "InputManager.h"
+#include "PlayingState.h"
 
 using namespace tg;
 
@@ -472,9 +474,22 @@ void CraftingState::mouseClicked(sf::Event e) {
 
 
 void CraftingState::resume() {
+
+	handler->inputManager->disableCurrentMovement();
+	PlayingState* ps = dynamic_cast<PlayingState*>(handler->getCustomState(PLAYING));
+	if (!ps->musicIsPaused())
+		ps->playBGMusic();
+
 	selectedCraftSlotX = -1;
 	selectedCraftSlotY = -1;
 	canCraftSelected = false;
+}
+
+void CraftingState::pause() {
+	handler->inputManager->disableCurrentMovement();
+	PlayingState* ps = dynamic_cast<PlayingState*>(handler->getCustomState(PLAYING));
+	if (ps->musicIsPaused())
+		ps->pauseBGMusic();
 }
 
 std::pair<int, int> CraftingState::getItemAt(int x, int y) {

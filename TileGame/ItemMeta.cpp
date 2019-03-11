@@ -136,6 +136,21 @@ void ItemMeta::init() {
 
 	});
 
+	allItemMetas[15]->setInteractFunction(
+		[](World* world, Handler* handler) {
+		int amountToIncreasyBy = 30;
+
+		handler->player->removeItemFromHotbar();
+		int health = handler->player->getHealth();
+		health += amountToIncreasyBy;
+		if (health > handler->player->getMaxHealth()) {
+			health = handler->player->getMaxHealth();
+		}
+
+		handler->player->setHealth(health);
+
+	});
+
 	// Set recipes
 
 	allItemMetas[2]->craftable = true;
@@ -170,6 +185,10 @@ void ItemMeta::init() {
 	allItemMetas[13]->setRecipeItem(10, 10);
 	allItemMetas[13]->setRecipeItem(1, 10);
 
+	allItemMetas[15]->craftable = true;
+	allItemMetas[15]->setRecipeItem(14, 5);
+	allItemMetas[15]->setRecipeItem(1, 1);
+
 	// Set max stack size
 	allItemMetas[2]->setMaxStackAmount(1);
 
@@ -200,6 +219,9 @@ void ItemMeta::init() {
 
 	allItemMetas[12]->burnable = true;
 	allItemMetas[12]->burnSpeed = 1.2f;
+
+	allItemMetas[14]->burnable = true;
+	allItemMetas[14]->burnSpeed = 0.8f;
 
 	// Set smeltables
 	allItemMetas[0]->smeltable = true;
