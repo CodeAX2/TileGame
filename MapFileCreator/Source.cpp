@@ -12,12 +12,15 @@
 #define ZOMBIE_E 9
 #define WORKBENCH_E 10
 #define ROCK_E 11
+#define SMELTER_E 12
+#define ORE_E 13
 
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <Windows.h>
 #include "World.h"
+#include <time.h>
 
 using namespace std;
 
@@ -29,9 +32,19 @@ const string possibleEntities[] = {
 	"SAND_CASTLE_E",
 	"TREASURE_CHEST_E",
 	"PUMPKIN_E",
-	"BOAT_E"
+	"BOAT_E",
+	"ZOMBIE_E",
+	"WORKBENCH_E",
+	"ROCK_E",
+	"SMELTER_E",
+	"ORE_E"
 
 };
+
+std::vector<std::vector<bool>> staticMap;
+
+int numEntities = 10;
+void fillEntities(std::ofstream& file, World& world);
 
 int main() {
 
@@ -76,18 +89,25 @@ int main() {
 
 	// All the entity data
 
-	int numEntities = 10;
 	streampos numEntPos = file.tellp();
 	file.write((char*)&numEntities, sizeof(int));
+
+	staticMap.resize(world.getHeight());
+	for (int i = 0; i < staticMap.size(); i++) {
+		staticMap[i].resize(world.getWidth());
+	}
 
 	while (true) {
 
 		string type;
-		std::cout << "Enter the type of entity, or EXIT to exit: " << flush;
+		std::cout << "Enter the type of entity, or EXIT to exit, or FILL to fill the world with an entity: " << flush;
 		cin >> type;
 
 		if (type == "EXIT") {
 			break;
+		} else if (type == "FILL") {
+			fillEntities(file, world);
+			continue;
 		} else if (find(begin(possibleEntities), end(possibleEntities), type) == end(possibleEntities)) {
 			std::cout << "Invalid entity type!" << std::endl;
 			continue;
@@ -150,6 +170,8 @@ int main() {
 			std::cout << "Enter the tile y pos: " << flush;
 			cin >> tY;
 
+			staticMap[tY][tX] = true;
+
 			std::cout << "Enter 0 for normal, 1 for snowy: " << flush;
 			cin >> eType;
 
@@ -199,6 +221,8 @@ int main() {
 			std::cout << "Enter the tile y pos: " << flush;
 			cin >> tY;
 
+			staticMap[tY][tX] = true;
+
 			file.write((char*)&type2, sizeof(int));
 			file.write((char*)&health, sizeof(int));
 			file.write((char*)&maxHealth, sizeof(int));
@@ -218,6 +242,8 @@ int main() {
 
 			std::cout << "Enter the tile y pos: " << flush;
 			cin >> tY;
+
+			staticMap[tY][tX] = true;
 
 			file.write((char*)&type2, sizeof(int));
 			file.write((char*)&health, sizeof(int));
@@ -275,6 +301,8 @@ int main() {
 			std::cout << "Enter the tile y pos: " << flush;
 			cin >> tY;
 
+			staticMap[tY][tX] = true;
+
 			std::cout << "is it lit, 0 for false, 1 for true: " << flush;
 			cin >> isLit;
 
@@ -313,6 +341,8 @@ int main() {
 
 		} else if (type == "ZOMBIE_E") {
 
+
+			int type2 = ZOMBIE_E;
 			float x;
 			float y;
 
@@ -324,7 +354,7 @@ int main() {
 
 			UUID fId = GUID_NULL;
 
-			file.write((char*)&type, sizeof(int));
+			file.write((char*)&type2, sizeof(int));
 			file.write((char*)&health, sizeof(int));
 			file.write((char*)&maxHealth, sizeof(int));
 			file.write((char*)&id, sizeof(UUID));
@@ -334,6 +364,8 @@ int main() {
 			file.write((char*)&fId, sizeof(UUID));
 		} else if (type == "WORKBENCH_E") {
 
+
+			int type2 = WORKBENCH_E;
 			int tX;
 			int tY;
 
@@ -343,8 +375,9 @@ int main() {
 			std::cout << "Enter the tile y pos: " << flush;
 			cin >> tY;
 
+			staticMap[tY][tX] = true;
 
-			file.write((char*)&type, sizeof(int));
+			file.write((char*)&type2, sizeof(int));
 			file.write((char*)&health, sizeof(int));
 			file.write((char*)&maxHealth, sizeof(int));
 			file.write((char*)&id, sizeof(UUID));
@@ -353,6 +386,8 @@ int main() {
 			file.write((char*)&tY, sizeof(int));
 		} else if (type == "ROCK_E") {
 
+
+			int type2 = ROCK_E;
 			int tX;
 			int tY;
 
@@ -362,21 +397,281 @@ int main() {
 			std::cout << "Enter the tile y pos: " << flush;
 			cin >> tY;
 
-			file.write((char*)&type, sizeof(int));
+			staticMap[tY][tX] = true;
+
+			file.write((char*)&type2, sizeof(int));
 			file.write((char*)&health, sizeof(int));
 			file.write((char*)&maxHealth, sizeof(int));
 			file.write((char*)&id, sizeof(UUID));
 
 			file.write((char*)&tX, sizeof(int));
 			file.write((char*)&tY, sizeof(int));
+		} else if (type == "SMELTER_E") {
+			int type2 = SMELTER_E;
+
+			file.write((char*)&type2, sizeof(int));
+			file.write((char*)&health, sizeof(int));
+			file.write((char*)&maxHealth, sizeof(int));
+			file.write((char*)&id, sizeof(UUID));
+
+			int tX, tY;
+			std::cout << "Enter the tile x pos: " << flush;
+			cin >> tX;
+
+			std::cout << "Enter the tile y pos: " << flush;
+			cin >> tY;
+
+			staticMap[tY][tX] = true;
+
+			file.write((char*)&tX, sizeof(int));
+			file.write((char*)&tY, sizeof(int));
+
+			file.write((char*)false, sizeof(bool));
+			file.write((char*)0, sizeof(float));
+
+			file.write((char*)false, sizeof(bool));
+			file.write((char*)-1, sizeof(int));
+
+			file.write((char*)0, sizeof(double));
+			file.write((char*)false, sizeof(bool));
+
+			file.write((char*)false, sizeof(bool));
+
+		} else if (type == "ORE_E") {
+
+			int type2 = ORE_E;
+
+			file.write((char*)&type2, sizeof(int));
+			file.write((char*)&health, sizeof(int));
+			file.write((char*)&maxHealth, sizeof(int));
+			file.write((char*)&id, sizeof(UUID));
+
+
+			int tX, tY, oType;
+
+			std::cout << "Enter the tile x pos: " << flush;
+			cin >> tX;
+
+			std::cout << "Enter the tile y pos: " << flush;
+			cin >> tY;
+
+			std::cout << "Enter the ore type: " << flush;
+			cin >> oType;
+
+			staticMap[tY][tX] = true;
+
+			bool regening = false;
+			int cooldown = 0;
+
+			file.write((char*)&tX, sizeof(int));
+			file.write((char*)&tY, sizeof(int));
+			file.write((char*)&oType, sizeof(int));
+			file.write((char*)&regening, sizeof(bool));
+			file.write((char*)&cooldown, sizeof(signed int));
+
 		}
 	}
 
 	file.seekp(numEntPos);
 	file.write((char*)&numEntities, sizeof(int));
 
-	cout << "File written!" << endl;
-	system("PAUSE");
+	std::cout << "File written!" << endl;
+	std::system("PAUSE");
 
 	return 0;
+}
+
+void fillEntities(std::ofstream& file, World& world) {
+
+	srand(time(NULL));
+
+	std::string type;
+	std::cout << "Enter the entity type: " << flush;
+	cin >> type;
+
+	int health;
+	int maxHealth;
+	double percent;
+
+	std::cout << "Enter the health: " << flush;
+	cin >> health;
+
+	std::cout << "Enter the maximum health: " << flush;
+	cin >> maxHealth;
+
+	std::cout << "Enter the decimal for percent of entity: " << flush;
+	cin >> percent;
+
+	std::cout << percent << endl;
+
+	if (type == "TREE_E") {
+		int type2 = TREE_E;
+		int eType;
+
+		std::cout << "Enter 0 for normal, 1 for snowy: " << flush;
+		cin >> eType;
+
+		for (int i = 0; i < world.getHeight(); i++) {
+			for (int j = 0; j < world.getWidth(); j++) {
+
+				if ((world.getMap()[i][j] == 0 && eType == 0) ||
+					(world.getMap()[i][j] == 7 && eType == 1)) {
+
+					if ((float)rand() / RAND_MAX > percent) continue;
+
+					if (staticMap[i][j]) continue;
+					staticMap[i][j] = true;
+
+					numEntities++;
+					UUID id;
+					UuidCreate(&id);
+
+					file.write((char*)&type2, sizeof(int));
+					file.write((char*)&health, sizeof(int));
+					file.write((char*)&maxHealth, sizeof(int));
+					file.write((char*)&id, sizeof(UUID));
+
+					file.write((char*)&j, sizeof(int));
+					file.write((char*)&i, sizeof(int));
+					file.write((char*)&eType, sizeof(int));
+
+				}
+
+
+			}
+		}
+	} else if (type == "SAND_CASTLE_E") {
+		int type2 = SAND_CASTLE_E;
+
+		for (int i = 0; i < world.getHeight(); i++) {
+			for (int j = 0; j < world.getWidth(); j++) {
+
+				if (world.getMap()[i][j] == 3) {
+
+					if ((float)rand() / RAND_MAX > percent) continue;
+
+					if (staticMap[i][j]) continue;
+					staticMap[i][j] = true;
+
+					numEntities++;
+					UUID id;
+					UuidCreate(&id);
+
+					file.write((char*)&type2, sizeof(int));
+					file.write((char*)&health, sizeof(int));
+					file.write((char*)&maxHealth, sizeof(int));
+					file.write((char*)&id, sizeof(UUID));
+
+					file.write((char*)&j, sizeof(int));
+					file.write((char*)&i, sizeof(int));
+
+				}
+			}
+		}
+
+
+	} else if (type == "PUMPKIN_E") {
+
+		int type2 = PUMPKIN_E;
+		bool isLit;
+
+		std::cout << "is it lit, 0 for false, 1 for true: " << flush;
+		cin >> isLit;
+
+		for (int i = 0; i < world.getHeight(); i++) {
+			for (int j = 0; j < world.getWidth(); j++) {
+
+				if (world.getMap()[i][j] == 0) {
+
+					if ((float)rand() / RAND_MAX > percent) continue;
+
+					if (staticMap[i][j]) continue;
+					staticMap[i][j] = true;
+
+					numEntities++;
+					UUID id;
+					UuidCreate(&id);
+
+					file.write((char*)&type2, sizeof(int));
+					file.write((char*)&health, sizeof(int));
+					file.write((char*)&maxHealth, sizeof(int));
+					file.write((char*)&id, sizeof(UUID));
+
+					file.write((char*)&j, sizeof(int));
+					file.write((char*)&i, sizeof(int));
+					file.write((char*)&isLit, sizeof(bool));
+				}
+			}
+		}
+
+	} else if (type == "ROCK_E") {
+
+		int type2 = ROCK_E;
+
+		for (int i = 0; i < world.getHeight(); i++) {
+			for (int j = 0; j < world.getWidth(); j++) {
+
+				if (world.getMap()[i][j] == 6) {
+
+					if ((float)rand() / RAND_MAX >= percent) continue;
+
+					if (staticMap[i][j]) continue;
+					staticMap[i][j] = true;
+
+					numEntities++;
+					UUID id;
+					UuidCreate(&id);
+
+					file.write((char*)&type2, sizeof(int));
+					file.write((char*)&health, sizeof(int));
+					file.write((char*)&maxHealth, sizeof(int));
+					file.write((char*)&id, sizeof(UUID));
+
+					file.write((char*)&j, sizeof(int));
+					file.write((char*)&i, sizeof(int));
+
+				}
+			}
+		}
+
+	} else if (type == "ORE_E") {
+		int type2 = ORE_E;
+		int oType;
+
+		std::cout << "Enter the ore type: " << std::flush;
+		cin >> oType;
+
+		for (int i = 0; i < world.getHeight(); i++) {
+			for (int j = 0; j < world.getWidth(); j++) {
+
+				if (world.getMap()[i][j] == 6) {
+
+					if ((float)rand() / RAND_MAX > percent) continue;
+
+					if (staticMap[i][j]) continue;
+					staticMap[i][j] = true;
+
+					numEntities++;
+					UUID id;
+					UuidCreate(&id);
+
+					bool regening = false;
+					int cooldown = 0;
+
+					file.write((char*)&type2, sizeof(int));
+					file.write((char*)&health, sizeof(int));
+					file.write((char*)&maxHealth, sizeof(int));
+					file.write((char*)&id, sizeof(UUID));
+
+					file.write((char*)&j, sizeof(int));
+					file.write((char*)&i, sizeof(int));
+					file.write((char*)&oType, sizeof(int));
+					file.write((char*)&regening, sizeof(bool));
+					file.write((char*)&cooldown, sizeof(signed int));
+
+				}
+			}
+		}
+	}
+
 }
