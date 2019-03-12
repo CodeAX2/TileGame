@@ -395,7 +395,9 @@ void EntityManager::tickExtras(sf::Int32 dt) {
 		}
 
 		if (cur != nullptr) {
-			cur->tick(dt);
+			try {
+				cur->tick(dt);
+			} catch (...){}
 		}
 	}
 }

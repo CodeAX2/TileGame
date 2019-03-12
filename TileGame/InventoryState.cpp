@@ -173,8 +173,19 @@ void InventoryState::renderItemInfo() {
 		sf::RectangleShape infoBoxBg(sf::Vector2f(infoText.getGlobalBounds().width + 20, infoText.getGlobalBounds().height + 20));
 		infoBoxBg.setFillColor(sf::Color(0, 8, 20, 225));
 		infoBoxBg.setPosition(mx, my - infoBoxBg.getSize().y);
-		handler->window->draw(infoBoxBg);
 
+		// Allign text correctly
+		if (infoText.getGlobalBounds().left + infoText.getGlobalBounds().width > v.x || infoBoxBg.getPosition().x + infoBoxBg.getSize().x > v.x) {
+			infoText.setPosition(infoText.getPosition().x - infoBoxBg.getGlobalBounds().width, infoText.getPosition().y);
+			infoBoxBg.setPosition(infoBoxBg.getPosition().x - infoBoxBg.getSize().x, infoBoxBg.getPosition().y);
+		}
+
+		if (infoText.getGlobalBounds().top < 0 || infoBoxBg.getPosition().y < 0) {
+			infoText.setPosition(infoText.getPosition().x, infoText.getPosition().y + infoBoxBg.getSize().y);
+			infoBoxBg.setPosition(infoBoxBg.getPosition().x, infoBoxBg.getPosition().y + infoBoxBg.getSize().y);
+		}
+
+		handler->window->draw(infoBoxBg);
 		handler->window->draw(infoText);
 
 

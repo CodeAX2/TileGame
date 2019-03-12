@@ -21,6 +21,7 @@
 #include "Workbench.h"
 #include "Rock.h"
 #include "Smelter.h"
+#include "Ore.h"
 
 using namespace tg;
 namespace fs = std::experimental::filesystem;
@@ -147,6 +148,10 @@ void Loader::loadEntities() {
 		new Workbench(50, 24, handler, world);
 		new Rock(51, 24, handler, world);
 		new Smelter(52, 24, handler, world);
+
+		for (int i = 0; i < 9; i++) {
+			new Ore(53 + i % 5, 24 + i / 5, handler, world, i);
+		}
 
 		loadingMessage = "Loading trees...";
 

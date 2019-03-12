@@ -154,7 +154,7 @@ void ItemMeta::init() {
 	// Set recipes
 
 	allItemMetas[2]->craftable = true;
-	allItemMetas[2]->setRecipeItem(10, 5);
+	allItemMetas[2]->setRecipeItem(24, 3);
 	allItemMetas[2]->setRecipeItem(1, 2);
 
 	allItemMetas[5]->craftable = true;
@@ -162,7 +162,7 @@ void ItemMeta::init() {
 	allItemMetas[5]->setRecipeItem(1, 1);
 
 	allItemMetas[6]->craftable = true;
-	allItemMetas[6]->setRecipeItem(10, 5);
+	allItemMetas[6]->setRecipeItem(24, 3);
 	allItemMetas[6]->setRecipeItem(1, 2);
 
 	allItemMetas[7]->craftable = true;
@@ -226,6 +226,27 @@ void ItemMeta::init() {
 	// Set smeltables
 	allItemMetas[0]->smeltable = true;
 	allItemMetas[0]->smeltResult = std::pair<int, int>(12, 1);
+
+	allItemMetas[16]->smeltable = true;
+	allItemMetas[16]->smeltResult = std::pair<int, int>(23, 1);
+
+	allItemMetas[17]->smeltable = true;
+	allItemMetas[17]->smeltResult = std::pair<int, int>(24, 1);
+
+	allItemMetas[18]->smeltable = true;
+	allItemMetas[18]->smeltResult = std::pair<int, int>(25, 1);
+
+	allItemMetas[19]->smeltable = true;
+	allItemMetas[19]->smeltResult = std::pair<int, int>(26, 1);
+
+	allItemMetas[20]->smeltable = true;
+	allItemMetas[20]->smeltResult = std::pair<int, int>(27, 1);
+
+	allItemMetas[21]->smeltable = true;
+	allItemMetas[21]->smeltResult = std::pair<int, int>(28, 1);
+
+	allItemMetas[22]->smeltable = true;
+	allItemMetas[22]->smeltResult = std::pair<int, int>(29, 1);
 
 }
 

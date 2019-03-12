@@ -15,7 +15,7 @@ void ItemDesc::init() {
 		" and for crafting.";
 
 	itemDescriptions[2] =
-		"AXE:\n"
+		"METAL AXE:\n"
 		" Used to effeciently cut\n"
 		" down trees for logs.";
 
@@ -83,6 +83,76 @@ void ItemDesc::init() {
 		"PINE SALVE:\n"
 		" Used it to restore\n"
 		" 30 of your lost health.";
+
+	itemDescriptions[16] =
+		"GOLD ORE:\n"
+		" Smelt it to turn\n"
+		" it into a gold ingot.";
+
+	itemDescriptions[17] =
+		"IRON ORE:\n"
+		" Smelt it to turn\n"
+		" it into an iron ingot.";
+
+	itemDescriptions[18] =
+		"PLATINUM ORE:\n"
+		" Smelt it to turn\n"
+		" it into a platinum ingot.";
+
+	itemDescriptions[19] =
+		"SILVER ORE:\n"
+		" Smelt it to turn\n"
+		" it into a silver ingot.";
+
+	itemDescriptions[20] =
+		"STEEL ORE:\n"
+		" Smelt it to turn\n"
+		" it into a steel ingot.";
+
+	itemDescriptions[21] =
+		"TITANIUM ORE:\n"
+		" Smelt it to turn\n"
+		" it into a titanium ingot.";
+
+	itemDescriptions[22] =
+		"VIBRANIUM ORE:\n"
+		" How did this\n"
+		" find its way here?";
+
+	itemDescriptions[23] =
+		"GOLD INGOT:\n"
+		" Highly valuable\n"
+		" material, but not very strong.";
+
+	itemDescriptions[24] =
+		"IRON INGOT:\n"
+		" Versatile material\n"
+		" used in a variety of ways.";
+
+	itemDescriptions[25] =
+		"PLATINUM INGOT:\n"
+		" Incredibly valuable\n"
+		" material, and very durable.";
+
+	itemDescriptions[26] =
+		"SILVER INGOT:\n"
+		" Used in a variety\n"
+		" of circuits and technology.";
+
+	itemDescriptions[27] =
+		"STEEL INGOT:\n"
+		" Very durable and strong\n"
+		" material, great for tools.";
+
+	itemDescriptions[28] =
+		"TITANIUM INGOT:\n"
+		" Incredibly durable material\n"
+		" used only for the best tools.";
+
+	itemDescriptions[29] =
+		"VIBRANIUM INGOT:\n"
+		" Again, how did\n"
+		" this find its way here?";
 
 }
 

@@ -31,6 +31,7 @@ CraftingState::~CraftingState()
 }
 
 void CraftingState::tick(sf::Int32 dt) {
+	handler->getCustomState(PLAYING)->tick(dt);
 	if (selectedCraftSlotX != -1 && selectedCraftSlotY != -1) {
 		if (playerHasIngredients()) {
 			canCraftSelected = true;

@@ -184,6 +184,10 @@ void Assets::init() {
 		smelter[i]->loadFromImage(smelterSheet, sf::IntRect(i * 32, 0, 32, 32));
 	}
 
+	for (int i = 0; i < 9; i++) {
+		ore[i] = loadTextureFromResource(ROCK_COAL + i);
+	}
+
 
 	for (int i = 0; i < 256; i++) {
 		renderPriority[i] = -1; // Declare each spot in the priorities as empty
@@ -230,8 +234,19 @@ void Assets::init() {
 	}
 
 	allItems[1] = gemTextures[0];
-
 	allItems[13] = smelter[0];
+
+	sf::Image oreItemSheet = loadImageFromResource(ORE_SHEET);
+	for (int i = 0; i < 7; i++) {
+		allItems[16 + i] = new sf::Texture();
+		allItems[16 + i]->loadFromImage(oreItemSheet, sf::IntRect(32 * i, 0, 32, 32));
+	}
+
+	sf::Image ingotItemSheet = loadImageFromResource(INGOT_SHEET);
+	for (int i = 0; i < 7; i++) {
+		allItems[23 + i] = new sf::Texture();
+		allItems[23 + i]->loadFromImage(ingotItemSheet, sf::IntRect(32 * i, 0, 32, 32));
+	}
 
 
 	waterTile->loadFromImage(loadImageFromResource(WATER_TILE));

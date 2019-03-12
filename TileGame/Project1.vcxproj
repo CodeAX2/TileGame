@@ -44,6 +44,7 @@
     <ClCompile Include="LoadingState.cpp" />
     <ClCompile Include="MainMenuState.cpp" />
     <ClCompile Include="Node.cpp" />
+    <ClCompile Include="Ore.cpp" />
     <ClCompile Include="Pathfinder.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerFile.cpp" />
@@ -92,6 +93,7 @@
     <ClInclude Include="MainMenuState.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="Nullable.h" />
+    <ClInclude Include="Ore.h" />
     <ClInclude Include="Pathfinder.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerFile.h" />
@@ -145,6 +147,7 @@
     <Image Include="Resources\Textures\GUI-Inventory.png" />
     <Image Include="Resources\Textures\HalloweenCandy.png" />
     <Image Include="Resources\Textures\icon.ico" />
+    <Image Include="Resources\Textures\IngotItems.png" />
     <Image Include="Resources\Textures\InsideWall Tiles.png" />
     <Image Include="Resources\Textures\InteractIcon.png" />
     <Image Include="Resources\Textures\InteractIconController.png" />
@@ -154,6 +157,7 @@
     <Image Include="Resources\Textures\Log.png" />
     <Image Include="Resources\Textures\MainMenu Buttons.png" />
     <Image Include="Resources\Textures\MetalSword.png" />
+    <Image Include="Resources\Textures\OreItems.png" />
     <Image Include="Resources\Textures\Path24.png" />
     <Image Include="Resources\Textures\PineNeedles.png" />
     <Image Include="Resources\Textures\PineSalve.png" />
@@ -161,6 +165,15 @@
     <Image Include="Resources\Textures\PumpkinLit.png" />
     <Image Include="Resources\Textures\Rock.png" />
     <Image Include="Resources\Textures\Rock24.png" />
+    <Image Include="Resources\Textures\RockCoal.png" />
+    <Image Include="Resources\Textures\RockGems.png" />
+    <Image Include="Resources\Textures\RockGold.png" />
+    <Image Include="Resources\Textures\RockIron.png" />
+    <Image Include="Resources\Textures\RockPlatinum.png" />
+    <Image Include="Resources\Textures\RockSilver.png" />
+    <Image Include="Resources\Textures\RockSteel.png" />
+    <Image Include="Resources\Textures\RockTitanium.png" />
+    <Image Include="Resources\Textures\RockVibranium.png" />
     <Image Include="Resources\Textures\Sand24.png" />
     <Image Include="Resources\Textures\SandCastle.png" />
     <Image Include="Resources\Textures\Smelter.png" />

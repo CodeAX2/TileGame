@@ -37,6 +37,7 @@ namespace tg {
 		sf::Texture* workbench;
 		sf::Texture* rock;
 		sf::Texture* smelter[5];
+		sf::Texture* ore[9];
 
 	public:
 		Assets();
@@ -194,6 +195,7 @@ namespace tg {
 		sf::Texture* getWorkbenchTexture() { return workbench; }
 		sf::Texture* getRockTexture() { return rock; }
 		sf::Texture* getSmelterTexture(int state) { return smelter[state]; }
+		sf::Texture* getOreTexture(int oreId) { return ore[oreId]; }
 
 		sf::Color getPlayerColor() { return playerColorP; }
 

@@ -64,12 +64,23 @@
 #define COAL_ITEM                       160
 #define PINE_NEEDLES_ITEM               161
 #define PINE_SALVE_ITEM                 162
+#define ROCK_COAL                       163
+#define ROCK_GEM                        164
+#define ROCK_GOLD                       165
+#define ROCK_IRON                       166
+#define ROCK_PLATINUM                   167
+#define ROCK_SILVER                     168
+#define ROCK_STEEL                      169
+#define ROCK_TITANIUM                   170
+#define ROCK_VIBRANIUM                  171
+#define ORE_SHEET                       172
+#define INGOT_SHEET                     173
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        163
+#define _APS_NEXT_RESOURCE_VALUE        174
 #define _APS_NEXT_COMMAND_VALUE         40003
 #define _APS_NEXT_CONTROL_VALUE         1001
 #define _APS_NEXT_SYMED_VALUE           101

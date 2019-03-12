@@ -10,6 +10,7 @@
 #include "Workbench.h"
 #include "Rock.h"
 #include "Smelter.h"
+#include "Ore.h"
 
 using namespace tg;
 World* WorldFile::loadWorldFile(std::string fileName, Handler * handler) {
@@ -264,6 +265,28 @@ World* WorldFile::loadWorldFile(std::string fileName, Handler * handler) {
 			s->setSmeltTimer(smeltTimer);
 			s->setIsSmelting(smelting);
 			s->setIsFinished(finished);
+
+		} else if (type == ORE_E) {
+
+			int tX;
+			int tY;
+			int oType;
+			bool regening;
+			sf::Int32 cooldown;
+
+			file.read((char*)&tX, sizeof(int));
+			file.read((char*)&tY, sizeof(int));
+			file.read((char*)&oType, sizeof(int));
+			file.read((char*)&regening, sizeof(bool));
+			file.read((char*)&cooldown, sizeof(sf::Int32));
+
+			Ore* o = new Ore(tX, tY, handler, world, oType);
+			o->setHealth(health);
+			o->setMaxHealth(maxHealth);
+			o->setId(id);
+			o->setIsRegening(regening);
+			o->setCooldown(cooldown);
+
 
 		}
 	}
@@ -570,6 +593,28 @@ void WorldFile::saveFile() {
 
 			totalWrittenEntities++;
 
+		} else if (type == ORE_E) {
+
+			Ore* curP = dynamic_cast<Ore*>(cur);
+
+			int tX = curP->getTX();
+			int tY = curP->getTY();
+			int oType = curP->getOreType();
+			bool regening = curP->isRegening();
+			sf::Int32 cooldown = curP->getCooldown();
+
+			file.write((char*)&type, sizeof(int));
+			file.write((char*)&health, sizeof(int));
+			file.write((char*)&maxHealth, sizeof(int));
+			file.write((char*)&id, sizeof(UUID));
+
+			file.write((char*)&tX, sizeof(int));
+			file.write((char*)&tY, sizeof(int));
+			file.write((char*)&oType, sizeof(int));
+			file.write((char*)&regening, sizeof(bool));
+			file.write((char*)&cooldown, sizeof(sf::Int32));
+
+			totalWrittenEntities++;
 		}
 	}
 
