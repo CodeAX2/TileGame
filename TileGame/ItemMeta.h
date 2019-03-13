@@ -51,7 +51,7 @@ namespace tg {
 	private:
 		static std::map<int, ItemMeta*> allItemMetas;
 		static const int BASE_DAMAGE = 20;
-		static const int MAX_ITEM_ID = 29;
+		static const int MAX_ITEM_ID = 31;
 
 	public:
 		static void init();

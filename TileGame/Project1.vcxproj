@@ -156,6 +156,7 @@
     <Image Include="Resources\Textures\IslandHut.png" />
     <Image Include="Resources\Textures\Log.png" />
     <Image Include="Resources\Textures\MainMenu Buttons.png" />
+    <Image Include="Resources\Textures\MetalPickaxe.png" />
     <Image Include="Resources\Textures\MetalSword.png" />
     <Image Include="Resources\Textures\OreItems.png" />
     <Image Include="Resources\Textures\Path24.png" />
@@ -196,6 +197,7 @@
     <Image Include="Resources\Textures\Vignette.png" />
     <Image Include="Resources\Textures\WaterTile.png" />
     <Image Include="Resources\Textures\Wood24.png" />
+    <Image Include="Resources\Textures\WoodAxe.png" />
     <Image Include="Resources\Textures\Woodbridge.png" />
     <Image Include="Resources\Textures\WoodHut.png" />
     <Image Include="Resources\Textures\WoodPickaxe.png" />

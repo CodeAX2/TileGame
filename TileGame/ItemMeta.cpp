@@ -18,6 +18,7 @@ void ItemMeta::init() {
 		allItemMetas.at(i)->setEntityDamage(TREE_E, 5);
 		allItemMetas.at(i)->setEntityDamage(ZOMBIE_E, 5);
 		allItemMetas.at(i)->setEntityDamage(ROCK_E, 5);
+		allItemMetas.at(i)->setEntityDamage(ORE_E, 5);
 
 	}
 
@@ -31,6 +32,12 @@ void ItemMeta::init() {
 	allItemMetas[7]->setEntityDamage(ZOMBIE_E, 10);
 
 	allItemMetas[9]->setEntityDamage(ROCK_E, 10);
+	allItemMetas[9]->setEntityDamage(ORE_E, 10);
+
+	allItemMetas[30]->setEntityDamage(TREE_E, 10);
+
+	allItemMetas[31]->setEntityDamage(ROCK_E, 20);
+	allItemMetas[31]->setEntityDamage(ORE_E, 20);
 
 	// Set place functions
 	allItemMetas[5]->setPlaceFunction(
@@ -189,6 +196,14 @@ void ItemMeta::init() {
 	allItemMetas[15]->setRecipeItem(14, 5);
 	allItemMetas[15]->setRecipeItem(1, 1);
 
+	allItemMetas[30]->craftable = true;
+	allItemMetas[30]->setRecipeItem(0, 5);
+	allItemMetas[30]->setRecipeItem(1, 2);
+
+	allItemMetas[31]->craftable = true;
+	allItemMetas[31]->setRecipeItem(24, 3);
+	allItemMetas[31]->setRecipeItem(1, 2);
+
 	// Set max stack size
 	allItemMetas[2]->setMaxStackAmount(1);
 
@@ -197,6 +212,10 @@ void ItemMeta::init() {
 	allItemMetas[7]->setMaxStackAmount(1);
 
 	allItemMetas[9]->setMaxStackAmount(1);
+
+	allItemMetas[30]->setMaxStackAmount(1);
+
+	allItemMetas[31]->setMaxStackAmount(1);
 
 	// Set fuels
 	allItemMetas[0]->burnable = true;
@@ -222,6 +241,9 @@ void ItemMeta::init() {
 
 	allItemMetas[14]->burnable = true;
 	allItemMetas[14]->burnSpeed = 0.8f;
+
+	allItemMetas[30]->burnable = true;
+	allItemMetas[30]->burnSpeed = 1;
 
 	// Set smeltables
 	allItemMetas[0]->smeltable = true;

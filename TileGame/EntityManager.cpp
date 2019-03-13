@@ -101,6 +101,13 @@ void EntityManager::removeEntity(Entity* entity) {
 		}
 	}
 
+	for (int i = 0; i < tickAnywhereList.size(); i++) {
+		if (tickAnywhereList[i] == entity) {
+			tickAnywhereList.erase(tickAnywhereList.begin() + i);
+			i--;
+		}
+	}
+
 
 	delete entity;
 

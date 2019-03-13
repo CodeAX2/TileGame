@@ -35,7 +35,7 @@ void ItemDesc::init() {
 		" and walk across it.";
 
 	itemDescriptions[6] =
-		"METAL SWORD:\n"
+		"IRON SWORD:\n"
 		" Use this weapon to\n"
 		" effectively kill monsters.";
 
@@ -153,6 +153,16 @@ void ItemDesc::init() {
 		"VIBRANIUM INGOT:\n"
 		" Again, how did\n"
 		" this find its way here?";
+
+	itemDescriptions[30] =
+		"WOODEN AXE:\n"
+		" Used to chop down\n"
+		" trees for materials.";
+
+	itemDescriptions[31] =
+		"IRON PICKAXE:\n"
+		" Use this tool to\n"
+		" effectively mine rocks and ores.";
 
 }
 

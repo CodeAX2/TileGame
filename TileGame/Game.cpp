@@ -181,6 +181,10 @@ void Game::commandLoop() {
 			PlayingState* ps = dynamic_cast<PlayingState*>(handler.getCustomState(PLAYING));
 			ps->pauseBGMusic();
 
+		} else if (cmd == "setdarkness") {
+			float percent = std::stof(args[0]);
+			PlayingState* ps = dynamic_cast<PlayingState*>(handler.getCustomState(PLAYING));
+			ps->setDarkness(percent);
 		} else {
 			std::cout << "Invalid command!" << std::endl;
 		}

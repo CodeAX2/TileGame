@@ -61,8 +61,11 @@ void PlayingState::render() {
 	float z = handler->inputManager->getZoomLevel();
 	handler->worldView = sf::View(sf::Vector2f(handler->window->getSize().x / 2, handler->window->getSize().y / 2), sf::Vector2f(1280.f*1.f / z, 720.f*1.f / z));
 
+	renderTexture.create(handler->worldView.getSize().x, handler->worldView.getSize().y);
+	renderTexture.clear();
 
 	handler->window->setView(handler->worldView);
+	renderTexture.setView(handler->worldView);
 	if (z != prevZoom) {
 		handler->camera->fixForZoom();
 	}
@@ -71,6 +74,7 @@ void PlayingState::render() {
 
 	renderWorld();
 	world->getEntityManager()->render();
+	renderTime();
 
 
 	handler->window->setView(handler->guiView);
@@ -110,6 +114,7 @@ void PlayingState::tick(sf::Int32 dt) {
 			}
 		}
 
+		darknessPercent += (float)dt * 0.00001667f;
 
 	} else {
 		deathFade += (float)dt * .001;
@@ -219,7 +224,9 @@ void PlayingState::renderWorld() {
 		for (int j = 0; j < renderOrderV[i].size(); j++) {
 			sf::VertexArray curV = renderOrderV[i][j];
 			const sf::Texture* curT = renderOrderT[i][j];
-			handler->window->draw(curV, curT);
+			sf::RenderStates state;
+			state.texture = curT;
+			handler->window->draw(curV, state);
 		}
 	}
 
@@ -743,5 +750,48 @@ void PlayingState::updateJoystick(sf::Int32 dt) {
 	} else {
 		im->joyStickButtons[3] = false;
 	}
+
+}
+
+void PlayingState::renderTime() {
+
+	sf::View v = handler->window->getView();
+	sf::Vector2f size(v.getSize());
+
+	sf::Color color(255, 255, 0, 255);
+
+	int x = handler->player->getX();
+	int y = handler->player->getY();
+	int pWidth = handler->player->getWidth();
+	int pHeight = handler->player->getHeight();
+
+
+	sf::RectangleShape light(sf::Vector2f(288, 288));
+	light.setPosition(
+		(int)(x - floor(handler->camera->getXOffset())) - 288 / 2 + pWidth / 2,
+		(int)(y - floor(handler->camera->getYOffset())) - 288 / 2 + pHeight / 2);
+	sf::Texture lightT;
+	lightT.loadFromFile("C:\\Users\\Jacob Hofer\\source\\repos\\TileGame\\TileGame\\Resources\\Textures\\Light.png");
+	light.setFillColor(color);
+	light.setTexture(&lightT);
+
+	sf::BlendMode bm2(
+		sf::BlendMode::Factor::Zero,
+		sf::BlendMode::Factor::DstColor,
+		sf::BlendMode::Equation::Add,
+		sf::BlendMode::Factor::Zero,
+		sf::BlendMode::Factor::OneMinusSrcAlpha,
+		sf::BlendMode::Equation::Add
+	);
+	renderTexture.draw(light, bm2);
+	renderTexture.display();
+
+
+	sf::Texture lightingTexture = renderTexture.getTexture();
+	sf::RectangleShape lighting(sf::Vector2f(lightingTexture.getSize()));
+	lighting.setTexture(&lightingTexture);
+	lighting.setFillColor(sf::Color(0, 0, 25, 175 * darknessPercent));
+	lighting.setPosition((handler->window->getSize().x / 2 - v.getSize().x / 2), (handler->window->getSize().y / 2 - v.getSize().y / 2));
+	handler->window->draw(lighting);
 
 }
