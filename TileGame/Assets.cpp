@@ -131,6 +131,8 @@ void Assets::init() {
 	vignette = loadTextureFromResource(VIGNETTE);
 	operations++;
 
+	lightGFX = loadTextureFromResource(LIGHT_GFX);
+
 	interactPrompt = loadTextureFromResource(INTERACT_PROMPT);
 	operations++;
 

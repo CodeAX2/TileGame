@@ -28,6 +28,8 @@ namespace tg {
 		void updateJoystick(sf::Int32 dt) override;
 		bool musicIsPaused() { return musicPaused; }
 		void setDarkness(float darknessPercent) { this->darknessPercent = darknessPercent; }
+		sf::RenderTexture* getLightRenderer() { return &renderTexture; }
+		float getDarknessPercent() { return darknessPercent; }
 
 	private:
 		void renderWorld();
@@ -50,8 +52,10 @@ namespace tg {
 		sf::Music bgMusic;
 		sf::Texture* hotBarSlotHighlight;
 		bool musicPaused = false;
-		float darknessPercent = .0f;
+		sf::Int32 time = 530000;
 		sf::RenderTexture renderTexture;
+		float darknessPercent = 0;
+		sf::Texture* lightT;
 
 	};
 

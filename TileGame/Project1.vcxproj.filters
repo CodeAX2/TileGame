@@ -635,6 +635,9 @@
     <Image Include="Resources\Textures\MetalPickaxe.png">
       <Filter>Resource Files\Textures</Filter>
     </Image>
+    <Image Include="Resources\Textures\Light.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Media Include="Resources\Sounds\sans.mp3">

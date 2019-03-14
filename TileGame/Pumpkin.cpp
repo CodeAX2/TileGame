@@ -2,6 +2,7 @@
 #include "Handler.h"
 #include "InputManager.h"
 #include "Item.h"
+#include "PlayingState.h"
 
 using namespace tg;
 
@@ -23,6 +24,36 @@ void Pumpkin::render(Handler* handler) {
 	shape.setTexture(texture);
 	shape.setPosition((int)(x - floor(handler->camera->getXOffset())), (int)(y - floor(handler->camera->getYOffset())));
 	handler->window->draw(shape);
+
+	// Draw the lighting if it is lit
+	if (isLit) {
+
+		PlayingState* ps = dynamic_cast<PlayingState*>(handler->getCustomState(PLAYING));
+		if (ps->getDarknessPercent() != 0) {
+			sf::Color color(255, 255, 0, 200);
+
+			sf::RectangleShape light(sf::Vector2f(256, 256));
+			light.setPosition(
+				(int)(x - floor(handler->camera->getXOffset())) - 256 / 2 + w / 2,
+				(int)(y - floor(handler->camera->getYOffset())) - 256 / 2 + h);
+
+			sf::Texture* lightT = handler->assets->getLightGFX();
+
+			light.setFillColor(color);
+			light.setTexture(lightT);
+
+			sf::BlendMode bm2(
+				sf::BlendMode::Factor::Zero,
+				sf::BlendMode::Factor::DstColor,
+				sf::BlendMode::Equation::Add,
+				sf::BlendMode::Factor::Zero,
+				sf::BlendMode::Factor::OneMinusSrcAlpha,
+				sf::BlendMode::Equation::Add
+			);
+
+			ps->getLightRenderer()->draw(light, bm2);
+		}
+	}
 
 
 	// Draw the health bar, if health is in [0, maxHealth)

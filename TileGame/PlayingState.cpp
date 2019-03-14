@@ -114,7 +114,21 @@ void PlayingState::tick(sf::Int32 dt) {
 			}
 		}
 
-		darknessPercent += (float)dt * 0.00001667f;
+		time += dt;
+		if (time >= 1200000) { // 20 minutes
+			time = 0;
+		}
+
+		if (time < 540000) { // First 9 minutes
+			darknessPercent = 0;
+		} else if (time >= 540000 && time < 600000) { // 10th minute
+			darknessPercent = (float)(time - 540000) * 1.f / 60000;
+		} else if (time >= 600000 && time < 1140000) { // 11-19th minutes
+			darknessPercent = 1;
+		} else { // 20th minute
+			darknessPercent = 1 - (float)(time - 1140000) * 1.f / 60000;
+		}
+
 
 	} else {
 		deathFade += (float)dt * .001;
@@ -755,10 +769,14 @@ void PlayingState::updateJoystick(sf::Int32 dt) {
 
 void PlayingState::renderTime() {
 
+	if (darknessPercent == 0)
+		return;
+
+
 	sf::View v = handler->window->getView();
 	sf::Vector2f size(v.getSize());
 
-	sf::Color color(255, 255, 0, 255);
+	sf::Color color(255, 255, 0, 200);
 
 	int x = handler->player->getX();
 	int y = handler->player->getY();
@@ -766,14 +784,16 @@ void PlayingState::renderTime() {
 	int pHeight = handler->player->getHeight();
 
 
-	sf::RectangleShape light(sf::Vector2f(288, 288));
+	sf::RectangleShape light(sf::Vector2f(384, 384));
 	light.setPosition(
-		(int)(x - floor(handler->camera->getXOffset())) - 288 / 2 + pWidth / 2,
-		(int)(y - floor(handler->camera->getYOffset())) - 288 / 2 + pHeight / 2);
-	sf::Texture lightT;
-	lightT.loadFromFile("C:\\Users\\Jacob Hofer\\source\\repos\\TileGame\\TileGame\\Resources\\Textures\\Light.png");
+		(int)(x - floor(handler->camera->getXOffset())) - 384 / 2 + pWidth / 2,
+		(int)(y - floor(handler->camera->getYOffset())) - 384 / 2 + pHeight / 2);
+
+	if (lightT == nullptr)
+		lightT = handler->assets->getLightGFX();
+
 	light.setFillColor(color);
-	light.setTexture(&lightT);
+	light.setTexture(lightT);
 
 	sf::BlendMode bm2(
 		sf::BlendMode::Factor::Zero,
@@ -788,9 +808,9 @@ void PlayingState::renderTime() {
 
 
 	sf::Texture lightingTexture = renderTexture.getTexture();
-	sf::RectangleShape lighting(sf::Vector2f(lightingTexture.getSize()));
+	sf::RectangleShape lighting(sf::Vector2f(handler->window->getView().getSize()));
 	lighting.setTexture(&lightingTexture);
-	lighting.setFillColor(sf::Color(0, 0, 25, 175 * darknessPercent));
+	lighting.setFillColor(sf::Color(0, 0, 25, 225 * darknessPercent));
 	lighting.setPosition((handler->window->getSize().x / 2 - v.getSize().x / 2), (handler->window->getSize().y / 2 - v.getSize().y / 2));
 	handler->window->draw(lighting);
 

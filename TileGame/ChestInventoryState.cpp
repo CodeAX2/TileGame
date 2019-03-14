@@ -112,7 +112,7 @@ void ChestInventoryState::renderItems() {
 
 	std::vector<std::pair<int, int>> chestContents = openChest->getContents();
 	for (int i = 0; i < chestContents.size(); i++) {
-		if ((clickedSlotY == 0 || clickedSlotY == 1) && clickedSlotX == i % 5 + 1) continue;
+		if (clickedSlotY == i / 5 && clickedSlotX == i % 5 + 1) continue;
 		if (chestContents[i].first == -1)
 			continue;
 		sf::RectangleShape curItem(sf::Vector2f(96, 96));

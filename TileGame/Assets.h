@@ -38,6 +38,7 @@ namespace tg {
 		sf::Texture* rock;
 		sf::Texture* smelter[5];
 		sf::Texture* ore[9];
+		sf::Texture* lightGFX;
 
 	public:
 		Assets();
@@ -201,6 +202,8 @@ namespace tg {
 
 		Animation* getZombieAnimation() { return zombieAnimation; }
 		sf::Color createHSVColor(int hue, float sat, float val);
+
+		sf::Texture* getLightGFX() { return lightGFX; }
 
 
 		void setPlayerColor(sf::Color newColor) {
