@@ -11,6 +11,7 @@
 #include "Rock.h"
 #include "Smelter.h"
 #include "Ore.h"
+#include "Torch.h"
 
 using namespace tg;
 World* WorldFile::loadWorldFile(std::string fileName, Handler * handler) {
@@ -287,6 +288,15 @@ World* WorldFile::loadWorldFile(std::string fileName, Handler * handler) {
 			o->setIsRegening(regening);
 			o->setCooldown(cooldown);
 
+
+		} else if (type == TORCH_E) {
+			int tX;
+			int tY;
+
+			file.read((char*)&tX, sizeof(int));
+			file.read((char*)&tY, sizeof(int));
+
+			Torch* t = new Torch(tX, tY, handler, world);
 
 		}
 	}
@@ -613,6 +623,22 @@ void WorldFile::saveFile() {
 			file.write((char*)&oType, sizeof(int));
 			file.write((char*)&regening, sizeof(bool));
 			file.write((char*)&cooldown, sizeof(sf::Int32));
+
+			totalWrittenEntities++;
+		} else if (type == TORCH_E) {
+
+			Torch* curP = dynamic_cast<Torch*>(cur);
+
+			int tX = curP->getTX();
+			int tY = curP->getTY();
+
+			file.write((char*)&type, sizeof(int));
+			file.write((char*)&health, sizeof(int));
+			file.write((char*)&maxHealth, sizeof(int));
+			file.write((char*)&id, sizeof(UUID));
+
+			file.write((char*)&tX, sizeof(int));
+			file.write((char*)&tY, sizeof(int));
 
 			totalWrittenEntities++;
 		}

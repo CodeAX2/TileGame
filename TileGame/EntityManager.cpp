@@ -210,6 +210,10 @@ void EntityManager::render() {
 	bool playerIsRendered = false;
 	int endIndex = renderBuffer.size() - 1;
 
+	sf::View v = handler->window->getView();
+	sf::Vector2u s = handler->window->getSize();
+
+
 	for (int i = getRenderStartIndex(); i <= endIndex; i++) {
 
 		Entity* cur = renderBuffer[i];
@@ -220,9 +224,6 @@ void EntityManager::render() {
 		if (std::find(doNotRender.begin(), doNotRender.end(), cur) != doNotRender.end()) {
 			continue;
 		}
-
-		sf::View v = handler->window->getView();
-		sf::Vector2u s = handler->window->getSize();
 
 		if (!(cur->getX() + cur->getWidth() < handler->camera->getXOffset() + (1280 / 2 - v.getSize().x / 2) ||
 			cur->getX() > handler->window->getSize().x + handler->camera->getXOffset() - (1280 / 2 - v.getSize().x / 2) ||
@@ -243,6 +244,26 @@ void EntityManager::render() {
 
 	if (!playerIsRendered && handler->player->getRidingOn() == nullptr) {
 		handler->player->render(handler);
+	}
+
+
+	for (int i = 0; i < renderBuffer.size(); i++) {
+		Entity* cur = renderBuffer[i];
+		if (!(cur->getX() + cur->getLightSize() + cur->getWidth() / 2 < handler->camera->getXOffset() + (1280 / 2 - v.getSize().x / 2) ||
+			cur->getX() - cur->getLightSize() + cur->getWidth() / 2 > handler->window->getSize().x + handler->camera->getXOffset() - (1280 / 2 - v.getSize().x / 2) ||
+			cur->getY() + cur->getLightSize() + cur->getHeight() / 2 < handler->camera->getYOffset() + (720 / 2 - v.getSize().y / 2) ||
+			cur->getY() - cur->getLightSize() + cur->getHeight() / 2 > handler->window->getSize().y + handler->camera->getYOffset() - (720 / 2 - v.getSize().y / 2))) {
+		
+			if (cur == nullptr) {
+				continue;
+			}
+
+			if (std::find(doNotRender.begin(), doNotRender.end(), cur) != doNotRender.end()) {
+				continue;
+			}
+
+			cur->renderLighting(handler);
+		}
 	}
 
 }

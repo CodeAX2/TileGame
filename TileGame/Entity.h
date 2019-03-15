@@ -23,6 +23,7 @@
 #define ROCK_E 11
 #define SMELTER_E 12
 #define ORE_E 13
+#define TORCH_E 14
 
 namespace tg {
 	class Rideable;
@@ -46,6 +47,9 @@ namespace tg {
 
 		bool isARideable = false;
 		UUID uuid;
+
+		int lightSize = 0;
+		int lightIntensity = 0;
 
 	public:
 		const bool needsTicking;
@@ -86,6 +90,8 @@ namespace tg {
 		void setMaxHealth(int newHealth) { maxHealth = newHealth; }
 		World* getWorld() { return world; }
 		Rideable* getRidingOn() { return ridingOn; }
+		virtual void renderLighting(Handler* handler);
+		int getLightSize() { return lightSize; }
 
 	protected:
 		virtual void dropItems();

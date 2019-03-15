@@ -145,14 +145,6 @@ void Loader::loadEntities() {
 		(new TreasureChest(207, 226, handler, world))->setItem(1, 5, 2);
 		(new TreasureChest(202, 222, handler, world))->setItem(1, 5, 2);
 
-		new Workbench(50, 24, handler, world);
-		new Rock(51, 24, handler, world);
-		new Smelter(52, 24, handler, world);
-
-		for (int i = 0; i < 9; i++) {
-			new Ore(53 + i % 5, 24 + i / 5, handler, world, i);
-		}
-
 		loadingMessage = "Loading trees...";
 
 		for (int i = 0; i < 120000; i++) {
@@ -192,7 +184,6 @@ void Loader::loadEntities() {
 		}
 
 		loadingMessage = "Loading rocks...";
-		loadingMessage = "Loading trees...";
 
 		for (int i = 0; i < 60000; i++) {
 

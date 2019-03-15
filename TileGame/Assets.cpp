@@ -180,6 +180,8 @@ void Assets::init() {
 
 	rock = loadTextureFromResource(ROCK);
 
+	torch = loadTextureFromResource(TORCH);
+
 	sf::Image smelterSheet = loadImageFromResource(SMELTER);
 	for (int i = 0; i < 5; i++) {
 		smelter[i] = new sf::Texture();
@@ -230,6 +232,7 @@ void Assets::init() {
 	addItemTexture(PINE_SALVE_ITEM, 15);
 	addItemTexture(WOOD_AXE_ITEM, 30);
 	addItemTexture(METAL_PICKAXE_ITEM, 31);
+	addItemTexture(TORCH_ITEM, 32);
 
 	for (int i = 0; i < 4; i++) {
 		sf::Texture* curGem = new sf::Texture();

@@ -21,8 +21,9 @@ namespace tg {
 			texture = handler->assets->getPumpkinTexture(isLit);
 		}
 
-		void render(Handler* handler);
+		void render(Handler* handler) override;
 		void dropItems();
+		void renderLighting(Handler* handler) override;
 
 
 	};

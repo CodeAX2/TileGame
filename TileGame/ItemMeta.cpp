@@ -4,6 +4,7 @@
 #include "TreasureChest.h"
 #include "Workbench.h"
 #include "Smelter.h"
+#include "Torch.h"
 
 using namespace tg;
 
@@ -88,6 +89,18 @@ void ItemMeta::init() {
 
 	});
 
+	allItemMetas[32]->setPlaceFunction(
+		[](World* world, Handler* handler) {
+
+		sf::Vector2i htp = world->getHighlightedTile();
+		if (allItemMetas[32]->tileIsPlacable(world->getTile(htp.x, htp.y))) {
+
+			new Torch(htp.x, htp.y, handler, world);
+			handler->player->removeItemFromHotbar();
+		}
+
+	});
+
 	// Set placable tiles
 	allItemMetas[5]->addPlacableTile(2);
 
@@ -111,6 +124,13 @@ void ItemMeta::init() {
 	allItemMetas[13]->addPlacableTile(5);
 	allItemMetas[13]->addPlacableTile(6);
 	allItemMetas[13]->addPlacableTile(7);
+
+	allItemMetas[32]->addPlacableTile(0);
+	allItemMetas[32]->addPlacableTile(3);
+	allItemMetas[32]->addPlacableTile(4);
+	allItemMetas[32]->addPlacableTile(5);
+	allItemMetas[32]->addPlacableTile(6);
+	allItemMetas[32]->addPlacableTile(7);
 
 	// Set interact functions
 	allItemMetas[3]->setInteractFunction(
@@ -204,6 +224,11 @@ void ItemMeta::init() {
 	allItemMetas[31]->setRecipeItem(24, 3);
 	allItemMetas[31]->setRecipeItem(1, 2);
 
+	allItemMetas[32]->craftable = true;
+	allItemMetas[32]->setRecipeItem(0, 1);
+	allItemMetas[32]->setRecipeItem(12, 1);
+	allItemMetas[32]->setRecipeItem(1, 1);
+
 	// Set max stack size
 	allItemMetas[2]->setMaxStackAmount(1);
 
@@ -244,6 +269,9 @@ void ItemMeta::init() {
 
 	allItemMetas[30]->burnable = true;
 	allItemMetas[30]->burnSpeed = 1;
+
+	allItemMetas[32]->burnable = true;
+	allItemMetas[32]->burnSpeed = 1;
 
 	// Set smeltables
 	allItemMetas[0]->smeltable = true;

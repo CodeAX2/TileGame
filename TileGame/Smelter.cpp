@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "ItemMeta.h"
 #include "Item.h"
+#include "PlayingState.h"
 
 using namespace tg;
 
@@ -16,6 +17,9 @@ Smelter::Smelter(int x, int y, Handler* handler, World* world) :
 	this->health = 60;
 
 	world->getEntityManager()->addTickAnywhereEntity(this);
+
+	lightSize = 640;
+	lightIntensity = 200;
 }
 
 
@@ -101,6 +105,8 @@ void Smelter::render(Handler* handler) {
 		interact.setTexture(interactTexture);
 		handler->window->draw(interact);
 	}
+
+
 }
 
 void Smelter::onInteract() {
@@ -175,5 +181,35 @@ void Smelter::dropItems() {
 			}
 		}
 
+	}
+}
+
+void Smelter::renderLighting(Handler* handler) {
+	if (smelting) {
+		PlayingState* ps = dynamic_cast<PlayingState*>(handler->getCustomState(PLAYING));
+		if (ps->getDarknessPercent() != 0) {
+			sf::Color color(255, 255, 0, lightIntensity);
+
+			sf::RectangleShape light(sf::Vector2f(lightSize, lightSize));
+			light.setPosition(
+				(int)(x + hitBoxX - floor(handler->camera->getXOffset())) - lightSize / 2 + hitBoxW / 2,
+				(int)(y + hitBoxY - floor(handler->camera->getYOffset())) - lightSize / 2);
+
+			sf::Texture* lightT = handler->assets->getLightGFX();
+
+			light.setFillColor(color);
+			light.setTexture(lightT);
+
+			sf::BlendMode bm2(
+				sf::BlendMode::Factor::Zero,
+				sf::BlendMode::Factor::DstColor,
+				sf::BlendMode::Equation::Add,
+				sf::BlendMode::Factor::Zero,
+				sf::BlendMode::Factor::OneMinusSrcAlpha,
+				sf::BlendMode::Equation::Add
+			);
+
+			ps->getLightRenderer()->draw(light, bm2);
+		}
 	}
 }

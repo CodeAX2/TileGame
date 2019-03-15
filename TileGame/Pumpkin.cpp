@@ -11,6 +11,9 @@ Pumpkin::Pumpkin(int x, int y, Handler* handler, bool isLit, World* world) : Sta
 	health = 60;
 	maxHealth = 60;
 	this->isLit = isLit;
+
+	lightSize = 256;
+	lightIntensity = 200;
 }
 
 
@@ -24,36 +27,6 @@ void Pumpkin::render(Handler* handler) {
 	shape.setTexture(texture);
 	shape.setPosition((int)(x - floor(handler->camera->getXOffset())), (int)(y - floor(handler->camera->getYOffset())));
 	handler->window->draw(shape);
-
-	// Draw the lighting if it is lit
-	if (isLit) {
-
-		PlayingState* ps = dynamic_cast<PlayingState*>(handler->getCustomState(PLAYING));
-		if (ps->getDarknessPercent() != 0) {
-			sf::Color color(255, 255, 0, 200);
-
-			sf::RectangleShape light(sf::Vector2f(256, 256));
-			light.setPosition(
-				(int)(x - floor(handler->camera->getXOffset())) - 256 / 2 + w / 2,
-				(int)(y - floor(handler->camera->getYOffset())) - 256 / 2 + h);
-
-			sf::Texture* lightT = handler->assets->getLightGFX();
-
-			light.setFillColor(color);
-			light.setTexture(lightT);
-
-			sf::BlendMode bm2(
-				sf::BlendMode::Factor::Zero,
-				sf::BlendMode::Factor::DstColor,
-				sf::BlendMode::Equation::Add,
-				sf::BlendMode::Factor::Zero,
-				sf::BlendMode::Factor::OneMinusSrcAlpha,
-				sf::BlendMode::Equation::Add
-			);
-
-			ps->getLightRenderer()->draw(light, bm2);
-		}
-	}
 
 
 	// Draw the health bar, if health is in [0, maxHealth)
@@ -121,6 +94,38 @@ void Pumpkin::dropItems() {
 		new Item(x + (float)w / 2 - 32 + rand() % 21 - 10, y + h - 64 + rand() % 21 - 10, handler, 3, world);
 		if (rand() % 2 == 0) {
 			new Item(x + (float)w / 2 - 32 + rand() % 21 - 10, y + h - 64 + rand() % 21 - 10, handler, 3, world);
+		}
+	}
+}
+
+void Pumpkin::renderLighting(Handler* handler) {
+	// Draw the lighting if it is lit
+	if (isLit) {
+
+		PlayingState* ps = dynamic_cast<PlayingState*>(handler->getCustomState(PLAYING));
+		if (ps->getDarknessPercent() != 0) {
+			sf::Color color(255, 255, 0, lightIntensity);
+
+			sf::RectangleShape light(sf::Vector2f(lightSize, lightSize));
+			light.setPosition(
+				(int)(x + hitBoxX - floor(handler->camera->getXOffset())) - lightSize / 2 + hitBoxW / 2,
+				(int)(y + hitBoxY - floor(handler->camera->getYOffset())) - lightSize / 2);
+
+			sf::Texture* lightT = handler->assets->getLightGFX();
+
+			light.setFillColor(color);
+			light.setTexture(lightT);
+
+			sf::BlendMode bm2(
+				sf::BlendMode::Factor::Zero,
+				sf::BlendMode::Factor::DstColor,
+				sf::BlendMode::Equation::Add,
+				sf::BlendMode::Factor::Zero,
+				sf::BlendMode::Factor::OneMinusSrcAlpha,
+				sf::BlendMode::Equation::Add
+			);
+
+			ps->getLightRenderer()->draw(light, bm2);
 		}
 	}
 }

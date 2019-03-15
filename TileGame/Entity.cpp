@@ -3,6 +3,7 @@
 #include <sstream>
 #include "Item.h"
 #include "Static.h"
+#include "PlayingState.h"
 
 using namespace tg;
 
@@ -158,4 +159,33 @@ void Entity::damage(int dmg, Entity* damager) {
 // Drop the items when an entity dies
 void Entity::dropItems() {
 
+}
+
+
+void Entity::renderLighting(Handler* handler) {
+	PlayingState* ps = dynamic_cast<PlayingState*>(handler->getCustomState(PLAYING));
+	if (ps->getDarknessPercent() != 0) {
+		sf::Color color(255, 255, 0, lightIntensity);
+
+		sf::RectangleShape light(sf::Vector2f(lightSize, lightSize));
+		light.setPosition(
+			(int)(x - floor(handler->camera->getXOffset())) - lightSize / 2 + w / 2,
+			(int)(y - floor(handler->camera->getYOffset())) - lightSize / 2 + h / 2);
+
+		sf::Texture* lightT = handler->assets->getLightGFX();
+
+		light.setFillColor(color);
+		light.setTexture(lightT);
+
+		sf::BlendMode bm2(
+			sf::BlendMode::Factor::Zero,
+			sf::BlendMode::Factor::DstColor,
+			sf::BlendMode::Equation::Add,
+			sf::BlendMode::Factor::Zero,
+			sf::BlendMode::Factor::OneMinusSrcAlpha,
+			sf::BlendMode::Equation::Add
+		);
+
+		ps->getLightRenderer()->draw(light, bm2);
+	}
 }

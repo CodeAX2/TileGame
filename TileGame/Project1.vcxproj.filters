@@ -139,6 +139,7 @@
     <ClCompile Include="Ore.cpp">
       <Filter>Source Files\Entities\Statics</Filter>
     </ClCompile>
+    <ClCompile Include="Torch.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -282,6 +283,7 @@
     <ClInclude Include="Ore.h">
       <Filter>Header Files\Entities\Statics</Filter>
     </ClInclude>
+    <ClInclude Include="Torch.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="BuildingFileOutline.txt">
@@ -636,6 +638,12 @@
       <Filter>Resource Files\Textures</Filter>
     </Image>
     <Image Include="Resources\Textures\Light.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\Torch.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\TorchItem.png">
       <Filter>Resource Files\Textures</Filter>
     </Image>
   </ItemGroup>

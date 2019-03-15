@@ -164,6 +164,11 @@ void ItemDesc::init() {
 		" Use this tool to\n"
 		" effectively mine rocks and ores.";
 
+	itemDescriptions[32] =
+		"TORCH:\n"
+		" Use this to light\n"
+		" up a nearby area during night.";
+
 }
 
 std::string ItemDesc::getInfo(int id) {

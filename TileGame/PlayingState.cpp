@@ -778,16 +778,15 @@ void PlayingState::renderTime() {
 
 	sf::Color color(255, 255, 0, 200);
 
-	int x = handler->player->getX();
-	int y = handler->player->getY();
-	int pWidth = handler->player->getWidth();
-	int pHeight = handler->player->getHeight();
+	int x = handler->player->getCollisionBox().left;
+	int y = handler->player->getCollisionBox().top;
+	int hitboxWidth = handler->player->getCollisionBox().width;
 
 
 	sf::RectangleShape light(sf::Vector2f(384, 384));
 	light.setPosition(
-		(int)(x - floor(handler->camera->getXOffset())) - 384 / 2 + pWidth / 2,
-		(int)(y - floor(handler->camera->getYOffset())) - 384 / 2 + pHeight / 2);
+		(int)(x - floor(handler->camera->getXOffset())) - 384 / 2 + hitboxWidth / 2,
+		(int)(y - floor(handler->camera->getYOffset())) - 384 / 2);
 
 	if (lightT == nullptr)
 		lightT = handler->assets->getLightGFX();

@@ -14,6 +14,7 @@ namespace tg {
 		void render(Handler* handler) override;
 		void onInteract() override;
 		void updateState(Entity* caller) override;
+		void renderLighting(Handler* handler) override;
 
 		bool getHasFuel() { return hasFuel; }
 		float getBurnSpeed() { return burnSpeed; }

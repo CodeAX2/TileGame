@@ -58,6 +58,7 @@
     <ClCompile Include="Static.cpp" />
     <ClCompile Include="TallGrass.cpp" />
     <ClCompile Include="TileData.cpp" />
+    <ClCompile Include="Torch.cpp" />
     <ClCompile Include="TreasureChest.cpp" />
     <ClCompile Include="Tree.cpp" />
     <ClCompile Include="Workbench.cpp" />
@@ -107,6 +108,7 @@
     <ClInclude Include="Static.h" />
     <ClInclude Include="TallGrass.h" />
     <ClInclude Include="TileData.h" />
+    <ClInclude Include="Torch.h" />
     <ClInclude Include="TreasureChest.h" />
     <ClInclude Include="Tree.h" />
     <ClInclude Include="Workbench.h" />
@@ -189,6 +191,8 @@
     <Image Include="Resources\Textures\TileGame Menu.png" />
     <Image Include="Resources\Textures\TileGameIcon.png" />
     <Image Include="Resources\Textures\TileGameIcon2.png" />
+    <Image Include="Resources\Textures\Torch.png" />
+    <Image Include="Resources\Textures\TorchItem.png" />
     <Image Include="Resources\Textures\Tower.png" />
     <Image Include="Resources\Textures\TreasureChest.png" />
     <Image Include="Resources\Textures\TreasureChestItem.png" />

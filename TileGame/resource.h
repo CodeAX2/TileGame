@@ -78,12 +78,14 @@
 #define WOOD_AXE_ITEM                   174
 #define METAL_PICKAXE_ITEM              175
 #define LIGHT_GFX                       176
+#define TORCH                           177
+#define TORCH_ITEM                      178
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        177
+#define _APS_NEXT_RESOURCE_VALUE        179
 #define _APS_NEXT_COMMAND_VALUE         40003
 #define _APS_NEXT_CONTROL_VALUE         1001
 #define _APS_NEXT_SYMED_VALUE           101
