@@ -18,8 +18,12 @@ Smelter::Smelter(int x, int y, Handler* handler, World* world) :
 
 	world->getEntityManager()->addTickAnywhereEntity(this);
 
-	lightSize = 640;
+	lightSizeX = 640;
+	lightSizeY = 640;
 	lightIntensity = 200;
+
+	lightX = this->x + 9 - lightSizeX / 2 + 32 * 3 - 18 / 2;
+	lightY = this->y + 32 * 3 - 25 - lightSizeY / 2;
 }
 
 
@@ -190,10 +194,10 @@ void Smelter::renderLighting(Handler* handler) {
 		if (ps->getDarknessPercent() != 0) {
 			sf::Color color(255, 255, 0, lightIntensity);
 
-			sf::RectangleShape light(sf::Vector2f(lightSize, lightSize));
+			sf::RectangleShape light(sf::Vector2f(lightSizeX, lightSizeY));
 			light.setPosition(
-				(int)(x + hitBoxX - floor(handler->camera->getXOffset())) - lightSize / 2 + hitBoxW / 2,
-				(int)(y + hitBoxY - floor(handler->camera->getYOffset())) - lightSize / 2);
+				(int)(lightX - floor(handler->camera->getXOffset())),
+				(int)(lightY - floor(handler->camera->getYOffset())));
 
 			sf::Texture* lightT = handler->assets->getLightGFX();
 

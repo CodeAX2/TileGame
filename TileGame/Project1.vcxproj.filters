@@ -140,6 +140,7 @@
       <Filter>Source Files\Entities\Statics</Filter>
     </ClCompile>
     <ClCompile Include="Torch.cpp" />
+    <ClCompile Include="BuildingEntity.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -284,6 +285,7 @@
       <Filter>Header Files\Entities\Statics</Filter>
     </ClInclude>
     <ClInclude Include="Torch.h" />
+    <ClInclude Include="BuildingEntity.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="BuildingFileOutline.txt">

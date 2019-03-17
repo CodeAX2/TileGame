@@ -6,6 +6,7 @@
 #include "Assets.h"
 #include "World.h"
 #include <fstream>
+#include "BuildingEntity.h"
 
 #define OPEN 0
 #define OCCUPIED 1
@@ -28,7 +29,7 @@ namespace tg {
 		// is always on the bottom row
 		EntityManager entityManager;
 		Handler* handler;
-		Entity* buildingEntity;
+		BuildingEntity* buildingEntity;
 		const sf::Texture* buildingTexture;
 		int exitX = 0, exitY = 0;
 		World* insideWorld;

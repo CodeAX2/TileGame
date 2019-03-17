@@ -48,6 +48,7 @@ namespace tg {
 
 	public:
 		void render(Handler* handler);
+		void renderLighting(Handler* handler);
 		void tick(sf::Int32 dt);
 		bool isAttacking() { return attacking; }
 		bool previousAttackKey = false;

@@ -23,6 +23,7 @@
     <ClCompile Include="Assets.cpp" />
     <ClCompile Include="Boat.cpp" />
     <ClCompile Include="Building.cpp" />
+    <ClCompile Include="BuildingEntity.cpp" />
     <ClCompile Include="BuildingFile.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="ChestInventoryState.cpp" />
@@ -72,6 +73,7 @@
     <ClInclude Include="Assets.h" />
     <ClInclude Include="Boat.h" />
     <ClInclude Include="Building.h" />
+    <ClInclude Include="BuildingEntity.h" />
     <ClInclude Include="BuildingFile.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="ChestInventoryState.h" />

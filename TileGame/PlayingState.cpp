@@ -775,34 +775,7 @@ void PlayingState::renderTime() {
 
 	sf::View v = handler->window->getView();
 	sf::Vector2f size(v.getSize());
-
-	sf::Color color(255, 255, 0, 200);
-
-	int x = handler->player->getCollisionBox().left;
-	int y = handler->player->getCollisionBox().top;
-	int hitboxWidth = handler->player->getCollisionBox().width;
-
-
-	sf::RectangleShape light(sf::Vector2f(384, 384));
-	light.setPosition(
-		(int)(x - floor(handler->camera->getXOffset())) - 384 / 2 + hitboxWidth / 2,
-		(int)(y - floor(handler->camera->getYOffset())) - 384 / 2);
-
-	if (lightT == nullptr)
-		lightT = handler->assets->getLightGFX();
-
-	light.setFillColor(color);
-	light.setTexture(lightT);
-
-	sf::BlendMode bm2(
-		sf::BlendMode::Factor::Zero,
-		sf::BlendMode::Factor::DstColor,
-		sf::BlendMode::Equation::Add,
-		sf::BlendMode::Factor::Zero,
-		sf::BlendMode::Factor::OneMinusSrcAlpha,
-		sf::BlendMode::Equation::Add
-	);
-	renderTexture.draw(light, bm2);
+	
 	renderTexture.display();
 
 

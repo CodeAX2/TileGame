@@ -167,10 +167,10 @@ void Entity::renderLighting(Handler* handler) {
 	if (ps->getDarknessPercent() != 0) {
 		sf::Color color(255, 255, 0, lightIntensity);
 
-		sf::RectangleShape light(sf::Vector2f(lightSize, lightSize));
+		sf::RectangleShape light(sf::Vector2f(lightSizeX, lightSizeY));
 		light.setPosition(
-			(int)(x - floor(handler->camera->getXOffset())) - lightSize / 2 + w / 2,
-			(int)(y - floor(handler->camera->getYOffset())) - lightSize / 2 + h / 2);
+			(int)(lightX - floor(handler->camera->getXOffset())),
+			(int)(lightY - floor(handler->camera->getYOffset())));
 
 		sf::Texture* lightT = handler->assets->getLightGFX();
 

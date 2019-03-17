@@ -54,7 +54,7 @@ Building::Building(int x, int y, int width, int height, int entranceX, Handler* 
 
 		buildingTexture = handler->assets->getBuildingTexture(textureToUse);
 
-		buildingEntity = new Entity(x * 96, (y + height) * 96 - buildingTexture->getSize().y * 3, handler, 0, 0, 0, 0,
+		buildingEntity = new BuildingEntity(x * 96, (y + height) * 96 - buildingTexture->getSize().y * 3, handler, 0, 0, 0, 0,
 			buildingTexture->getSize().x * 3, buildingTexture->getSize().y * 3, true, BUILDING_E, true, this->outsideWorld);
 
 		buildingEntity->setTexture(buildingTexture);

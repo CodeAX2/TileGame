@@ -246,14 +246,15 @@ void EntityManager::render() {
 		handler->player->render(handler);
 	}
 
+	playerIsRendered = false;
 
 	for (int i = 0; i < renderBuffer.size(); i++) {
 		Entity* cur = renderBuffer[i];
-		if (!(cur->getX() + cur->getLightSize() + cur->getWidth() / 2 < handler->camera->getXOffset() + (1280 / 2 - v.getSize().x / 2) ||
-			cur->getX() - cur->getLightSize() + cur->getWidth() / 2 > handler->window->getSize().x + handler->camera->getXOffset() - (1280 / 2 - v.getSize().x / 2) ||
-			cur->getY() + cur->getLightSize() + cur->getHeight() / 2 < handler->camera->getYOffset() + (720 / 2 - v.getSize().y / 2) ||
-			cur->getY() - cur->getLightSize() + cur->getHeight() / 2 > handler->window->getSize().y + handler->camera->getYOffset() - (720 / 2 - v.getSize().y / 2))) {
-		
+		if (!(cur->getLightX() + cur->getLightSizeX() < handler->camera->getXOffset() + (1280 / 2 - v.getSize().x / 2) ||
+			cur->getLightX() > handler->window->getSize().x + handler->camera->getXOffset() - (1280 / 2 - v.getSize().x / 2) ||
+			cur->getLightY() + cur->getLightSizeY() < handler->camera->getYOffset() + (720 / 2 - v.getSize().y / 2) ||
+			cur->getLightY() > handler->window->getSize().y + handler->camera->getYOffset() - (720 / 2 - v.getSize().y / 2))) {
+
 			if (cur == nullptr) {
 				continue;
 			}
@@ -262,8 +263,19 @@ void EntityManager::render() {
 				continue;
 			}
 
+			if (handler->player->getY() + handler->player->getHeight() <= cur->getY() + cur->getHeight() && !playerIsRendered) {
+				if (handler->player->getRidingOn() == nullptr) {
+					handler->player->renderLighting(handler);
+					playerIsRendered = true;
+				}
+			}
+
 			cur->renderLighting(handler);
 		}
+	}
+
+	if (!playerIsRendered && handler->player->getRidingOn() == nullptr) {
+		handler->player->renderLighting(handler);
 	}
 
 }
@@ -425,7 +437,7 @@ void EntityManager::tickExtras(sf::Int32 dt) {
 		if (cur != nullptr) {
 			try {
 				cur->tick(dt);
-			} catch (...){}
+			} catch (...) {}
 		}
 	}
 }

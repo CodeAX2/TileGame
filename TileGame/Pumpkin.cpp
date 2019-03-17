@@ -12,8 +12,13 @@ Pumpkin::Pumpkin(int x, int y, Handler* handler, bool isLit, World* world) : Sta
 	maxHealth = 60;
 	this->isLit = isLit;
 
-	lightSize = 256;
+	lightSizeX = 256;
+	lightSizeY = 256;
 	lightIntensity = 200;
+
+	lightX = this->x + 18 - lightSizeX / 2 + (32 * 3 - 36) / 2;
+	lightY = this->y + 25 * 3 - lightSizeY / 2;
+
 }
 
 
@@ -101,15 +106,14 @@ void Pumpkin::dropItems() {
 void Pumpkin::renderLighting(Handler* handler) {
 	// Draw the lighting if it is lit
 	if (isLit) {
-
 		PlayingState* ps = dynamic_cast<PlayingState*>(handler->getCustomState(PLAYING));
 		if (ps->getDarknessPercent() != 0) {
 			sf::Color color(255, 255, 0, lightIntensity);
 
-			sf::RectangleShape light(sf::Vector2f(lightSize, lightSize));
+			sf::RectangleShape light(sf::Vector2f(lightSizeX, lightSizeY));
 			light.setPosition(
-				(int)(x + hitBoxX - floor(handler->camera->getXOffset())) - lightSize / 2 + hitBoxW / 2,
-				(int)(y + hitBoxY - floor(handler->camera->getYOffset())) - lightSize / 2);
+				(int)(lightX - floor(handler->camera->getXOffset())),
+				(int)(lightY - floor(handler->camera->getYOffset())));
 
 			sf::Texture* lightT = handler->assets->getLightGFX();
 

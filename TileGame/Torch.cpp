@@ -10,8 +10,12 @@ Torch::Torch(int x, int y, Handler* handler, World* world) :
 	texture = handler->assets->getTorchTexture();
 	health = 60;
 	maxHealth = 60;
-	lightSize = 1152;
+	lightSizeX = 1152;
+	lightSizeY = 1152;
 	lightIntensity = 200;
+
+	lightX = this->x - lightSizeX / 2 + 32 * 3 / 2;
+	lightY = this->y - lightSizeY / 2 + 32 * 3 / 2;
 
 }
 

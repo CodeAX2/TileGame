@@ -18,6 +18,9 @@ Player::Player(float x, float y, Handler* handler, World* world) :
 
 	inventory = new Inventory();
 
+	lightSizeX = 384;
+	lightSizeY = 384;
+
 }
 
 
@@ -95,6 +98,9 @@ void Player::render(Handler* handler) {
 
 // Update the player
 void Player::tick(sf::Int32 dt) {
+
+	lightX = getCollisionBox().left - lightSizeX / 2 + hitBoxW / 2;
+	lightY = getCollisionBox().top - lightSizeY / 2;
 
 	if (PlayingState* ps = dynamic_cast<PlayingState*>(handler->getCurrentState())) {
 		if (ps->getWorld() != world) {
@@ -613,4 +619,34 @@ void Player::interact() {
 			curInteracting->onInteract();
 		}
 	}
+}
+
+
+void Player::renderLighting(Handler* handler) {
+
+	PlayingState* ps = dynamic_cast<PlayingState*>(handler->getCustomState(PLAYING));
+
+	sf::Color color(255, 255, 0, 200);
+
+
+	sf::RectangleShape light(sf::Vector2f(384, 384));
+	light.setPosition(
+		(int)(lightX - floor(handler->camera->getXOffset())),
+		(int)(lightY - floor(handler->camera->getYOffset())));
+
+
+	sf::Texture* lightT = handler->assets->getLightGFX();
+
+	light.setFillColor(color);
+	light.setTexture(lightT);
+
+	sf::BlendMode bm2(
+		sf::BlendMode::Factor::Zero,
+		sf::BlendMode::Factor::DstColor,
+		sf::BlendMode::Equation::Add,
+		sf::BlendMode::Factor::Zero,
+		sf::BlendMode::Factor::OneMinusSrcAlpha,
+		sf::BlendMode::Equation::Add
+	);
+	ps->getLightRenderer()->draw(light, bm2);
 }
