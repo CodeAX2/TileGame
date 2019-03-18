@@ -18,12 +18,11 @@ Smelter::Smelter(int x, int y, Handler* handler, World* world) :
 
 	world->getEntityManager()->addTickAnywhereEntity(this);
 
-	lightSizeX = 640;
-	lightSizeY = 640;
-	lightIntensity = 200;
+	lightSize = 100;
+	extraLight = 80;
+	lightX = this->x + hitBoxX + hitBoxW / 2;
+	lightY = this->y + hitBoxY;
 
-	lightX = this->x + 9 - lightSizeX / 2 + 32 * 3 - 18 / 2;
-	lightY = this->y + 32 * 3 - 25 - lightSizeY / 2;
 }
 
 
@@ -190,30 +189,9 @@ void Smelter::dropItems() {
 
 void Smelter::renderLighting(Handler* handler) {
 	if (smelting) {
+
 		PlayingState* ps = dynamic_cast<PlayingState*>(handler->getCustomState(PLAYING));
-		if (ps->getDarknessPercent() != 0) {
-			sf::Color color(255, 255, 0, lightIntensity);
+		ps->addLightPoint(sf::Vector2f(lightX - handler->camera->getXOffset(), lightY - handler->camera->getYOffset()), lightSize, extraLight);
 
-			sf::RectangleShape light(sf::Vector2f(lightSizeX, lightSizeY));
-			light.setPosition(
-				(int)(lightX - floor(handler->camera->getXOffset())),
-				(int)(lightY - floor(handler->camera->getYOffset())));
-
-			sf::Texture* lightT = handler->assets->getLightGFX();
-
-			light.setFillColor(color);
-			light.setTexture(lightT);
-
-			sf::BlendMode bm2(
-				sf::BlendMode::Factor::Zero,
-				sf::BlendMode::Factor::DstColor,
-				sf::BlendMode::Equation::Add,
-				sf::BlendMode::Factor::Zero,
-				sf::BlendMode::Factor::OneMinusSrcAlpha,
-				sf::BlendMode::Equation::Add
-			);
-
-			ps->getLightRenderer()->draw(light, bm2);
-		}
 	}
 }

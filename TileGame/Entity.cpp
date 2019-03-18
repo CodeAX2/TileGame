@@ -80,7 +80,7 @@ void Entity::render(Handler* handler) {
 
 		sf::RectangleShape textBg(sf::Vector2f(w, healthText.getGlobalBounds().height + 4));
 		textBg.setPosition(sf::Vector2f(x - floor(handler->camera->getXOffset()), healthText.getGlobalBounds().top - 2));
-		textBg.setFillColor(sf::Color(0,0,0,140));
+		textBg.setFillColor(sf::Color(0, 0, 0, 140));
 		handler->window->draw(textBg);
 
 		handler->window->draw(healthText);
@@ -163,29 +163,8 @@ void Entity::dropItems() {
 
 
 void Entity::renderLighting(Handler* handler) {
+
 	PlayingState* ps = dynamic_cast<PlayingState*>(handler->getCustomState(PLAYING));
-	if (ps->getDarknessPercent() != 0) {
-		sf::Color color(255, 255, 0, lightIntensity);
+	ps->addLightPoint(sf::Vector2f(lightX - handler->camera->getXOffset(), lightY - handler->camera->getYOffset()), lightSize, extraLight);
 
-		sf::RectangleShape light(sf::Vector2f(lightSizeX, lightSizeY));
-		light.setPosition(
-			(int)(lightX - floor(handler->camera->getXOffset())),
-			(int)(lightY - floor(handler->camera->getYOffset())));
-
-		sf::Texture* lightT = handler->assets->getLightGFX();
-
-		light.setFillColor(color);
-		light.setTexture(lightT);
-
-		sf::BlendMode bm2(
-			sf::BlendMode::Factor::Zero,
-			sf::BlendMode::Factor::DstColor,
-			sf::BlendMode::Equation::Add,
-			sf::BlendMode::Factor::Zero,
-			sf::BlendMode::Factor::OneMinusSrcAlpha,
-			sf::BlendMode::Equation::Add
-		);
-
-		ps->getLightRenderer()->draw(light, bm2);
-	}
 }

@@ -48,11 +48,10 @@ namespace tg {
 		bool isARideable = false;
 		UUID uuid;
 
-		int lightSizeX = 0;
-		int lightSizeY = 0;
-		int lightIntensity = 0;
-		int lightX = 0;
-		int lightY = 0;
+		float lightSize = 0;
+		float extraLight = 0;
+		float lightX = 0;
+		float lightY = 0;
 
 	public:
 		const bool needsTicking;
@@ -94,10 +93,10 @@ namespace tg {
 		World* getWorld() { return world; }
 		Rideable* getRidingOn() { return ridingOn; }
 		virtual void renderLighting(Handler* handler);
-		int getLightSizeX() { return lightSizeX; }
-		int getLightSizeY() { return lightSizeY; }
-		int getLightX() { return lightX; }
-		int getLightY() { return lightY; }
+		float getLightSize() { return lightSize; }
+		float getLightX() { return lightX; }
+		float getLightY() { return lightY; }
+		float getExtraLightSize() { return extraLight; }
 
 	protected:
 		virtual void dropItems();

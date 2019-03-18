@@ -250,10 +250,10 @@ void EntityManager::render() {
 
 	for (int i = 0; i < renderBuffer.size(); i++) {
 		Entity* cur = renderBuffer[i];
-		if (!(cur->getLightX() + cur->getLightSizeX() < handler->camera->getXOffset() + (1280 / 2 - v.getSize().x / 2) ||
-			cur->getLightX() > handler->window->getSize().x + handler->camera->getXOffset() - (1280 / 2 - v.getSize().x / 2) ||
-			cur->getLightY() + cur->getLightSizeY() < handler->camera->getYOffset() + (720 / 2 - v.getSize().y / 2) ||
-			cur->getLightY() > handler->window->getSize().y + handler->camera->getYOffset() - (720 / 2 - v.getSize().y / 2))) {
+		if (!(cur->getLightX() + cur->getLightSize() + cur->getExtraLightSize() < handler->camera->getXOffset() + (1280 / 2 - v.getSize().x / 2) ||
+			cur->getLightX() - cur->getLightSize() - cur->getExtraLightSize() > handler->window->getSize().x + handler->camera->getXOffset() - (1280 / 2 - v.getSize().x / 2) ||
+			cur->getLightY() + cur->getLightSize() + cur->getExtraLightSize() < handler->camera->getYOffset() + (720 / 2 - v.getSize().y / 2) ||
+			cur->getLightY() - cur->getLightSize() - cur->getExtraLightSize() > handler->window->getSize().y + handler->camera->getYOffset() - (720 / 2 - v.getSize().y / 2)) || cur->type == BUILDING_E) {
 
 			if (cur == nullptr) {
 				continue;

@@ -247,6 +247,9 @@ void Game::tickLoop() {
 
 
 	sf::Clock clock;
+
+	handler.clock = &clock;
+
 	sf::Int32 last = clock.getElapsedTime().asMilliseconds();
 	while (handler.window->isOpen()) {
 

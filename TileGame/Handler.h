@@ -28,6 +28,7 @@ namespace tg {
 		sf::View worldView, guiView;
 		WorldManager* worldManager;
 		std::string saveDirName;
+		sf::Clock* clock;
 
 	public:
 		Handler();

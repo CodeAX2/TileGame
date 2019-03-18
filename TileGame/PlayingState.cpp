@@ -24,6 +24,7 @@ PlayingState::PlayingState(Handler* handler) : GameState(PLAYING), handler(handl
 	bgMusic.openFromFile("Audio/airtone_-_panspermia_1.wav");
 	bgMusic.setLoop(true);
 	hotBarSlotHighlight = handler->assets->loadTextureFromResource(INV_HIGHLIGHT);
+
 }
 
 
@@ -40,6 +41,9 @@ void PlayingState::zoom() {
 
 // Render every part of the game
 void PlayingState::render() {
+
+	lightArr.clear();
+	wallArr.clear();
 
 	if (guiFont.getInfo().family == "") {
 		guiFont = handler->assets->getArialiFont();
@@ -774,16 +778,56 @@ void PlayingState::renderTime() {
 
 
 	sf::View v = handler->window->getView();
-	sf::Vector2f size(v.getSize());
-	
-	renderTexture.display();
+	//sf::Vector2f size(v.getSize());
+
+	//renderTexture.display();
 
 
-	sf::Texture lightingTexture = renderTexture.getTexture();
-	sf::RectangleShape lighting(sf::Vector2f(handler->window->getView().getSize()));
-	lighting.setTexture(&lightingTexture);
-	lighting.setFillColor(sf::Color(0, 0, 25, 225 * darknessPercent));
-	lighting.setPosition((handler->window->getSize().x / 2 - v.getSize().x / 2), (handler->window->getSize().y / 2 - v.getSize().y / 2));
-	handler->window->draw(lighting);
+	//sf::Texture lightingTexture = renderTexture.getTexture();
+	//sf::RectangleShape lighting(sf::Vector2f(handler->window->getView().getSize()));
+	//lighting.setTexture(&lightingTexture);
+	//lighting.setFillColor(sf::Color(0, 0, 25, 225 * darknessPercent));
+	//lighting.setPosition((handler->window->getSize().x / 2 - v.getSize().x / 2), (handler->window->getSize().y / 2 - v.getSize().y / 2));
+	//handler->window->draw(lighting);
 
+	sf::Shader shader;
+	shader.loadFromFile("D:\\Users\\Jacob Hofer\\Desktop\\Coding\\C++\\CodeAX2\\TileGame\\TileGame\\Resources\\Shaders\\lighting.glsl", sf::Shader::Fragment);
+
+	shader.setUniformArray("lights", &lightArr[0], lightArr.size());
+	shader.setUniform("lightSize", (int)lightArr.size());
+
+	shader.setUniformArray("walls", &wallArr[0], wallArr.size());
+	shader.setUniform("wallSize", (int)wallArr.size());
+
+	shader.setUniform("darknessPercent", darknessPercent);
+
+	shader.setUniform("sizeMultiplier", (float)(handler->window->getSize().x / handler->window->getView().getSize().x));
+
+	sf::RectangleShape test(sf::Vector2f(handler->window->getView().getSize()));
+	test.setPosition((handler->window->getSize().x / 2 - v.getSize().x / 2), (handler->window->getSize().y / 2 - v.getSize().y / 2));
+
+	handler->window->draw(test, &shader);
+
+}
+
+void PlayingState::addLightPoint(sf::Vector2f point, float spread, float extraDist) {
+	sf::View v = handler->window->getView();
+
+	float x = (point.x + ((v.getSize().x - handler->window->getSize().x) / 2)) / (v.getSize().x / handler->window->getSize().x);
+	float y = (point.y + ((v.getSize().y - handler->window->getSize().y) / 2)) / (v.getSize().y / handler->window->getSize().y);
+
+	lightArr.push_back(sf::Glsl::Vec4(x, y, spread, extraDist));
+
+}
+void PlayingState::addWallLine(sf::Vector2f pointA, sf::Vector2f pointB) {
+	sf::View v = handler->window->getView();
+
+	float x1 = (pointA.x + ((v.getSize().x - handler->window->getSize().x) / 2)) / (v.getSize().x / handler->window->getSize().x);
+	float y1 = (pointA.y + ((v.getSize().y - handler->window->getSize().y) / 2)) / (v.getSize().y / handler->window->getSize().y);
+
+	float x2 = (pointB.x + ((v.getSize().x - handler->window->getSize().x) / 2)) / (v.getSize().x / handler->window->getSize().x);
+	float y2 = (pointB.y + ((v.getSize().y - handler->window->getSize().y) / 2)) / (v.getSize().y / handler->window->getSize().y);
+
+
+	wallArr.push_back(sf::Glsl::Vec4(x1, y1, x2, y2));
 }

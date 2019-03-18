@@ -11,13 +11,10 @@ Pumpkin::Pumpkin(int x, int y, Handler* handler, bool isLit, World* world) : Sta
 	health = 60;
 	maxHealth = 60;
 	this->isLit = isLit;
-
-	lightSizeX = 256;
-	lightSizeY = 256;
-	lightIntensity = 200;
-
-	lightX = this->x + 18 - lightSizeX / 2 + (32 * 3 - 36) / 2;
-	lightY = this->y + 25 * 3 - lightSizeY / 2;
+	lightSize = 50;
+	extraLight = 30;
+	lightX = this->x + hitBoxX + hitBoxW / 2;
+	lightY = this->y + hitBoxY;
 
 }
 
@@ -106,30 +103,10 @@ void Pumpkin::dropItems() {
 void Pumpkin::renderLighting(Handler* handler) {
 	// Draw the lighting if it is lit
 	if (isLit) {
+
 		PlayingState* ps = dynamic_cast<PlayingState*>(handler->getCustomState(PLAYING));
-		if (ps->getDarknessPercent() != 0) {
-			sf::Color color(255, 255, 0, lightIntensity);
+		ps->addLightPoint(sf::Vector2f(lightX - handler->camera->getXOffset(), lightY - handler->camera->getYOffset()), lightSize, extraLight);
 
-			sf::RectangleShape light(sf::Vector2f(lightSizeX, lightSizeY));
-			light.setPosition(
-				(int)(lightX - floor(handler->camera->getXOffset())),
-				(int)(lightY - floor(handler->camera->getYOffset())));
-
-			sf::Texture* lightT = handler->assets->getLightGFX();
-
-			light.setFillColor(color);
-			light.setTexture(lightT);
-
-			sf::BlendMode bm2(
-				sf::BlendMode::Factor::Zero,
-				sf::BlendMode::Factor::DstColor,
-				sf::BlendMode::Equation::Add,
-				sf::BlendMode::Factor::Zero,
-				sf::BlendMode::Factor::OneMinusSrcAlpha,
-				sf::BlendMode::Equation::Add
-			);
-
-			ps->getLightRenderer()->draw(light, bm2);
-		}
 	}
+
 }

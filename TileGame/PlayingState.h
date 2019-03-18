@@ -30,6 +30,8 @@ namespace tg {
 		void setDarkness(float darknessPercent) { this->darknessPercent = darknessPercent; }
 		sf::RenderTexture* getLightRenderer() { return &renderTexture; }
 		float getDarknessPercent() { return darknessPercent; }
+		void addLightPoint(sf::Vector2f point, float spread, float extraDist);
+		void addWallLine(sf::Vector2f pointA, sf::Vector2f pointB);
 
 	private:
 		void renderWorld();
@@ -56,6 +58,9 @@ namespace tg {
 		sf::RenderTexture renderTexture;
 		float darknessPercent = 0;
 		sf::Texture* lightT;
+
+		std::vector<sf::Glsl::Vec4> lightArr;
+		std::vector<sf::Glsl::Vec4> wallArr;
 
 	};
 
