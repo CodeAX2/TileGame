@@ -53,11 +53,13 @@ Building::Building(int x, int y, int width, int height, int entranceX, Handler* 
 
 
 		buildingTexture = handler->assets->getBuildingTexture(textureToUse);
+		std::vector<sf::Vector2f> buildingVerticies = handler->assets->getBuildingVerticies(textureToUse);
 
 		buildingEntity = new BuildingEntity(x * 96, (y + height) * 96 - buildingTexture->getSize().y * 3, handler, 0, 0, 0, 0,
 			buildingTexture->getSize().x * 3, buildingTexture->getSize().y * 3, true, BUILDING_E, true, this->outsideWorld);
 
 		buildingEntity->setTexture(buildingTexture);
+		buildingEntity->setVerticies(buildingVerticies);
 	}
 
 

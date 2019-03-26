@@ -102,7 +102,7 @@ void Player::render(Handler* handler) {
 void Player::tick(sf::Int32 dt) {
 
 	lightX = this->x + hitBoxX + hitBoxW / 2;
-	lightY = this->y + hitBoxY;
+	lightY = this->y + hitBoxY + 1;
 
 	if (PlayingState* ps = dynamic_cast<PlayingState*>(handler->getCurrentState())) {
 		if (ps->getWorld() != world) {

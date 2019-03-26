@@ -15,6 +15,7 @@
 #include "InputManager.h"
 #include "ItemMeta.h"
 #include "WorldManager.h"
+#include <limits>
 
 using namespace tg;
 
@@ -44,6 +45,9 @@ void PlayingState::render() {
 
 	lightArr.clear();
 	wallArr.clear();
+	bldgArr.clear();
+	endingIndexes.clear();
+	maxBldgY.clear();
 
 	if (guiFont.getInfo().family == "") {
 		guiFont = handler->assets->getArialiFont();
@@ -778,35 +782,28 @@ void PlayingState::renderTime() {
 
 
 	sf::View v = handler->window->getView();
-	//sf::Vector2f size(v.getSize());
 
-	//renderTexture.display();
+	sf::Shader* shader = handler->assets->getShader();
 
+	shader->setUniformArray("lights", &lightArr[0], lightArr.size());
+	shader->setUniform("lightSize", (int)lightArr.size());
 
-	//sf::Texture lightingTexture = renderTexture.getTexture();
-	//sf::RectangleShape lighting(sf::Vector2f(handler->window->getView().getSize()));
-	//lighting.setTexture(&lightingTexture);
-	//lighting.setFillColor(sf::Color(0, 0, 25, 225 * darknessPercent));
-	//lighting.setPosition((handler->window->getSize().x / 2 - v.getSize().x / 2), (handler->window->getSize().y / 2 - v.getSize().y / 2));
-	//handler->window->draw(lighting);
+	shader->setUniformArray("walls", &wallArr[0], wallArr.size());
+	shader->setUniform("wallSize", (int)wallArr.size());
 
-	sf::Shader shader;
-	shader.loadFromFile("D:\\Users\\Jacob Hofer\\Desktop\\Coding\\C++\\CodeAX2\\TileGame\\TileGame\\Resources\\Shaders\\lighting.glsl", sf::Shader::Fragment);
+	shader->setUniform("darknessPercent", darknessPercent);
 
-	shader.setUniformArray("lights", &lightArr[0], lightArr.size());
-	shader.setUniform("lightSize", (int)lightArr.size());
+	shader->setUniform("sizeMultiplier", (float)(handler->window->getSize().x / handler->window->getView().getSize().x));
 
-	shader.setUniformArray("walls", &wallArr[0], wallArr.size());
-	shader.setUniform("wallSize", (int)wallArr.size());
-
-	shader.setUniform("darknessPercent", darknessPercent);
-
-	shader.setUniform("sizeMultiplier", (float)(handler->window->getSize().x / handler->window->getView().getSize().x));
+	shader->setUniformArray("buildingVerticies", &bldgArr[0], bldgArr.size());
+	shader->setUniform("numBuildingVerticies", (int)bldgArr.size());
+	shader->setUniformArray("endingIndexes", &endingIndexes[0], endingIndexes.size());
+	shader->setUniformArray("buildingMaxY", &maxBldgY[0], maxBldgY.size());
 
 	sf::RectangleShape test(sf::Vector2f(handler->window->getView().getSize()));
 	test.setPosition((handler->window->getSize().x / 2 - v.getSize().x / 2), (handler->window->getSize().y / 2 - v.getSize().y / 2));
 
-	handler->window->draw(test, &shader);
+	handler->window->draw(test, shader);
 
 }
 
@@ -830,4 +827,34 @@ void PlayingState::addWallLine(sf::Vector2f pointA, sf::Vector2f pointB) {
 
 
 	wallArr.push_back(sf::Glsl::Vec4(x1, y1, x2, y2));
+}
+
+void PlayingState::addBuildingVerticies(std::vector<sf::Vector2f> verticies) {
+	sf::View v = handler->window->getView();
+	int numVerticies = verticies.size();
+	float maxY = 0;
+
+	for (int i = 0; i < numVerticies; i++) {
+
+		sf::Vector2f curVertex = verticies[i];
+		curVertex.x = (curVertex.x + ((v.getSize().x - handler->window->getSize().x) / 2)) / (v.getSize().x / handler->window->getSize().x);
+		curVertex.y = (curVertex.y + ((v.getSize().y - handler->window->getSize().y) / 2)) / (v.getSize().y / handler->window->getSize().y);
+
+		if (curVertex.y > maxY)
+			maxY = curVertex.y;
+
+		bldgArr.push_back(curVertex);
+
+	}
+
+	if (endingIndexes.size() != 0) {
+		int prevIndex = endingIndexes[endingIndexes.size() - 1];
+		endingIndexes.push_back(prevIndex + numVerticies);
+	} else {
+		endingIndexes.push_back(numVerticies - 1);
+	}
+
+	maxBldgY.push_back(maxY);
+
+
 }

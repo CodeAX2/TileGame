@@ -5,6 +5,7 @@
 #include "resource.h"
 #include <iostream>
 #include "Animation.h"
+#include <map>
 
 namespace tg {
 
@@ -40,6 +41,8 @@ namespace tg {
 		sf::Texture* ore[9];
 		sf::Texture* lightGFX;
 		sf::Texture* torch;
+		sf::Shader* shader;
+		std::map<int, std::vector<sf::Vector2f>> buildingVerticiesMap;
 
 	public:
 		Assets();
@@ -50,9 +53,12 @@ namespace tg {
 		void addOuterTexture(int id, sf::Texture* text, sf::Uint8 position);
 		void loadFull(int base, int bId, int priority);
 		void addItemTexture(int base, int bId);
+		void addBuildingVerticies(std::pair<int, std::vector<sf::Vector2f>> data);
 
 		std::string loadMapFromResource(int name);
 		sf::Font loadFontFromResource(int name);
+		sf::Shader* loadShaderFromResource(int name);
+		std::pair<int, std::vector<sf::Vector2f>> loadBuildingVerticies(int name);
 
 		void loadWall(int id, int priority, int wallSpot);
 
@@ -206,6 +212,12 @@ namespace tg {
 		sf::Color createHSVColor(int hue, float sat, float val);
 
 		sf::Texture* getLightGFX() { return lightGFX; }
+		sf::Shader* getShader() { return shader; }
+		std::vector<sf::Vector2f> getBuildingVerticies(int buildingTexture) {
+			if (buildingVerticiesMap.find(buildingTexture) != buildingVerticiesMap.end())
+				return buildingVerticiesMap.at(buildingTexture);
+			return std::vector<sf::Vector2f>();
+		}
 
 
 		void setPlayerColor(sf::Color newColor) {

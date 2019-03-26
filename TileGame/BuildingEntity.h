@@ -15,6 +15,11 @@ namespace tg {
 
 	public:
 		void renderLighting(Handler* handler) override;
+		void setVerticies(std::vector<sf::Vector2f> verticies);
+
+
+	private:
+		std::vector<sf::Vector2f> verticies;
 
 	};
 

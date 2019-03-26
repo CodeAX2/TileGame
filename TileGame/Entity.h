@@ -75,7 +75,7 @@ namespace tg {
 		float getY() { return y; }
 		virtual void setPos(float x, float y) { this->x = x; this->y = y; }
 		void setRiding(Rideable* rideable) { ridingOn = rideable; }
-		void setTexture(const sf::Texture* t) { texture = t; }
+		virtual void setTexture(const sf::Texture* t) { texture = t; }
 		int getWidth() { return w; }
 		int getHeight() { return h; }
 		virtual sf::IntRect getCollisionBox() {

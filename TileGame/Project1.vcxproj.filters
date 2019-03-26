@@ -401,6 +401,12 @@
     <Filter Include="Header Files\Items">
       <UniqueIdentifier>{c917ae02-7493-45ce-b898-804d8e5c07dc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Shaders">
+      <UniqueIdentifier>{1f0ef632-2c91-418a-ac33-cad17cb56874}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\BuildingVerticies">
+      <UniqueIdentifier>{ea238077-9951-4f99-9576-764cabd54c48}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="TileGame.rc">
@@ -657,6 +663,12 @@
   <ItemGroup>
     <None Include="Resources\Sounds\sans.ogg">
       <Filter>Resource Files\Sounds</Filter>
+    </None>
+    <None Include="Resources\Shaders\lighting.glsl">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="Resources\BuildingVerticies\WoodHut.bldv">
+      <Filter>Resource Files\BuildingVerticies</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
