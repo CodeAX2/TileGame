@@ -45,9 +45,8 @@ void PlayingState::render() {
 
 	lightArr.clear();
 	wallArr.clear();
-	bldgArr.clear();
-	endingIndexes.clear();
-	maxBldgY.clear();
+	bldgTextureArr.clear();
+	bldgPosArr.clear();
 
 	if (guiFont.getInfo().family == "") {
 		guiFont = handler->assets->getArialiFont();
@@ -795,10 +794,20 @@ void PlayingState::renderTime() {
 
 	shader->setUniform("sizeMultiplier", (float)(handler->window->getSize().x / handler->window->getView().getSize().x));
 
-	shader->setUniformArray("buildingVerticies", &bldgArr[0], bldgArr.size());
-	shader->setUniform("numBuildingVerticies", (int)bldgArr.size());
-	shader->setUniformArray("endingIndexes", &endingIndexes[0], endingIndexes.size());
-	shader->setUniformArray("buildingMaxY", &maxBldgY[0], maxBldgY.size());
+	shader->setUniform("numBuildings", (int)bldgTextureArr.size());
+
+	for (int i = 0; i < bldgTextureArr.size(); i++) {
+
+		std::stringstream ss;
+		ss << "buildings[" << i << "]";
+
+		shader->setUniform(ss.str(), *bldgTextureArr[i]);
+
+		std::stringstream ss2;
+		ss2 << "buildingPositions[" << i << "]";
+
+		shader->setUniform(ss2.str(), bldgPosArr[i]);
+	}
 
 	sf::RectangleShape test(sf::Vector2f(handler->window->getView().getSize()));
 	test.setPosition((handler->window->getSize().x / 2 - v.getSize().x / 2), (handler->window->getSize().y / 2 - v.getSize().y / 2));
@@ -829,32 +838,17 @@ void PlayingState::addWallLine(sf::Vector2f pointA, sf::Vector2f pointB) {
 	wallArr.push_back(sf::Glsl::Vec4(x1, y1, x2, y2));
 }
 
-void PlayingState::addBuildingVerticies(std::vector<sf::Vector2f> verticies) {
+void PlayingState::addBuildingTexture(const sf::Texture* texture, sf::Vector2f pos) {
+
+
+	bldgTextureArr.push_back(texture);
+
 	sf::View v = handler->window->getView();
-	int numVerticies = verticies.size();
-	float maxY = 0;
+	
+	sf::Vector2f bldgPos = pos;
+	bldgPos.x = (bldgPos.x + ((v.getSize().x - handler->window->getSize().x) / 2)) / (v.getSize().x / handler->window->getSize().x);
+	bldgPos.y = (bldgPos.y + ((v.getSize().y - handler->window->getSize().y) / 2)) / (v.getSize().y / handler->window->getSize().y);
 
-	for (int i = 0; i < numVerticies; i++) {
-
-		sf::Vector2f curVertex = verticies[i];
-		curVertex.x = (curVertex.x + ((v.getSize().x - handler->window->getSize().x) / 2)) / (v.getSize().x / handler->window->getSize().x);
-		curVertex.y = (curVertex.y + ((v.getSize().y - handler->window->getSize().y) / 2)) / (v.getSize().y / handler->window->getSize().y);
-
-		if (curVertex.y > maxY)
-			maxY = curVertex.y;
-
-		bldgArr.push_back(curVertex);
-
-	}
-
-	if (endingIndexes.size() != 0) {
-		int prevIndex = endingIndexes[endingIndexes.size() - 1];
-		endingIndexes.push_back(prevIndex + numVerticies);
-	} else {
-		endingIndexes.push_back(numVerticies - 1);
-	}
-
-	maxBldgY.push_back(maxY);
-
+	bldgPosArr.push_back(bldgPos);
 
 }

@@ -32,7 +32,7 @@ namespace tg {
 		float getDarknessPercent() { return darknessPercent; }
 		void addLightPoint(sf::Vector2f point, float spread, float extraDist);
 		void addWallLine(sf::Vector2f pointA, sf::Vector2f pointB);
-		void addBuildingVerticies(std::vector<sf::Vector2f> verticies);
+		void addBuildingTexture(const sf::Texture* texture, sf::Vector2f pos);
 
 	private:
 		void renderWorld();
@@ -55,16 +55,15 @@ namespace tg {
 		sf::Music bgMusic;
 		sf::Texture* hotBarSlotHighlight;
 		bool musicPaused = false;
-		sf::Int32 time = 540000 - 5000;
+		sf::Int32 time = 600000;
 		sf::RenderTexture renderTexture;
 		float darknessPercent = 0;
 		sf::Texture* lightT;
 
 		std::vector<sf::Glsl::Vec4> lightArr;
 		std::vector<sf::Glsl::Vec4> wallArr;
-		std::vector<sf::Glsl::Vec2> bldgArr;
-		std::vector<float> endingIndexes;
-		std::vector<float> maxBldgY;
+		std::vector<const sf::Texture*> bldgTextureArr;
+		std::vector<sf::Vector2f> bldgPosArr;
 
 	};
 

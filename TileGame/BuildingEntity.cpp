@@ -31,22 +31,7 @@ void BuildingEntity::renderLighting(Handler* handler) {
 	float cY = handler->camera->getYOffset();
 
 	ps->addWallLine(sf::Vector2f(x - cX, y + h - cY), sf::Vector2f(x + w - cX, y + h - cY));
-
-	std::vector<sf::Vector2f> camVerticies;
-	for (sf::Vector2f vertex : verticies) {
-		camVerticies.push_back(sf::Vector2f(vertex.x - cX, vertex.y - cY));
-	}
-
-	ps->addBuildingVerticies(camVerticies);
-}
-
-void BuildingEntity::setVerticies(std::vector<sf::Vector2f> verticies) {
-
-	for (int i = 0; i < verticies.size(); i++) {
-
-		this->verticies.push_back(sf::Vector2f(x + verticies[i].x * 3, y + verticies[i].y * 3));
-
-	}
+	ps->addBuildingTexture(texture, sf::Vector2f(x - cX, y - cY));
 
 }
 
