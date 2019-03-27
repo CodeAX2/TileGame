@@ -6,15 +6,17 @@ precision mediump float;
 
 layout(origin_upper_left) in vec4 gl_FragCoord;
 
-uniform vec4[1024] lights; // First 2 are xy of the light pt, second is the light radius, 3rd is the distance until disipate
+uniform vec4[128] lights; // First 2 are xy of the light pt, second is the light radius, 3rd is the distance until disipate
 uniform int lightSize;
-uniform vec4[2048] walls; // First 2 are the xy of pt1, second 2 are the xy of pt2
+uniform vec4[128] walls; // First 2 are the xy of pt1, second 2 are the xy of pt2
 uniform int wallSize;
 uniform float darknessPercent;
 uniform float sizeMultiplier;
 uniform sampler2D[128] buildings; // Textures of buildings, for info on darkening them
 uniform vec2[128] buildingPositions; // Position offset of buildings
 uniform int numBuildings;
+
+float approx_distance(float dx, float dy);
 
 void main() {
 
@@ -53,10 +55,15 @@ void main() {
 		
 		// Check that the point doesnt cross a line
 		bool crosses = false;
-		for(int j = 0; j < wallSize; j++){
+		float maxCrossY = 0;
 
+		for (int j = 0; j < wallSize; j++) {
 			vec4 lnAB = walls[j];
 			vec4 lnCD = vec4(cur.x,cur.y,gl_FragCoord.x,gl_FragCoord.y);
+
+			if ((abs(lnAB.x - gl_FragCoord.x) + abs(lnAB.y - gl_FragCoord.y)) > 10000) {
+				continue;
+			}
 
 			float maxY = lnAB.y;
 			if(maxY < lnAB.w) maxY = lnAB.w;
@@ -84,6 +91,7 @@ void main() {
 				) {
 					// Lines cross
 					crosses = true;
+					maxCrossY = maxY;
 					break;
 				}
 
@@ -93,23 +101,27 @@ void main() {
 
 		}
 
-		if (!crosses) {
-
-			if (insideBuilding) {
-				if (cur.y < maxBuildingY) {
-					continue;
-				}
+		float brightnessMultiplier = 1;
+		if (insideBuilding) {
+			if (cur.y < maxBuildingY) {
+				brightnessMultiplier = 1 - abs(maxBuildingY - cur.y) / (60 * sizeMultiplier);
 			}
-
-			float distanceDelta = distance(gl_FragCoord.xy, cur.xy)  - cur.w * sizeMultiplier;
-			if (distanceDelta < 0) 
-				distanceDelta = 0;
-
-			float brightnessDelta = ((cur.z)*sizeMultiplier - distanceDelta)/((cur.z) * sizeMultiplier);
-			if (brightnessDelta > 0) {
-				maxBrightness += brightnessDelta;
-			}
+		} else if (crosses) {
+			brightnessMultiplier = 1 - abs(maxCrossY - cur.y) / (30 * sizeMultiplier);
 		}
+
+		if (brightnessMultiplier < 0) brightnessMultiplier = 0;
+
+		float distanceDelta = distance(gl_FragCoord.xy, cur.xy) - cur.w * sizeMultiplier;
+
+		if (distanceDelta < 0)
+			distanceDelta = 0;
+
+		float brightnessDelta = ((cur.z)*sizeMultiplier - distanceDelta)/((cur.z) * sizeMultiplier);
+		if (brightnessDelta > 0) {
+			maxBrightness += brightnessDelta * brightnessMultiplier;
+		}
+		
 		
 	}
 

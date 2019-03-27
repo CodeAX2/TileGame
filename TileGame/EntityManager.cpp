@@ -264,10 +264,8 @@ void EntityManager::render() {
 			}
 
 			if (handler->player->getY() + handler->player->getHeight() <= cur->getY() + cur->getHeight() && !playerIsRendered) {
-				if (handler->player->getRidingOn() == nullptr) {
 					handler->player->renderLighting(handler);
 					playerIsRendered = true;
-				}
 			}
 
 			cur->renderLighting(handler);
