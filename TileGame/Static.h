@@ -19,7 +19,7 @@ namespace tg {
 	public:
 		static bool tileIsEmpty(int x, int y, World* world);
 
-	private:
+	protected:
 		static std::map<World*, std::vector<std::vector<bool>>> staticList;
 		int tX, tY;
 		bool setSuccessfully = false;

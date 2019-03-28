@@ -28,7 +28,7 @@ bool Boat::checkForCollision() {
 			rider = nullptr;
 			riderId = UUID();
 		}
-		world->getEntityManager()->removeEntity(this);
+		world->getEntityManager()->removeEntity(this, true);
 	}
 
 	int cX = x + hitBoxX, cY = y + hitBoxY;

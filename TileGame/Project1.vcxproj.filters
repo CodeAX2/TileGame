@@ -139,8 +139,15 @@
     <ClCompile Include="Ore.cpp">
       <Filter>Source Files\Entities\Statics</Filter>
     </ClCompile>
-    <ClCompile Include="Torch.cpp" />
-    <ClCompile Include="BuildingEntity.cpp" />
+    <ClCompile Include="BuildingEntity.cpp">
+      <Filter>Source Files\Entities\Non-Statics</Filter>
+    </ClCompile>
+    <ClCompile Include="Torch.cpp">
+      <Filter>Source Files\Entities\Statics</Filter>
+    </ClCompile>
+    <ClCompile Include="Fern.cpp">
+      <Filter>Source Files\Entities\Statics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -284,8 +291,15 @@
     <ClInclude Include="Ore.h">
       <Filter>Header Files\Entities\Statics</Filter>
     </ClInclude>
-    <ClInclude Include="Torch.h" />
-    <ClInclude Include="BuildingEntity.h" />
+    <ClInclude Include="BuildingEntity.h">
+      <Filter>Header Files\Entities\Non-Statics</Filter>
+    </ClInclude>
+    <ClInclude Include="Torch.h">
+      <Filter>Header Files\Entities\Statics</Filter>
+    </ClInclude>
+    <ClInclude Include="Fern.h">
+      <Filter>Header Files\Entities\Statics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="BuildingFileOutline.txt">
@@ -403,9 +417,6 @@
     </Filter>
     <Filter Include="Resource Files\Shaders">
       <UniqueIdentifier>{1f0ef632-2c91-418a-ac33-cad17cb56874}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resource Files\BuildingVerticies">
-      <UniqueIdentifier>{ea238077-9951-4f99-9576-764cabd54c48}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -654,6 +665,12 @@
     <Image Include="Resources\Textures\TorchItem.png">
       <Filter>Resource Files\Textures</Filter>
     </Image>
+    <Image Include="Resources\Textures\Fern.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\TreeSeed.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Media Include="Resources\Sounds\sans.mp3">
@@ -666,9 +683,6 @@
     </None>
     <None Include="Resources\Shaders\lighting.glsl">
       <Filter>Resource Files\Shaders</Filter>
-    </None>
-    <None Include="Resources\BuildingVerticies\WoodHut.bldv">
-      <Filter>Resource Files\BuildingVerticies</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

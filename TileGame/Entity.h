@@ -24,6 +24,7 @@
 #define SMELTER_E 12
 #define ORE_E 13
 #define TORCH_E 14
+#define FERN_E 15
 
 namespace tg {
 	class Rideable;

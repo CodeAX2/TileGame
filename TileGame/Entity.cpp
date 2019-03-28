@@ -151,7 +151,7 @@ void Entity::damage(int dmg, Entity* damager) {
 	health -= dmg;
 	if (health <= 0) {
 		dropItems();
-		world->getEntityManager()->removeEntity(this);
+		world->getEntityManager()->removeEntity(this, true);
 	}
 
 }

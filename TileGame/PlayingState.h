@@ -55,7 +55,7 @@ namespace tg {
 		sf::Music bgMusic;
 		sf::Texture* hotBarSlotHighlight;
 		bool musicPaused = false;
-		sf::Int32 time = 600000;
+		sf::Int32 time = 540000 - 5000;
 		sf::RenderTexture renderTexture;
 		float darknessPercent = 0;
 		sf::Texture* lightT;

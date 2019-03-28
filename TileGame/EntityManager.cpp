@@ -64,7 +64,7 @@ void EntityManager::deleteEntities() {
 
 }
 
-void EntityManager::removeEntity(Entity* entity) {
+void EntityManager::removeEntity(Entity* entity, bool deleteAfter) {
 
 	doNotRender.push_back(entity);
 
@@ -108,8 +108,8 @@ void EntityManager::removeEntity(Entity* entity) {
 		}
 	}
 
-
-	delete entity;
+	if (deleteAfter)
+		delete entity;
 
 }
 
@@ -259,13 +259,14 @@ void EntityManager::render() {
 				continue;
 			}
 
-			if (std::find(doNotRender.begin(), doNotRender.end(), cur) != doNotRender.end()) {
+			std::vector<Entity*>::iterator it = std::find(doNotRender.begin(), doNotRender.end(), cur);
+			if (it != doNotRender.end()) {
 				continue;
 			}
 
 			if (handler->player->getY() + handler->player->getHeight() <= cur->getY() + cur->getHeight() && !playerIsRendered) {
-					handler->player->renderLighting(handler);
-					playerIsRendered = true;
+				handler->player->renderLighting(handler);
+				playerIsRendered = true;
 			}
 
 			cur->renderLighting(handler);

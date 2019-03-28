@@ -113,7 +113,7 @@ bool Rideable::move(float dx, float dy) {
 		if (rider != nullptr)
 			rider->setRiding(nullptr);
 		rider = nullptr;
-		world->getEntityManager()->removeEntity(this);
+		world->getEntityManager()->removeEntity(this, true);
 		return false;
 	}
 

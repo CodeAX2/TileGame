@@ -12,6 +12,7 @@
 #include "Smelter.h"
 #include "Ore.h"
 #include "Torch.h"
+#include "Fern.h"
 
 using namespace tg;
 World* WorldFile::loadWorldFile(std::string fileName, Handler * handler) {
@@ -297,6 +298,21 @@ World* WorldFile::loadWorldFile(std::string fileName, Handler * handler) {
 			file.read((char*)&tY, sizeof(int));
 
 			Torch* t = new Torch(tX, tY, handler, world);
+
+		} else if (type == FERN_E) {
+			int tX;
+			int tY;
+			sf::Int32 timeAlive;
+			float growthPercent;
+
+			file.read((char*)&tX, sizeof(int));
+			file.read((char*)&tY, sizeof(int));
+			file.read((char*)&timeAlive, sizeof(sf::Int32));
+			file.read((char*)&growthPercent, sizeof(float));
+
+			Fern* f = new Fern(tX, tY, handler, world);
+			f->setTimeAlive(timeAlive);
+			f->setPercentToGrow(growthPercent);
 
 		}
 	}
@@ -641,6 +657,27 @@ void WorldFile::saveFile() {
 			file.write((char*)&tY, sizeof(int));
 
 			totalWrittenEntities++;
+		} else if (type == FERN_E) {
+
+			Fern* curP = dynamic_cast<Fern*>(cur);
+
+			file.write((char*)&type, sizeof(int));
+			file.write((char*)&health, sizeof(int));
+			file.write((char*)&maxHealth, sizeof(int));
+			file.write((char*)&id, sizeof(UUID));
+
+			int tX = curP->getTX();
+			int tY = curP->getTY();
+			sf::Int32 timeAlive = curP->getTimeAlive();
+			float growthPercent = curP->getPercentToGrow();
+
+			file.write((char*)&tX, sizeof(int));
+			file.write((char*)&tY, sizeof(int));
+			file.write((char*)&timeAlive, sizeof(sf::Int32));
+			file.write((char*)&growthPercent, sizeof(float));
+
+			totalWrittenEntities++;
+
 		}
 	}
 

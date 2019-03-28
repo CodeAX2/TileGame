@@ -5,6 +5,7 @@
 #include "Workbench.h"
 #include "Smelter.h"
 #include "Torch.h"
+#include "Fern.h"
 
 using namespace tg;
 
@@ -18,8 +19,8 @@ void ItemMeta::init() {
 		new ItemMeta(i);
 		allItemMetas.at(i)->setEntityDamage(TREE_E, 5);
 		allItemMetas.at(i)->setEntityDamage(ZOMBIE_E, 5);
-		allItemMetas.at(i)->setEntityDamage(ROCK_E, 5);
-		allItemMetas.at(i)->setEntityDamage(ORE_E, 5);
+		allItemMetas.at(i)->setEntityDamage(ROCK_E, 0);
+		allItemMetas.at(i)->setEntityDamage(ORE_E, 0);
 
 	}
 
@@ -101,6 +102,18 @@ void ItemMeta::init() {
 
 	});
 
+	allItemMetas[33]->setPlaceFunction(
+		[](World* world, Handler* handler) {
+
+		sf::Vector2i htp = world->getHighlightedTile();
+		if (allItemMetas[33]->tileIsPlacable(world->getTile(htp.x, htp.y))) {
+
+			new Fern(htp.x, htp.y, handler, world);
+			handler->player->removeItemFromHotbar();
+		}
+
+	});
+
 	// Set placable tiles
 	allItemMetas[5]->addPlacableTile(2);
 
@@ -131,6 +144,8 @@ void ItemMeta::init() {
 	allItemMetas[32]->addPlacableTile(5);
 	allItemMetas[32]->addPlacableTile(6);
 	allItemMetas[32]->addPlacableTile(7);
+
+	allItemMetas[33]->addPlacableTile(0);
 
 	// Set interact functions
 	allItemMetas[3]->setInteractFunction(
@@ -272,6 +287,9 @@ void ItemMeta::init() {
 
 	allItemMetas[32]->burnable = true;
 	allItemMetas[32]->burnSpeed = 1;
+
+	allItemMetas[33]->burnable = true;
+	allItemMetas[33]->burnSpeed = 0.8f;
 
 	// Set smeltables
 	allItemMetas[0]->smeltable = true;

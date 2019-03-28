@@ -27,12 +27,13 @@ void Tree::dropItems() {
 
 
 	new Item(x + (float)w / 2 - 32 + rand() % 21 - 10, y + h - 64 + rand() % 21 - 10, handler, 0, world);
-	if (rand() % 2 == 0) {
-		new Item(x + (float)w / 2 - 32 + rand() % 21 - 10, y + h - 64 + rand() % 21 - 10, handler, 0, world);
+	for (int i = 0; i < 3; i++) {
 		if (rand() % 2 == 0) {
 			new Item(x + (float)w / 2 - 32 + rand() % 21 - 10, y + h - 64 + rand() % 21 - 10, handler, 0, world);
 		}
 	}
+
+
 
 	if (rand() % 4 == 0) {
 		new Item(x + (float)w / 2 - 32 + rand() % 21 - 10, y + h - 64 + rand() % 21 - 10, handler, 1, world);
@@ -46,6 +47,12 @@ void Tree::dropItems() {
 		if (rand() % 3 <= 1) {
 			new Item(x + (float)w / 2 - 32 + rand() % 21 - 10, y + h - 64 + rand() % 21 - 10, handler, 14, world);
 		}
+	}
+
+	new Item(x + (float)w / 2 - 32 + rand() % 21 - 10, y + h - 64 + rand() % 21 - 10, handler, 33, world);
+
+	if (rand() % 3 == 0) {
+		new Item(x + (float)w / 2 - 32 + rand() % 21 - 10, y + h - 64 + rand() % 21 - 10, handler, 33, world);
 	}
 
 }

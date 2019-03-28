@@ -31,6 +31,7 @@
     <ClCompile Include="DeathQuotes.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EntityManager.cpp" />
+    <ClCompile Include="Fern.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="Handler.cpp" />
@@ -81,6 +82,7 @@
     <ClInclude Include="DeathQuotes.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityManager.h" />
+    <ClInclude Include="Fern.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="Handler.h" />
@@ -146,6 +148,7 @@
     <Image Include="Resources\Textures\CraftingInventoryMenuDeny.png" />
     <Image Include="Resources\Textures\CraftingInventoryMenuDownOn.png" />
     <Image Include="Resources\Textures\CraftingInventoryMenuUpOn.png" />
+    <Image Include="Resources\Textures\Fern.png" />
     <Image Include="Resources\Textures\Gems.png" />
     <Image Include="Resources\Textures\Grass24.png" />
     <Image Include="Resources\Textures\GUI-Inventory.png" />
@@ -200,6 +203,7 @@
     <Image Include="Resources\Textures\TreasureChestItem.png" />
     <Image Include="Resources\Textures\Tree.png" />
     <Image Include="Resources\Textures\TreeAnim.png" />
+    <Image Include="Resources\Textures\TreeSeed.png" />
     <Image Include="Resources\Textures\TreeSnowAnim.png" />
     <Image Include="Resources\Textures\Vignette.png" />
     <Image Include="Resources\Textures\WaterTile.png" />
@@ -217,7 +221,6 @@
     <Media Include="Resources\Sounds\sans.mp3" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\BuildingVerticies\WoodHut.bldv" />
     <None Include="Resources\Shaders\lighting.glsl" />
     <None Include="Resources\Sounds\sans.ogg" />
   </ItemGroup>

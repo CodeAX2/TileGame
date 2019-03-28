@@ -47,15 +47,15 @@ void Item::tick(sf::Int32 dt) {
 			if (itemId == 2) {
 				if (!handler->player->inventoryContains(itemId)) {
 					handler->player->addItemToInv(itemId);
-					em->removeEntity(this);
+					em->removeEntity(this, true);
 					return;
 				} else {
-					em->removeEntity(this);
+					em->removeEntity(this, true);
 					return;
 				}
 			}
 			handler->player->addItemToInv(itemId);
-			em->removeEntity(this);
+			em->removeEntity(this, true);
 			return;
 		} else {
 			float cX = dX / 300 * dt * 4000.f / (dX*dX + dY * dY);

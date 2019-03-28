@@ -43,6 +43,7 @@ namespace tg {
 		sf::Texture* torch;
 		sf::Shader* shader;
 		std::map<int, std::vector<sf::Vector2f>> buildingVerticiesMap;
+		sf::Texture* fern;
 
 	public:
 		Assets();
@@ -58,7 +59,6 @@ namespace tg {
 		std::string loadMapFromResource(int name);
 		sf::Font loadFontFromResource(int name);
 		sf::Shader* loadShaderFromResource(int name);
-		std::pair<int, std::vector<sf::Vector2f>> loadBuildingVerticies(int name);
 
 		void loadWall(int id, int priority, int wallSpot);
 
@@ -205,6 +205,7 @@ namespace tg {
 		sf::Texture* getSmelterTexture(int state) { return smelter[state]; }
 		sf::Texture* getOreTexture(int oreId) { return ore[oreId]; }
 		sf::Texture* getTorchTexture() { return torch; }
+		sf::Texture* getFernTexture() { return fern; }
 
 		sf::Color getPlayerColor() { return playerColorP; }
 

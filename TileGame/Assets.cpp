@@ -129,62 +129,6 @@ sf::Shader* Assets::loadShaderFromResource(int name) {
 	return shader;
 }
 
-std::pair<int, std::vector<sf::Vector2f>> Assets::loadBuildingVerticies(int name) {
-	HRSRC rsrcData = FindResource(NULL, MAKEINTRESOURCE(name), "BLDV");
-	if (!rsrcData)
-		throw std::runtime_error("Failed to find resource.");
-
-	DWORD rsrcDataSize = SizeofResource(NULL, rsrcData);
-	if (rsrcDataSize <= 0)
-		throw std::runtime_error("Size of resource is 0.");
-
-	HGLOBAL grsrcData = LoadResource(NULL, rsrcData);
-	if (!grsrcData)
-		throw std::runtime_error("Failed to load resource.");
-
-	LPVOID firstByte = LockResource(grsrcData);
-	if (!firstByte)
-		throw std::runtime_error("Failed to lock resource.");
-
-
-	std::string vertexString = std::string(static_cast<const char *>(firstByte));
-
-	std::string line;
-	std::istringstream iss(vertexString);
-	std::vector<int> data;
-
-	while (std::getline(iss, line)) {
-		// Loop over every line and gather info
-		std::istringstream ln(line);
-		std::string cur;
-
-		while (std::getline(ln, cur, ' ')) {
-
-			if (cur.c_str()[0] != '\r' && cur.c_str()[0] != NULL) { // Make sure it isnt a new line 
-																	// or the string terminator
-
-				data.push_back(std::stoi(cur));
-
-			}
-		}
-	}
-
-
-
-	std::pair<int, std::vector<sf::Vector2f>> verticiesData;
-	verticiesData.first = data[0];
-
-	std::vector<sf::Vector2f> verticies;
-	for (int i = 1; i < data.size(); i += 2) {
-		verticies.push_back(sf::Vector2f(data[i], data[i + 1]));
-	}
-
-	verticiesData.second = verticies;
-
-	return verticiesData;
-
-}
-
 Assets::Assets() {
 	ariali = sf::Font(loadFontFromResource(ARIALI));
 
@@ -263,6 +207,8 @@ void Assets::init() {
 
 	torch = loadTextureFromResource(TORCH);
 
+	fern = loadTextureFromResource(FERN);
+
 	sf::Image smelterSheet = loadImageFromResource(SMELTER);
 	for (int i = 0; i < 5; i++) {
 		smelter[i] = new sf::Texture();
@@ -314,6 +260,7 @@ void Assets::init() {
 	addItemTexture(WOOD_AXE_ITEM, 30);
 	addItemTexture(METAL_PICKAXE_ITEM, 31);
 	addItemTexture(TORCH_ITEM, 32);
+	addItemTexture(TREE_SEED_ITEM, 33);
 
 	for (int i = 0; i < 4; i++) {
 		sf::Texture* curGem = new sf::Texture();
@@ -376,9 +323,6 @@ void Assets::init() {
 	shader = loadShaderFromResource(SHADER);
 	operations++;
 
-
-	// Load the building verticies
-	addBuildingVerticies(loadBuildingVerticies(WOOD_HUT_VERT));
 
 	std::cout << "GFX OPERATIONS: " << operations << std::endl;
 }

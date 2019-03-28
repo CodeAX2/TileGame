@@ -169,6 +169,11 @@ void ItemDesc::init() {
 		" Use this to light\n"
 		" up a nearby area during night.";
 
+	itemDescriptions[33] =
+		"TREE SEED:\n"
+		" Use this to plant\n"
+		" a new tree, and watch it grow.";
+
 }
 
 std::string ItemDesc::getInfo(int id) {
