@@ -317,6 +317,18 @@ World* WorldFile::loadWorldFile(std::string fileName, Handler * handler) {
 		}
 	}
 
+	// Darkness Percent
+	Nullable<float> darknessPercent = safeLoad<float>(file);
+	if (!darknessPercent.getIsNull()) {
+		world->setDarknessPercent(darknessPercent.value());
+	} else {
+		float dp;
+		std::cout << "Missing darkness percent for world: " << fileName << std::endl;
+		std::cout << "Enter darkness percent: " << std::flush;
+		std::cin >> dp;
+		world->setDarknessPercent(dp);
+	}
+
 	return world;
 }
 
@@ -681,6 +693,23 @@ void WorldFile::saveFile() {
 		}
 	}
 
+	float darknessPercent = world->getDarknessPercent();
+	file.write((char*)&darknessPercent, sizeof(float));
+
 	file.seekp(numEntPos);
 	file.write((char*)&totalWrittenEntities, sizeof(int));
+
+}
+
+template<typename T> Nullable<T> WorldFile::safeLoad(std::ifstream& file) {
+	T readItem;
+	Nullable<T> item;
+	file.read((char*)&readItem, sizeof(T));
+
+	if (file.eof()) {
+		return item;
+	}
+
+	item = readItem;
+	return item;
 }

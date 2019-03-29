@@ -12,6 +12,8 @@ namespace tg {
 		~PlayingState();
 
 	public:
+		void loadStateFile();
+		void saveStateFile();
 		void render();
 		void tick(sf::Int32 dt);
 		void zoom();
@@ -41,6 +43,7 @@ namespace tg {
 		void renderVignette();
 		void renderDeathScreen();
 		void renderTime();
+		void spawnEnemies();
 
 	private:
 		Handler * handler;

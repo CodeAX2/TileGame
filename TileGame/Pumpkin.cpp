@@ -15,6 +15,7 @@ Pumpkin::Pumpkin(int x, int y, Handler* handler, bool isLit, World* world) : Sta
 	extraLight = 30;
 	lightX = this->x + hitBoxX + hitBoxW / 2;
 	lightY = this->y + hitBoxY;
+	world->getEntityManager()->checkMaxLight(this);
 
 }
 

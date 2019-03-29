@@ -21,6 +21,7 @@ namespace tg {
 		bool highlightGood = true;
 		EntityManager* em;
 		std::string nameId;
+		float darknessPercent = -1;
 
 
 	public:
@@ -64,6 +65,9 @@ namespace tg {
 		std::string getNameId() { return nameId; }
 
 		std::vector<std::vector<sf::Uint8>> getMap() { return map; }
+		float getDarknessPercent() { return darknessPercent; }
+		void setDarknessPercent(float percent) { darknessPercent = percent; }
+		float getTileDarknessPercent();
 
 	};
 

@@ -164,7 +164,9 @@ void Entity::dropItems() {
 
 void Entity::renderLighting(Handler* handler) {
 
-	PlayingState* ps = dynamic_cast<PlayingState*>(handler->getCustomState(PLAYING));
-	ps->addLightPoint(sf::Vector2f(lightX - handler->camera->getXOffset(), lightY - handler->camera->getYOffset()), lightSize, extraLight);
+	if (lightSize != 0 && extraLight != 0) {
 
+		PlayingState* ps = dynamic_cast<PlayingState*>(handler->getCustomState(PLAYING));
+		ps->addLightPoint(sf::Vector2f(lightX - handler->camera->getXOffset(), lightY - handler->camera->getYOffset()), lightSize, extraLight);
+	}
 }

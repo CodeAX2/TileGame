@@ -23,6 +23,12 @@ namespace tg {
 	private:
 		sf::Int32 timeAlive = 0;
 		float percentToGrow = 0;
+		sf::Int32 timeSinceLastCheck = 0;
+
+
+		const sf::Int32 initialGrowTime = sf::seconds(180).asMilliseconds();
+		const sf::Int32 maxGrowTime = sf::seconds(120).asMilliseconds();
+		const int triesUntilMax = 15;
 
 	};
 

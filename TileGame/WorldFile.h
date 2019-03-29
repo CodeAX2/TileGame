@@ -3,6 +3,8 @@
 #include "World.h"
 #include <string>
 #include "Entity.h"
+#include "Nullable.h"
+
 namespace tg {
 	class WorldFile
 	{
@@ -16,6 +18,9 @@ namespace tg {
 		~WorldFile();
 
 		void saveFile();
+
+	private:
+		template<typename T> static Nullable<T> safeLoad(std::ifstream& file);
 
 	private:
 		World * world;

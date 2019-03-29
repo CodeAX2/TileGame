@@ -17,6 +17,8 @@ Torch::Torch(int x, int y, Handler* handler, World* world) :
 	lightX = this->x + w / 2;
 	lightY = this->y + h / 2;
 
+	world->getEntityManager()->checkMaxLight(this);
+
 }
 
 

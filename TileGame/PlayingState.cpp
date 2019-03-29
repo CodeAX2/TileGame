@@ -26,6 +26,8 @@ PlayingState::PlayingState(Handler* handler) : GameState(PLAYING), handler(handl
 	bgMusic.setLoop(true);
 	hotBarSlotHighlight = handler->assets->loadTextureFromResource(INV_HIGHLIGHT);
 
+	loadStateFile();
+
 }
 
 
@@ -126,16 +128,23 @@ void PlayingState::tick(sf::Int32 dt) {
 			time = 0;
 		}
 
-		if (time < 540000) { // First 9 minutes
-			darknessPercent = 0;
-		} else if (time >= 540000 && time < 600000) { // 10th minute
-			darknessPercent = (float)(time - 540000) * 1.f / 60000;
-		} else if (time >= 600000 && time < 1140000) { // 11-19th minutes
-			darknessPercent = 1;
-		} else { // 20th minute
-			darknessPercent = 1 - (float)(time - 1140000) * 1.f / 60000;
+		if (world->getDarknessPercent() == -1) {
+
+			if (time < 540000) { // First 9 minutes
+				darknessPercent = 0;
+			} else if (time >= 540000 && time < 600000) { // 10th minute
+				darknessPercent = (float)(time - 540000) * 1.f / 60000;
+			} else if (time >= 600000 && time < 1140000) { // 11-19th minutes
+				darknessPercent = 1;
+			} else { // 20th minute
+				darknessPercent = 1 - (float)(time - 1140000) * 1.f / 60000;
+			}
+
+		} else {
+			darknessPercent = world->getDarknessPercent();
 		}
 
+		spawnEnemies();
 
 	} else {
 		deathFade += (float)dt * .001;
@@ -796,6 +805,8 @@ void PlayingState::renderTime() {
 
 	shader->setUniform("numBuildings", (int)bldgTextureArr.size());
 
+	//std::cout << lightArr.size() << " " << wallArr.size() << " " << bldgTextureArr.size() << std::endl;
+
 	for (int i = 0; i < bldgTextureArr.size(); i++) {
 
 		std::stringstream ss;
@@ -809,14 +820,14 @@ void PlayingState::renderTime() {
 		shader->setUniform(ss2.str(), bldgPosArr[i]);
 	}
 
-	sf::RectangleShape test(sf::Vector2f(handler->window->getView().getSize()));
-	test.setPosition((handler->window->getSize().x / 2 - v.getSize().x / 2), (handler->window->getSize().y / 2 - v.getSize().y / 2));
-
-	handler->window->draw(test, shader);
+	sf::RectangleShape lighting(sf::Vector2f(handler->window->getView().getSize()));
+	lighting.setPosition((handler->window->getSize().x / 2 - v.getSize().x / 2), (handler->window->getSize().y / 2 - v.getSize().y / 2));
+	handler->window->draw(lighting, shader);
 
 }
 
 void PlayingState::addLightPoint(sf::Vector2f point, float spread, float extraDist) {
+
 	sf::View v = handler->window->getView();
 
 	float x = (point.x + ((v.getSize().x - handler->window->getSize().x) / 2)) / (v.getSize().x / handler->window->getSize().x);
@@ -844,11 +855,72 @@ void PlayingState::addBuildingTexture(const sf::Texture* texture, sf::Vector2f p
 	bldgTextureArr.push_back(texture);
 
 	sf::View v = handler->window->getView();
-	
+
 	sf::Vector2f bldgPos = pos;
 	bldgPos.x = (bldgPos.x + ((v.getSize().x - handler->window->getSize().x) / 2)) / (v.getSize().x / handler->window->getSize().x);
 	bldgPos.y = (bldgPos.y + ((v.getSize().y - handler->window->getSize().y) / 2)) / (v.getSize().y / handler->window->getSize().y);
 
 	bldgPosArr.push_back(bldgPos);
+
+}
+
+void PlayingState::loadStateFile() {
+	std::ifstream file(handler->saveDirName + "\\" + "Gamestate.tgs", std::ios::in | std::ios::binary);
+	if (!file.is_open()) {
+		std::cout << "Could not open gamestate file!" << std::endl;
+		return;
+	}
+
+	file.read((char*)&time, sizeof(sf::Int32));
+
+	file.close();
+}
+
+void PlayingState::saveStateFile() {
+	std::ofstream file(handler->saveDirName + "\\" + "Gamestate.tgs", std::ios::out | std::ios::trunc | std::ios::binary);
+	if (!file.is_open()) {
+		std::cout << "Could not save gamestate file!" << std::endl;
+		return;
+	}
+
+	file.write((char*)&time, sizeof(sf::Int32));
+
+	file.close();
+
+}
+
+void PlayingState::spawnEnemies() {
+
+	if (darknessPercent > 0.5f) {
+		// Only spawn if darker than half of max
+
+		int playerTileX = handler->player->getX() / 96;
+		int playerTileY = handler->player->getY() / 96;
+
+		// Spawn at most 48 tiles away from player
+
+		for (int tileX = playerTileX - 48; tileX <= playerTileX + 48; tileX++) {
+			for (int tileY = playerTileY - 48; tileY <= playerTileY + 48; tileY++) {
+
+				if (world->tileIsSolid(tileX, tileY)) {
+
+					// Get light value of tile
+					// If it is less than 0.5 try and spawn
+
+
+
+
+
+				}
+
+
+
+			}
+		}
+
+
+
+	}
+
 
 }

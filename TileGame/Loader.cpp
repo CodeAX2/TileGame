@@ -75,6 +75,7 @@ void Loader::loadEntities() {
 		handler->mainWorld = new World(handler->assets->getMapData(), handler, "Main World", handler->entityManager);
 		worldWasNull = true;
 		mainWorld = handler->mainWorld;
+		mainWorld->setDarknessPercent(-1);
 	}
 
 	handler->entityManager->setWorld(mainWorld);

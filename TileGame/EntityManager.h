@@ -34,6 +34,7 @@ namespace tg {
 
 		void addTickAnywhereEntity(Entity* entity) { tickAnywhereList.push_back(entity); }
 		void tickExtras(sf::Int32 dt);
+		void checkMaxLight(Entity* entity);
 
 
 	private:
@@ -55,7 +56,7 @@ namespace tg {
 		std::vector<Entity*> tickAnywhereList; // For the entities that need to be ticked, without regard
 													  // to the current active world
 		
-
+		int maxLightSize = 0;
 	};
 
 }

@@ -217,7 +217,7 @@ void EntityManager::render() {
 	for (int i = getRenderStartIndex(); i <= endIndex; i++) {
 
 		Entity* cur = renderBuffer[i];
-		if (cur == nullptr) {
+		if (cur == nullptr != cur->type == PLAYER_E) {
 			continue;
 		}
 
@@ -248,12 +248,26 @@ void EntityManager::render() {
 
 	playerIsRendered = false;
 
+
 	for (int i = 0; i < renderBuffer.size(); i++) {
 		Entity* cur = renderBuffer[i];
+
 		if (!(cur->getLightX() + cur->getLightSize() + cur->getExtraLightSize() < handler->camera->getXOffset() + (1280 / 2 - v.getSize().x / 2) ||
 			cur->getLightX() - cur->getLightSize() - cur->getExtraLightSize() > handler->window->getSize().x + handler->camera->getXOffset() - (1280 / 2 - v.getSize().x / 2) ||
 			cur->getLightY() + cur->getLightSize() + cur->getExtraLightSize() < handler->camera->getYOffset() + (720 / 2 - v.getSize().y / 2) ||
 			cur->getLightY() - cur->getLightSize() - cur->getExtraLightSize() > handler->window->getSize().y + handler->camera->getYOffset() - (720 / 2 - v.getSize().y / 2)) || cur->type == BUILDING_E) {
+
+			if (cur->type == BUILDING_E) {
+
+				if ((cur->getX() + cur->getWidth() < handler->camera->getXOffset() + (1280 / 2 - v.getSize().x / 2) - maxLightSize ||
+					cur->getX() > handler->window->getSize().x + handler->camera->getXOffset() - (1280 / 2 - v.getSize().x / 2) + maxLightSize ||
+					cur->getY() + cur->getHeight() < handler->camera->getYOffset() + (720 / 2 - v.getSize().y / 2) - maxLightSize ||
+					cur->getY() > handler->window->getSize().y + handler->camera->getYOffset() - (720 / 2 - v.getSize().y / 2) + maxLightSize)) {
+					continue;
+				}
+
+			}
+
 
 			if (cur == nullptr) {
 				continue;
@@ -276,6 +290,7 @@ void EntityManager::render() {
 	if (!playerIsRendered && handler->player->getRidingOn() == nullptr) {
 		handler->player->renderLighting(handler);
 	}
+
 
 }
 
@@ -438,5 +453,10 @@ void EntityManager::tickExtras(sf::Int32 dt) {
 				cur->tick(dt);
 			} catch (...) {}
 		}
+	}
+}
+void EntityManager::checkMaxLight(Entity* entity) {
+	if (entity->getLightSize() + entity->getExtraLightSize() > maxLightSize) {
+		maxLightSize = entity->getLightSize() + entity->getExtraLightSize();
 	}
 }

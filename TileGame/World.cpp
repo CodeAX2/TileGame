@@ -213,3 +213,11 @@ TileData World::getTileData(int x, int y) {
 
 
 }
+
+float World::getTileDarknessPercent() {
+
+	// Have an array of every tile darkness percent
+	// Update it whenever a new entity is created, or when
+	// an entity moves (both only if the entity emits light or blocks it)
+
+}

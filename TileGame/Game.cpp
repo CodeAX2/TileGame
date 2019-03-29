@@ -34,11 +34,11 @@ commandThread(&Game::commandLoop, this), debugThread(&Game::debugLoop, this) {
 
 	handler.game = this;
 
+	handler.saveDirName = "Save1";
 	handler.assets = new Assets;
 	handler.initGameStates();
 	handler.setGameState(MAIN_MENU);
 	handler.window = window;
-	handler.saveDirName = "Save1";
 	handler.guiView = window->getView();
 	handler.inputManager = new InputManager(&handler);
 
@@ -333,6 +333,10 @@ void Game::start() {
 			WorldFile curWorldFile(w, &handler);
 			curWorldFile.saveFile();
 		}
+	}
+
+	if (PlayingState* ps = dynamic_cast<PlayingState*>(handler.getCustomState(PLAYING))) {
+		ps->saveStateFile();
 	}
 
 

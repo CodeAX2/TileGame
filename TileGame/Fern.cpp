@@ -22,28 +22,33 @@ void Fern::tick(sf::Int32 dt) {
 
 	timeAlive += dt;
 
-	if (timeAlive > sf::seconds(20).asMilliseconds()) {
-		percentToGrow += (1.f / 120000) * dt;
+	if (timeAlive > initialGrowTime) {
+		percentToGrow += (1.f / maxGrowTime) * dt;
 
-		// Todo: Tweak how the growth time functions to add more variety
+		timeSinceLastCheck += dt;
 
-		if (rand() % 100 < percentToGrow * 100) {
+		if (timeSinceLastCheck >= maxGrowTime / triesUntilMax) {
 
-			int savedTX = tX;
-			int savedTY = tY;
-			Handler* savedHandler = handler;
-			World* savedWorld = world;
+			timeSinceLastCheck = 0;
 
-			world->getEntityManager()->removeEntity(this, false);
+			if (rand() % 100 < percentToGrow * 100) {
 
-			if (setSuccessfully) {
-				staticList[world][tY][tX] = false;
-				setSuccessfully = false;
+				int savedTX = tX;
+				int savedTY = tY;
+				Handler* savedHandler = handler;
+				World* savedWorld = world;
+
+				world->getEntityManager()->removeEntity(this, false);
+
+				if (setSuccessfully) {
+					staticList[world][tY][tX] = false;
+					setSuccessfully = false;
+				}
+
+				new Tree(savedTX, savedTY, savedHandler, 0, savedWorld);
+
+				delete this;
 			}
-
-			new Tree(savedTX, savedTY, savedHandler, 0, savedWorld);
-
-			delete this;
 		}
 
 	}

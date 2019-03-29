@@ -23,6 +23,8 @@ Player::Player(float x, float y, Handler* handler, World* world) :
 	lightX = this->x + hitBoxX + hitBoxW / 2;
 	lightY = this->y + hitBoxY;
 
+	world->getEntityManager()->checkMaxLight(this);
+
 }
 
 
