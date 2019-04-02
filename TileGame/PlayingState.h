@@ -35,6 +35,7 @@ namespace tg {
 		void addLightPoint(sf::Vector2f point, float spread, float extraDist);
 		void addWallLine(sf::Vector2f pointA, sf::Vector2f pointB);
 		void addBuildingTexture(const sf::Texture* texture, sf::Vector2f pos);
+		void setTime(sf::Int32 time) { this->time = time; }
 
 	private:
 		void renderWorld();
@@ -67,6 +68,8 @@ namespace tg {
 		std::vector<sf::Glsl::Vec4> wallArr;
 		std::vector<const sf::Texture*> bldgTextureArr;
 		std::vector<sf::Vector2f> bldgPosArr;
+
+		sf::Int32 timeSinceLastEnemySpawn = 0;
 
 	};
 

@@ -9,7 +9,8 @@ Zombie::Zombie(float x, float y, Handler* handler, World* world) :
 	Pathfinder(x, y, handler, 16 * 2, 32 * 3 - 25, 32, 25, 32 * 3, 32 * 3, ZOMBIE_E, world, SPEED) {
 
 	texture = handler->assets->getZombieAnimation()->getFrame(curAnim);
-
+	this->health = 30;
+	this->maxHealth = 30;
 
 }
 
@@ -40,7 +41,6 @@ void Zombie::onCollisionWithFollowing(sf::Int32 dt) {
 }
 
 void Zombie::render(Handler* handler) {
-
 
 	texture = handler->assets->getZombieAnimation()->getFrame(curAnim);
 
@@ -75,7 +75,7 @@ void Zombie::render(Handler* handler) {
 
 		healthText.setString(ss.str());
 		healthText.setCharacterSize(15);
-		healthText.setPosition((int)(x - floor(handler->camera->getXOffset())) - healthText.getLocalBounds().width / 2 + w / 2, (int)(y + 23 - floor(handler->camera->getYOffset())));
+		healthText.setPosition((int)(x - floor(handler->camera->getXOffset())) - healthText.getLocalBounds().width / 2 + w / 2, (int)(y - 27 - floor(handler->camera->getYOffset())));
 		if (health > maxHealth || health < 0 || handler == nullptr) return;
 
 		sf::RectangleShape textBg(sf::Vector2f(w, healthText.getGlobalBounds().height + 4));
@@ -87,7 +87,7 @@ void Zombie::render(Handler* handler) {
 
 
 		sf::RectangleShape healthBar(sf::Vector2f(w * (float)health / maxHealth, 10));
-		healthBar.setPosition((int)(x - floor(handler->camera->getXOffset())), (int)(y + 40 - floor(handler->camera->getYOffset())));
+		healthBar.setPosition((int)(x - floor(handler->camera->getXOffset())), (int)(y - 10 - floor(handler->camera->getYOffset())));
 		if (health > maxHealth / 2.f) {
 			healthBar.setFillColor(sf::Color(
 				255 - (float)health / (maxHealth / 2.f) * 255,
@@ -129,9 +129,9 @@ void Zombie::render(Handler* handler) {
 			handler->window->draw(s);
 		}
 
-		if (currentPath.size() != 0) {
-			float tX = currentPath[spotInpath].x * pathfindSize - handler->camera->getXOffset();
-			float tY = currentPath[spotInpath].y * pathfindSize - handler->camera->getYOffset();
+		if (cP.size() != 0) {
+			float tX = cP[spotInpath].x * pathfindSize - handler->camera->getXOffset();
+			float tY = cP[spotInpath].y * pathfindSize - handler->camera->getYOffset();
 			float cX = x + hitBoxX - handler->camera->getXOffset();
 			float cY = y + hitBoxY - handler->camera->getYOffset();
 
@@ -166,6 +166,31 @@ void Zombie::tick(sf::Int32 dt) {
 		} else {
 			active = true;
 		}
+	}
+
+	if (beingKnockbacked) {
+		knockbackTime -= dt;
+		if (knockbackTime < 0) {
+			beingKnockbacked = false;
+
+		}
+
+		float ogX = x;
+		float ogY = y;
+
+		x += knockbackDistance * cos(knockbackDegree) / (float)timeToKnockback * dt * (1.3f *(float)knockbackTime / (float)timeToKnockback);
+
+
+		if (checkForCollision(x, y)) {
+			x = ogX;
+		}
+
+		y += knockbackDistance * sin(knockbackDegree) / (float)timeToKnockback * dt * (1.3f * (float)knockbackTime / (float)timeToKnockback);
+		if (checkForCollision(x, y)) {
+			y = ogY;
+		}
+
+
 	}
 
 	if (attacking) {
@@ -210,7 +235,6 @@ void Zombie::tick(sf::Int32 dt) {
 		return;
 	}
 
-
 	if (!active) {
 		// If we are too far from following, don't move. Fix textures
 
@@ -227,9 +251,12 @@ void Zombie::tick(sf::Int32 dt) {
 		return;
 	}
 
-	if (currentPath.size() != 0 && spotInpath < currentPath.size()) {
-		float dx = currentPath[spotInpath].x * pathfindSize - (x + hitBoxX);
-		float dy = currentPath[spotInpath].y * pathfindSize - (y + hitBoxY);
+	std::vector<sf::Vector2i> cP = currentPath;
+
+	if (cP.size() != 0 && spotInpath < cP.size()) {
+		
+		float dx = cP[spotInpath].x * pathfindSize - (x + hitBoxX);
+		float dy = cP[spotInpath].y * pathfindSize - (y + hitBoxY);
 
 		float angle = atan2(dy, dx);
 
@@ -241,6 +268,7 @@ void Zombie::tick(sf::Int32 dt) {
 		float ogY = y;
 
 		bool moved = true;
+
 
 		if (checkForCollision(x, y)) {
 			// Collision before we moved, so disable collision for a sec
@@ -265,13 +293,12 @@ void Zombie::tick(sf::Int32 dt) {
 
 		}
 
-
 		if (checkForCollisionWithFollowing(x, y)) {
 			onCollisionWithFollowing(dt);
 		}
 
-		float checkX = currentPath[spotInpath].x * pathfindSize;
-		float checkY = currentPath[spotInpath].y * pathfindSize;
+		float checkX = cP[spotInpath].x * pathfindSize;
+		float checkY = cP[spotInpath].y * pathfindSize;
 
 		if (linesCross(ogX, ogY, x, y, checkX, checkY, checkX + pathfindSize, checkY)) {
 			spotInpath++;
@@ -289,21 +316,20 @@ void Zombie::tick(sf::Int32 dt) {
 			spotInpath++;
 		}
 
-
-
-
-		if (spotInpath >= currentPath.size()) {
+		if (spotInpath >= cP.size()) {
 			spotInpath = 0;
 		}
 
 		if (pathIsQueued) {
+			while (adjustingPath);
+			adjustingPath = true;
 			currentPath = queuedPath;
 			pathIsQueued = false;
 			spotInpath = 0;
+			adjustingPath = false;
 		}
 
 		roundedHitBox = sf::IntRect(sf::Vector2i(std::round(x + (float)hitBoxX), std::round(y + (float)hitBoxY)), sf::Vector2i(hitBoxW, hitBoxH));
-
 		world->getEntityManager()->fixEntityMoved(this, ogX, ogY);
 		timeSinceLastAnim += dt;
 
@@ -370,10 +396,12 @@ void Zombie::tick(sf::Int32 dt) {
 		directionY = STILL;
 
 		if (pathIsQueued) {
-
+			while (adjustingPath);
+			adjustingPath = true;
 			currentPath = queuedPath;
 			spotInpath = 0;
 			pathIsQueued = false;
+			adjustingPath = false;
 		}
 	}
 
@@ -395,6 +423,15 @@ void Zombie::damage(int dmg, Entity* damager) {
 	if (damager != nullptr) {
 		following = damager;
 		followingId = damager->getId();
+
+		beingKnockbacked = true;
+		knockbackTime = timeToKnockback;
+
+		knockbackDegree = atan2(y + hitBoxY + hitBoxH / 2 - damager->getCollisionBox().top - damager->getCollisionBox().height / 2, x + hitBoxX + hitBoxW / 2 - damager->getCollisionBox().left - damager->getCollisionBox().width / 2);
+		knockbackDegree = (int)(knockbackDegree / (3.1415 / 2));
+		knockbackDegree *= (3.1415 / 2);
+
+
 	}
 
 	Entity::damage(dmg, damager);

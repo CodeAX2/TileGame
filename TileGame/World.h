@@ -22,6 +22,7 @@ namespace tg {
 		EntityManager* em;
 		std::string nameId;
 		float darknessPercent = -1;
+		int maxPathfinders = 100;
 
 
 	public:
@@ -67,7 +68,8 @@ namespace tg {
 		std::vector<std::vector<sf::Uint8>> getMap() { return map; }
 		float getDarknessPercent() { return darknessPercent; }
 		void setDarknessPercent(float percent) { darknessPercent = percent; }
-		float getTileDarknessPercent();
+		int getMaxNumPathfinders() { return maxPathfinders; }
+		void setMaxNumPathfinders(int max) { maxPathfinders = max; }
 
 	};
 

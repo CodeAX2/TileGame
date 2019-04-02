@@ -43,6 +43,7 @@ namespace tg {
 		static std::vector<Building*> getAllBuildings() {
 			return allBuildings;
 		}
+		static std::map<World*, std::vector<std::vector<int>>> getBuildingsMap() { return buildingsMap; }
 	public:
 		bool positionIsEntrance(int x, int y, World* world);
 		bool positionIsExit(int x, int y);

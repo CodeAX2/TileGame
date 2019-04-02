@@ -20,6 +20,11 @@ namespace tg {
 		int facing = 3; // SOUTH
 		bool attacking = false;
 		sf::Int32 attackCooldown = 0;
+		bool beingKnockbacked = false;
+		sf::Int32 knockbackTime = 0;
+		float knockbackDegree = 0;
+		float knockbackDistance = 200; // Not in pixels, it is a strange value to allow for deceleration
+		const sf::Int32 timeToKnockback = 200;
 
 	public:
 		Zombie(float x, float y, Handler* handler, World* world);

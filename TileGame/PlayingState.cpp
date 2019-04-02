@@ -16,6 +16,8 @@
 #include "ItemMeta.h"
 #include "WorldManager.h"
 #include <limits>
+#include "Static.h"
+#include "Zombie.h"
 
 using namespace tg;
 
@@ -144,7 +146,15 @@ void PlayingState::tick(sf::Int32 dt) {
 			darknessPercent = world->getDarknessPercent();
 		}
 
-		spawnEnemies();
+
+		timeSinceLastEnemySpawn += dt;
+
+		if (timeSinceLastEnemySpawn >= sf::seconds(3).asMilliseconds()) {
+			spawnEnemies();
+			timeSinceLastEnemySpawn = 0;
+		}
+
+
 
 	} else {
 		deathFade += (float)dt * .001;
@@ -891,25 +901,55 @@ void PlayingState::saveStateFile() {
 
 void PlayingState::spawnEnemies() {
 
-	if (darknessPercent > 0.5f) {
-		// Only spawn if darker than half of max
-
-		int playerTileX = handler->player->getX() / 96;
-		int playerTileY = handler->player->getY() / 96;
-
-		// Spawn at most 48 tiles away from player
-
-		for (int tileX = playerTileX - 48; tileX <= playerTileX + 48; tileX++) {
-			for (int tileY = playerTileY - 48; tileY <= playerTileY + 48; tileY++) {
-
-				if (world->tileIsSolid(tileX, tileY)) {
-
-					// Get light value of tile
-					// If it is less than 0.5 try and spawn
 
 
+	int playerTileX = handler->player->getX() / 96;
+	int playerTileY = handler->player->getY() / 96;
+
+	// Spawn at most 24 tiles away from player
+
+	for (int tileX = playerTileX - 24, distX = -24; tileX <= playerTileX + 24; tileX++, distX++) {
+		for (int tileY = playerTileY - 24, distY = -24; tileY <= playerTileY + 24; tileY++, distY++) {
+
+			if (!world->tileIsSolid(tileX * 96, tileY * 96) && !world->tileIsWater(tileX * 96, tileY * 96) && Static::tileIsEmpty(tileX, tileY, world)) {
+				if (distX * distX + distY * distY >= 6 * 6) {
+
+					bool canSpawn = true;
+
+					std::vector<Building*> buildings = Building::getAllBuildings();
+					for (int i = 0; i < buildings.size(); i++) {
+						if (buildings[i]->getOutWorld() == world) {
+
+							Building* b = buildings[i];
+							int bTileX = b->getX() + b->getWidth() / 2;
+							int bTileY = b->getY() + b->getHeight() / 2;
+
+							int bDistX = bTileX - tileX;
+							int bDistY = bTileY - tileY;
+
+							if (bDistX * bDistX + bDistY * bDistY < 5 * 5) {
+								canSpawn = false;
+								break;
+							}
+
+						}
+					}
 
 
+
+					if (canSpawn) {
+						// Try to spawn
+
+						if (rand() % (int)((1.f - darknessPercent / 3.f) * 10000) == 0) {
+
+							if (world->getEntityManager()->getNumPathfinders() < world->getMaxNumPathfinders()) {
+								Zombie* z = new Zombie(tileX * 96, tileY * 96, handler, world);
+								z->setFollowing(handler->player);
+								std::cout << "Spawned at: " << tileX << ", " << tileY << std::endl;
+							}
+
+						}
+					}
 
 				}
 
@@ -917,10 +957,5 @@ void PlayingState::spawnEnemies() {
 
 			}
 		}
-
-
-
 	}
-
-
 }

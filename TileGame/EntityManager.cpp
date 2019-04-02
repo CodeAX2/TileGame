@@ -5,13 +5,19 @@
 #include <iostream>
 #include <sstream>
 #include "World.h"
+#include "Pathfinder.h"
 
 using namespace tg;
 
 
 
-EntityManager::EntityManager(Handler* handler) {
+EntityManager::EntityManager(Handler* handler) : pathThread(&EntityManager::generatePaths, this) {
 	this->handler = handler;
+	pathThread.launch();
+}
+
+EntityManager::~EntityManager() {
+	pathThread.terminate();
 }
 
 Entity* EntityManager::getEntity(int index) {
@@ -44,11 +50,11 @@ void EntityManager::addEntity(Entity* entity) {
 		for (int y = sY; y <= eY; y++) {
 			for (int x = sX; x <= eX; x++) {
 				entityTileMap[y][x].push_back(entity);
+				entityTileMapSizes[y][x]++;
 			}
 		}
+
 	}
-
-
 
 
 }
@@ -96,6 +102,7 @@ void EntityManager::removeEntity(Entity* entity, bool deleteAfter) {
 			for (int i = entityTileMap[y][x].size() - 1; i >= 0; i--) {
 				if (entityTileMap[y][x][i] == entity) {
 					entityTileMap[y][x].erase(entityTileMap[y][x].begin() + i);
+					entityTileMapSizes[y][x]--;
 				}
 			}
 		}
@@ -108,6 +115,16 @@ void EntityManager::removeEntity(Entity* entity, bool deleteAfter) {
 		}
 	}
 
+	if (Pathfinder* pf = dynamic_cast<Pathfinder*>(entity)) {
+		numPathfinders--;
+		for (int i = 0; i < pathfinderList.size(); i++) {
+			if (pathfinderList[i] == entity) {
+				pathfinderList.erase(pathfinderList.begin() + i);
+				break;
+			}
+		}
+	}
+
 	if (deleteAfter)
 		delete entity;
 
@@ -115,7 +132,6 @@ void EntityManager::removeEntity(Entity* entity, bool deleteAfter) {
 
 void EntityManager::fixEntityMoved(Entity* entity, int prevX, int prevY) {
 	// The entity moved, so we need to remove it from the render order, and add it back in
-
 	std::vector<Entity*> curRO = renderOrder;
 
 	for (int i = 0; i < curRO.size(); i++) {
@@ -158,6 +174,7 @@ void EntityManager::fixEntityMoved(Entity* entity, int prevX, int prevY) {
 			for (int i = (int)entityTileMap[y][x].size() - 1; i >= 0; i--) {
 				if (entityTileMap[y][x][i] == entity) {
 					entityTileMap[y][x].erase(entityTileMap[y][x].begin() + i);
+					entityTileMapSizes[y][x]--;
 				}
 			}
 		}
@@ -174,9 +191,9 @@ void EntityManager::fixEntityMoved(Entity* entity, int prevX, int prevY) {
 	for (int y = sY; y <= eY; y++) {
 		for (int x = sX; x <= eX; x++) {
 			entityTileMap[y][x].push_back(entity);
+			entityTileMapSizes[y][x]++;
 		}
 	}
-
 
 }
 
@@ -402,7 +419,7 @@ int EntityManager::getRenderEndIndex() {
 void EntityManager::setWorld(World* world) {
 	this->world = world;
 	entityTileMap = std::vector<std::vector<std::vector<Entity*>>>(world->getHeight(), std::vector<std::vector<Entity*>>(world->getWidth(), std::vector<Entity*>()));
-
+	entityTileMapSizes = std::vector<std::vector<int>>(world->getHeight(), std::vector<int>(world->getWidth(), 0));
 
 
 	for (Entity* e : allEntities) {
@@ -422,6 +439,7 @@ void EntityManager::setWorld(World* world) {
 		for (int y = sY; y <= eY; y++) {
 			for (int x = sX; x <= eX; x++) {
 				entityTileMap[y][x].push_back(e);
+				entityTileMapSizes[y][x]++;
 			}
 		}
 
@@ -433,10 +451,12 @@ void EntityManager::setWorld(World* world) {
 
 std::vector<Entity*> EntityManager::getEntitiesAtTile(int x, int y) {
 	if (y >= 0 && y < entityTileMap.size() && x >= 0 && x < entityTileMap[0].size()) {
-		return entityTileMap[y][x];
+		std::vector<Entity*> entities(entityTileMap[y][x].begin(), entityTileMap[y][x].begin() + entityTileMapSizes[y][x]);
+
+		return entities;
 	}
 
-
+	return std::vector<Entity*>();
 }
 
 void EntityManager::tickExtras(sf::Int32 dt) {
@@ -459,4 +479,27 @@ void EntityManager::checkMaxLight(Entity* entity) {
 	if (entity->getLightSize() + entity->getExtraLightSize() > maxLightSize) {
 		maxLightSize = entity->getLightSize() + entity->getExtraLightSize();
 	}
+}
+
+void EntityManager::addPathfinder(Entity* pf) {
+
+	numPathfinders++;
+	pathfinderList.push_back(pf);
+
+}
+
+void EntityManager::generatePaths() {
+
+	while (true) {
+		sf::Int32 msToWait = 300;
+		sf::Clock c;
+
+		for (int i = 0; i < pathfinderList.size(); i++) {
+			Pathfinder* pf = dynamic_cast<Pathfinder*>(pathfinderList[i]);
+			pf->generatePath();
+		}
+
+		sf::sleep(sf::milliseconds(300) - c.getElapsedTime());
+	}
+
 }

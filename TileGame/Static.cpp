@@ -23,6 +23,10 @@ bool Static::tileIsEmpty(int x, int y, World* world) {
 	if (it == staticList.end()) {
 		return true;
 	}
+
+	if (x < 0 || x >= world->getWidth() || y < 0 || y >= world->getHeight()) {
+		return false;
+	}
 	return !staticList[world][y][x];
 }
 

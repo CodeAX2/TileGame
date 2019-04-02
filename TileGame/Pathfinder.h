@@ -24,14 +24,15 @@ namespace tg {
 		void tick(sf::Int32 dt) override;
 		void render(Handler* handler) override;
 		Entity* getFollowing() { return following; }
+		void generatePath();
 
 	protected:
 		bool checkForCollision(float nX, float nY, bool collideWithPlayer = true, bool colideWithPathfinder = true);
-		void generatePath();
 		void addChild(int x, int y, int parentX, int parentY, std::map<sf::Vector2i, Node, cmpVectorForMap>* map, std::vector<sf::Vector2i>* openList, int targetX, int targetY);
 		bool linesCross(float x11, float y11, float x12, float y12, float x21, float y21, float x22, float y22);
 		bool checkForCollisionWithFollowing(float nX, float nY);
 		virtual void onCollisionWithFollowing(sf::Int32 dt);
+		bool adjustingPath = false;
 
 	protected:
 		float speed;
@@ -48,8 +49,6 @@ namespace tg {
 		sf::Int32 timeSincePathFind = 0;
 
 		bool generating = false;
-
-		sf::Thread pathThread;
 
 		int pathfindSize = 16;
 

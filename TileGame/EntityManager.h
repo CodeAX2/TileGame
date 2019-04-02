@@ -16,6 +16,7 @@ namespace tg {
 	public:
 
 		EntityManager(Handler* handler);
+		~EntityManager();
 
 		Entity* getEntity(int index);
 		void addEntity(Entity* entity);
@@ -35,6 +36,9 @@ namespace tg {
 		void addTickAnywhereEntity(Entity* entity) { tickAnywhereList.push_back(entity); }
 		void tickExtras(sf::Int32 dt);
 		void checkMaxLight(Entity* entity);
+		int getNumPathfinders() { return numPathfinders; }
+		void addPathfinder(Entity* pf);
+		void generatePaths();
 
 
 	private:
@@ -52,11 +56,17 @@ namespace tg {
 		World* world = nullptr;
 
 		std::vector<std::vector<std::vector<Entity*>>> entityTileMap; // Format of [y][x]
-
+		std::vector<std::vector<int>> entityTileMapSizes;
 		std::vector<Entity*> tickAnywhereList; // For the entities that need to be ticked, without regard
 													  // to the current active world
 		
 		int maxLightSize = 0;
+		int numPathfinders = 0;
+
+		sf::Thread pathThread;
+		std::vector<Entity*> pathfinderList;
+
+
 	};
 
 }

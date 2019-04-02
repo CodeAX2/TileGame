@@ -181,10 +181,10 @@ void Game::commandLoop() {
 			PlayingState* ps = dynamic_cast<PlayingState*>(handler.getCustomState(PLAYING));
 			ps->pauseBGMusic();
 
-		} else if (cmd == "setdarkness") {
-			float percent = std::stof(args[0]);
+		} else if (cmd == "settime") {
+			int time = std::stof(args[0]);
 			PlayingState* ps = dynamic_cast<PlayingState*>(handler.getCustomState(PLAYING));
-			ps->setDarkness(percent);
+			ps->setTime(time);
 		} else {
 			std::cout << "Invalid command!" << std::endl;
 		}
@@ -225,8 +225,6 @@ void Game::debugLoop() {
 void Game::renderLoop() {
 
 	while (handler.window->isOpen()) {
-
-		mutex.lock();
 		if (!isUpdating && !togglingFullscreen) {
 
 			handler.window->clear();
@@ -235,8 +233,6 @@ void Game::renderLoop() {
 
 			handler.window->display();
 		}
-		mutex.unlock();
-
 
 	}
 
@@ -259,9 +255,9 @@ void Game::tickLoop() {
 		sf::Int32 now = clock.getElapsedTime().asMilliseconds();
 
 		sf::Int32 dt = now - last;
-
+		mutex.lock();
 		handler.getCurrentState()->tick(dt);
-
+		mutex.unlock();
 		last = now;
 		sf::Int32 end = clock.getElapsedTime().asMilliseconds();
 
@@ -269,7 +265,6 @@ void Game::tickLoop() {
 	}
 
 	handler.getCurrentState()->exit();
-	mutex.unlock();
 
 }
 

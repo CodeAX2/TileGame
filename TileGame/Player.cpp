@@ -406,9 +406,11 @@ bool Player::checkForCollision() {
 
 			std::vector<Entity*> entitiesAtTile = em->getEntitiesAtTile(x, y);
 
-			for (Entity* cur : entitiesAtTile) {
+			for (int i = 0; i < entitiesAtTile.size(); i++) {
 
-				if (cur == this) {
+				Entity* cur = entitiesAtTile[i];
+
+				if (cur == this || cur == nullptr) {
 					continue;
 				}
 
@@ -452,9 +454,11 @@ bool Player::checkForCollision() {
 
 			std::vector<Entity*> entitiesAtTile = em->getEntitiesAtTile(x, y);
 
-			for (Entity* cur : entitiesAtTile) {
+			for (int i = 0; i < entitiesAtTile.size(); i++) {
 
-				if (cur == this) {
+				Entity* cur = entitiesAtTile[i];
+
+				if (cur == this || cur == nullptr) {
 					continue;
 				}
 
@@ -508,10 +512,10 @@ void Player::hitEntities() {
 
 	switch (vertDirection) {
 	case NORTH:
-		yOffset = -15;
+		yOffset = -25;
 		break;
 	case SOUTH:
-		yOffset = 15;
+		yOffset = 25;
 		break;
 	case STILL:
 		yOffset = 0;
@@ -519,10 +523,10 @@ void Player::hitEntities() {
 
 	switch (horiDirection) {
 	case WEST:
-		xOffset = -15;
+		xOffset = -25;
 		break;
 	case EAST:
-		xOffset = 15;
+		xOffset = 25;
 		break;
 	case STILL:
 		xOffset = 0;
