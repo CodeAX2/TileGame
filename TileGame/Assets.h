@@ -6,6 +6,7 @@
 #include <iostream>
 #include "Animation.h"
 #include <map>
+#include "winres.h"
 
 namespace tg {
 
@@ -44,6 +45,7 @@ namespace tg {
 		sf::Shader* shader;
 		std::map<int, std::vector<sf::Vector2f>> buildingVerticiesMap;
 		sf::Texture* fern;
+		std::string version;
 
 	public:
 		Assets();
@@ -59,6 +61,7 @@ namespace tg {
 		std::string loadMapFromResource(int name);
 		sf::Font loadFontFromResource(int name);
 		sf::Shader* loadShaderFromResource(int name);
+		std::string loadVersion(int name);
 
 		void loadWall(int id, int priority, int wallSpot);
 
@@ -208,6 +211,8 @@ namespace tg {
 		sf::Texture* getFernTexture() { return fern; }
 
 		sf::Color getPlayerColor() { return playerColorP; }
+
+		std::string getVersion() { return version; }
 
 		Animation* getZombieAnimation() { return zombieAnimation; }
 		sf::Color createHSVColor(int hue, float sat, float val);

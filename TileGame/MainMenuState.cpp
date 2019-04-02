@@ -22,6 +22,9 @@ MainMenuState::MainMenuState(Handler* handler) : GameState(MAIN_MENU), handler(h
 
 	mainMenuButtonHovering.push_back(false);
 	mainMenuButtonHovering.push_back(false);
+
+	version = handler->assets->getVersion();
+
 }
 
 
@@ -57,11 +60,22 @@ void MainMenuState::render() {
 	exitButton.setTexture(mainMenuButtons[2 + mainMenuButtonHovering[1]]);
 	handler->window->draw(exitButton);
 
+	sf::Text versionText;
+	versionText.setString("Version: " + version);
+	versionText.setFont(guiFont);
+	versionText.setCharacterSize(20);
+	versionText.setFillColor(sf::Color::White);
+	versionText.setPosition(5, handler->window->getView().getSize().y - versionText.getGlobalBounds().height);
+
+	handler->window->draw(versionText);
 
 
 }
 
 void MainMenuState::tick(sf::Int32 dt) {
+	if (guiFont.getInfo().family == "") {
+		guiFont = handler->assets->getArialiFont();
+	}
 }
 
 void MainMenuState::exit() {

@@ -1,7 +1,49 @@
 #include "Assets.h"
 #include <sstream>
+#include <Windows.h> 
+#include <iomanip>
 
 using namespace tg;
+
+std::string Assets::loadVersion(int name) {
+	HRSRC rsrcData = FindResource(NULL, MAKEINTRESOURCE(name), RT_VERSION);
+	if (!rsrcData)
+		throw std::runtime_error("Failed to find resource.");
+
+	DWORD rsrcDataSize = SizeofResource(NULL, rsrcData);
+	if (rsrcDataSize <= 0)
+		throw std::runtime_error("Size of resource is 0.");
+
+	HGLOBAL grsrcData = LoadResource(NULL, rsrcData);
+	if (!grsrcData)
+		throw std::runtime_error("Failed to load resource.");
+
+	LPVOID firstByte = LockResource(grsrcData);
+	if (!firstByte)
+		throw std::runtime_error("Failed to lock resource.");
+
+	LPVOID firstByteCopy = LocalAlloc(LMEM_FIXED, rsrcDataSize);
+	CopyMemory(firstByteCopy, firstByte, rsrcDataSize);
+
+	LPVOID langFirstByte;
+	UINT langDataSize;
+
+	VerQueryValue(firstByteCopy, TEXT("\\VarFileInfo\\Translation"), &langFirstByte, &langDataSize);
+
+	DWORD langD;
+	memcpy(&langD, langFirstByte, 4);
+
+	LPVOID versionFirstByte;
+	UINT versionDataSize;
+
+	VerQueryValue(firstByteCopy,
+		TEXT("\\StringFileInfo\\040904B0\\FileVersion"),
+		&versionFirstByte, &versionDataSize);
+
+	return std::string(((char*)versionFirstByte));
+
+
+}
 
 sf::Texture* Assets::loadTextureFromResource(int name) {
 	HRSRC rsrcData = FindResource(NULL, MAKEINTRESOURCE(name), "PNG");
@@ -131,6 +173,7 @@ sf::Shader* Assets::loadShaderFromResource(int name) {
 
 Assets::Assets() {
 	ariali = sf::Font(loadFontFromResource(ARIALI));
+	version = loadVersion(VS_VERSION_INFO);
 
 	srand(time(NULL));
 

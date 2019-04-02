@@ -17,6 +17,7 @@ private:
 	Handler* handler;
 	int controllerSelectedButton = 0;
 	float prevJoystickPos = 0;
+	std::string version;
 
 public:
 	MainMenuState(Handler* handler);
