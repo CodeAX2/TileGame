@@ -18,6 +18,7 @@
 #include <limits>
 #include "Static.h"
 #include "Zombie.h"
+#include "Skeleton.h"
 
 using namespace tg;
 
@@ -906,13 +907,16 @@ void PlayingState::spawnEnemies() {
 	int playerTileX = handler->player->getX() / 96;
 	int playerTileY = handler->player->getY() / 96;
 
-	// Spawn at most 24 tiles away from player
+	// Spawn at most 16 tiles away from player
+	int maxTileDist = 16;
+	int minTileDist = 6;
+	int buildingDistSafety = 5;
 
-	for (int tileX = playerTileX - 24, distX = -24; tileX <= playerTileX + 24; tileX++, distX++) {
-		for (int tileY = playerTileY - 24, distY = -24; tileY <= playerTileY + 24; tileY++, distY++) {
+	for (int tileX = playerTileX - maxTileDist, distX = -maxTileDist; tileX <= playerTileX + maxTileDist; tileX++, distX++) {
+		for (int tileY = playerTileY - maxTileDist, distY = -maxTileDist; tileY <= playerTileY + maxTileDist; tileY++, distY++) {
 
 			if (!world->tileIsSolid(tileX * 96, tileY * 96) && !world->tileIsWater(tileX * 96, tileY * 96) && Static::tileIsEmpty(tileX, tileY, world)) {
-				if (distX * distX + distY * distY >= 6 * 6) {
+				if (distX * distX + distY * distY >= minTileDist * minTileDist) {
 
 					bool canSpawn = true;
 
@@ -927,7 +931,7 @@ void PlayingState::spawnEnemies() {
 							int bDistX = bTileX - tileX;
 							int bDistY = bTileY - tileY;
 
-							if (bDistX * bDistX + bDistY * bDistY < 5 * 5) {
+							if (bDistX * bDistX + bDistY * bDistY < buildingDistSafety * buildingDistSafety) {
 								canSpawn = false;
 								break;
 							}
@@ -940,12 +944,19 @@ void PlayingState::spawnEnemies() {
 					if (canSpawn) {
 						// Try to spawn
 
-						if (rand() % (int)((1.f - darknessPercent / 3.f) * 10000) == 0) {
+						if (rand() % (int)((1.f - 2 * darknessPercent / 3.f) * 2500) == 0) {
 
 							if (world->getEntityManager()->getNumPathfinders() < world->getMaxNumPathfinders()) {
-								Zombie* z = new Zombie(tileX * 96, tileY * 96, handler, world);
-								z->setFollowing(handler->player);
-								std::cout << "Spawned at: " << tileX << ", " << tileY << std::endl;
+								// Decide what to spawn
+								if (rand() % 5 < 3) {
+									Zombie* z = new Zombie(tileX * 96, tileY * 96, handler, world);
+									z->setFollowing(handler->player);
+									std::cout << "Spawned zombie at: " << tileX << ", " << tileY << std::endl;
+								} else {
+									Skeleton* s = new Skeleton(tileX * 96, tileY * 96, handler, world);
+									s->setFollowing(handler->player);
+									std::cout << "Spawned skeleton at: " << tileX << ", " << tileY << std::endl;
+								}
 							}
 
 						}

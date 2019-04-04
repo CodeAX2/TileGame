@@ -1,30 +1,36 @@
-#include "Zombie.h"
+#include "Skeleton.h"
 #include "Item.h"
 #include "Player.h"
 #include "InputManager.h"
 
 using namespace tg;
 
-const float Zombie::SPEED = .1f;
+const float Skeleton::SPEED = .15f;
 
-Zombie::Zombie(float x, float y, Handler* handler, World* world) :
-	Pathfinder(x, y, handler, 16 * 2, 32 * 3 - 25, 32, 25, 32 * 3, 32 * 3, ZOMBIE_E, world, SPEED) {
+Skeleton::Skeleton(float x, float y, Handler* handler, World* world) :
+	Pathfinder(x, y, handler, 16 * 2, 32 * 3 - 25, 32, 25, 32 * 3, 32 * 3, SKELETON_E, world, SPEED) {
 
-	texture = handler->assets->getZombieAnimation()->getFrame(curAnim);
-	this->health = 30;
-	this->maxHealth = 30;
+	texture = handler->assets->getSkeletonAnimation()->getFrame(curAnim);
+	this->health = 60;
+	this->maxHealth = 60;
 
 }
 
 
-Zombie::~Zombie()
+Skeleton::~Skeleton()
 {
 }
 
 
-void Zombie::dropItems() {
+void Skeleton::dropItems() {
 	new Item(x + (float)w / 2 - 32 + rand() % 21 - 10, y + h - 64 + rand() % 21 - 10, handler, 1, world);
 	new Item(x + (float)w / 2 - 32 + rand() % 21 - 10, y + h - 64 + rand() % 21 - 10, handler, 1, world);
+	new Item(x + (float)w / 2 - 32 + rand() % 21 - 10, y + h - 64 + rand() % 21 - 10, handler, 1, world);
+	
+	if (rand() % 2 == 0) {
+		new Item(x + (float)w / 2 - 32 + rand() % 21 - 10, y + h - 64 + rand() % 21 - 10, handler, 1, world);
+	}
+
 	if (rand() % 2 == 0) {
 		new Item(x + (float)w / 2 - 32 + rand() % 21 - 10, y + h - 64 + rand() % 21 - 10, handler, 1, world);
 	}
@@ -32,19 +38,19 @@ void Zombie::dropItems() {
 
 }
 
-void Zombie::onCollisionWithFollowing(sf::Int32 dt) {
+void Skeleton::onCollisionWithFollowing(sf::Int32 dt) {
 	if (following == handler->player) {
 		if (!attacking) {
 			attacking = true;
-			following->damage(5, this);
+			following->damage(10, this);
 		}
 
 	}
 }
 
-void Zombie::render(Handler* handler) {
+void Skeleton::render(Handler* handler) {
 
-	texture = handler->assets->getZombieAnimation()->getFrame(curAnim);
+	texture = handler->assets->getSkeletonAnimation()->getFrame(curAnim);
 
 	// Draw the entity itself
 	sf::Sprite sprite(*texture);
@@ -153,7 +159,7 @@ void Zombie::render(Handler* handler) {
 }
 
 
-void Zombie::tick(sf::Int32 dt) {
+void Skeleton::tick(sf::Int32 dt) {
 
 	if (following == nullptr && followingId != GUID_NULL) {
 		following = world->getEntityManager()->getEntityById(followingId);
@@ -420,7 +426,7 @@ void Zombie::tick(sf::Int32 dt) {
 
 }
 
-void Zombie::damage(int dmg, Entity* damager) {
+void Skeleton::damage(int dmg, Entity* damager) {
 
 	if (damager != nullptr) {
 		following = damager;

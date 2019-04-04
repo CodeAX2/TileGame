@@ -148,6 +148,7 @@
     <ClCompile Include="Fern.cpp">
       <Filter>Source Files\Entities\Statics</Filter>
     </ClCompile>
+    <ClCompile Include="Skeleton.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -300,6 +301,7 @@
     <ClInclude Include="Fern.h">
       <Filter>Header Files\Entities\Statics</Filter>
     </ClInclude>
+    <ClInclude Include="Skeleton.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="BuildingFileOutline.txt">
@@ -669,6 +671,9 @@
       <Filter>Resource Files\Textures</Filter>
     </Image>
     <Image Include="Resources\Textures\TreeSeed.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\SS-Skeleton.png">
       <Filter>Resource Files\Textures</Filter>
     </Image>
   </ItemGroup>

@@ -20,6 +20,7 @@ namespace tg {
 		int renderPriority[256];
 		Animation* playerAnimation;
 		Animation* zombieAnimation;
+		Animation* skeletonAnimation;
 		std::string map;
 		Animation* treeAnimation;
 		Animation* snowyTreeAnimation;
@@ -215,6 +216,8 @@ namespace tg {
 		std::string getVersion() { return version; }
 
 		Animation* getZombieAnimation() { return zombieAnimation; }
+		Animation* getSkeletonAnimation() { return skeletonAnimation; }
+
 		sf::Color createHSVColor(int hue, float sat, float val);
 
 		sf::Texture* getLightGFX() { return lightGFX; }

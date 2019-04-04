@@ -362,6 +362,19 @@ void Assets::init() {
 		}
 	}
 
+	skeletonAnimation = new Animation();
+	sf::Image skeletonSheet;
+	skeletonSheet = loadImageFromResource(SKELETON_SHEET);
+
+	for (int i = 0; i < 3; i++) {
+		for (int j = 0; j < 8; j++) {
+			sf::Texture* cur = new sf::Texture();
+			cur->loadFromImage(skeletonSheet, sf::IntRect(32 * j, 32 * i, 32, 32));
+			skeletonAnimation->addFrame(cur);
+			operations++;
+		}
+	}
+
 	// Load the shader
 	shader = loadShaderFromResource(SHADER);
 	operations++;

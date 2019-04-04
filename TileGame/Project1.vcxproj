@@ -55,6 +55,7 @@
     <ClCompile Include="Rideable.cpp" />
     <ClCompile Include="Rock.cpp" />
     <ClCompile Include="SandCastle.cpp" />
+    <ClCompile Include="Skeleton.cpp" />
     <ClCompile Include="Smelter.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="Static.cpp" />
@@ -108,6 +109,7 @@
     <ClInclude Include="Rideable.h" />
     <ClInclude Include="Rock.h" />
     <ClInclude Include="SandCastle.h" />
+    <ClInclude Include="Skeleton.h" />
     <ClInclude Include="Smelter.h" />
     <ClInclude Include="Static.h" />
     <ClInclude Include="TallGrass.h" />
@@ -189,6 +191,7 @@
     <Image Include="Resources\Textures\Snow24.png" />
     <Image Include="Resources\Textures\SpritesSheet-Player.png" />
     <Image Include="Resources\Textures\SS-Player.png" />
+    <Image Include="Resources\Textures\SS-Skeleton.png" />
     <Image Include="Resources\Textures\SS-Zombie.png" />
     <Image Include="Resources\Textures\Stone.png" />
     <Image Include="Resources\Textures\TallGrass.png" />

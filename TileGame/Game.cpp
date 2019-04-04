@@ -21,6 +21,7 @@
 #include "Zombie.h"
 #include "ItemDesc.h"
 #include "ItemMeta.h"
+#include "Skeleton.h"
 
 using namespace tg;
 
@@ -185,6 +186,53 @@ void Game::commandLoop() {
 			int time = std::stof(args[0]);
 			PlayingState* ps = dynamic_cast<PlayingState*>(handler.getCustomState(PLAYING));
 			ps->setTime(time);
+		} else if (cmd == "spawnskeleton") {
+			if (args.size() != 2) {
+				std::cout << "Invalid arguments!" << std::endl;
+			} else {
+
+				int spawnX, spawnY;
+
+				if (args[0].substr(0, 1) == "~") {
+					spawnX = handler.player->getX();
+					if (args[0].length() > 1) {
+						int multiplier = 1;
+						if (args[0].substr(1, 1) == "+") {
+							multiplier = 1;
+						} else if (args[0].substr(1, 1) == "-") {
+							multiplier = -1;
+						}
+
+						spawnX += multiplier * stoi(args[0].substr(2));
+
+					}
+
+				} else {
+					spawnX = stoi(args[0]);
+				}
+
+				if (args[1].substr(0, 1) == "~") {
+					spawnY = handler.player->getY();
+					if (args[1].length() > 1) {
+						int multiplier = 1;
+						if (args[1].substr(1, 1) == "+") {
+							multiplier = 1;
+						} else if (args[1].substr(1, 1) == "-") {
+							multiplier = -1;
+						}
+
+						spawnY += multiplier * stoi(args[1].substr(2));
+
+					}
+
+				} else {
+					spawnY = stoi(args[1]);
+				}
+
+				Skeleton* s = new Skeleton((float)spawnX, (float)spawnY, &handler, handler.player->getWorld());
+				s->setFollowing(handler.player);
+			}
+
 		} else {
 			std::cout << "Invalid command!" << std::endl;
 		}

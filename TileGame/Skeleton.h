@@ -1,11 +1,11 @@
 #pragma once
 #include "Pathfinder.h"
 
-
 #define STILL 0
 
 namespace tg {
-	class Zombie :
+
+	class Skeleton :
 		public Pathfinder
 	{
 
@@ -28,8 +28,8 @@ namespace tg {
 		const sf::Int32 timeToKnockback = 200;
 
 	public:
-		Zombie(float x, float y, Handler* handler, World* world);
-		~Zombie();
+		Skeleton(float x, float y, Handler* handler, World* world);
+		~Skeleton();
 
 	protected:
 		void dropItems() override;
@@ -39,4 +39,5 @@ namespace tg {
 		void damage(int dmg, Entity* damager) override;
 
 	};
+
 }

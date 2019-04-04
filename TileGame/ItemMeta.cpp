@@ -19,6 +19,7 @@ void ItemMeta::init() {
 		new ItemMeta(i);
 		allItemMetas.at(i)->setEntityDamage(TREE_E, 5);
 		allItemMetas.at(i)->setEntityDamage(ZOMBIE_E, 5);
+		allItemMetas.at(i)->setEntityDamage(SKELETON_E, 5);
 		allItemMetas.at(i)->setEntityDamage(ROCK_E, 0);
 		allItemMetas.at(i)->setEntityDamage(ORE_E, 0);
 
@@ -28,10 +29,13 @@ void ItemMeta::init() {
 
 	allItemMetas[2]->setEntityDamage(TREE_E, 20);
 	allItemMetas[2]->setEntityDamage(ZOMBIE_E, 10);
+	allItemMetas[2]->setEntityDamage(SKELETON_E, 10);
 
 	allItemMetas[6]->setEntityDamage(ZOMBIE_E, 20);
+	allItemMetas[6]->setEntityDamage(SKELETON_E, 20);
 
 	allItemMetas[7]->setEntityDamage(ZOMBIE_E, 10);
+	allItemMetas[7]->setEntityDamage(SKELETON_E, 10);
 
 	allItemMetas[9]->setEntityDamage(ROCK_E, 10);
 	allItemMetas[9]->setEntityDamage(ORE_E, 10);
@@ -228,7 +232,7 @@ void ItemMeta::init() {
 	allItemMetas[13]->setRecipeItem(1, 10);
 
 	allItemMetas[15]->craftable = true;
-	allItemMetas[15]->setRecipeItem(14, 5);
+	allItemMetas[15]->setRecipeItem(14, 3);
 	allItemMetas[15]->setRecipeItem(1, 1);
 
 	allItemMetas[30]->craftable = true;

@@ -23,6 +23,15 @@ void DeathQuotes::init() {
 	addQuotesToEntity(ZOMBIE_E, zombieQuotes);
 
 
+	std::vector<std::string> skeletonQuotes = {
+		"\"Shivers were sent down your spine!\"",
+		"\"Now who's bones are broken?\"",
+		"\"Press F to pay respects!\"",
+		"\"RIP\"",
+		"\"So spooky! So scary!\""
+	};
+	addQuotesToEntity(SKELETON_E, skeletonQuotes);
+
 
 
 }
