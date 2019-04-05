@@ -155,3 +155,10 @@ void Inventory::removeItemFromInv(int item, int amnt) {
 void Inventory::setItemAtIndex(int itemId, int amnt, int index) {
 	inventory[index] = std::pair<int, int>(itemId, amnt);
 }
+
+void Inventory::clear() {
+	inventory.clear();
+	for (int i = 0; i < INV_SIZE; i++) {
+		inventory.push_back(std::pair<int, int>(-1, 0));
+	}
+}

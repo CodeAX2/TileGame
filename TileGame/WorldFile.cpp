@@ -13,6 +13,7 @@
 #include "Ore.h"
 #include "Torch.h"
 #include "Fern.h"
+#include "Skeleton.h"
 
 using namespace tg;
 World* WorldFile::loadWorldFile(std::string fileName, Handler * handler) {
@@ -314,6 +315,18 @@ World* WorldFile::loadWorldFile(std::string fileName, Handler * handler) {
 			f->setTimeAlive(timeAlive);
 			f->setPercentToGrow(growthPercent);
 
+		} else if (type == SKELETON_E) {
+			float x, y;
+			UUID fId;
+			file.read((char*)&x, sizeof(float));
+			file.read((char*)&y, sizeof(float));
+			file.read((char*)&fId, sizeof(UUID));
+
+			Skeleton* s = new Skeleton(x, y, handler, world);
+			s->setFollowingId(fId);
+			s->setHealth(health);
+			s->setMaxHealth(maxHealth);
+			s->setId(id);
 		}
 	}
 
@@ -687,6 +700,29 @@ void WorldFile::saveFile() {
 			file.write((char*)&tY, sizeof(int));
 			file.write((char*)&timeAlive, sizeof(sf::Int32));
 			file.write((char*)&growthPercent, sizeof(float));
+
+			totalWrittenEntities++;
+
+		} else if (type == SKELETON_E) {
+			Skeleton* curP = dynamic_cast<Skeleton*>(cur);
+			float x = curP->getX();
+			float y = curP->getY();
+
+			Entity* following = curP->getFollowing();
+			UUID fId = GUID_NULL;
+
+			if (following != nullptr) {
+				fId = following->getId();
+			}
+
+			file.write((char*)&type, sizeof(int));
+			file.write((char*)&health, sizeof(int));
+			file.write((char*)&maxHealth, sizeof(int));
+			file.write((char*)&id, sizeof(UUID));
+
+			file.write((char*)&x, sizeof(float));
+			file.write((char*)&y, sizeof(float));
+			file.write((char*)&fId, sizeof(UUID));
 
 			totalWrittenEntities++;
 

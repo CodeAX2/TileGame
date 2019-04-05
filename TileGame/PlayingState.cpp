@@ -90,21 +90,17 @@ void PlayingState::render() {
 
 
 	handler->window->setView(handler->guiView);
-	if (handler->getCurrentState()->getType() == INVENTORY ||
-		handler->getCurrentState()->getType() == CHEST_INVENTORY ||
-		handler->getCurrentState()->getType() == CRAFTING_INVENTORY) {
-		// Actually rendering inventory state, so we don't want GUI
-		return;
-	}
-	//renderVignette();
-	//renderAllTextures();
 
 	if (!deathScreen) {
-		renderGUI();
+		if (!(handler->getCurrentState()->getType() == INVENTORY ||
+			handler->getCurrentState()->getType() == CHEST_INVENTORY ||
+			handler->getCurrentState()->getType() == CRAFTING_INVENTORY)) {
+			// If rendering inventory state, we don't want GUI
+			renderGUI();
+		}
 	} else {
 		renderDeathScreen();
 	}
-
 }
 
 // Update every part of the game
@@ -158,6 +154,9 @@ void PlayingState::tick(sf::Int32 dt) {
 
 
 	} else {
+		if (handler->getCurrentState()->getType() != PLAYING) {
+			handler->setGameState(PLAYING);
+		}
 		deathFade += (float)dt * .001;
 		if (deathFade > 1)
 			deathFade = 1.f;
@@ -480,7 +479,7 @@ void PlayingState::renderDeathScreen() {
 	sf::Vector2f viewSize = handler->window->getView().getSize();
 	gameOverText.setPosition(
 		viewSize.x / 2 - gameOverText.getGlobalBounds().width / 2,
-		viewSize.y / 2 - gameOverText.getGlobalBounds().height / 2
+		viewSize.y / 2 - 146
 	);
 	gameOverText.setFillColor(sf::Color(145, 4, 4, gameOverFade * 255));
 
@@ -496,6 +495,37 @@ void PlayingState::renderDeathScreen() {
 
 	handler->window->draw(deathText);
 
+	int resId = 0;
+	int exitId = 2;
+	if (hoveringDeathRespawn) resId = 1;
+	if (hoveringDeathExit) exitId = 3;
+
+	sf::Texture* respawnButtonTex = handler->assets->getDeathScreenButton(resId);
+	sf::Texture* exitButtonTex = handler->assets->getDeathScreenButton(exitId);
+
+	sf::RectangleShape respawnButton(sf::Vector2f(respawnButtonTex->getSize()));
+	respawnButton.setPosition(viewSize.x / 2 - respawnButton.getSize().x - 20,
+		deathText.getPosition().y + deathText.getGlobalBounds().height + 10);
+	respawnButton.setTexture(respawnButtonTex);
+
+	respawnButtonX = respawnButton.getPosition().x;
+	respawnButtonY = respawnButton.getPosition().y;
+
+	sf::RectangleShape exitButton(sf::Vector2f(exitButtonTex->getSize()));
+	exitButton.setPosition(viewSize.x / 2 + 20,
+		deathText.getPosition().y + deathText.getGlobalBounds().height + 10);
+	exitButton.setTexture(exitButtonTex);
+
+	exitButtonX = exitButton.getPosition().x;
+	exitButtonY = exitButton.getPosition().y;
+
+	buttonWidth = exitButton.getSize().x;
+	buttonHeight = exitButton.getSize().y;
+
+	buttonInfoSet = true;
+
+	handler->window->draw(respawnButton);
+	handler->window->draw(exitButton);
 
 }
 
@@ -514,13 +544,6 @@ void PlayingState::mouseClicked(sf::Event e) {
 	}
 
 
-	World* world = handler->mainWorld;
-	if (handler->getCurrentState()->getType() == PLAYING) {
-		PlayingState* ps = (PlayingState*)handler->getCurrentState();
-		world = ps->getWorld();
-	}
-
-
 	handler->inputManager->usingController = false;
 
 	if (e.type == sf::Event::MouseButtonPressed) {
@@ -529,13 +552,52 @@ void PlayingState::mouseClicked(sf::Event e) {
 		} else {
 			handler->inputManager->mouseIsPressed = true;
 
-			int hotBarItemId = handler->player->getItemInfoInHotBar().first;
-			int hotBarItemAmount = handler->player->getItemInfoInHotBar().second;
+			if (deathScreen) {
 
-			if (world->highlightIsGood() && ItemMeta::itemIsPlacable(hotBarItemId) && hotBarItemAmount >= 1) {
-				ItemMeta::placeItem(hotBarItemId, world, handler);
-			} else if (ItemMeta::itemIsUsable(hotBarItemId) && hotBarItemAmount >= 1) {
-				ItemMeta::useItem(hotBarItemId, world, handler);
+				if (hoveringDeathExit) {
+					Player* p = handler->player;
+					p->dropItems();
+					p->setHealth(p->getMaxHealth());
+					p->setStamina(p->getMaxStamina());
+					p->setMagic(p->getMaxMagic());
+					p->setCurrentInteracting(nullptr);
+					p->setRiding(nullptr);
+					p->setStamIsRegeningSlowly(false);
+					p->setWorld(handler->mainWorld);
+					p->setPos(handler->mainWorld->getSpawn().x * 96, handler->mainWorld->getSpawn().y * 96);
+					deathScreen = false;
+					deathFade = 0;
+					gameOverFade = 0;
+					handler->window->close();
+				}
+
+				if (hoveringDeathRespawn) {
+					Player* p = handler->player;
+					p->dropItems();
+					p->setHealth(p->getMaxHealth());
+					p->setStamina(p->getMaxStamina());
+					p->setMagic(p->getMaxMagic());
+					p->setCurrentInteracting(nullptr);
+					p->setRiding(nullptr);
+					p->setStamIsRegeningSlowly(false);
+					p->setWorld(handler->mainWorld);
+					p->setPos(handler->mainWorld->getSpawn().x * 96, handler->mainWorld->getSpawn().y * 96);
+					deathScreen = false;
+					deathFade = 0;
+					gameOverFade = 0;
+				}
+
+
+			} else {
+
+				int hotBarItemId = handler->player->getItemInfoInHotBar().first;
+				int hotBarItemAmount = handler->player->getItemInfoInHotBar().second;
+
+				if (world->highlightIsGood() && ItemMeta::itemIsPlacable(hotBarItemId) && hotBarItemAmount >= 1) {
+					ItemMeta::placeItem(hotBarItemId, world, handler);
+				} else if (ItemMeta::itemIsUsable(hotBarItemId) && hotBarItemAmount >= 1) {
+					ItemMeta::useItem(hotBarItemId, world, handler);
+				}
 			}
 		}
 	} else {
@@ -544,35 +606,58 @@ void PlayingState::mouseClicked(sf::Event e) {
 }
 
 void PlayingState::updateMouse() {
-	World* world = handler->mainWorld;
-	if (handler->getCurrentState()->getType() == PLAYING) {
-		PlayingState* ps = (PlayingState*)handler->getCurrentState();
-		world = ps->getWorld();
-	}
 
-	sf::Vector2i mp = sf::Mouse::getPosition(*(handler->window));
-	if (!(mp.x < 0 || mp.x > handler->window->getSize().x ||
-		mp.y < 0 || mp.y > handler->window->getSize().y) &&
-		ItemMeta::itemIsPlacable(handler->player->getItemInfoInHotBar().first) && handler->player->getItemInfoInHotBar().second >= 1 && world != nullptr) {
-
-		sf::Vector2f v = handler->worldView.getSize();
+	if (deathScreen) {
+		sf::Vector2f v = handler->window->getView().getSize();
 		sf::Vector2u w = handler->window->getSize();
-		int mx = sf::Mouse::getPosition(*(handler->window)).x * (v.x / w.x) - ((v.x - w.x) / 2) + handler->camera->getXOffset();
-		int my = sf::Mouse::getPosition(*(handler->window)).y * (v.y / w.y) - ((v.y - w.y) / 2) + handler->camera->getYOffset();
-		world->setHighlightedTile(mx / 96, my / 96);
+		int mx = v.x * sf::Mouse::getPosition(*(handler->window)).x / w.x;
+		int my = v.y * sf::Mouse::getPosition(*(handler->window)).y / w.y;
 
-		sf::Vector2i htp = world->getHighlightedTile();
+		if (buttonInfoSet) {
 
-		// Check if the block is too far away
-		sf::Vector2f playerPos(handler->player->getX() + handler->player->getWidth() / 2, handler->player->getY() + handler->player->getHeight());
-		int xDist = (int)(playerPos.x / 96) - htp.x;
-		int yDist = (int)(playerPos.y / 96) - htp.y;
+			if (mx >= respawnButtonX && mx < respawnButtonX + buttonWidth &&
+				my >= respawnButtonY && my < respawnButtonY + buttonHeight) {
+				hoveringDeathRespawn = true;
+			} else {
+				hoveringDeathRespawn = false;
+
+				if (mx >= exitButtonX && mx < exitButtonX + buttonWidth &&
+					my >= exitButtonY && my < exitButtonY + buttonHeight) {
+					hoveringDeathExit = true;
+				} else {
+					hoveringDeathExit = false;
+				}
+
+			}
+		}
 
 
-		if (xDist*xDist + yDist * yDist > 5) {
-			world->setHighlightGood(false);
-		} else {
-			world->setHighlightGood(true);
+	} else {
+
+		sf::Vector2i mp = sf::Mouse::getPosition(*(handler->window));
+		if (!(mp.x < 0 || mp.x > handler->window->getSize().x ||
+			mp.y < 0 || mp.y > handler->window->getSize().y) &&
+			ItemMeta::itemIsPlacable(handler->player->getItemInfoInHotBar().first) && handler->player->getItemInfoInHotBar().second >= 1 && world != nullptr) {
+
+			sf::Vector2f v = handler->worldView.getSize();
+			sf::Vector2u w = handler->window->getSize();
+			int mx = sf::Mouse::getPosition(*(handler->window)).x * (v.x / w.x) - ((v.x - w.x) / 2) + handler->camera->getXOffset();
+			int my = sf::Mouse::getPosition(*(handler->window)).y * (v.y / w.y) - ((v.y - w.y) / 2) + handler->camera->getYOffset();
+			world->setHighlightedTile(mx / 96, my / 96);
+
+			sf::Vector2i htp = world->getHighlightedTile();
+
+			// Check if the block is too far away
+			sf::Vector2f playerPos(handler->player->getX() + handler->player->getWidth() / 2, handler->player->getY() + handler->player->getHeight());
+			int xDist = (int)(playerPos.x / 96) - htp.x;
+			int yDist = (int)(playerPos.y / 96) - htp.y;
+
+
+			if (xDist*xDist + yDist * yDist > 5) {
+				world->setHighlightGood(false);
+			} else {
+				world->setHighlightGood(true);
+			}
 		}
 	}
 }

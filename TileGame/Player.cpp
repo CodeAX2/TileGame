@@ -6,6 +6,7 @@
 #include "PlayingState.h"
 #include "DeathQuotes.h"
 #include "ItemMeta.h"
+#include "Item.h"
 
 using namespace tg;
 
@@ -611,12 +612,13 @@ bool Player::inventoryContains(int itemId) {
 void Player::damage(int dmg, Entity* damager) {
 	health -= dmg;
 	if (health <= 0) {
-		if (handler->getCurrentState()->getType() == PLAYING) {
-			std::string playingMessage = "";
-			PlayingState* state = dynamic_cast<PlayingState*>(handler->getCurrentState());
-			playingMessage = DeathQuotes::getRandomDeathQuote(damager->type);
-			state->playerDeath(playingMessage);
+		if (handler->getCurrentState()->getType() != PLAYING) {
+			handler->setGameState(PLAYING);
 		}
+		std::string playingMessage = "";
+		PlayingState* state = dynamic_cast<PlayingState*>(handler->getCurrentState());
+		playingMessage = DeathQuotes::getRandomDeathQuote(damager->type);
+		state->playerDeath(playingMessage);
 	}
 
 }
@@ -634,5 +636,24 @@ void Player::renderLighting(Handler* handler) {
 
 	PlayingState* ps = dynamic_cast<PlayingState*>(handler->getCustomState(PLAYING));
 	ps->addLightPoint(sf::Vector2f(lightX - handler->camera->getXOffset(), lightY - handler->camera->getYOffset()), lightSize, extraLight);
+
+}
+
+void Player::dropItems() {
+
+	std::vector<std::pair<int, int>> inv = inventory->getInventory();
+
+	for (int i = 0; i < inv.size(); i++) {
+
+		int itemId = inv[i].first;
+		int itemAmount = inv[i].second;
+
+		if (itemId != -1) {
+			for (int j = 0; j < itemAmount; j++)
+				new Item(x + (float)w / 2 - 32 + rand() % 21 - 10, y + h - 64 + rand() % 21 - 10, handler, itemId, world);
+		}
+	}
+
+	inventory->clear();
 
 }

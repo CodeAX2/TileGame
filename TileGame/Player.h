@@ -98,6 +98,7 @@ namespace tg {
 		void setCurrentInteracting(Interactable* interactable) { curInteracting = interactable; }
 
 		void interact();
+		void dropItems() override;
 		
 	private:
 		bool checkForCollision();

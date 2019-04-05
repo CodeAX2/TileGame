@@ -195,6 +195,16 @@ void Assets::init() {
 	guiInv = loadTextureFromResource(GUI_INV);
 	operations++;
 
+	sf::Image deathButtonsImg = loadImageFromResource(DEATH_SCREEN_BUTTONS);
+	for (int i = 0; i < 4; i++) {
+
+		sf::Texture* curButton = new sf::Texture();
+		curButton->loadFromImage(deathButtonsImg, sf::IntRect(0, i * 132, 361, 132));
+		deathButtons[i] = curButton;
+		operations++;
+
+	}
+
 	// Load other textures
 	vignette = loadTextureFromResource(VIGNETTE);
 	operations++;

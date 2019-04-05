@@ -192,6 +192,8 @@ void Zombie::tick(sf::Int32 dt) {
 			y = ogY;
 		}
 
+		roundedHitBox = sf::IntRect(sf::Vector2i(std::round(x + (float)hitBoxX), std::round(y + (float)hitBoxY)), sf::Vector2i(hitBoxW, hitBoxH));
+		world->getEntityManager()->fixEntityMoved(this, ogX, ogY);
 
 	}
 

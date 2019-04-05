@@ -150,6 +150,7 @@
     <Image Include="Resources\Textures\CraftingInventoryMenuDeny.png" />
     <Image Include="Resources\Textures\CraftingInventoryMenuDownOn.png" />
     <Image Include="Resources\Textures\CraftingInventoryMenuUpOn.png" />
+    <Image Include="Resources\Textures\DeathScreen Buttons.png" />
     <Image Include="Resources\Textures\Fern.png" />
     <Image Include="Resources\Textures\Gems.png" />
     <Image Include="Resources\Textures\Grass24.png" />

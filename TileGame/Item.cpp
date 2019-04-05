@@ -44,16 +44,6 @@ void Item::tick(sf::Int32 dt) {
 
 	if (dX * dX + dY * dY <= 150 * 150) {
 		if (dX * dX + dY * dY <= 25 * 25) {
-			if (itemId == 2) {
-				if (!handler->player->inventoryContains(itemId)) {
-					handler->player->addItemToInv(itemId);
-					em->removeEntity(this, true);
-					return;
-				} else {
-					em->removeEntity(this, true);
-					return;
-				}
-			}
 			handler->player->addItemToInv(itemId);
 			em->removeEntity(this, true);
 			return;

@@ -47,6 +47,7 @@ namespace tg {
 		std::map<int, std::vector<sf::Vector2f>> buildingVerticiesMap;
 		sf::Texture* fern;
 		std::string version;
+		sf::Texture* deathButtons[4];
 
 	public:
 		Assets();
@@ -129,6 +130,10 @@ namespace tg {
 
 		sf::Texture* getGuiInv() {
 			return guiInv;
+		}
+
+		sf::Texture* getDeathScreenButton(int buttonId) {
+			return deathButtons[buttonId];
 		}
 
 		sf::Texture* getVignette() { return vignette; }

@@ -55,6 +55,8 @@ namespace tg {
 		bool deathScreen = false;
 		float deathFade = 0;
 		float gameOverFade = 0;
+		bool hoveringDeathExit = false;
+		bool hoveringDeathRespawn = false;
 		std::string deathMessage = "";
 		sf::Music bgMusic;
 		sf::Texture* hotBarSlotHighlight;
@@ -70,6 +72,9 @@ namespace tg {
 		std::vector<sf::Vector2f> bldgPosArr;
 
 		sf::Int32 timeSinceLastEnemySpawn = 0;
+		int respawnButtonX = -1, respawnButtonY = -1,
+			exitButtonX = -1, exitButtonY = -1, buttonWidth = -1, buttonHeight = -1;
+		bool buttonInfoSet = false;
 
 	};
 

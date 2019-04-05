@@ -148,7 +148,9 @@
     <ClCompile Include="Fern.cpp">
       <Filter>Source Files\Entities\Statics</Filter>
     </ClCompile>
-    <ClCompile Include="Skeleton.cpp" />
+    <ClCompile Include="Skeleton.cpp">
+      <Filter>Source Files\Entities\Non-Statics\Pathfinder</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -301,7 +303,9 @@
     <ClInclude Include="Fern.h">
       <Filter>Header Files\Entities\Statics</Filter>
     </ClInclude>
-    <ClInclude Include="Skeleton.h" />
+    <ClInclude Include="Skeleton.h">
+      <Filter>Header Files\Entities\Non-Statics\Pathfinder</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="BuildingFileOutline.txt">
@@ -674,6 +678,9 @@
       <Filter>Resource Files\Textures</Filter>
     </Image>
     <Image Include="Resources\Textures\SS-Skeleton.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\DeathScreen Buttons.png">
       <Filter>Resource Files\Textures</Filter>
     </Image>
   </ItemGroup>
