@@ -11,6 +11,8 @@ Fern::Fern(int x, int y, Handler* handler, World* world) :
 	health = 60;
 	maxHealth = 60;
 
+	world->getEntityManager()->addTickAnywhereEntity(this);
+
 }
 
 

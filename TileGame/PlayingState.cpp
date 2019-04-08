@@ -614,7 +614,7 @@ void PlayingState::mouseClicked(sf::Event e) {
 void PlayingState::updateMouse() {
 
 	if (deathScreen) {
-		sf::Vector2f v = handler->window->getView().getSize();
+		sf::Vector2f v = handler->guiView.getSize();
 		sf::Vector2u w = handler->window->getSize();
 		int mx = v.x * sf::Mouse::getPosition(*(handler->window)).x / w.x;
 		int my = v.y * sf::Mouse::getPosition(*(handler->window)).y / w.y;
@@ -891,7 +891,7 @@ void PlayingState::updateJoystick(sf::Int32 dt) {
 		if ((jX <= -30 || jX >= 30) && prevJoystickDeathX == 0) {
 
 			prevJoystickDeathX = jX;
-			sf::Vector2f v = handler->window->getView().getSize();
+			sf::Vector2f v = handler->guiView.getSize();
 			sf::Vector2u w = handler->window->getSize();
 
 			if (!hoveringDeathRespawn) {
@@ -1124,7 +1124,7 @@ void PlayingState::spawnEnemies() {
 
 							if (world->getEntityManager()->getNumPathfinders() < world->getMaxNumPathfinders()) {
 								// Decide what to spawn
-								if (rand() % 5 < 3) {
+								if (rand() % 5 < 4) {
 									Zombie* z = new Zombie(tileX * 96, tileY * 96, handler, world);
 									z->setFollowing(handler->player);
 									std::cout << "Spawned zombie at: " << tileX << ", " << tileY << std::endl;

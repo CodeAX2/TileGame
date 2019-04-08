@@ -15,6 +15,8 @@ Ore::Ore(int x, int y, Handler* handler, World* world, int oreType) :
 
 	texture = handler->assets->getOreTexture(oreType);
 
+	world->getEntityManager()->addTickAnywhereEntity(this);
+
 }
 
 
