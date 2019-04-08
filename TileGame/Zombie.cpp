@@ -164,6 +164,11 @@ void Zombie::tick(sf::Int32 dt) {
 	// Make sure destination is correct
 	if (following != nullptr) {
 		if (pow(following->getX() - x, 2) + pow(following->getY() - y, 2) >= 960 * 960) {
+			if (pow(following->getX() - x, 2) + pow(following->getY() - y, 2) >= 6144 * 6144) {
+				world->getEntityManager()->removeEntity(this, true);
+				return;
+			}
+
 			active = false;
 		} else {
 			active = true;

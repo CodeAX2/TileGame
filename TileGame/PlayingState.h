@@ -75,6 +75,7 @@ namespace tg {
 		int respawnButtonX = -1, respawnButtonY = -1,
 			exitButtonX = -1, exitButtonY = -1, buttonWidth = -1, buttonHeight = -1;
 		bool buttonInfoSet = false;
+		float prevJoystickDeathX = 0;
 
 	};
 

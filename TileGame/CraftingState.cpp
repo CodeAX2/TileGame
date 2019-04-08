@@ -620,3 +620,171 @@ void CraftingState::craftSelectedItem() {
 
 	}
 }
+
+void CraftingState::updateJoystick(sf::Int32 dt) {
+	InputManager* im = handler->inputManager;
+
+	float jX = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
+	float jY = sf::Joystick::getAxisPosition(0, sf::Joystick::Y);
+	float jX2 = sf::Joystick::getAxisPosition(0, sf::Joystick::U);
+	float jY2 = sf::Joystick::getAxisPosition(0, sf::Joystick::V);
+
+
+
+
+	// Move the mouse
+	sf::Vector2i newPos = sf::Mouse::getPosition();
+	bool updateMouse = false;
+
+	if (jX <= -30) {
+		im->usingController = true;
+		newPos.x -= ceil(dt / 1.75f);
+		updateMouse = true;
+	} else if (jX >= 30) {
+		im->usingController = true;
+		newPos.x += ceil(dt / 1.75f);
+		updateMouse = true;
+	}
+
+
+	if (jY <= -30) {
+		im->usingController = true;
+		newPos.y -= ceil(dt / 1.75f);
+		updateMouse = true;
+	} else if (jY >= 30) {
+		im->usingController = true;
+		newPos.y += ceil(dt / 1.75f);
+		updateMouse = true;
+	}
+
+	if (updateMouse)
+		sf::Mouse::setPosition(newPos);
+
+	// Pickup an item
+	if (sf::Joystick::isButtonPressed(0, 1)) {
+		bool prevValue = im->joyStickButtons[1];
+		im->joyStickButtons[1] = true;
+
+		if (!prevValue) {
+
+			if (ySlot >= 2) {
+
+				if (clickedSlotX == -1 || clickedSlotY == -1) {
+					if (getItemAt(xSlot, ySlot).first != -1) {
+						// Clicked to pickup
+						clickedSlotX = xSlot;
+						clickedSlotY = ySlot;
+					}
+				} else {
+					// Clicked to place
+					if ((clickedSlotX != xSlot || clickedSlotY != ySlot) && (xSlot != -1 && ySlot != -1)) {
+						swapItems(clickedSlotX, clickedSlotY, xSlot, ySlot);
+
+					}
+					clickedSlotX = -1;
+					clickedSlotY = -1;
+				}
+			} else {
+				// Clicked to select a crafting item, or to interact with a button
+				if (clickedSlotX == -1 && clickedSlotY == -1) {
+
+					if (xSlot != -1 && ySlot != -1) {
+						// Clicked a slot
+						selectedCraftSlotX = xSlot;
+						selectedCraftSlotY = ySlot;
+
+						if (playerHasIngredients()) {
+							canCraftSelected = true;
+						} else {
+							canCraftSelected = false;
+						}
+
+					} else {
+						// Clicked a button (maybe)
+						if (hoverCraft) {
+							// Clicked the craft button
+							craftSelectedItem();
+						}
+
+
+						if (hoverUp) {
+							if (craftSlotOffset != 0) {
+								craftSlotOffset -= 5;
+								selectedCraftSlotX = -1;
+								selectedCraftSlotY = -1;
+							}
+						}
+
+						if (hoverDown) {
+							if (craftSlotOffset + 10 < ItemMeta::getCraftableItems().size()) {
+								craftSlotOffset += 5;
+								selectedCraftSlotX = -1;
+								selectedCraftSlotY = -1;
+							}
+						}
+
+					}
+
+				} else {
+					canCraftSelected = false;
+				}
+			}
+
+		}
+
+
+	} else {
+		im->joyStickButtons[1] = false;
+	}
+
+
+	// Close inventory
+	if (sf::Joystick::isButtonPressed(0, 6)) {
+		bool prevValue = im->joyStickButtons[6];
+		im->joyStickButtons[6] = true;
+		im->usingController = true;
+		if (!prevValue) {
+			handler->setGameState(PLAYING);
+		}
+
+	} else {
+		im->joyStickButtons[6] = false;
+	}
+
+	if (sf::Joystick::isButtonPressed(0, 3)) {
+		bool prevValue = im->joyStickButtons[3];
+		im->joyStickButtons[3] = true;
+		im->usingController = true;
+		if (!prevValue) {
+			handler->setGameState(PLAYING);
+		}
+
+	} else {
+		im->joyStickButtons[3] = false;
+	}
+
+	if (sf::Joystick::isButtonPressed(0, 0)) {
+		bool prevValue = im->joyStickButtons[0];
+		im->joyStickButtons[0] = true;
+		im->usingController = true;
+		if (!prevValue) {
+			handler->setGameState(PLAYING);
+		}
+
+	} else {
+		im->joyStickButtons[0] = false;
+	}
+
+	// Pause Game
+	if (sf::Joystick::isButtonPressed(0, 7)) {
+		bool prevValue = im->joyStickButtons[7];
+		im->joyStickButtons[7] = true;
+		im->usingController = true;
+		if (!prevValue) {
+			handler->setGameState(MAIN_MENU);
+		}
+
+	} else {
+		im->joyStickButtons[7] = false;
+	}
+}

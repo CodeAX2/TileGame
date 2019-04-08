@@ -19,6 +19,7 @@
 #include "Static.h"
 #include "Zombie.h"
 #include "Skeleton.h"
+#include <time.h>
 
 using namespace tg;
 
@@ -468,13 +469,15 @@ void PlayingState::renderVignette() {
 }
 
 void PlayingState::renderDeathScreen() {
-
 	sf::RectangleShape deathOverlay(handler->window->getView().getSize());
 	deathOverlay.setFillColor(sf::Color(0, 0, 0, deathFade * 255));
 
 	handler->window->draw(deathOverlay);
 
-	sf::Text gameOverText((std::string)"GAME OVER!", guiFont);
+	std::string gmvrText = "GAME OVER!";
+	// TODO add more gameover messages
+
+	sf::Text gameOverText(gmvrText, guiFont);
 	gameOverText.setCharacterSize(80);
 	sf::Vector2f viewSize = handler->window->getView().getSize();
 	gameOverText.setPosition(
@@ -507,6 +510,7 @@ void PlayingState::renderDeathScreen() {
 	respawnButton.setPosition(viewSize.x / 2 - respawnButton.getSize().x - 20,
 		deathText.getPosition().y + deathText.getGlobalBounds().height + 10);
 	respawnButton.setTexture(respawnButtonTex);
+	respawnButton.setFillColor(sf::Color(255, 255, 255, 255 * gameOverFade));
 
 	respawnButtonX = respawnButton.getPosition().x;
 	respawnButtonY = respawnButton.getPosition().y;
@@ -515,6 +519,7 @@ void PlayingState::renderDeathScreen() {
 	exitButton.setPosition(viewSize.x / 2 + 20,
 		deathText.getPosition().y + deathText.getGlobalBounds().height + 10);
 	exitButton.setTexture(exitButtonTex);
+	exitButton.setFillColor(sf::Color(255, 255, 255, 255 * gameOverFade));
 
 	exitButtonX = exitButton.getPosition().x;
 	exitButtonY = exitButton.getPosition().y;
@@ -554,7 +559,8 @@ void PlayingState::mouseClicked(sf::Event e) {
 
 			if (deathScreen) {
 
-				if (hoveringDeathExit) {
+				if (hoveringDeathExit && gameOverFade == 1.f) {
+					// TODO make the code in these two if statements be a function or something
 					Player* p = handler->player;
 					p->dropItems();
 					p->setHealth(p->getMaxHealth());
@@ -571,7 +577,7 @@ void PlayingState::mouseClicked(sf::Event e) {
 					handler->window->close();
 				}
 
-				if (hoveringDeathRespawn) {
+				if (hoveringDeathRespawn && gameOverFade == 1.f) {
 					Player* p = handler->player;
 					p->dropItems();
 					p->setHealth(p->getMaxHealth());
@@ -616,13 +622,15 @@ void PlayingState::updateMouse() {
 		if (buttonInfoSet) {
 
 			if (mx >= respawnButtonX && mx < respawnButtonX + buttonWidth &&
-				my >= respawnButtonY && my < respawnButtonY + buttonHeight) {
+				my >= respawnButtonY && my < respawnButtonY + buttonHeight &&
+				gameOverFade == 1.f) {
 				hoveringDeathRespawn = true;
 			} else {
 				hoveringDeathRespawn = false;
 
 				if (mx >= exitButtonX && mx < exitButtonX + buttonWidth &&
-					my >= exitButtonY && my < exitButtonY + buttonHeight) {
+					my >= exitButtonY && my < exitButtonY + buttonHeight &&
+					gameOverFade == 1.f) {
 					hoveringDeathExit = true;
 				} else {
 					hoveringDeathExit = false;
@@ -674,207 +682,290 @@ void PlayingState::updateJoystick(sf::Int32 dt) {
 
 	bool updateMouse = false;
 
-	// Move the player
-	if (jX <= -30) {
-		im->usingController = true;
-		im->keys[3] = true;
-		im->keys[1] = false;
-	} else if (jX >= 30) {
-		im->usingController = true;
-		im->keys[3] = false;
-		im->keys[1] = true;
-	} else {
-		if (im->usingController) {
-			im->keys[3] = false;
+	if (!deathScreen) {
+
+		// Move the player
+		if (jX <= -30) {
+			im->usingController = true;
+			im->keys[3] = true;
 			im->keys[1] = false;
-		}
-
-	}
-
-
-	if (jY <= -30) {
-		im->usingController = true;
-		im->keys[0] = true;
-		im->keys[2] = false;
-	} else if (jY >= 30) {
-		im->usingController = true;
-		im->keys[0] = false;
-		im->keys[2] = true;
-	} else {
-		if (im->usingController) {
-			im->keys[0] = false;
-			im->keys[2] = false;
-		}
-
-	}
-
-	sf::Vector2i newPos = sf::Mouse::getPosition();
-
-	// Move the mouse
-	if (jX2 <= -30) {
-		im->usingController = true;
-		newPos.x -= ceil(dt / 1.5f);
-		updateMouse = true;
-	} else if (jX2 >= 30) {
-		im->usingController = true;
-		newPos.x += ceil(dt / 1.5f);
-		updateMouse = true;
-	}
-
-
-	if (jY2 <= -30) {
-		im->usingController = true;
-		newPos.y -= ceil(dt / 1.5f);
-		updateMouse = true;
-	} else if (jY2 >= 30) {
-		im->usingController = true;
-		newPos.y += ceil(dt / 1.5f);
-		updateMouse = true;
-	}
-
-	if (updateMouse)
-		sf::Mouse::setPosition(newPos);
-
-
-	// Check for running
-	if (sf::Joystick::isButtonPressed(0, 0)) {
-		im->usingController = true;
-		im->runningKey = true;
-		im->joyStickButtons[0] = true;
-	} else {
-		if (im->usingController) {
-			im->runningKey = false;
-			im->joyStickButtons[0] = false;
-		}
-	}
-
-	// Check for attacking
-	if (sf::Joystick::getAxisPosition(0, sf::Joystick::Z) <= -80) {
-		im->usingController = true;
-		im->attackKey = true;
-	} else {
-		if (im->usingController) {
-			im->attackKey = false;
-		}
-	}
-
-
-	//Handle zoom
-	float dPadPos = sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::PovY);
-	if (dPadPos >= 50) {
-		im->usingController = true;
-		im->zoom += .005f;
-		if (im->zoom > 1.2f)
-			im->zoom = 1.2f;
-		if (im->zoom < .5f)
-			im->zoom = .5f;
-	} else if (dPadPos <= -50) {
-		im->usingController = true;
-		im->zoom -= .005f;
-		if (im->zoom > 1.2f)
-			im->zoom = 1.2f;
-		if (im->zoom < .55f)
-			im->zoom = .55f;
-	}
-
-	// Use item
-	if (sf::Joystick::isButtonPressed(0, 1)) {
-		im->joyStickButtons[1] = true;
-		im->usingController = true;
-		if (im->mouseIsPressed) {
-			return;
+		} else if (jX >= 30) {
+			im->usingController = true;
+			im->keys[3] = false;
+			im->keys[1] = true;
 		} else {
-			im->mouseIsPressed = true;
-			sf::Vector2i htp = world->getHighlightedTile();
-
-			int hotBarItemId = handler->player->getItemInfoInHotBar().first;
-			int hotBarItemAmount = handler->player->getItemInfoInHotBar().second;
-
-			if (world->highlightIsGood() && ItemMeta::itemIsPlacable(hotBarItemId) && hotBarItemAmount >= 1) {
-				ItemMeta::placeItem(hotBarItemId, world, handler);
-			} else if (ItemMeta::itemIsUsable(hotBarItemId) && hotBarItemAmount >= 1) {
-				ItemMeta::useItem(hotBarItemId, world, handler);
+			if (im->usingController) {
+				im->keys[3] = false;
+				im->keys[1] = false;
 			}
 
 		}
-	} else {
-		im->joyStickButtons[1] = false;
-		if (im->usingController) {
-			im->mouseIsPressed = false;
+
+
+		if (jY <= -30) {
+			im->usingController = true;
+			im->keys[0] = true;
+			im->keys[2] = false;
+		} else if (jY >= 30) {
+			im->usingController = true;
+			im->keys[0] = false;
+			im->keys[2] = true;
+		} else {
+			if (im->usingController) {
+				im->keys[0] = false;
+				im->keys[2] = false;
+			}
+
 		}
 
-	}
+		sf::Vector2i newPos = sf::Mouse::getPosition();
 
-	// Open Inventory
-	if (sf::Joystick::isButtonPressed(0, 6)) {
-		bool prevValue = im->joyStickButtons[6];
-		im->joyStickButtons[6] = true;
-		im->usingController = true;
-		if (!prevValue) {
-			handler->setGameState(INVENTORY);
+		// Move the mouse
+		if (jX2 <= -30) {
+			im->usingController = true;
+			newPos.x -= ceil(dt / 1.5f);
+			updateMouse = true;
+		} else if (jX2 >= 30) {
+			im->usingController = true;
+			newPos.x += ceil(dt / 1.5f);
+			updateMouse = true;
 		}
 
-	} else {
-		im->joyStickButtons[6] = false;
-	}
 
-	// Pause Game
-	if (sf::Joystick::isButtonPressed(0, 7)) {
-		bool prevValue = im->joyStickButtons[7];
-		im->joyStickButtons[7] = true;
-		im->usingController = true;
-		if (!prevValue) {
-			handler->setGameState(MAIN_MENU);
+		if (jY2 <= -30) {
+			im->usingController = true;
+			newPos.y -= ceil(dt / 1.5f);
+			updateMouse = true;
+		} else if (jY2 >= 30) {
+			im->usingController = true;
+			newPos.y += ceil(dt / 1.5f);
+			updateMouse = true;
 		}
 
-	} else {
-		im->joyStickButtons[7] = false;
-	}
+		if (updateMouse)
+			sf::Mouse::setPosition(newPos);
 
-	// Change hotbar slot
 
-	int curSlot = handler->player->getHotBarSlot();
-
-	if (sf::Joystick::isButtonPressed(0, 5)) {
-		bool prevValue = im->joyStickButtons[5];
-		im->joyStickButtons[5] = true;
-		im->usingController = true;
-		if (!prevValue) {
-			curSlot++;
-			if (curSlot > 8) {
-				curSlot = 0;
+		// Check for running
+		if (sf::Joystick::isButtonPressed(0, 0)) {
+			im->usingController = true;
+			im->runningKey = true;
+			im->joyStickButtons[0] = true;
+		} else {
+			if (im->usingController) {
+				im->runningKey = false;
+				im->joyStickButtons[0] = false;
 			}
 		}
-	} else {
-		im->joyStickButtons[5] = false;
-	}
 
-	if (sf::Joystick::isButtonPressed(0, 4)) {
-		bool prevValue = im->joyStickButtons[4];
-		im->joyStickButtons[4] = true;
-		im->usingController = true;
-		if (!prevValue) {
-			curSlot--;
-			if (curSlot < 0) {
-				curSlot = 8;
+		// Check for attacking
+		if (sf::Joystick::getAxisPosition(0, sf::Joystick::Z) <= -80) {
+			im->usingController = true;
+			im->attackKey = true;
+		} else {
+			if (im->usingController) {
+				im->attackKey = false;
 			}
 		}
-	} else {
-		im->joyStickButtons[4] = false;
-	}
 
-	handler->player->setHotBarSlot(curSlot);
 
-	if (sf::Joystick::isButtonPressed(0, 3)) {
-		bool prevValue = im->joyStickButtons[3];
-		im->joyStickButtons[3] = true;
-		im->usingController = true;
-		if (!prevValue) {
-			handler->player->interact();
+		//Handle zoom
+		float dPadPos = sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::PovY);
+		if (dPadPos >= 50) {
+			im->usingController = true;
+			im->zoom += .005f;
+			if (im->zoom > 1.2f)
+				im->zoom = 1.2f;
+			if (im->zoom < .5f)
+				im->zoom = .5f;
+		} else if (dPadPos <= -50) {
+			im->usingController = true;
+			im->zoom -= .005f;
+			if (im->zoom > 1.2f)
+				im->zoom = 1.2f;
+			if (im->zoom < .55f)
+				im->zoom = .55f;
 		}
 
-	} else {
-		im->joyStickButtons[3] = false;
+		// Use item
+		if (sf::Joystick::isButtonPressed(0, 1)) {
+			im->joyStickButtons[1] = true;
+			im->usingController = true;
+			if (im->mouseIsPressed) {
+				return;
+			} else {
+				im->mouseIsPressed = true;
+				sf::Vector2i htp = world->getHighlightedTile();
+
+				int hotBarItemId = handler->player->getItemInfoInHotBar().first;
+				int hotBarItemAmount = handler->player->getItemInfoInHotBar().second;
+
+				if (world->highlightIsGood() && ItemMeta::itemIsPlacable(hotBarItemId) && hotBarItemAmount >= 1) {
+					ItemMeta::placeItem(hotBarItemId, world, handler);
+				} else if (ItemMeta::itemIsUsable(hotBarItemId) && hotBarItemAmount >= 1) {
+					ItemMeta::useItem(hotBarItemId, world, handler);
+				}
+
+			}
+		} else {
+			im->joyStickButtons[1] = false;
+			if (im->usingController) {
+				im->mouseIsPressed = false;
+			}
+
+		}
+
+		// Open Inventory
+		if (sf::Joystick::isButtonPressed(0, 6)) {
+			bool prevValue = im->joyStickButtons[6];
+			im->joyStickButtons[6] = true;
+			im->usingController = true;
+			if (!prevValue) {
+				handler->setGameState(INVENTORY);
+			}
+
+		} else {
+			im->joyStickButtons[6] = false;
+		}
+
+		// Pause Game
+		if (sf::Joystick::isButtonPressed(0, 7)) {
+			bool prevValue = im->joyStickButtons[7];
+			im->joyStickButtons[7] = true;
+			im->usingController = true;
+			if (!prevValue) {
+				handler->setGameState(MAIN_MENU);
+			}
+
+		} else {
+			im->joyStickButtons[7] = false;
+		}
+
+		// Change hotbar slot
+
+		int curSlot = handler->player->getHotBarSlot();
+
+		if (sf::Joystick::isButtonPressed(0, 5)) {
+			bool prevValue = im->joyStickButtons[5];
+			im->joyStickButtons[5] = true;
+			im->usingController = true;
+			if (!prevValue) {
+				curSlot++;
+				if (curSlot > 8) {
+					curSlot = 0;
+				}
+			}
+		} else {
+			im->joyStickButtons[5] = false;
+		}
+
+		if (sf::Joystick::isButtonPressed(0, 4)) {
+			bool prevValue = im->joyStickButtons[4];
+			im->joyStickButtons[4] = true;
+			im->usingController = true;
+			if (!prevValue) {
+				curSlot--;
+				if (curSlot < 0) {
+					curSlot = 8;
+				}
+			}
+		} else {
+			im->joyStickButtons[4] = false;
+		}
+
+		handler->player->setHotBarSlot(curSlot);
+
+		if (sf::Joystick::isButtonPressed(0, 3)) {
+			bool prevValue = im->joyStickButtons[3];
+			im->joyStickButtons[3] = true;
+			im->usingController = true;
+			if (!prevValue) {
+				handler->player->interact();
+			}
+
+		} else {
+			im->joyStickButtons[3] = false;
+		}
+	} else if (gameOverFade == 1.f) {
+
+		if ((jX <= -30 || jX >= 30) && prevJoystickDeathX == 0) {
+
+			prevJoystickDeathX = jX;
+			sf::Vector2f v = handler->window->getView().getSize();
+			sf::Vector2u w = handler->window->getSize();
+
+			if (!hoveringDeathRespawn) {
+				hoveringDeathExit = false;
+				hoveringDeathRespawn = true;
+
+				sf::Mouse::setPosition(
+					sf::Vector2i((respawnButtonX + buttonWidth / 2) * w.x / v.x,
+					(respawnButtonY + buttonHeight / 2) * w.y / v.y),
+					*handler->window);
+
+			} else {
+				hoveringDeathExit = true;
+				hoveringDeathRespawn = false;
+
+				sf::Mouse::setPosition(
+					sf::Vector2i((exitButtonX + buttonWidth / 2) * w.x / v.x,
+					(exitButtonY + buttonHeight / 2) * w.y / v.y),
+					*handler->window);
+
+			}
+
+
+		} else if (jX < 30 && jX > -30) {
+			prevJoystickDeathX = 0;
+		}
+
+		if (sf::Joystick::isButtonPressed(0, 1)) {
+			bool prevValue = im->joyStickButtons[1];
+			im->joyStickButtons[1] = true;
+			im->usingController = true;
+			if (!prevValue) {
+
+				if (hoveringDeathExit && gameOverFade == 1.f) {
+					// TODO make the code in these two if statements be a function or something
+					Player* p = handler->player;
+					p->dropItems();
+					p->setHealth(p->getMaxHealth());
+					p->setStamina(p->getMaxStamina());
+					p->setMagic(p->getMaxMagic());
+					p->setCurrentInteracting(nullptr);
+					p->setRiding(nullptr);
+					p->setStamIsRegeningSlowly(false);
+					p->setWorld(handler->mainWorld);
+					p->setPos(handler->mainWorld->getSpawn().x * 96, handler->mainWorld->getSpawn().y * 96);
+					deathScreen = false;
+					deathFade = 0;
+					gameOverFade = 0;
+					handler->window->close();
+				}
+
+				if (hoveringDeathRespawn && gameOverFade == 1.f) {
+					Player* p = handler->player;
+					p->dropItems();
+					p->setHealth(p->getMaxHealth());
+					p->setStamina(p->getMaxStamina());
+					p->setMagic(p->getMaxMagic());
+					p->setCurrentInteracting(nullptr);
+					p->setRiding(nullptr);
+					p->setStamIsRegeningSlowly(false);
+					p->setWorld(handler->mainWorld);
+					p->setPos(handler->mainWorld->getSpawn().x * 96, handler->mainWorld->getSpawn().y * 96);
+					deathScreen = false;
+					deathFade = 0;
+					gameOverFade = 0;
+				}
+
+			}
+
+		} else {
+			im->joyStickButtons[1] = false;
+		}
+
+
 	}
 
 }

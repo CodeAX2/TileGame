@@ -19,7 +19,7 @@ namespace tg {
 		void resume() override;
 		void mouseClicked(sf::Event e) override;
 		void updateMouse() override;
-		//void updateJoystick(sf::Int32 dt) override;
+		void updateJoystick(sf::Int32 dt) override;
 
 	private:
 		void renderBackground();

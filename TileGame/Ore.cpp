@@ -33,7 +33,7 @@ void Ore::damage(int dmg, Entity* damager) {
 		health = maxHealth;
 		dropItems();
 		regening = true;
-		cooldown = 10000;
+		cooldown = 180000;
 	}
 }
 

@@ -26,7 +26,7 @@ void Skeleton::dropItems() {
 	new Item(x + (float)w / 2 - 32 + rand() % 21 - 10, y + h - 64 + rand() % 21 - 10, handler, 1, world);
 	new Item(x + (float)w / 2 - 32 + rand() % 21 - 10, y + h - 64 + rand() % 21 - 10, handler, 1, world);
 	new Item(x + (float)w / 2 - 32 + rand() % 21 - 10, y + h - 64 + rand() % 21 - 10, handler, 1, world);
-	
+
 	if (rand() % 2 == 0) {
 		new Item(x + (float)w / 2 - 32 + rand() % 21 - 10, y + h - 64 + rand() % 21 - 10, handler, 1, world);
 	}
@@ -170,6 +170,10 @@ void Skeleton::tick(sf::Int32 dt) {
 	// Make sure destination is correct
 	if (following != nullptr) {
 		if (pow(following->getX() - x, 2) + pow(following->getY() - y, 2) >= 960 * 960) {
+			if (pow(following->getX() - x, 2) + pow(following->getY() - y, 2) >= 6144 * 6144) {
+				world->getEntityManager()->removeEntity(this, true);
+				return;
+			}
 			active = false;
 		} else {
 			active = true;
