@@ -144,6 +144,7 @@
     <Image Include="Resources\Textures\CaveFloor24.png" />
     <Image Include="Resources\Textures\ChestInventoryMenu.png" />
     <Image Include="Resources\Textures\Coal.png" />
+    <Image Include="Resources\Textures\Controls.png" />
     <Image Include="Resources\Textures\CraftHighlight.png" />
     <Image Include="Resources\Textures\CraftingInventoryMenu.png" />
     <Image Include="Resources\Textures\CraftingInventoryMenuAllow.png" />

@@ -16,7 +16,7 @@ namespace tg {
 		sf::Font loadingFont;
 		float transp = 0;
 		bool beganLoading = false;
-
+		sf::Texture* controlsLayout;
 	public:
 		LoadingState(Handler* handler);
 		~LoadingState();
