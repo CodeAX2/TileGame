@@ -22,7 +22,7 @@ void ItemMeta::init() {
 		allItemMetas.at(i)->setEntityDamage(SKELETON_E, 5);
 		allItemMetas.at(i)->setEntityDamage(ROCK_E, 0);
 		allItemMetas.at(i)->setEntityDamage(ORE_E, 0);
-
+		allItemMetas.at(i)->setEntityDamage(PALM_TREE_E, 5);
 	}
 
 	// Set damages
@@ -30,6 +30,7 @@ void ItemMeta::init() {
 	allItemMetas[2]->setEntityDamage(TREE_E, 20);
 	allItemMetas[2]->setEntityDamage(ZOMBIE_E, 10);
 	allItemMetas[2]->setEntityDamage(SKELETON_E, 10);
+	allItemMetas[2]->setEntityDamage(PALM_TREE_E, 20);
 
 	allItemMetas[6]->setEntityDamage(ZOMBIE_E, 20);
 	allItemMetas[6]->setEntityDamage(SKELETON_E, 20);
@@ -41,6 +42,7 @@ void ItemMeta::init() {
 	allItemMetas[9]->setEntityDamage(ORE_E, 10);
 
 	allItemMetas[30]->setEntityDamage(TREE_E, 10);
+	allItemMetas[30]->setEntityDamage(PALM_TREE_E, 10);
 
 	allItemMetas[31]->setEntityDamage(ROCK_E, 20);
 	allItemMetas[31]->setEntityDamage(ORE_E, 20);
@@ -185,6 +187,21 @@ void ItemMeta::init() {
 	allItemMetas[15]->setInteractFunction(
 		[](World* world, Handler* handler) {
 		int amountToIncreasyBy = 30;
+
+		handler->player->removeItemFromHotbar();
+		int health = handler->player->getHealth();
+		health += amountToIncreasyBy;
+		if (health > handler->player->getMaxHealth()) {
+			health = handler->player->getMaxHealth();
+		}
+
+		handler->player->setHealth(health);
+
+	});
+
+	allItemMetas[34]->setInteractFunction(
+		[](World* world, Handler* handler) {
+		int amountToIncreasyBy = 10;
 
 		handler->player->removeItemFromHotbar();
 		int health = handler->player->getHealth();

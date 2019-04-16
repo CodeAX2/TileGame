@@ -26,6 +26,7 @@
 #define TORCH_E 14
 #define FERN_E 15
 #define SKELETON_E 16
+#define PALM_TREE_E 17
 
 namespace tg {
 	class Rideable;

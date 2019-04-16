@@ -151,6 +151,7 @@
     <ClCompile Include="Skeleton.cpp">
       <Filter>Source Files\Entities\Non-Statics\Pathfinder</Filter>
     </ClCompile>
+    <ClCompile Include="PalmTree.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -306,6 +307,7 @@
     <ClInclude Include="Skeleton.h">
       <Filter>Header Files\Entities\Non-Statics\Pathfinder</Filter>
     </ClInclude>
+    <ClInclude Include="PalmTree.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="BuildingFileOutline.txt">
@@ -684,6 +686,12 @@
       <Filter>Resource Files\Textures</Filter>
     </Image>
     <Image Include="Resources\Textures\Controls.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\PalmTree.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\Coconut.png">
       <Filter>Resource Files\Textures</Filter>
     </Image>
   </ItemGroup>

@@ -48,6 +48,7 @@ namespace tg {
 		sf::Texture* fern;
 		std::string version;
 		sf::Texture* deathButtons[4];
+		sf::Texture* palmTree;
 
 	public:
 		Assets();
@@ -215,6 +216,7 @@ namespace tg {
 		sf::Texture* getOreTexture(int oreId) { return ore[oreId]; }
 		sf::Texture* getTorchTexture() { return torch; }
 		sf::Texture* getFernTexture() { return fern; }
+		sf::Texture* getPalmTreeTexture() { return palmTree; }
 
 		sf::Color getPlayerColor() { return playerColorP; }
 

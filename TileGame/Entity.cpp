@@ -78,16 +78,16 @@ void Entity::render(Handler* handler) {
 		healthText.setPosition((int)(x - floor(handler->camera->getXOffset())) - healthText.getLocalBounds().width / 2 + w / 2, (int)(y + 23 - floor(handler->camera->getYOffset())));
 		if (health > maxHealth || health < 0 || handler == nullptr) return;
 
-		sf::RectangleShape textBg(sf::Vector2f(w, healthText.getGlobalBounds().height + 4));
-		textBg.setPosition(sf::Vector2f(x - floor(handler->camera->getXOffset()), healthText.getGlobalBounds().top - 2));
+		sf::RectangleShape textBg(sf::Vector2f(32 * 3, healthText.getGlobalBounds().height + 4));
+		textBg.setPosition(sf::Vector2f(x - floor(handler->camera->getXOffset()) + w / 2 - 16 * 3, healthText.getGlobalBounds().top - 2));
 		textBg.setFillColor(sf::Color(0, 0, 0, 140));
 		handler->window->draw(textBg);
 
 		handler->window->draw(healthText);
 
 
-		sf::RectangleShape healthBar(sf::Vector2f(w * (float)health / maxHealth, 10));
-		healthBar.setPosition((int)(x - floor(handler->camera->getXOffset())), (int)(y + 40 - floor(handler->camera->getYOffset())));
+		sf::RectangleShape healthBar(sf::Vector2f(32 * 3 * (float)health / maxHealth, 10));
+		healthBar.setPosition((int)(x - floor(handler->camera->getXOffset())) + w / 2 - 16 * 3, (int)(y + 40 - floor(handler->camera->getYOffset())));
 		if (health > maxHealth / 2.f) {
 			healthBar.setFillColor(sf::Color(
 				255 - (float)health / (maxHealth / 2.f) * 255,

@@ -262,6 +262,8 @@ void Assets::init() {
 
 	fern = loadTextureFromResource(FERN);
 
+	palmTree = loadTextureFromResource(PALM_TREE);
+
 	sf::Image smelterSheet = loadImageFromResource(SMELTER);
 	for (int i = 0; i < 5; i++) {
 		smelter[i] = new sf::Texture();
@@ -314,6 +316,7 @@ void Assets::init() {
 	addItemTexture(METAL_PICKAXE_ITEM, 31);
 	addItemTexture(TORCH_ITEM, 32);
 	addItemTexture(TREE_SEED_ITEM, 33);
+	addItemTexture(COCONUT_ITEM, 34);
 
 	for (int i = 0; i < 4; i++) {
 		sf::Texture* curGem = new sf::Texture();

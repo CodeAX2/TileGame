@@ -22,6 +22,7 @@
 #include "Rock.h"
 #include "Smelter.h"
 #include "Ore.h"
+#include "PalmTree.h"
 
 using namespace tg;
 namespace fs = std::experimental::filesystem;
@@ -115,6 +116,8 @@ void Loader::loadEntities() {
 
 	World* world = handler->mainWorld;
 	if (worldWasNull) {
+
+
 		new Boat(106 * 96, 56 * 96 - 2, handler, world);
 		new Boat(193 * 96, 33 * 96 - 2, handler, world);
 		new Boat(60 * 96, 24 * 96 - 2, handler, world);
@@ -170,6 +173,23 @@ void Loader::loadEntities() {
 			if (world->getTile(x, y) == 7) {
 
 				new Tree(x, y, handler, T_SNOWY, world);
+
+			}
+
+
+		}
+
+		for (int i = 0; i < 30000; i++) {
+
+			int x = std::random_device{}() % world->getWidth(), y = std::random_device{}() % world->getHeight();
+
+			if (x == world->getSpawn().x && y == world->getSpawn().y) {
+				continue;
+			}
+
+			if (world->getTile(x, y) == 3) {
+
+				new PalmTree(x, y, handler, world);
 
 			}
 

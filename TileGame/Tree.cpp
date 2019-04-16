@@ -4,7 +4,8 @@
 
 using namespace tg;
 
-Tree::Tree(int x, int y, Handler* handler, int type, World* world) : Static(x, y, handler, 23, 64 * 3 - 30, 32 * 3 - 49, 30, 32 * 3, 64 * 3, true, TREE_E, 58, world) {
+Tree::Tree(int x, int y, Handler* handler, int type, World* world) : 
+	Static(x, y, handler, 23, 64 * 3 - 30, 32 * 3 - 49, 30, 32 * 3, 64 * 3, true, TREE_E, 58, world) {
 	frame = rand() % handler->assets->getTreeAnim()->getSize();
 	timeSinceLastAnim = rand() % 400;
 	this->eType = type;
