@@ -59,8 +59,8 @@ namespace tg {
 		sf::IntRect roundedHitBox; // Rounded version of the entity's hitbox
 
 		int hitBoxX, hitBoxY, hitBoxW, hitBoxH; // Hit box position and size
-												// x and y are relative to the position of entity
-												// e.g. hitBoxX = 100 would mean the box is at x + 100
+		// x and y are relative to the position of entity
+		// e.g. hitBoxX = 100 would mean the box is at x + 100
 
 		int health = 100; // The entity's health
 
