@@ -197,7 +197,6 @@ void Pathfinder::generatePath() {
 
 	// Format [x][y]
 	std::map<sf::Vector2i, Node, cmpVectorForMap> nodeMap;
-	//std::vector<std::vector<Node>> map(sizeX, std::vector<Node>(sizeY));
 
 	std::vector<sf::Vector2i> openList; // Contain the indicies of the nodes in the map;
 	std::vector<sf::Vector2i> closedList;
@@ -267,7 +266,6 @@ void Pathfinder::generatePath() {
 			while (adjustingPath);
 			adjustingPath = true;
 			queuedPath.clear();
-			//pathIsQueued = true;
 			adjustingPath = false;
 			return;
 		}

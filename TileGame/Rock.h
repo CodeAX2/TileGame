@@ -10,11 +10,9 @@ namespace tg {
 		~Rock();
 
 	public:
+		// Drop the rock's items
 		void dropItems() override; 
 
-
 	};
-
-
 
 }

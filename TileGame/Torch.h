@@ -8,6 +8,7 @@ namespace tg {
 		~Torch();
 
 	public:
+		// Drop the torch's items
 		void dropItems() override;
 
 	};

@@ -6,21 +6,22 @@ namespace tg {
 	{
 
 	public:
-		static Building* loadBuildingFile(std::string fileName, Handler* handler);
-
-
-	public:
 		BuildingFile(Building* building, std::string fileName, Handler* handler);
 		~BuildingFile();
 
-	public:
-		void saveFile();
-
-
 	private:
-		Building * building;
-		std::string fileName;
-		Handler* handler;
+		Building* building; // Building instance (used for saving)
+		std::string fileName; // Name of file to save building to
+		Handler* handler; // Game handler
+
+
+	public:
+		// Load a building instance from a file
+		static Building* loadBuildingFile(std::string fileName, Handler* handler);
+
+	public:
+		// Save the building to a file
+		void saveFile();
 
 	};
 }

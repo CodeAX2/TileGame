@@ -6,6 +6,7 @@
 
 #define TG_NORMAL 0
 #define TG_SNOWY 1
+
 namespace tg {
 	class TallGrass :
 		public Entity
@@ -14,10 +15,12 @@ namespace tg {
 		TallGrass(float x, float y, Handler* handler, int type, World* world);
 		~TallGrass();
 
-		int getEType() { return eType; }
-
 	private:
-		int eType;
+		int eType; // Denotes what type the grass is
+
+	public:
+		// Return what type the grass is
+		int getEType() { return eType; }
 
 	};
 

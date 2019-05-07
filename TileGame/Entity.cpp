@@ -126,7 +126,7 @@ void Entity::tick(sf::Int32 dt) {
 }
 
 // Check to see if two entities are equal
-// They are equal if their xs, ys, and types are the same
+// They are equal if their xs, ys, types, and ids are the same
 bool Entity::equals(Entity other) {
 	if (fabs(other.x - x) >= .5f) {
 		return false;
@@ -137,7 +137,9 @@ bool Entity::equals(Entity other) {
 	if (other.type != type) {
 		return false;
 	}
-
+	if (other.uuid != uuid) {
+		return false;
+	}
 
 
 	return true;

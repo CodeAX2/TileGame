@@ -151,7 +151,9 @@
     <ClCompile Include="Skeleton.cpp">
       <Filter>Source Files\Entities\Non-Statics\Pathfinder</Filter>
     </ClCompile>
-    <ClCompile Include="PalmTree.cpp" />
+    <ClCompile Include="PalmTree.cpp">
+      <Filter>Source Files\Entities\Statics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -214,9 +216,6 @@
     <ClInclude Include="Loader.h">
       <Filter>Header Files\Main Engine</Filter>
     </ClInclude>
-    <ClInclude Include="GameState.h">
-      <Filter>Header Files\Game States</Filter>
-    </ClInclude>
     <ClInclude Include="LoadingState.h">
       <Filter>Header Files\Game States</Filter>
     </ClInclude>
@@ -240,9 +239,6 @@
     </ClInclude>
     <ClInclude Include="WorldManager.h">
       <Filter>Header Files\Worlds</Filter>
-    </ClInclude>
-    <ClInclude Include="Node.h">
-      <Filter>Header Files\Entities\Non-Statics</Filter>
     </ClInclude>
     <ClInclude Include="MainMenuState.h">
       <Filter>Header Files\Game States</Filter>
@@ -307,7 +303,15 @@
     <ClInclude Include="Skeleton.h">
       <Filter>Header Files\Entities\Non-Statics\Pathfinder</Filter>
     </ClInclude>
-    <ClInclude Include="PalmTree.h" />
+    <ClInclude Include="PalmTree.h">
+      <Filter>Header Files\Entities\Statics</Filter>
+    </ClInclude>
+    <ClInclude Include="Node.h">
+      <Filter>Header Files\Entities\Non-Statics\Pathfinder</Filter>
+    </ClInclude>
+    <ClInclude Include="GameState.h">
+      <Filter>Header Files\Game States</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="BuildingFileOutline.txt">

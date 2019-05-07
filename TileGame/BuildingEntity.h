@@ -7,6 +7,7 @@ namespace tg {
 	class BuildingEntity :
 		public Entity
 	{
+
 	public:
 		BuildingEntity(float x, float y, Handler* handler, int hitBoxX, int hitBoxY,
 			int hitBoxW, int hitBoxH, int w, int h, bool needsTicking, int type,
@@ -14,6 +15,7 @@ namespace tg {
 		~BuildingEntity();
 
 	public:
+		// Render the lighting of the building
 		void renderLighting(Handler* handler) override;
 
 	};

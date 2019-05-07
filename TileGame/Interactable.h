@@ -9,17 +9,21 @@ namespace tg {
 		Interactable(Handler* handler);
 		~Interactable();
 
-	public:
-		virtual void onInteract();
-		virtual void updateState(Entity* caller); // Must call this on every tick
-		bool isEnabled() { return enabled; }
-
 	protected:
-		bool enabled = false;
+		bool enabled = false; // If the interactable is in range to be interacted with
 
 	private:
-		Handler* interactHandler;
-	
+		Handler* interactHandler; // Interactable version of the game handler
+
+	public:
+		// Called when the player interacts with the interactable
+		virtual void onInteract();
+
+		// Update the state of the interactable. Must be called from the base entity's tick function
+		virtual void updateState(Entity* caller);
+
+		// Return if the interactable is able to be interacted with
+		bool isEnabled() { return enabled; }
 
 	};
 

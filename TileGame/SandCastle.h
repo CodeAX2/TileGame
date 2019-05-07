@@ -11,6 +11,7 @@ namespace tg {
 		~SandCastle();
 
 	protected:
+		// Drop the sand castle's items
 		void dropItems() override;
 
 	};

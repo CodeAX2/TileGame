@@ -6,6 +6,7 @@
 using namespace tg;
 
 std::vector<Building*> Building::allBuildings;
+std::map<World*, std::vector<std::vector<int>>> Building::buildingsMap;
 
 Building::Building(int x, int y, int width, int height, int entranceX, Handler* handler, World* outsideWorld, World* insideWorld, std::string nameId, int textureToUse) :
 	x(x), y(y), width(width), height(height), entranceX(entranceX), handler(handler), entityManager(handler), outsideWorld(outsideWorld), bldgNameId(nameId), textureToUse(textureToUse)
@@ -99,6 +100,3 @@ bool Building::positionIsExit(int x, int y) {
 
 	return false;
 }
-
-
-std::map<World*, std::vector<std::vector<int>>> Building::buildingsMap;
