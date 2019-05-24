@@ -93,10 +93,8 @@ void PlayingState::render() {
 	handler->window->setView(handler->guiView);
 
 	if (!deathScreen) {
-		if (!(handler->getCurrentState()->getType() == INVENTORY ||
-			handler->getCurrentState()->getType() == CHEST_INVENTORY ||
-			handler->getCurrentState()->getType() == CRAFTING_INVENTORY)) {
-			// If rendering inventory state, we don't want GUI
+		if (handler->getCurrentState()->getType() == PLAYING) {
+			// Only render GUI if the current state is PLAYING
 			renderGUI();
 		}
 	} else {

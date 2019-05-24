@@ -49,6 +49,9 @@ namespace tg {
 		std::string version;
 		sf::Texture* deathButtons[4];
 		sf::Texture* palmTree;
+		sf::Texture* questIcon;
+		sf::Texture* questIconAvailable;
+		sf::Texture* dialogueNPC;
 
 	public:
 		Assets();
@@ -140,6 +143,8 @@ namespace tg {
 		sf::Texture* getVignette() { return vignette; }
 		sf::Texture* getInteractPrompt() { return interactPrompt; }
 		sf::Texture* getControllerInteractPrompt() { return interactPromptController; }
+		sf::Texture* getQuestPrompt() { return questIcon; }
+		sf::Texture* getAvaliableQuestPrompt() { return questIconAvailable; }
 
 		sf::Texture* getOuterTexture(sf::Uint8 baseTileId, sf::Uint8 outsideData, int x, int y, bool random = true) {
 
@@ -217,6 +222,7 @@ namespace tg {
 		sf::Texture* getTorchTexture() { return torch; }
 		sf::Texture* getFernTexture() { return fern; }
 		sf::Texture* getPalmTreeTexture() { return palmTree; }
+		sf::Texture* getDialogueNPCTexture() { return dialogueNPC; }
 
 		sf::Color getPlayerColor() { return playerColorP; }
 

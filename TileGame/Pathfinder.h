@@ -24,6 +24,10 @@ namespace tg {
 
 		Entity* following; // The entity the pathfinder is pathfinding to
 
+		sf::Vector2f destination = sf::Vector2f(-1, -1); // The location the pathfinder is pathfinding to
+
+		sf::Vector2i target; // The actual target we are pathfinding to
+
 		UUID followingId = GUID_NULL; // The UUID of the following entity
 
 		bool active = false; // If the pathfinder should move and generate a path

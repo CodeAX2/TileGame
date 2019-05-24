@@ -154,6 +154,18 @@
     <ClCompile Include="PalmTree.cpp">
       <Filter>Source Files\Entities\Statics</Filter>
     </ClCompile>
+    <ClCompile Include="Path.cpp">
+      <Filter>Source Files\Entities\Non-Statics\Pathfinder\Quester</Filter>
+    </ClCompile>
+    <ClCompile Include="Quester.cpp">
+      <Filter>Source Files\Entities\Non-Statics\Pathfinder\Quester</Filter>
+    </ClCompile>
+    <ClCompile Include="Villager.cpp">
+      <Filter>Source Files\Entities\Non-Statics\Pathfinder\Quester</Filter>
+    </ClCompile>
+    <ClCompile Include="DialogueState.cpp">
+      <Filter>Source Files\Game States</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -312,6 +324,18 @@
     <ClInclude Include="GameState.h">
       <Filter>Header Files\Game States</Filter>
     </ClInclude>
+    <ClInclude Include="Path.h">
+      <Filter>Header Files\Entities\Non-Statics\Pathfinder\Quester</Filter>
+    </ClInclude>
+    <ClInclude Include="Quester.h">
+      <Filter>Header Files\Entities\Non-Statics\Pathfinder\Quester</Filter>
+    </ClInclude>
+    <ClInclude Include="Villager.h">
+      <Filter>Header Files\Entities\Non-Statics\Pathfinder\Quester</Filter>
+    </ClInclude>
+    <ClInclude Include="DialogueState.h">
+      <Filter>Header Files\Game States</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="BuildingFileOutline.txt">
@@ -429,6 +453,12 @@
     </Filter>
     <Filter Include="Resource Files\Shaders">
       <UniqueIdentifier>{1f0ef632-2c91-418a-ac33-cad17cb56874}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Entities\Non-Statics\Pathfinder\Quester">
+      <UniqueIdentifier>{4d153473-7e07-41d1-b076-3fc9518ce738}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Entities\Non-Statics\Pathfinder\Quester">
+      <UniqueIdentifier>{e9946f5c-5061-4181-a766-ff85b1b0f850}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -696,6 +726,18 @@
       <Filter>Resource Files\Textures</Filter>
     </Image>
     <Image Include="Resources\Textures\Coconut.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\QuestIcon.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\QuestIconAvailable.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\DialogueMenu.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\DialogueNPC.png">
       <Filter>Resource Files\Textures</Filter>
     </Image>
   </ItemGroup>

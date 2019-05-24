@@ -29,6 +29,7 @@
     <ClCompile Include="ChestInventoryState.cpp" />
     <ClCompile Include="CraftingState.cpp" />
     <ClCompile Include="DeathQuotes.cpp" />
+    <ClCompile Include="DialogueState.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="Fern.cpp" />
@@ -48,11 +49,13 @@
     <ClCompile Include="Node.cpp" />
     <ClCompile Include="Ore.cpp" />
     <ClCompile Include="PalmTree.cpp" />
+    <ClCompile Include="Path.cpp" />
     <ClCompile Include="Pathfinder.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerFile.cpp" />
     <ClCompile Include="PlayingState.cpp" />
     <ClCompile Include="Pumpkin.cpp" />
+    <ClCompile Include="Quester.cpp" />
     <ClCompile Include="Rideable.cpp" />
     <ClCompile Include="Rock.cpp" />
     <ClCompile Include="SandCastle.cpp" />
@@ -65,6 +68,7 @@
     <ClCompile Include="Torch.cpp" />
     <ClCompile Include="TreasureChest.cpp" />
     <ClCompile Include="Tree.cpp" />
+    <ClCompile Include="Villager.cpp" />
     <ClCompile Include="Workbench.cpp" />
     <ClCompile Include="World.cpp" />
     <ClCompile Include="WorldFile.cpp" />
@@ -82,6 +86,7 @@
     <ClInclude Include="ChestInventoryState.h" />
     <ClInclude Include="CraftingState.h" />
     <ClInclude Include="DeathQuotes.h" />
+    <ClInclude Include="DialogueState.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityManager.h" />
     <ClInclude Include="Fern.h" />
@@ -102,11 +107,13 @@
     <ClInclude Include="Nullable.h" />
     <ClInclude Include="Ore.h" />
     <ClInclude Include="PalmTree.h" />
+    <ClInclude Include="Path.h" />
     <ClInclude Include="Pathfinder.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerFile.h" />
     <ClInclude Include="PlayingState.h" />
     <ClInclude Include="Pumpkin.h" />
+    <ClInclude Include="Quester.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Rideable.h" />
     <ClInclude Include="Rock.h" />
@@ -119,6 +126,7 @@
     <ClInclude Include="Torch.h" />
     <ClInclude Include="TreasureChest.h" />
     <ClInclude Include="Tree.h" />
+    <ClInclude Include="Villager.h" />
     <ClInclude Include="Workbench.h" />
     <ClInclude Include="World.h" />
     <ClInclude Include="WorldFile.h" />
@@ -155,6 +163,8 @@
     <Image Include="Resources\Textures\CraftingInventoryMenuDownOn.png" />
     <Image Include="Resources\Textures\CraftingInventoryMenuUpOn.png" />
     <Image Include="Resources\Textures\DeathScreen Buttons.png" />
+    <Image Include="Resources\Textures\DialogueMenu.png" />
+    <Image Include="Resources\Textures\DialogueNPC.png" />
     <Image Include="Resources\Textures\Fern.png" />
     <Image Include="Resources\Textures\Gems.png" />
     <Image Include="Resources\Textures\Grass24.png" />
@@ -180,6 +190,8 @@
     <Image Include="Resources\Textures\PineSalve.png" />
     <Image Include="Resources\Textures\Pumpkin.png" />
     <Image Include="Resources\Textures\PumpkinLit.png" />
+    <Image Include="Resources\Textures\QuestIcon.png" />
+    <Image Include="Resources\Textures\QuestIconAvailable.png" />
     <Image Include="Resources\Textures\Rock.png" />
     <Image Include="Resources\Textures\Rock24.png" />
     <Image Include="Resources\Textures\RockCoal.png" />

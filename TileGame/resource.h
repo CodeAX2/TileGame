@@ -88,12 +88,16 @@
 #define CONTROLS_LAYOUT                 184
 #define PALM_TREE                       185
 #define COCONUT_ITEM                    186
+#define QUEST_ICON                      187
+#define QUEST_ICON_AVAILABLE            188
+#define MENU_DIALOGUE                   189
+#define DIALOGUE_NPC                    190
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        187
+#define _APS_NEXT_RESOURCE_VALUE        191
 #define _APS_NEXT_COMMAND_VALUE         40003
 #define _APS_NEXT_CONTROL_VALUE         1001
 #define _APS_NEXT_SYMED_VALUE           101

@@ -32,6 +32,7 @@ void InventoryState::render() {
 	renderInventory();
 
 }
+
 void InventoryState::tick(sf::Int32 dt) {
 	handler->getCustomState(PLAYING)->tick(dt);
 

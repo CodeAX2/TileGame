@@ -27,6 +27,7 @@
 #define FERN_E 15
 #define SKELETON_E 16
 #define PALM_TREE_E 17
+#define VILLAGER 18
 
 namespace tg {
 	// Forward declaration of the Rideable class

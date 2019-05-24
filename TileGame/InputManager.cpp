@@ -88,8 +88,9 @@ void InputManager::updateKeys(sf::Event e) {
 		runningKey = value;
 		break;
 	case sf::Keyboard::Space:
-		if (handler->getCurrentState()->getType() == PLAYING)
+		if (handler->getCurrentState()->getType() == PLAYING) {
 			attackKey = value;
+		}
 
 		break;
 	case sf::Keyboard::F11:
@@ -107,6 +108,8 @@ void InputManager::updateKeys(sf::Event e) {
 			handler->setGameState(PLAYING);
 		} else if (value && handler->getCurrentState()->getType() == CRAFTING_INVENTORY) {
 			handler->setGameState(PLAYING);
+		} else if (value && handler->getCurrentState()->getType() == DIALOGUE) {
+			handler->setGameState(PLAYING);
 		}
 		break;
 	case sf::Keyboard::Tab:
@@ -119,11 +122,15 @@ void InputManager::updateKeys(sf::Event e) {
 			}
 		}
 		break;
-	
-	case sf::Keyboard::E:
-		if (value) {
 
+	case sf::Keyboard::E:
+		if (value && handler->getCurrentState()->getType() == PLAYING) {
 			handler->player->interact();
+		}
+
+		if (handler->getCurrentState()->getType() == PLAYING ||
+			handler->getCurrentState()->getType() == DIALOGUE) {
+			dialogueKey = value;
 		}
 		break;
 

@@ -11,6 +11,7 @@
 #define INVENTORY 3
 #define CHEST_INVENTORY 4
 #define CRAFTING_INVENTORY 5
+#define DIALOGUE 6
 
 namespace tg {
 	class GameState {

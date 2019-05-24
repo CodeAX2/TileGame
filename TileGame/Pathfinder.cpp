@@ -43,6 +43,12 @@ void Pathfinder::tick(sf::Int32 dt) {
 		} else {
 			active = true;
 		}
+	} else if (destination != sf::Vector2f(-1, -1)) {
+		if (pow(destination.x - x, 2) + pow(destination.y - y, 2) >= 960 * 960) {
+			active = false;
+		} else {
+			active = true;
+		}
 	}
 
 
@@ -183,7 +189,7 @@ void Pathfinder::render(Handler* handler) {
 
 
 void Pathfinder::generatePath() {
-	if (!active || following->getRidingOn() != nullptr || following == nullptr) {
+	if (!active || ((following == nullptr || following->getRidingOn() != nullptr) && destination == sf::Vector2f(-1, -1))) {
 		while (adjustingPath);
 		adjustingPath = true;
 		queuedPath.clear();
@@ -201,8 +207,14 @@ void Pathfinder::generatePath() {
 	std::vector<sf::Vector2i> openList; // Contain the indicies of the nodes in the map;
 	std::vector<sf::Vector2i> closedList;
 
-	sf::Vector2i start = sf::Vector2i(ceil((x + hitBoxX) / pathfindSize), ceil((y + hitBoxY) / pathfindSize));;
-	sf::Vector2i target(ceil(following->getCollisionBox().left / pathfindSize), ceil(following->getCollisionBox().top / pathfindSize));
+	sf::Vector2i start = sf::Vector2i(ceil((x + hitBoxX) / pathfindSize), ceil((y + hitBoxY) / pathfindSize));
+
+	if (following == nullptr) {
+		target = sf::Vector2i(ceil(destination.x / pathfindSize), ceil(destination.y / pathfindSize));
+	} else {
+		target = sf::Vector2i(ceil(following->getCollisionBox().left / pathfindSize), ceil(following->getCollisionBox().top / pathfindSize));
+	}
+
 	if (checkForCollision(target.x * pathfindSize - hitBoxX, target.y * pathfindSize - hitBoxY, false, false)) {
 
 		int dist = INT_MAX;
@@ -359,7 +371,7 @@ void Pathfinder::addChild(int x, int y, int parentX, int parentY, std::map<sf::V
 
 
 
-bool Pathfinder::checkForCollision(float nX, float nY, bool collideWithPlayer, bool collideWithPathfinder) {
+bool Pathfinder::checkForCollision(float nX, float nY, bool collideWithPlayer, bool collideWithOwnType) {
 	sf::IntRect pBox = sf::IntRect(sf::Vector2i(std::round(nX + (float)hitBoxX), std::round(nY + (float)hitBoxY)), sf::Vector2i(hitBoxW, hitBoxH));
 	EntityManager* em = world->getEntityManager();
 
@@ -382,9 +394,9 @@ bool Pathfinder::checkForCollision(float nX, float nY, bool collideWithPlayer, b
 				if (cur == this || cur == nullptr) {
 					continue;
 				}
-				if (Pathfinder* pathCur = dynamic_cast<Pathfinder*>(cur)) {
+				if (cur->type == type) {
 
-					if (!collideWithPathfinder) {
+					if (!collideWithOwnType) {
 						continue;
 					}
 				}
@@ -510,7 +522,24 @@ bool Pathfinder::linesCross(float x11, float y11, float x12, float y12, float x2
 
 
 bool Pathfinder::checkForCollisionWithFollowing(float nX, float nY) {
+
 	sf::IntRect pBox = sf::IntRect(sf::Vector2i(std::round(nX + (float)hitBoxX) - 6, std::round(nY + (float)hitBoxY) - 6), sf::Vector2i(hitBoxW + 12, hitBoxH + 12));
+
+	if (following == nullptr && destination != sf::Vector2f(-1, -1)) {
+
+		float targetX = target.x * pathfindSize;
+		float targetY = target.y * pathfindSize;
+
+		if (pBox.contains(targetX, targetY)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	if (following == nullptr) {
+		return false;
+	}
 
 	if (following->getWorld() == world) {
 		if (following->getCollisionBox().intersects(pBox)) {

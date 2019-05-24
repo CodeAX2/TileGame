@@ -217,6 +217,12 @@ void Assets::init() {
 	interactPromptController = loadTextureFromResource(INTERACT_PROMPT_CONTROLLER);
 	operations++;
 
+	questIcon = loadTextureFromResource(QUEST_ICON);
+	operations++;
+
+	questIconAvailable = loadTextureFromResource(QUEST_ICON_AVAILABLE);
+	operations++;
+
 	treeAnimation = new Animation();
 
 	sf::Image treeSheet = loadImageFromResource(TREE_SHEET);
@@ -263,6 +269,8 @@ void Assets::init() {
 	fern = loadTextureFromResource(FERN);
 
 	palmTree = loadTextureFromResource(PALM_TREE);
+
+	dialogueNPC = loadTextureFromResource(DIALOGUE_NPC);
 
 	sf::Image smelterSheet = loadImageFromResource(SMELTER);
 	for (int i = 0; i < 5; i++) {

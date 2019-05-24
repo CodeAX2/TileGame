@@ -23,6 +23,7 @@
 #include "Smelter.h"
 #include "Ore.h"
 #include "PalmTree.h"
+#include "Villager.h"
 
 using namespace tg;
 namespace fs = std::experimental::filesystem;
@@ -115,6 +116,9 @@ void Loader::loadEntities() {
 	}
 
 	World* world = handler->mainWorld;
+
+	new Villager(50 * 96, 24 * 96, handler, world, "Path.tgh");
+
 	if (worldWasNull) {
 
 

@@ -7,6 +7,7 @@
 #include "InventoryState.h"
 #include "ChestInventoryState.h"
 #include "CraftingState.h"
+#include "DialogueState.h"
 
 using namespace tg;
 
@@ -46,6 +47,7 @@ void Handler::initGameStates() {
 	allStates.push_back(new InventoryState(this));
 	allStates.push_back(new ChestInventoryState(this));
 	allStates.push_back(new CraftingState(this));
+	allStates.push_back(new DialogueState(this));
 }
 
 // Set the current gameState
@@ -72,6 +74,11 @@ void Handler::setGameState(int stateId) {
 		break;
 	case CRAFTING_INVENTORY:
 		currentState = allStates[CRAFTING_INVENTORY];
+		break;
+	case DIALOGUE:
+		currentState = allStates[DIALOGUE];
+		break;
+
 	}
 
 	currentState->resume();
