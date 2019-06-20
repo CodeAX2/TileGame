@@ -100,10 +100,25 @@ void PlayingState::render() {
 	} else {
 		renderDeathScreen();
 	}
+
+	if (fade) {
+		int opacity = (250 - timeOpen) * 255 / 250;
+		sf::RectangleShape fade(handler->window->getView().getSize());
+		fade.setFillColor(sf::Color(0, 0, 0, opacity));
+		handler->window->draw(fade);
+	}
+
+
 }
 
 // Update every part of the game
 void PlayingState::tick(sf::Int32 dt) {
+
+	timeOpen += dt;
+	if (fade) {
+		if (timeOpen > 250) fade = false;
+		return;
+	}
 
 
 	if (world == nullptr) {
@@ -539,9 +554,16 @@ void PlayingState::pause() {
 void PlayingState::resume() {
 	if (bgMusic.getStatus() != sf::Music::Playing && !musicPaused)
 		bgMusic.play();
+
+	if (handler->getPreviousState()->getType() == LOADING || handler->getPreviousState()->getType() == MAIN_MENU) {
+		fade = true;
+		timeOpen = 0;
+	}
+
 }
 
 void PlayingState::mouseClicked(sf::Event e) {
+	if (fade) return;
 	if (e.type != sf::Event::MouseButtonPressed && e.type != sf::Event::MouseButtonReleased) {
 		return;
 	}
@@ -611,6 +633,8 @@ void PlayingState::mouseClicked(sf::Event e) {
 
 void PlayingState::updateMouse() {
 
+	if (fade) return;
+
 	if (deathScreen) {
 		sf::Vector2f v = handler->guiView.getSize();
 		sf::Vector2u w = handler->window->getSize();
@@ -670,6 +694,8 @@ void PlayingState::updateMouse() {
 
 
 void PlayingState::updateJoystick(sf::Int32 dt) {
+
+	if (fade) return;
 
 	InputManager* im = handler->inputManager;
 

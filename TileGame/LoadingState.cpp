@@ -19,6 +19,12 @@ LoadingState::~LoadingState() {
 // Render the loading bar, and title
 void LoadingState::render() {
 
+	int opacity = timeOpen * 255 / 500;
+	if (finished) {
+		opacity = (250 - finishedFadeTransition) * 255 / 250;
+	}
+	if (opacity > 255) opacity = 255;
+
 	sf::RectangleShape bg;
 	bg.setSize(sf::Vector2f(handler->window->getView().getSize().x, handler->window->getView().getSize().y));
 	bg.setFillColor(sf::Color::Black);
@@ -28,6 +34,7 @@ void LoadingState::render() {
 	controls.setSize(sf::Vector2f(handler->window->getView().getSize().x * 3.f / 4, handler->window->getView().getSize().y * 3.f / 4));
 	controls.setPosition(sf::Vector2f(handler->window->getView().getSize().x / 8, handler->window->getView().getSize().y / 8));
 	controls.setTexture(controlsLayout);
+	controls.setFillColor(sf::Color(255, 255, 255, opacity));
 	handler->window->draw(controls);
 
 
@@ -36,6 +43,7 @@ void LoadingState::render() {
 		return;
 	}
 	loadingMessage.setFont(guiFont);
+	loadingMessage.setFillColor(sf::Color(255, 255, 255, opacity));
 
 	std::stringstream ss;
 	ss << loader.getLoadingMessage();
@@ -63,13 +71,22 @@ void LoadingState::tick(sf::Int32 dt) {
 	}
 
 	transp += dt / 5.f;
+	timeOpen += dt;
+
+	if (finished) {
+		finishedFadeTransition += dt;
+		if (finishedFadeTransition >= 250) {
+			handler->setGameState(PLAYING);
+		}
+	}
 
 	if (guiFont.getInfo().family == "") {
 		guiFont = handler->assets->getArialiFont();
 	}
 
 	if (loader.isFinished()) {
-		handler->setGameState(PLAYING);
+		finished = true;
+		loaded = true;
 	}
 
 

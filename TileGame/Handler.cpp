@@ -48,6 +48,8 @@ void Handler::initGameStates() {
 	allStates.push_back(new ChestInventoryState(this));
 	allStates.push_back(new CraftingState(this));
 	allStates.push_back(new DialogueState(this));
+	this->setGameState(MAIN_MENU);
+
 }
 
 // Set the current gameState
@@ -55,6 +57,8 @@ void Handler::setGameState(int stateId) {
 
 	if (currentState != nullptr)
 		currentState->pause();
+
+	previousState = currentState;
 
 	switch (stateId) {
 	case LOADING:

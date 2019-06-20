@@ -37,8 +37,6 @@ commandThread(&Game::commandLoop, this), debugThread(&Game::debugLoop, this) {
 
 	handler.saveDirName = "Save1";
 	handler.assets = new Assets;
-	handler.initGameStates();
-	handler.setGameState(MAIN_MENU);
 	handler.window = window;
 	handler.guiView = window->getView();
 	handler.inputManager = new InputManager(&handler);
@@ -277,7 +275,13 @@ void Game::renderLoop() {
 
 			handler.window->clear();
 
-			handler.getCurrentState()->render();
+			if (handler.getCurrentState() != nullptr) {
+				handler.getCurrentState()->render();
+			} else {
+				sf::RectangleShape bg(handler.window->getView().getSize());
+				bg.setFillColor(sf::Color(21, 21, 21));
+				//handler.window->draw(bg);
+			}
 
 			handler.window->display();
 		}
@@ -304,7 +308,8 @@ void Game::tickLoop() {
 
 		sf::Int32 dt = now - last;
 		mutex.lock();
-		handler.getCurrentState()->tick(dt);
+		if (handler.getCurrentState() != nullptr)
+			handler.getCurrentState()->tick(dt);
 		mutex.unlock();
 		last = now;
 		sf::Int32 end = clock.getElapsedTime().asMilliseconds();
@@ -331,6 +336,11 @@ void Game::start() {
 
 	sf::Clock clock;
 	sf::Int32 last = clock.getElapsedTime().asMilliseconds();
+
+
+	sf::Thread gameStateLoaderThread(&Handler::initGameStates, &handler);
+	gameStateLoaderThread.launch();
+
 	while (handler.window->isOpen() || togglingFullscreen) {
 		sf::Int32 now = clock.getElapsedTime().asMilliseconds();
 		sf::Int32 dt = now - last;

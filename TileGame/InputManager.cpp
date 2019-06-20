@@ -21,13 +21,14 @@ void InputManager::handleEvents(sf::Event e, sf::Uint32 dt) {
 }
 
 void InputManager::updateMouse() {
-	handler->getCurrentState()->updateMouse();
+	if (handler->getCurrentState() != nullptr)
+		handler->getCurrentState()->updateMouse();
 }
 
 
 void InputManager::mouseClicked(sf::Event e) {
-
-	handler->getCurrentState()->mouseClicked(e);
+	if (handler->getCurrentState() != nullptr)
+		handler->getCurrentState()->mouseClicked(e);
 
 }
 
@@ -35,7 +36,7 @@ void InputManager::mouseClicked(sf::Event e) {
 // Update the joystick if it is connected
 void InputManager::updateJoystick(sf::Uint32 dt) {
 
-	if (sf::Joystick::isConnected(0)) {
+	if (sf::Joystick::isConnected(0) && handler->getCurrentState() != nullptr) {
 
 		handler->getCurrentState()->updateJoystick(dt);
 
@@ -44,6 +45,12 @@ void InputManager::updateJoystick(sf::Uint32 dt) {
 
 // Update based on what keys are pushed
 void InputManager::updateKeys(sf::Event e) {
+
+	if (handler->getCurrentState() == nullptr) return;
+
+	if (PlayingState* ps = dynamic_cast<PlayingState*>(handler->getCurrentState())) {
+		if (ps->isFading()) return;
+	}
 
 	bool value;
 	if (e.type == sf::Event::KeyPressed) {
@@ -98,6 +105,7 @@ void InputManager::updateKeys(sf::Event e) {
 			handler->game->toggleFullscreen();
 		break;
 	case sf::Keyboard::Escape:
+
 		if (value && handler->getCurrentState()->getType() == PLAYING) {
 			handler->setGameState(MAIN_MENU);
 		} else if (value && handler->getCurrentState()->getType() == INVENTORY) {
@@ -113,6 +121,7 @@ void InputManager::updateKeys(sf::Event e) {
 		}
 		break;
 	case sf::Keyboard::Tab:
+
 		if (value) {
 
 			if (handler->getCurrentState()->getType() == PLAYING) {
@@ -124,6 +133,7 @@ void InputManager::updateKeys(sf::Event e) {
 		break;
 
 	case sf::Keyboard::E:
+
 		if (value && handler->getCurrentState()->getType() == PLAYING) {
 			handler->player->interact();
 		}
@@ -161,7 +171,12 @@ bool* InputManager::getAllKeys() {
 
 
 void InputManager::mouseScrolled(sf::Event e) {
-	if (handler->getCurrentState()->getType() != INVENTORY) {
+	if (handler->getCurrentState() != nullptr && handler->getCurrentState()->getType() != INVENTORY) {
+
+		if (PlayingState* ps = dynamic_cast<PlayingState*>(handler->getCurrentState())) {
+			if (ps->isFading()) return;
+		}
+
 		if (e.type == sf::Event::MouseWheelScrolled) {
 			float delta = e.mouseWheelScroll.delta;
 			zoom += delta * .05f;

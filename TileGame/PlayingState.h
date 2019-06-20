@@ -36,6 +36,7 @@ namespace tg {
 		void addWallLine(sf::Vector2f pointA, sf::Vector2f pointB);
 		void addBuildingTexture(const sf::Texture* texture, sf::Vector2f pos);
 		void setTime(sf::Int32 time) { this->time = time; }
+		bool isFading() { return fade; }
 
 	private:
 		void renderWorld();
@@ -47,7 +48,7 @@ namespace tg {
 		void spawnEnemies();
 
 	private:
-		Handler * handler;
+		Handler* handler;
 		bool zooming = false;
 		float prevZoom;
 		World* world;
@@ -76,6 +77,8 @@ namespace tg {
 			exitButtonX = -1, exitButtonY = -1, buttonWidth = -1, buttonHeight = -1;
 		bool buttonInfoSet = false;
 		float prevJoystickDeathX = 0;
+		sf::Int32 timeOpen = 0;
+		bool fade = false;
 
 	};
 

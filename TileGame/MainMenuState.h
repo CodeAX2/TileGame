@@ -18,6 +18,9 @@ private:
 	int controllerSelectedButton = 0;
 	float prevJoystickPos = 0;
 	std::string version;
+	sf::Int32 timeOpen = 0;
+	bool selectedPlay = false;
+	sf::Int32 playFadeTransition = 0;
 
 public:
 	MainMenuState(Handler* handler);
@@ -30,6 +33,7 @@ public:
 	void mouseClicked(sf::Event e) override;
 	void updateMouse() override;
 	void updateJoystick(sf::Int32 dt) override;
+	void pause() override;
 
 	std::vector<sf::Vector2i> getButtonPositions() { return mainMenuButtonsPos; }
 	void setButtonHover(bool hovering, int buttonId);

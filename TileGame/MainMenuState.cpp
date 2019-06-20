@@ -2,6 +2,7 @@
 #include "Assets.h"
 #include "resource.h"
 #include "InputManager.h"
+#include "LoadingState.h"
 
 MainMenuState::MainMenuState(Handler* handler) : GameState(MAIN_MENU), handler(handler) {
 
@@ -40,6 +41,12 @@ MainMenuState::~MainMenuState() {
 
 void MainMenuState::render() {
 
+	int opacity = timeOpen * 255 / 1000;
+	if (selectedPlay) {
+		opacity = (500 - playFadeTransition) * 255 / 500;
+	}
+	if (opacity > 255) opacity = 255;
+
 	handler->worldView = sf::View(sf::Vector2f(handler->window->getSize().x / 2, handler->window->getSize().y / 2), sf::Vector2f(1280.f, 720.f));
 	handler->window->setView(handler->guiView);
 
@@ -47,26 +54,27 @@ void MainMenuState::render() {
 
 	sf::RectangleShape bg(sf::Vector2f(1280, 720));
 	bg.setTexture(mainMenuBG);
-
+	bg.setFillColor(sf::Color(255, 255, 255, opacity));
 	handler->window->draw(bg);
 
 	sf::RectangleShape playButton(sf::Vector2f(361, 134));
 	playButton.setPosition(sf::Vector2f(mainMenuButtonsPos[0]));
 	playButton.setTexture(mainMenuButtons[0 + mainMenuButtonHovering[0]]);
+	playButton.setFillColor(sf::Color(255, 255, 255, opacity));
 	handler->window->draw(playButton);
 
 	sf::RectangleShape exitButton(sf::Vector2f(361, 134));
 	exitButton.setPosition(sf::Vector2f(mainMenuButtonsPos[1]));
 	exitButton.setTexture(mainMenuButtons[2 + mainMenuButtonHovering[1]]);
+	exitButton.setFillColor(sf::Color(255, 255, 255, opacity));
 	handler->window->draw(exitButton);
 
 	sf::Text versionText;
 	versionText.setString("Version: " + version);
 	versionText.setFont(guiFont);
 	versionText.setCharacterSize(20);
-	versionText.setFillColor(sf::Color::White);
 	versionText.setPosition(5, handler->window->getView().getSize().y - versionText.getGlobalBounds().height);
-
+	versionText.setFillColor(sf::Color(255, 255, 255, opacity));
 	handler->window->draw(versionText);
 
 
@@ -75,6 +83,18 @@ void MainMenuState::render() {
 void MainMenuState::tick(sf::Int32 dt) {
 	if (guiFont.getInfo().family == "") {
 		guiFont = handler->assets->getArialiFont();
+	}
+	timeOpen += dt;
+	if (selectedPlay) {
+		playFadeTransition += dt;
+		if (playFadeTransition >= 500) {
+			if (LoadingState* ls = dynamic_cast<LoadingState*>(handler->getCustomState(LOADING))) {
+				if (ls->isLoaded()) {
+					handler->setGameState(PLAYING);
+				}
+			}
+			handler->setGameState(LOADING);
+		}
 	}
 }
 
@@ -88,6 +108,8 @@ void MainMenuState::setButtonHover(bool hovering, int buttonId) {
 }
 
 void MainMenuState::mouseClicked(sf::Event e) {
+
+	if (timeOpen < 1000 || selectedPlay) return;
 
 	if (e.type != sf::Event::MouseButtonPressed && e.type != sf::Event::MouseButtonReleased) {
 		return;
@@ -109,7 +131,7 @@ void MainMenuState::mouseClicked(sf::Event e) {
 		sf::IntRect buttonBounds(buttonPos[i], buttonSize);
 		if (buttonBounds.contains(mp)) {
 			if (i == 0) {
-				handler->setGameState(LOADING);
+				selectedPlay = true;
 				return;
 			} else if (i == 1) {
 				handler->window->close();
@@ -120,6 +142,8 @@ void MainMenuState::mouseClicked(sf::Event e) {
 }
 
 void MainMenuState::updateMouse() {
+
+	if (timeOpen < 1000 || selectedPlay) return;
 
 	sf::Vector2f v = handler->window->getView().getSize();
 	sf::Vector2u w = handler->window->getSize();
@@ -145,6 +169,9 @@ void MainMenuState::updateMouse() {
 }
 
 void MainMenuState::updateJoystick(sf::Int32 dt) {
+
+	if (timeOpen < 1000 || selectedPlay) return;
+
 	InputManager* im = handler->inputManager;
 
 	float jX = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
@@ -218,7 +245,7 @@ void MainMenuState::updateJoystick(sf::Int32 dt) {
 				sf::IntRect buttonBounds(buttonPos[i], buttonSize);
 				if (buttonBounds.contains(mp)) {
 					if (i == 0) {
-						handler->setGameState(LOADING);
+						selectedPlay = true;
 						return;
 					} else if (i == 1) {
 						handler->window->close();
@@ -232,5 +259,16 @@ void MainMenuState::updateJoystick(sf::Int32 dt) {
 		im->joyStickButtons[1] = false;
 	}
 
+
+}
+
+void MainMenuState::pause() {
+	timeOpen = 0;
+	playFadeTransition = 0;
+	selectedPlay = false;
+
+	for (int i = 0; i < mainMenuButtonHovering.size(); i++) {
+		mainMenuButtonHovering[i] = false;
+	}
 
 }

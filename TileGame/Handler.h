@@ -17,7 +17,7 @@ namespace tg {
 	{
 
 	public:
-		World * mainWorld;
+		World* mainWorld;
 		Assets* assets;
 		Game* game;
 		sf::RenderWindow* window;
@@ -39,10 +39,12 @@ namespace tg {
 		void initGameStates();
 		GameState* getCurrentState() { return currentState; }
 		GameState* getCustomState(int stateId) { return allStates[stateId]; }
+		GameState* getPreviousState() { return previousState; }
 
 	private:
 		std::vector<GameState*> allStates;
 		GameState* currentState;
+		GameState* previousState;
 
 
 	};
