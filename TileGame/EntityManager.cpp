@@ -6,6 +6,7 @@
 #include <sstream>
 #include "World.h"
 #include "Pathfinder.h"
+#include <algorithm>
 
 using namespace tg;
 
@@ -169,13 +170,16 @@ void EntityManager::fixEntityMoved(Entity* entity, int prevX, int prevY) {
 
 	renderOrder = curRO;
 	// Todo: Change how the entity is removed from the entityTileMap
-	for (int y = floor(prevY / 96.f); y < ceil((prevY + entity->getHeight()) / 96.f); y++) {
-		for (int x = floor(prevX / 96.f); x < ceil((prevX + entity->getWidth()) / 96.f); x++) {
+	for (int y = std::max(floor(prevY / 96.f), 0.f); y < std::min(ceil((prevY + entity->getHeight()) / 96.f), (float)entityTileMap.size() - 1); y++) {
+		for (int x = std::max(floor(prevX / 96.f), 0.f); x < std::min(ceil((prevX + entity->getWidth()) / 96.f), (float)entityTileMap[y].size()); x++) {
 			for (int i = (int)entityTileMap[y][x].size() - 1; i >= 0; i--) {
+
 				if (entityTileMap[y][x][i] == entity) {
 					entityTileMap[y][x].erase(entityTileMap[y][x].begin() + i);
 					entityTileMapSizes[y][x]--;
 				}
+
+
 			}
 		}
 	}
