@@ -242,7 +242,7 @@
     <Media Include="Resources\Sounds\sans.mp3" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Shaders\lighting.glsl" />
+    <None Include="Resources\Shaders\lighting.frag" />
     <None Include="Resources\Sounds\sans.ogg" />
   </ItemGroup>
   <ItemGroup>
