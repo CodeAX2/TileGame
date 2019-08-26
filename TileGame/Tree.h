@@ -25,6 +25,7 @@ namespace tg {
 	public:
 		// Return the type of the tree
 		int getEType() { return eType; }
+		void renderLighting(Handler* handler) override;
 
 	protected:
 		// Drop the tree's items

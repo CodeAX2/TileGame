@@ -750,7 +750,7 @@
     <None Include="Resources\Sounds\sans.ogg">
       <Filter>Resource Files\Sounds</Filter>
     </None>
-    <None Include="Resources\Shaders\lighting.glsl">
+    <None Include="Resources\Shaders\lighting.frag">
       <Filter>Resource Files\Shaders</Filter>
     </None>
   </ItemGroup>

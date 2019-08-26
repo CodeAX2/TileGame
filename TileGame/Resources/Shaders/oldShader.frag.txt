@@ -40,8 +40,9 @@ void main() {
 			vec4 color = texture(buildings[i], curPos.xy / bldgSize.xy);
 			if (color.a > 0){
 				insideBuilding = true;
-				maxBuildingY = buildingPositions[i].y + bldgSize.y * 3 * sizeMultiplier;
-				break;
+				float newMaxBuildingY = buildingPositions[i].y + bldgSize.y * 3 * sizeMultiplier;
+				if (maxBuildingY < newMaxBuildingY) maxBuildingY = newMaxBuildingY;
+				
 			}
 
 		}
@@ -107,7 +108,7 @@ void main() {
 				brightnessMultiplier = 1 - abs(maxBuildingY - cur.y) / (60 * sizeMultiplier);
 			}
 		} else if (crosses) {
-			brightnessMultiplier = 1 - abs(maxCrossY - cur.y) / (30 * sizeMultiplier);
+			brightnessMultiplier = 1 - abs(maxCrossY - cur.y) / (60 * sizeMultiplier);
 		}
 
 		if (brightnessMultiplier < 0) brightnessMultiplier = 0;

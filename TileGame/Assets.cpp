@@ -148,7 +148,7 @@ sf::Font Assets::loadFontFromResource(int name) {
 }
 
 sf::Shader* Assets::loadShaderFromResource(int name) {
-	HRSRC rsrcData = FindResource(NULL, MAKEINTRESOURCE(name), "GLSL");
+	HRSRC rsrcData = FindResource(NULL, MAKEINTRESOURCE(name), "FRAG");
 	if (!rsrcData)
 		throw std::runtime_error("Failed to find resource.");
 

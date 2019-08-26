@@ -276,9 +276,9 @@ void EntityManager::render() {
 		if (!(cur->getLightX() + cur->getLightSize() + cur->getExtraLightSize() < handler->camera->getXOffset() + (1280 / 2 - v.getSize().x / 2) ||
 			cur->getLightX() - cur->getLightSize() - cur->getExtraLightSize() > handler->window->getSize().x + handler->camera->getXOffset() - (1280 / 2 - v.getSize().x / 2) ||
 			cur->getLightY() + cur->getLightSize() + cur->getExtraLightSize() < handler->camera->getYOffset() + (720 / 2 - v.getSize().y / 2) ||
-			cur->getLightY() - cur->getLightSize() - cur->getExtraLightSize() > handler->window->getSize().y + handler->camera->getYOffset() - (720 / 2 - v.getSize().y / 2)) || cur->type == BUILDING_E) {
+			cur->getLightY() - cur->getLightSize() - cur->getExtraLightSize() > handler->window->getSize().y + handler->camera->getYOffset() - (720 / 2 - v.getSize().y / 2)) || cur->type == BUILDING_E || cur->type == TREE_E) {
 
-			if (cur->type == BUILDING_E) {
+			if (cur->type == BUILDING_E || cur->type == TREE_E) {
 
 				if ((cur->getX() + cur->getWidth() < handler->camera->getXOffset() + (1280 / 2 - v.getSize().x / 2) - maxLightSize ||
 					cur->getX() > handler->window->getSize().x + handler->camera->getXOffset() - (1280 / 2 - v.getSize().x / 2) + maxLightSize ||
