@@ -7,7 +7,6 @@
 using namespace tg;
 
 int main() {
-	// Added to test commits
 
 	sf::ContextSettings settings;
 	settings.depthBits = 24;
