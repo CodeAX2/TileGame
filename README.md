@@ -72,6 +72,8 @@ Or you can scan the image below!
 <div id="2">
 Licensed under a Creative Commons <a href="http://creativecommons.org/licenses/by-nc/3.0/">Attribution Noncommercial  (3.0)</a> license.
 </div>
-<div class="attribution-block"><a href="http://dig.ccmixter.org/files/jlbrock44/59736">Waves Of Tranquility </a> by spinningmerkaba (c) copyright 2019 Licensed under a Creative Commons <a href="http://creativecommons.org/licenses/by-nc/3.0/">Attribution Noncommercial  (3.0)</a> license. Ft: gurdonark,speck</div>
+<div class="attribution-block"><a href="http://dig.ccmixter.org/files/jlbrock44/59736">Waves Of Tranquility </a> by spinningmerkaba (c) copyright 2019</div>
+<div id="2">
+Licensed under a Creative Commons <a href="http://creativecommons.org/licenses/by-nc/3.0/">Attribution Noncommercial  (3.0)</a> license. Ft: gurdonark,speck</div>
 
 ### Created by Jacob Hofer
