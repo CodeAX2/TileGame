@@ -243,6 +243,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\lighting.frag" />
+    <None Include="Resources\Shaders\oldShader.frag" />
     <None Include="Resources\Sounds\sans.ogg" />
   </ItemGroup>
   <ItemGroup>
