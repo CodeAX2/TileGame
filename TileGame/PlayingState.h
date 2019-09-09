@@ -65,7 +65,6 @@ namespace tg {
 		sf::Int32 time = 540000 - 5000;
 		sf::RenderTexture renderTexture;
 		float darknessPercent = 0;
-		sf::Texture* lightT;
 
 		std::vector<sf::Glsl::Vec4> lightArr;
 		std::vector<sf::Glsl::Vec4> wallArr;

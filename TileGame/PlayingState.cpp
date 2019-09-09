@@ -26,7 +26,7 @@ using namespace tg;
 PlayingState::PlayingState(Handler* handler) : GameState(PLAYING), handler(handler) {
 	prevZoom = 1.f;
 	world = handler->mainWorld;
-	bgMusic.openFromFile("Audio/airtone_-_panspermia_1.wav");
+	bgMusic.openFromFile("Audio/jlbrock44_-_Waves_Of_Tranquility_.wav");
 	bgMusic.setLoop(true);
 	hotBarSlotHighlight = handler->assets->loadTextureFromResource(INV_HIGHLIGHT);
 
