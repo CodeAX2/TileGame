@@ -38,7 +38,7 @@ commandThread(&Game::commandLoop, this), debugThread(&Game::debugLoop, this) {
 	handler.saveDirName = "Save1";
 	handler.assets = new Assets;
 	handler.window = window;
-	handler.guiView = window->getView();
+	handler.guiView = sf::View(sf::Vector2f(1920 / 2, 1080 / 2), sf::Vector2f(1920.f, 1080.f));
 	handler.inputManager = new InputManager(&handler);
 
 	DeathQuotes::init();
@@ -67,14 +67,12 @@ void Game::commandLoop() {
 			if (c == ' ') {
 				if (index == 0) {
 					cmd = curArg;
-				}
-				else {
+				} else {
 					args.push_back(curArg);
 				}
 				curArg = "";
 				index++;
-			}
-			else {
+			} else {
 				curArg += c;
 			}
 		}
@@ -82,8 +80,7 @@ void Game::commandLoop() {
 		if (curArg != "") {
 			if (index == 0) {
 				cmd = curArg;
-			}
-			else {
+			} else {
 				args.push_back(curArg);
 			}
 		}
@@ -96,20 +93,17 @@ void Game::commandLoop() {
 		if (cmd == "tp") {
 			if (args.size() != 2) {
 				std::cout << "Invalid arguments!" << std::endl;
-			}
-			else {
+			} else {
 				int x = std::stoi(args[0]);
 				int y = std::stoi(args[1]);
 				handler.player->setPos(x * 96, y * 96);
 				std::cout << "Teleporting to: " << x << ", " << y << std::endl;
 			}
-		}
-		else if (cmd == "additem" || cmd == "give") {
+		} else if (cmd == "additem" || cmd == "give") {
 
 			if (args.size() != 2) {
 				std::cout << "Invalis arguments!" << std::endl;
-			}
-			else {
+			} else {
 				int item = std::stoi(args[0]);
 				int amnt = (int)std::stoll(args[1]);
 
@@ -117,8 +111,7 @@ void Game::commandLoop() {
 					for (int i = 0; i < amnt; i++) {
 						handler.player->addItemToInv(item);
 					}
-				}
-				else {
+				} else {
 					for (int i = 0; i < -1 * amnt; i++) {
 						handler.player->removeItemFromInv(item);
 					}
@@ -127,20 +120,17 @@ void Game::commandLoop() {
 
 			}
 
-		}
-		else if (cmd == "killzombies") {
+		} else if (cmd == "killzombies") {
 			std::vector <Entity*> allEntities = handler.player->getWorld()->getEntityManager()->getAllEntities();
 			for (Entity* e : allEntities) {
 				if (e->type == ZOMBIE_E) {
 					e->damage(e->getHealth(), nullptr);
 				}
 			}
-		}
-		else if (cmd == "spawnzombie") {
+		} else if (cmd == "spawnzombie") {
 			if (args.size() != 2) {
 				std::cout << "Invalid arguments!" << std::endl;
-			}
-			else {
+			} else {
 
 				int spawnX, spawnY;
 
@@ -150,8 +140,7 @@ void Game::commandLoop() {
 						int multiplier = 1;
 						if (args[0].substr(1, 1) == "+") {
 							multiplier = 1;
-						}
-						else if (args[0].substr(1, 1) == "-") {
+						} else if (args[0].substr(1, 1) == "-") {
 							multiplier = -1;
 						}
 
@@ -159,8 +148,7 @@ void Game::commandLoop() {
 
 					}
 
-				}
-				else {
+				} else {
 					spawnX = stoi(args[0]);
 				}
 
@@ -170,8 +158,7 @@ void Game::commandLoop() {
 						int multiplier = 1;
 						if (args[1].substr(1, 1) == "+") {
 							multiplier = 1;
-						}
-						else if (args[1].substr(1, 1) == "-") {
+						} else if (args[1].substr(1, 1) == "-") {
 							multiplier = -1;
 						}
 
@@ -179,8 +166,7 @@ void Game::commandLoop() {
 
 					}
 
-				}
-				else {
+				} else {
 					spawnY = stoi(args[1]);
 				}
 
@@ -188,25 +174,20 @@ void Game::commandLoop() {
 				z->setFollowing(handler.player);
 			}
 
-		}
-		else if (cmd == "getpos") {
+		} else if (cmd == "getpos") {
 			std::cout << handler.player->getX() << " " << handler.player->getY() << std::endl;
-		}
-		else if (cmd == "mutemusic") {
+		} else if (cmd == "mutemusic") {
 			PlayingState* ps = dynamic_cast<PlayingState*>(handler.getCustomState(PLAYING));
 			ps->pauseBGMusic();
 
-		}
-		else if (cmd == "settime") {
+		} else if (cmd == "settime") {
 			int time = std::stof(args[0]);
 			PlayingState* ps = dynamic_cast<PlayingState*>(handler.getCustomState(PLAYING));
 			ps->setTime(time);
-		}
-		else if (cmd == "spawnskeleton") {
+		} else if (cmd == "spawnskeleton") {
 			if (args.size() != 2) {
 				std::cout << "Invalid arguments!" << std::endl;
-			}
-			else {
+			} else {
 
 				int spawnX, spawnY;
 
@@ -216,8 +197,7 @@ void Game::commandLoop() {
 						int multiplier = 1;
 						if (args[0].substr(1, 1) == "+") {
 							multiplier = 1;
-						}
-						else if (args[0].substr(1, 1) == "-") {
+						} else if (args[0].substr(1, 1) == "-") {
 							multiplier = -1;
 						}
 
@@ -225,8 +205,7 @@ void Game::commandLoop() {
 
 					}
 
-				}
-				else {
+				} else {
 					spawnX = stoi(args[0]);
 				}
 
@@ -236,8 +215,7 @@ void Game::commandLoop() {
 						int multiplier = 1;
 						if (args[1].substr(1, 1) == "+") {
 							multiplier = 1;
-						}
-						else if (args[1].substr(1, 1) == "-") {
+						} else if (args[1].substr(1, 1) == "-") {
 							multiplier = -1;
 						}
 
@@ -245,8 +223,7 @@ void Game::commandLoop() {
 
 					}
 
-				}
-				else {
+				} else {
 					spawnY = stoi(args[1]);
 				}
 
@@ -254,8 +231,7 @@ void Game::commandLoop() {
 				s->setFollowing(handler.player);
 			}
 
-		}
-		else {
+		} else {
 			std::cout << "Invalid command!" << std::endl;
 		}
 
@@ -301,8 +277,7 @@ void Game::renderLoop() {
 
 			if (handler.getCurrentState() != nullptr) {
 				handler.getCurrentState()->render();
-			}
-			else {
+			} else {
 				sf::RectangleShape bg(handler.window->getView().getSize());
 				bg.setFillColor(sf::Color(21, 21, 21));
 				//handler.window->draw(bg);
@@ -378,8 +353,7 @@ void Game::start() {
 
 				if (event.type == sf::Event::Closed) {
 					handler.window->close();
-				}
-				else {
+				} else {
 					handler.inputManager->handleEvents(event, dt);
 				}
 
@@ -441,8 +415,7 @@ void Game::toggleFullscreen() {
 
 	if (isFullscreen) {
 		ow->create(sf::VideoMode(1280, 720), "TileGame!", sf::Style::Titlebar | sf::Style::Close | sf::Style::Resize, settings);
-	}
-	else {
+	} else {
 		ow->create(sf::VideoMode::getDesktopMode(), "TileGame!", sf::Style::None, settings);
 	}
 

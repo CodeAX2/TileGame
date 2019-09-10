@@ -15,7 +15,7 @@ int main() {
 	settings.majorVersion = 4;
 	settings.minorVersion = 4;
 
-	sf::RenderWindow* window = new sf::RenderWindow(sf::VideoMode::getDesktopMode(), "TileGame!", sf::Style::None, settings);
+	sf::RenderWindow* window = new sf::RenderWindow(sf::VideoMode(1280, 720), "TileGame!", sf::Style::Close | sf::Style::Resize | sf::Style::Titlebar, settings);
 	window->setFramerateLimit(120);
 	window->setActive(false);
 
