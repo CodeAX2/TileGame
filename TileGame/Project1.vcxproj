@@ -209,6 +209,8 @@
     <Image Include="Resources\Textures\Snow24.png" />
     <Image Include="Resources\Textures\SpritesSheet-Player.png" />
     <Image Include="Resources\Textures\SS-Player.png" />
+    <Image Include="Resources\Textures\SS-PlayerV2.png" />
+    <Image Include="Resources\Textures\SS-PlayerV3.png" />
     <Image Include="Resources\Textures\SS-Skeleton.png" />
     <Image Include="Resources\Textures\SS-Zombie.png" />
     <Image Include="Resources\Textures\Stone.png" />

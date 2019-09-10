@@ -72,7 +72,7 @@ void PlayingState::render() {
 
 	}
 	float z = handler->inputManager->getZoomLevel();
-	handler->worldView = sf::View(sf::Vector2f(handler->window->getSize().x / 2, handler->window->getSize().y / 2), sf::Vector2f(1920.f*1.f / z, 1080.f*1.f / z));
+	handler->worldView = sf::View(sf::Vector2f(handler->window->getSize().x / 2, handler->window->getSize().y / 2), sf::Vector2f(1920.f * 1.f / z, 1080.f * 1.f / z));
 
 	renderTexture.create(handler->worldView.getSize().x, handler->worldView.getSize().y);
 	renderTexture.clear();
@@ -683,7 +683,7 @@ void PlayingState::updateMouse() {
 			int yDist = (int)(playerPos.y / 96) - htp.y;
 
 
-			if (xDist*xDist + yDist * yDist > 5) {
+			if (xDist * xDist + yDist * yDist > 5) {
 				world->setHighlightGood(false);
 			} else {
 				world->setHighlightGood(true);
@@ -798,17 +798,18 @@ void PlayingState::updateJoystick(sf::Int32 dt) {
 		if (dPadPos >= 50) {
 			im->usingController = true;
 			im->zoom += .005f;
-			if (im->zoom > 1.2f)
-				im->zoom = 1.2f;
-			if (im->zoom < .5f)
-				im->zoom = .5f;
+			if (im->zoom > 1.8f)
+				im->zoom = 1.8f;
+			if (im->zoom < .825f)
+				im->zoom = .825f;
+
 		} else if (dPadPos <= -50) {
 			im->usingController = true;
 			im->zoom -= .005f;
-			if (im->zoom > 1.2f)
-				im->zoom = 1.2f;
-			if (im->zoom < .55f)
-				im->zoom = .55f;
+			if (im->zoom > 1.8f)
+				im->zoom = 1.8f;
+			if (im->zoom < .825f)
+				im->zoom = .825f;
 		}
 
 		// Use item
@@ -1082,7 +1083,7 @@ void PlayingState::loadStateFile() {
 		return;
 	}
 
-	file.read((char*)&time, sizeof(sf::Int32));
+	file.read((char*)& time, sizeof(sf::Int32));
 
 	file.close();
 }
@@ -1094,7 +1095,7 @@ void PlayingState::saveStateFile() {
 		return;
 	}
 
-	file.write((char*)&time, sizeof(sf::Int32));
+	file.write((char*)& time, sizeof(sf::Int32));
 
 	file.close();
 

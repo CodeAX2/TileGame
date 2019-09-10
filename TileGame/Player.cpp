@@ -11,7 +11,7 @@
 using namespace tg;
 
 Player::Player(float x, float y, Handler* handler, World* world) :
-	Entity(x, y, handler, 14, 117 - 25, 31, 25, 20 * 3, 39 * 3, true, PLAYER_E, true, world) {
+	Entity(x, y, handler, 30, 96 - 25, 33, 25, 31 * 3, 32 * 3, true, PLAYER_E, true, world) {
 	texture = handler->assets->getPlayerAnim()->getFrame(0);
 	handler->player = this;
 
@@ -59,7 +59,7 @@ void Player::render(Handler* handler) {
 
 	sprite.setScale(xScale, yScale);
 
-	sprite.setColor(handler->assets->getPlayerColor());
+	//sprite.setColor(handler->assets->getPlayerColor());
 
 
 	if (horiDirection == WEST) {
@@ -130,16 +130,16 @@ void Player::tick(sf::Int32 dt) {
 				if (!attacking) hitEntities();
 				attacking = true;
 				if (horiDirection != STILL) {
-					if (timeSinceAttackStart <= 150) { curAnim = 10; } else {
-						curAnim = 11;
+					if (timeSinceAttackStart <= 150) { curAnim = 5; } else {
+						curAnim = 5;
 					}
 				} else if (vertDirection == NORTH) {
-					if (timeSinceAttackStart <= 150) { curAnim = 14; } else {
-						curAnim = 15;
+					if (timeSinceAttackStart <= 150) { curAnim = 10; } else {
+						curAnim = 10;
 					}
 				} else {
-					if (timeSinceAttackStart <= 150) { curAnim = 12; } else {
-						curAnim = 13;
+					if (timeSinceAttackStart <= 150) { curAnim = 0; } else {
+						curAnim = 0;
 					}
 				}
 
@@ -229,19 +229,19 @@ void Player::tick(sf::Int32 dt) {
 	// Update textures
 	if (horiDirection == STILL && vertDirection == SOUTH) {
 
-		if (curAnim < 6 || curAnim > 7) {
-			curAnim = 6;
+		if (curAnim < 1 || curAnim > 4) {
+			curAnim = 1;
 		}
 		if (keys[2] && ridingOn == nullptr) {
 
 			timeSinceLastAnim += dt;
 
-			if (timeSinceLastAnim >= 150 / (speed * 10)) {
+			if (timeSinceLastAnim >= 125 / (speed * 10)) {
 
 				timeSinceLastAnim = 0;
 				curAnim++;
-				if (curAnim >= 8) {
-					curAnim = 6;
+				if (curAnim >= 5) {
+					curAnim = 1;
 				}
 
 			}
@@ -254,49 +254,49 @@ void Player::tick(sf::Int32 dt) {
 
 
 	} else if (horiDirection == STILL && vertDirection == NORTH) {
-		if (curAnim < 8 || curAnim > 9) {
-			curAnim = 8;
+		if (curAnim < 11 || curAnim > 14) {
+			curAnim = 11;
 		}
 		if (keys[0] && ridingOn == nullptr) {
 
 			timeSinceLastAnim += dt;
 
-			if (timeSinceLastAnim >= 150 / (speed * 10)) {
+			if (timeSinceLastAnim >= 125 / (speed * 10)) {
 
 				timeSinceLastAnim = 0;
 				curAnim++;
-				if (curAnim >= 10) {
-					curAnim = 8;
+				if (curAnim >= 15) {
+					curAnim = 11;
 				}
 
 			}
 
 
 		} else {
-			curAnim = 17;
+			curAnim = 10;
 			timeSinceLastAnim = 0;
 		}
 	} else if (horiDirection != STILL) {
-		if (curAnim < 2 || curAnim > 5) {
-			curAnim = 2;
+		if (curAnim < 6 || curAnim > 9) {
+			curAnim = 6;
 		}
 		if ((keys[1] || keys[3]) && ridingOn == nullptr) {
 
 			timeSinceLastAnim += dt;
 
-			if (timeSinceLastAnim >= 150 / (speed * 10)) {
+			if (timeSinceLastAnim >= 125 / (speed * 10)) {
 
 				timeSinceLastAnim = 0;
 				curAnim++;
-				if (curAnim >= 6) {
-					curAnim = 2;
+				if (curAnim >= 10) {
+					curAnim = 6;
 				}
 
 			}
 
 
 		} else {
-			curAnim = 16;
+			curAnim = 5;
 			timeSinceLastAnim = 0;
 		}
 

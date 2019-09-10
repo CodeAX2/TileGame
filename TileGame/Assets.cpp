@@ -361,11 +361,11 @@ void Assets::init() {
 
 	sf::Image img = loadImageFromResource(PLAYER_SHEET);
 
-	for (int i = 0; i < 18; i++) {
+	for (int i = 0; i < 15; i++) {
 		sf::Texture* curPlayerAnim = new sf::Texture();
 
 		curPlayerAnim->loadFromImage(img,
-			sf::IntRect(20 * (i % 12), 39 * (i / 12), 20, 39));
+			sf::IntRect(31 * (i % 5), 32 * (i / 5), 31, 32));
 		playerAnimation->addFrame(curPlayerAnim);
 		operations++;
 	}

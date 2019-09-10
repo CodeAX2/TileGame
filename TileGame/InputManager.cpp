@@ -180,10 +180,10 @@ void InputManager::mouseScrolled(sf::Event e) {
 		if (e.type == sf::Event::MouseWheelScrolled) {
 			float delta = e.mouseWheelScroll.delta;
 			zoom += delta * .05f;
-			if (zoom > 1.2f)
-				zoom = 1.2f;
-			if (zoom < .55f)
-				zoom = .55f;
+			if (zoom > 1.8f)
+				zoom = 1.8f;
+			if (zoom < .825f)
+				zoom = .825f;
 
 
 		}

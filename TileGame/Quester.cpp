@@ -167,7 +167,7 @@ void Quester::render(Handler* handler) {
 
 		sf::RectangleShape interact(sf::Vector2f(interactTexture->getSize().x * 3, interactTexture->getSize().y * 3));
 		float yExtra = sin(timeAlive / 200.f) * 5;
-		interact.setPosition(x - handler->camera->getXOffset() + w / 2.f - interactTexture->getSize().x * 3.f / 2.f, y - handler->camera->getYOffset() + yExtra - interactTexture->getSize().y * 3.f / 2.f);
+		interact.setPosition(x - handler->camera->getXOffset() + w / 2.f - interactTexture->getSize().x * 3.f / 2.f, y - handler->camera->getYOffset() + yExtra - interactTexture->getSize().y * 3.f + 9);
 		interact.setTexture(interactTexture);
 		handler->window->draw(interact);
 	} else {
@@ -175,7 +175,7 @@ void Quester::render(Handler* handler) {
 
 		sf::RectangleShape interact(sf::Vector2f(questTexture->getSize().x * 3, questTexture->getSize().y * 3));
 		float yExtra = sin(timeAlive / 200.f) * 2;
-		interact.setPosition(x - handler->camera->getXOffset() + w / 2.f - questTexture->getSize().x * 3.f / 2.f, y - handler->camera->getYOffset() + yExtra - questTexture->getSize().y * 3.f / 2.f);
+		interact.setPosition(x - handler->camera->getXOffset() + w / 2.f - questTexture->getSize().x * 3.f / 2.f, y - handler->camera->getYOffset() + yExtra - questTexture->getSize().y * 3.f + 9);
 		interact.setTexture(questTexture);
 		handler->window->draw(interact);
 	}

@@ -9,8 +9,7 @@ Boat::Boat(float x, float y, Handler* handler, World* world) : Rideable(x, y, ha
 }
 
 
-Boat::~Boat()
-{
+Boat::~Boat() {
 }
 
 void Boat::damage(int dmg, Entity* damager) {
@@ -48,7 +47,7 @@ bool Boat::checkForCollision() {
 			if (!world->tileIsSolid(pBox.left, pBox.top + pBox.height / 2)
 				&& Static::tileIsEmpty(pBox.left / 96, (pBox.top + pBox.height / 2) / 96, world)) {
 
-				rider->setPos(((int)pBox.left / 96) * 96 + rider->getWidth() / 2, ((int)(pBox.top + pBox.height / 2) / 96) * 96 - rider->getHeight() + 96 / 2 + 16);
+				rider->setPos(((int)pBox.left / 96) * 96 - rider->getWidth() / 2 + 96 / 2, ((int)(pBox.top + pBox.height / 2) / 96) * 96 - rider->getHeight() + 96 / 2 + 16);
 				rider->setRiding(nullptr);
 				rider = nullptr;
 				riderId = UUID();
@@ -57,8 +56,7 @@ bool Boat::checkForCollision() {
 
 			if (!world->tileIsSolid(pBox.left + pBox.width / 2, pBox.top) &&
 				Static::tileIsEmpty((pBox.left + pBox.width / 2) / 96, pBox.top / 96, world)) {
-
-				rider->setPos(((int)(pBox.left + pBox.width / 2) / 96) * 96 + rider->getWidth() / 2 - 8, ((int)pBox.top / 96) * 96 - rider->getHeight() + 96 / 2 + 24);
+				rider->setPos(((int)(pBox.left + pBox.width / 2) / 96) * 96 - rider->getWidth() / 2 + 96 / 2, ((int)pBox.top / 96) * 96 - rider->getHeight() + 96 / 2 + 24);
 				rider->setRiding(nullptr);
 				rider = nullptr;
 				riderId = UUID();
@@ -68,7 +66,7 @@ bool Boat::checkForCollision() {
 			if (!world->tileIsSolid(pBox.left + pBox.width, pBox.top + pBox.height / 2) &&
 				Static::tileIsEmpty((pBox.left + pBox.width) / 96, (pBox.top + pBox.height / 2) / 96, world)) {
 
-				rider->setPos(((int)(pBox.left + pBox.width) / 96) * 96 + rider->getWidth() / 2 - 24, ((int)(pBox.top + pBox.height / 2) / 96) * 96 - rider->getHeight() + 96 / 2 + 16);
+				rider->setPos(((int)(pBox.left + pBox.width) / 96) * 96 - rider->getWidth() / 2 + 96 / 2, ((int)(pBox.top + pBox.height / 2) / 96) * 96 - rider->getHeight() + 96 / 2 + 16);
 				rider->setRiding(nullptr);
 				rider = nullptr;
 				riderId = UUID();
@@ -78,7 +76,7 @@ bool Boat::checkForCollision() {
 			if (!world->tileIsSolid(pBox.left + pBox.width / 2, pBox.top + pBox.height) &&
 				Static::tileIsEmpty((pBox.left + pBox.width / 2) / 96, (pBox.top + pBox.height) / 96, world)) {
 
-				rider->setPos(((int)(pBox.left + pBox.width / 2) / 96) * 96 + rider->getWidth() / 2 - 8, ((int)(pBox.top + pBox.height) / 96) * 96 - rider->getHeight() + 96 / 2 - 8);
+				rider->setPos(((int)(pBox.left + pBox.width / 2) / 96) * 96 - rider->getWidth() / 2 + 96 / 2, ((int)(pBox.top + pBox.height) / 96) * 96 - rider->getHeight() + 96 / 2 - 8);
 				rider->setRiding(nullptr);
 				rider = nullptr;
 				riderId = UUID();

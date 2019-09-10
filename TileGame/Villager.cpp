@@ -6,7 +6,7 @@
 using namespace tg;
 
 Villager::Villager(float x, float y, Handler* handler, World* world, std::string pathFileName) :
-	Quester(x, y, handler, 14, 117 - 25, 31, 25, 20 * 3, 39 * 3, VILLAGER, world, .1f) {
+	Quester(x, y, handler, 30, 96 - 25, 33, 25, 31 * 3, 32 * 3, VILLAGER, world, .1f) {
 
 
 	texture = handler->assets->getPlayerAnim()->getFrame(0);
