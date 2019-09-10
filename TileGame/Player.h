@@ -23,6 +23,7 @@ namespace tg {
 		~Player();
 
 	private:
+
 		sf::Int32 timeSinceLastAnim = 0; // Time since the animation was updated
 
 		int curAnim = 0; // The current animation index used for rendering

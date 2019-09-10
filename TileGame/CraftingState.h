@@ -53,10 +53,10 @@ namespace tg {
 			{1,1,1,1,1,1,1,1,1}
 		};
 
-		const int size = 108;
-		const int xSpace = 18, ySpace = 15;
-		const int xOffset = 82, yOffsetTop = 25, yOffsetMid = 299, yOffsetBottom = 563;
-		const int yOffsetIngredients = 31, xOffsetIngredients = 831, xIngredientSpace = 15, yIngredientSpace = 27;
+		const int size = 108 * 1.5;
+		const int xSpace = 18 * 1.5, ySpace = 15 * 1.5;
+		const int xOffset = 82 * 1.5, yOffsetTop = 25 * 1.5, yOffsetMid = 299 * 1.5, yOffsetBottom = 563 * 1.5;
+		const int yOffsetIngredients = 31 * 1.5, xOffsetIngredients = 831 * 1.5, xIngredientSpace = 15 * 1.5, yIngredientSpace = 27 * 1.5;
 		int xSlot = -1, ySlot = -1;
 		int clickedSlotX = -1, clickedSlotY = -1;
 		int selectedCraftSlotX = -1, selectedCraftSlotY = -1;

@@ -51,9 +51,9 @@ void LoadingState::render() {
 
 
 	loadingMessage.setString(ss.str());
-	loadingMessage.setCharacterSize(20);
+	loadingMessage.setCharacterSize(20 * 1.5);
 	loadingMessage.setPosition(handler->window->getView().getSize().x / 2 - loadingMessage.getGlobalBounds().width / 2,
-		handler->window->getView().getSize().y - 10 - loadingMessage.getGlobalBounds().height);
+		handler->window->getView().getSize().y - 10 * 1.5 - loadingMessage.getGlobalBounds().height);
 
 	handler->window->draw(loadingMessage);
 

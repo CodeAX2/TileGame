@@ -26,8 +26,7 @@ CraftingState::CraftingState(Handler* handler) : GameState(CRAFTING_INVENTORY) {
 }
 
 
-CraftingState::~CraftingState()
-{
+CraftingState::~CraftingState() {
 }
 
 void CraftingState::tick(sf::Int32 dt) {
@@ -67,7 +66,7 @@ void CraftingState::renderHighlight() {
 
 	if (selectedCraftSlotX != -1 && selectedCraftSlotY != -1) {
 
-		sf::RectangleShape highlight(sf::Vector2f(invHighlight->getSize().x * 3, invHighlight->getSize().y * 3));
+		sf::RectangleShape highlight(sf::Vector2f(invHighlight->getSize().x * 3 * 1.5, invHighlight->getSize().y * 3 * 1.5));
 		highlight.setTexture(craftHighlight);
 		float xPos, yPos;
 		xPos = xOffset + selectedCraftSlotX * (size + xSpace);
@@ -81,7 +80,7 @@ void CraftingState::renderHighlight() {
 
 	if (xSlot != -1 && ySlot != -1) {
 
-		sf::RectangleShape highlight(sf::Vector2f(invHighlight->getSize().x * 3, invHighlight->getSize().y * 3));
+		sf::RectangleShape highlight(sf::Vector2f(invHighlight->getSize().x * 3 * 1.5, invHighlight->getSize().y * 3 * 1.5));
 		highlight.setTexture(invHighlight);
 		float xPos, yPos;
 		xPos = xOffset + xSlot * (size + xSpace);
@@ -106,16 +105,16 @@ void CraftingState::renderItems() {
 	for (int i = 0; i < 9; i++) {
 		if (clickedSlotY == 4 && clickedSlotX == i) continue;
 		if (inv->getInventory()[i].first != -1) {
-			sf::RectangleShape curItem(sf::Vector2f(96, 96));
+			sf::RectangleShape curItem(sf::Vector2f(96 * 1.5, 96 * 1.5));
 			curItem.setTexture(handler->assets->getItemTexture(inv->getInventory()[i].first));
-			curItem.setPosition(xOffset + (size + xSpace) * i + 6, yOffsetBottom + 6);
+			curItem.setPosition(xOffset + (size + xSpace) * i + 6 * 1.5, yOffsetBottom + 6 * 1.5);
 			handler->window->draw(curItem);
 
 			sf::Text count;
 			count.setString(std::to_string(inv->getInventory()[i].second));
 			count.setFont(guiFont);
-			count.setCharacterSize(16);
-			count.setPosition(sf::Vector2f(i * 42 * 3 + 28 * 3 + 12, yOffsetBottom + 108 - count.getGlobalBounds().height - 10));
+			count.setCharacterSize(16 * 1.5);
+			count.setPosition(sf::Vector2f(i * 42 * 3 * 1.5f + 28 * 3 * 1.5f + 12 * 1.5f, yOffsetBottom + 108 * 1.5f - count.getGlobalBounds().height - 10 * 1.5f));
 			handler->window->draw(count);
 		}
 	}
@@ -126,16 +125,16 @@ void CraftingState::renderItems() {
 			int index = 9;
 			index += i * 7 + j;
 			if (inv->getInventory()[index].first != -1) {
-				sf::RectangleShape curItem(sf::Vector2f(96, 96));
+				sf::RectangleShape curItem(sf::Vector2f(96 * 1.5, 96 * 1.5));
 				curItem.setTexture(handler->assets->getItemTexture(inv->getInventory()[index].first));
-				curItem.setPosition(xOffset + (size + xSpace) * (j + 1) + 6, yOffsetMid + (size + ySpace) * i + 6);
+				curItem.setPosition(xOffset + (size + xSpace) * (j + 1) + 6 * 1.5, yOffsetMid + (size + ySpace) * i + 6 * 1.5);
 				handler->window->draw(curItem);
 
 				sf::Text count;
 				count.setString(std::to_string(inv->getInventory()[index].second));
 				count.setFont(guiFont);
 				count.setCharacterSize(16);
-				count.setPosition(sf::Vector2f((j + 1) * 42 * 3 + 28 * 3 + 12, yOffsetMid + (size + ySpace) * i + size - count.getGlobalBounds().height - 10));
+				count.setPosition(sf::Vector2f((j + 1) * 42 * 3 * 1.5f + 28 * 3 * 1.5f + 12 * 1.5f, yOffsetMid + (size + ySpace) * i + size - count.getGlobalBounds().height - 10 * 1.5f));
 				handler->window->draw(count);
 
 			}
@@ -150,16 +149,16 @@ void CraftingState::renderItems() {
 		int mx = sf::Mouse::getPosition(*(handler->window)).x * (v.x / w.x);
 		int my = sf::Mouse::getPosition(*(handler->window)).y * (v.y / w.y);
 
-		sf::RectangleShape curItem(sf::Vector2f(96, 96));
+		sf::RectangleShape curItem(sf::Vector2f(96 * 1.5, 96 * 1.5));
 		curItem.setTexture(handler->assets->getItemTexture(getItemAt(clickedSlotX, clickedSlotY).first));
-		curItem.setPosition(mx - 96 / 2, my - 96 / 2);
+		curItem.setPosition(mx - 96 * 1.5 / 2, my - 96 * 1.5 / 2);
 		handler->window->draw(curItem);
 
 		sf::Text count;
 		count.setString(std::to_string(getItemAt(clickedSlotX, clickedSlotY).second));
 		count.setFont(guiFont);
-		count.setCharacterSize(16);
-		count.setPosition(sf::Vector2f(mx + 14 - size / 2, my + size - count.getGlobalBounds().height - 10 - size / 2));
+		count.setCharacterSize(16 * 1.5);
+		count.setPosition(sf::Vector2f(mx + 14 * 1.5 - size / 2, my + size - count.getGlobalBounds().height - 10 * 1.5 - size / 2));
 		handler->window->draw(count);
 
 
@@ -187,15 +186,15 @@ void CraftingState::renderItemInfo() {
 		sf::Text infoText;
 		infoText.setFont(guiFont);
 		infoText.setString(ItemDesc::getInfo(itemId));
-		infoText.setCharacterSize(16);
+		infoText.setCharacterSize(16 * 1.5);
 		infoText.setLineSpacing(1.2f);
 		infoText.setOrigin(infoText.getGlobalBounds().left, infoText.getGlobalBounds().top + infoText.getGlobalBounds().height);
-		infoText.setPosition(mx + 10, my - 10);
+		infoText.setPosition(mx + 10 * 1.5, my - 10 * 1.5);
 		infoText.setFillColor(sf::Color::White);
 
 
 
-		sf::RectangleShape infoBoxBg(sf::Vector2f(infoText.getGlobalBounds().width + 20, infoText.getGlobalBounds().height + 20));
+		sf::RectangleShape infoBoxBg(sf::Vector2f(infoText.getGlobalBounds().width + 20 * 1.5, infoText.getGlobalBounds().height + 20 * 1.5));
 		infoBoxBg.setFillColor(sf::Color(0, 8, 20, 225));
 		infoBoxBg.setPosition(mx, my - infoBoxBg.getSize().y);
 
@@ -223,23 +222,23 @@ void CraftingState::renderItemInfo() {
 
 void CraftingState::renderIcons() {
 	if (hoverUp) {
-		sf::RectangleShape upArrowIcon(sf::Vector2f(upArrow->getSize()));
+		sf::RectangleShape upArrowIcon(sf::Vector2f(upArrow->getSize()) * 1.5f);
 		upArrowIcon.setTexture(upArrow);
 		handler->window->draw(upArrowIcon);
 	}
 
 	if (hoverDown) {
-		sf::RectangleShape downArrowIcon(sf::Vector2f(downArrow->getSize()));
+		sf::RectangleShape downArrowIcon(sf::Vector2f(downArrow->getSize()) * 1.5f);
 		downArrowIcon.setTexture(downArrow);
 		handler->window->draw(downArrowIcon);
 	}
 
 	if (canCraftSelected) {
-		sf::RectangleShape canCraftIcon(sf::Vector2f(allow->getSize()));
+		sf::RectangleShape canCraftIcon(sf::Vector2f(allow->getSize()) * 1.5f);
 		canCraftIcon.setTexture(allow);
 		handler->window->draw(canCraftIcon);
 	} else {
-		sf::RectangleShape cannotCraftIcon(sf::Vector2f(deny->getSize()));
+		sf::RectangleShape cannotCraftIcon(sf::Vector2f(deny->getSize()) * 1.5f);
 		cannotCraftIcon.setTexture(deny);
 		handler->window->draw(cannotCraftIcon);
 	}
@@ -259,9 +258,9 @@ void CraftingState::renderCraftables() {
 		if (i + craftSlotOffset >= craftableItems.size()) continue;
 
 		int itemId = craftableItems[i + craftSlotOffset];
-		sf::RectangleShape curItem(sf::Vector2f(96, 96));
+		sf::RectangleShape curItem(sf::Vector2f(96 * 1.5, 96 * 1.5));
 		curItem.setTexture(handler->assets->getItemTexture(itemId));
-		curItem.setPosition(xOffset + (size + xSpace) * (pos)+6, yOffsetTop + (size + ySpace) * row + 6);
+		curItem.setPosition(xOffset + (size + xSpace) * (pos)+6 * 1.5, yOffsetTop + (size + ySpace) * row + 6 * 1.5);
 		handler->window->draw(curItem);
 
 		if (selectedCraftSlotX != pos || selectedCraftSlotY != row) {
@@ -281,16 +280,16 @@ void CraftingState::renderCraftables() {
 				int key = iter->first;
 				int value = iter->second;
 
-				sf::RectangleShape curIngredient(sf::Vector2f(96, 96));
+				sf::RectangleShape curIngredient(sf::Vector2f(96 * 1.5, 96 * 1.5));
 				curIngredient.setTexture(handler->assets->getItemTexture(key));
-				curIngredient.setPosition(xOffsetIngredients + (96 + xIngredientSpace) * ingredientPos, yOffsetIngredients + (96 + yIngredientSpace) * ingredientRow);
+				curIngredient.setPosition(xOffsetIngredients + (96 * 1.5 + xIngredientSpace) * ingredientPos, yOffsetIngredients + (96 * 1.5 + yIngredientSpace) * ingredientRow);
 				handler->window->draw(curIngredient);
 
 				sf::Text count;
 				count.setString(std::to_string(value));
 				count.setFont(guiFont);
-				count.setCharacterSize(16);
-				count.setPosition(sf::Vector2f(curIngredient.getPosition().x + 8, yOffsetIngredients + (96 + yIngredientSpace) * ingredientRow + 102 - count.getGlobalBounds().height - 10));
+				count.setCharacterSize(16 * 1.5);
+				count.setPosition(sf::Vector2f(curIngredient.getPosition().x + 8 * 1.5, yOffsetIngredients + (96 * 1.5 + yIngredientSpace) * ingredientRow + 102 * 1.5 - count.getGlobalBounds().height - 10 * 1.5));
 				handler->window->draw(count);
 
 			}
@@ -307,20 +306,20 @@ void CraftingState::updateMouse() {
 	sf::Vector2i mousePos(mx, my);
 
 	// Check for hovering on arrows
-	if (mx >= 22 && mx <= 60 && my >= 46 && my <= 111) {
+	if (mx >= 22 * 1.5 && mx <= 60 * 1.5 && my >= 46 * 1.5 && my <= 111 * 1.5) {
 		hoverUp = true;
 	} else {
 		hoverUp = false;
 	}
 
 
-	if (mx >= 22 && mx <= 60 && my >= 169 && my <= 234) {
+	if (mx >= 22 * 1.5 && mx <= 60 * 1.5 && my >= 169 * 1.5 && my <= 234 * 1.5) {
 		hoverDown = true;
 	} else {
 		hoverDown = false;
 	}
 
-	if (mx >= 712 && mx <= 807 && my >= 90 && my <= 185) {
+	if (mx >= 712 * 1.5 && mx <= 807 * 1.5 && my >= 90 * 1.5 && my <= 185 * 1.5) {
 		hoverCraft = true;
 	} else {
 		hoverCraft = false;
@@ -449,6 +448,7 @@ void CraftingState::mouseClicked(sf::Event e) {
 
 
 					if (hoverUp) {
+
 						if (craftSlotOffset != 0) {
 							craftSlotOffset -= 5;
 							selectedCraftSlotX = -1;
@@ -457,6 +457,7 @@ void CraftingState::mouseClicked(sf::Event e) {
 					}
 
 					if (hoverDown) {
+
 						if (craftSlotOffset + 10 < ItemMeta::getCraftableItems().size()) {
 							craftSlotOffset += 5;
 							selectedCraftSlotX = -1;

@@ -11,11 +11,11 @@ int main() {
 	sf::ContextSettings settings;
 	settings.depthBits = 24;
 	settings.stencilBits = 8;
-	settings.antialiasingLevel = 4;
+	settings.antialiasingLevel = 8;
 	settings.majorVersion = 4;
 	settings.minorVersion = 4;
 
-	sf::RenderWindow* window = new sf::RenderWindow(sf::VideoMode(1280, 720), "TileGame!", sf::Style::Titlebar | sf::Style::Close | sf::Style::Resize, settings);
+	sf::RenderWindow* window = new sf::RenderWindow(sf::VideoMode::getDesktopMode(), "TileGame!", sf::Style::None, settings);
 	window->setFramerateLimit(120);
 	window->setActive(false);
 

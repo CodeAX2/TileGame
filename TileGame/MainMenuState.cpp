@@ -17,8 +17,8 @@ MainMenuState::MainMenuState(Handler* handler) : GameState(MAIN_MENU), handler(h
 		mainMenuButtons.push_back(curButton);
 	}
 
-	mainMenuButtonsPos.push_back(sf::Vector2i(459, 404));
-	mainMenuButtonsPos.push_back(sf::Vector2i(459, 552));
+	mainMenuButtonsPos.push_back(sf::Vector2i(459 * 1.5, 404 * 1.5));
+	mainMenuButtonsPos.push_back(sf::Vector2i(459 * 1.5, 552 * 1.5));
 
 
 	mainMenuButtonHovering.push_back(false);
@@ -47,23 +47,23 @@ void MainMenuState::render() {
 	}
 	if (opacity > 255) opacity = 255;
 
-	handler->worldView = sf::View(sf::Vector2f(handler->window->getSize().x / 2, handler->window->getSize().y / 2), sf::Vector2f(1280.f, 720.f));
+	handler->worldView = sf::View(sf::Vector2f(handler->window->getSize().x / 2, handler->window->getSize().y / 2), sf::Vector2f(1920.f, 1080.f));
 	handler->window->setView(handler->guiView);
 
 
 
-	sf::RectangleShape bg(sf::Vector2f(1280, 720));
+	sf::RectangleShape bg(sf::Vector2f(1280 * 1.5, 720 * 1.5));
 	bg.setTexture(mainMenuBG);
 	bg.setFillColor(sf::Color(255, 255, 255, opacity));
 	handler->window->draw(bg);
 
-	sf::RectangleShape playButton(sf::Vector2f(361, 134));
+	sf::RectangleShape playButton(sf::Vector2f(361 * 1.5, 134 * 1.5));
 	playButton.setPosition(sf::Vector2f(mainMenuButtonsPos[0]));
 	playButton.setTexture(mainMenuButtons[0 + mainMenuButtonHovering[0]]);
 	playButton.setFillColor(sf::Color(255, 255, 255, opacity));
 	handler->window->draw(playButton);
 
-	sf::RectangleShape exitButton(sf::Vector2f(361, 134));
+	sf::RectangleShape exitButton(sf::Vector2f(361 * 1.5, 134 * 1.5));
 	exitButton.setPosition(sf::Vector2f(mainMenuButtonsPos[1]));
 	exitButton.setTexture(mainMenuButtons[2 + mainMenuButtonHovering[1]]);
 	exitButton.setFillColor(sf::Color(255, 255, 255, opacity));
@@ -72,7 +72,7 @@ void MainMenuState::render() {
 	sf::Text versionText;
 	versionText.setString("Version: " + version);
 	versionText.setFont(guiFont);
-	versionText.setCharacterSize(20);
+	versionText.setCharacterSize(20 * 1.5);
 	versionText.setPosition(5, handler->window->getView().getSize().y - versionText.getGlobalBounds().height);
 	versionText.setFillColor(sf::Color(255, 255, 255, opacity));
 	handler->window->draw(versionText);
@@ -125,7 +125,7 @@ void MainMenuState::mouseClicked(sf::Event e) {
 
 	std::vector<sf::Vector2i> buttonPos = state->getButtonPositions();
 
-	sf::Vector2i buttonSize(361, 132);
+	sf::Vector2i buttonSize(361 * 1.5, 132 * 1.5);
 
 	for (int i = 0; i < buttonPos.size(); i++) {
 		sf::IntRect buttonBounds(buttonPos[i], buttonSize);
@@ -155,7 +155,7 @@ void MainMenuState::updateMouse() {
 
 	std::vector<sf::Vector2i> buttonPos = state->getButtonPositions();
 
-	sf::Vector2i buttonSize(361, 134);
+	sf::Vector2i buttonSize(361 * 1.5, 134 * 1.5);
 
 	for (int i = 0; i < buttonPos.size(); i++) {
 		sf::IntRect buttonBounds(buttonPos[i], buttonSize);
@@ -178,7 +178,7 @@ void MainMenuState::updateJoystick(sf::Int32 dt) {
 	float jY = sf::Joystick::getAxisPosition(0, sf::Joystick::Y);
 	sf::Vector2f v = handler->window->getView().getSize();
 	sf::Vector2u w = handler->window->getSize();
-	sf::Vector2i buttonSize(361, 134);
+	sf::Vector2i buttonSize(361 * 1.5, 134 * 1.5);
 
 	if (jY <= -30) {
 		im->usingController = true;
@@ -239,7 +239,7 @@ void MainMenuState::updateJoystick(sf::Int32 dt) {
 
 			std::vector<sf::Vector2i> buttonPos = state->getButtonPositions();
 
-			sf::Vector2i buttonSize(361, 132);
+			sf::Vector2i buttonSize(361 * 1.5, 132 * 1.5);
 
 			for (int i = 0; i < buttonPos.size(); i++) {
 				sf::IntRect buttonBounds(buttonPos[i], buttonSize);

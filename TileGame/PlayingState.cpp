@@ -72,7 +72,7 @@ void PlayingState::render() {
 
 	}
 	float z = handler->inputManager->getZoomLevel();
-	handler->worldView = sf::View(sf::Vector2f(handler->window->getSize().x / 2, handler->window->getSize().y / 2), sf::Vector2f(1280.f*1.f / z, 720.f*1.f / z));
+	handler->worldView = sf::View(sf::Vector2f(handler->window->getSize().x / 2, handler->window->getSize().y / 2), sf::Vector2f(1920.f*1.f / z, 1080.f*1.f / z));
 
 	renderTexture.create(handler->worldView.getSize().x, handler->worldView.getSize().y);
 	renderTexture.clear();
@@ -315,23 +315,23 @@ void PlayingState::renderWorld() {
 void PlayingState::renderGUI() {
 
 	const sf::Texture* invText = handler->assets->getGuiInv();
-	sf::RectangleShape inventory(sf::Vector2f(invText->getSize().x * 3, invText->getSize().y * 3));
+	sf::RectangleShape inventory(sf::Vector2f(invText->getSize().x * 3 * 1.5, invText->getSize().y * 3 * 1.5));
 	inventory.setTexture(invText);
 
 	if (guiOnBottom) {
-		inventory.setPosition(handler->window->getView().getSize().x / 2 - inventory.getSize().x / 2, handler->window->getView().getSize().y - inventory.getSize().y - 20);
+		inventory.setPosition(handler->window->getView().getSize().x / 2 - inventory.getSize().x / 2, handler->window->getView().getSize().y - inventory.getSize().y - 20 * 1.5);
 	} else {
-		inventory.setPosition(handler->window->getView().getSize().x / 2 - inventory.getSize().x / 2, 20);
+		inventory.setPosition(handler->window->getView().getSize().x / 2 - inventory.getSize().x / 2, 20 * 1.5);
 	}
 
 	handler->window->draw(inventory);
 
 	int hotBarSlot = handler->player->getHotBarSlot();
-	sf::RectangleShape hotBarHighlight(sf::Vector2f(hotBarSlotHighlight->getSize().x * 3, hotBarSlotHighlight->getSize().y * 3));
+	sf::RectangleShape hotBarHighlight(sf::Vector2f(hotBarSlotHighlight->getSize().x * 3 * 1.5, hotBarSlotHighlight->getSize().y * 3 * 1.5));
 	if (guiOnBottom) {
-		hotBarHighlight.setPosition(sf::Vector2f(handler->window->getView().getSize().x / 2 - inventory.getSize().x / 2 + (108 + 18) * hotBarSlot, handler->window->getView().getSize().y - inventory.getSize().y - 20));
+		hotBarHighlight.setPosition(sf::Vector2f(handler->window->getView().getSize().x / 2 - inventory.getSize().x / 2 + (108 + 18) * 1.5 * hotBarSlot, handler->window->getView().getSize().y - inventory.getSize().y - 20 * 1.5));
 	} else {
-		hotBarHighlight.setPosition(sf::Vector2f(handler->window->getView().getSize().x / 2 - inventory.getSize().x / 2 + (108 + 18) * hotBarSlot, 20));
+		hotBarHighlight.setPosition(sf::Vector2f(handler->window->getView().getSize().x / 2 - inventory.getSize().x / 2 + (108 + 18) * 1.5 * hotBarSlot, 20 * 1.5));
 	}
 	hotBarHighlight.setTexture(hotBarSlotHighlight);
 	handler->window->draw(hotBarHighlight);
@@ -344,30 +344,30 @@ void PlayingState::renderGUI() {
 	for (int i = 0; i < 9; i++) {
 		if (pInv->getInventory()[i].first != -1 && pInv->getInventory()[i].second > 0) {
 			const sf::Texture* curItemTexture = handler->assets->getItemTexture(pInv->getInventory()[i].first);
-			sf::RectangleShape curItem(sf::Vector2f(96, 96));
+			sf::RectangleShape curItem(sf::Vector2f(96 * 1.5, 96 * 1.5));
 			curItem.setTexture(curItemTexture);
-			curItem.setPosition(sf::Vector2f(i * 42 * 3 + 28 * 3 + 6, y));
+			curItem.setPosition(sf::Vector2f(i * 42 * 3 * 1.5 + 28 * 3 * 1.5 + 6 * 1.5, y));
 			handler->window->draw(curItem);
 			sf::Text count;
 			count.setString(std::to_string(pInv->getInventory()[i].second));
 			count.setFont(guiFont);
-			count.setCharacterSize(16);
-			count.setPosition(sf::Vector2f(i * 42 * 3 + 28 * 3 + 12, y + 102 - count.getGlobalBounds().height - 10));
+			count.setCharacterSize(16 * 1.5);
+			count.setPosition(sf::Vector2f(i * 42 * 3 * 1.5 + 28 * 3 * 1.5 + 12 * 1.5, y + 102 * 1.5 - count.getGlobalBounds().height - 10 * 1.5));
 			handler->window->draw(count);
 		}
 	}
 
-	sf::RectangleShape healthBarBackground(sf::Vector2f(300, 20));
-	float yPos = handler->window->getView().getSize().y - 160;
+	sf::RectangleShape healthBarBackground(sf::Vector2f(300 * 1.5, 20 * 1.5));
+	float yPos = handler->window->getView().getSize().y - 160 * 1.5;
 	if (!guiOnBottom) {
-		yPos = 140;
+		yPos = 140 * 1.5;
 	}
 	healthBarBackground.setPosition(handler->window->getView().getSize().x / 2 - healthBarBackground.getSize().x / 2, yPos);
 	healthBarBackground.setFillColor(sf::Color(40, 2, 2));
 
 	handler->window->draw(healthBarBackground);
 
-	sf::RectangleShape healthBar(sf::Vector2f((float)handler->player->getHealth() / handler->player->getMaxHealth() * 300, 20));
+	sf::RectangleShape healthBar(sf::Vector2f((float)handler->player->getHealth() / handler->player->getMaxHealth() * 300 * 1.5, 20 * 1.5));
 	healthBar.setPosition(handler->window->getView().getSize().x / 2 - healthBar.getSize().x / 2, yPos);
 	healthBar.setFillColor(sf::Color(132, 5, 5));
 
@@ -380,24 +380,24 @@ void PlayingState::renderGUI() {
 	ss << handler->player->getHealth() << "/" << handler->player->getMaxHealth();
 
 	healthText.setString(ss.str());
-	healthText.setCharacterSize(20);
-	healthText.setPosition(handler->window->getView().getSize().x / 2 - healthText.getLocalBounds().width / 2, yPos - 10 + healthText.getLocalBounds().height / 2);
+	healthText.setCharacterSize(20 * 1.5);
+	healthText.setPosition(handler->window->getView().getSize().x / 2 - healthText.getLocalBounds().width / 2, yPos - 10 * 1.5 + healthText.getLocalBounds().height / 2);
 
 
 	handler->window->draw(healthText);
 
 
 
-	sf::RectangleShape stamBarBackground(sf::Vector2f(300, 20));
+	sf::RectangleShape stamBarBackground(sf::Vector2f(300 * 1.5, 20 * 1.5));
 	if (!guiOnBottom) {
-		yPos = 140;
+		yPos = 140 * 1.5;
 	}
 	stamBarBackground.setPosition(3 * handler->window->getView().getSize().x / 4 - stamBarBackground.getSize().x / 2, yPos);
 	stamBarBackground.setFillColor(sf::Color(2, 40, 2));
 
 	handler->window->draw(stamBarBackground);
 
-	sf::RectangleShape stamBar(sf::Vector2f((float)handler->player->getStamina() / handler->player->getMaxStamina() * 300, 20));
+	sf::RectangleShape stamBar(sf::Vector2f((float)handler->player->getStamina() / handler->player->getMaxStamina() * 300 * 1.5, 20 * 1.5));
 	stamBar.setPosition(3 * handler->window->getView().getSize().x / 4 - stamBar.getSize().x / 2, yPos);
 	stamBar.setFillColor(sf::Color(5, 132, 5));
 	if (handler->player->stamIsRegeningSlowly()) {
@@ -413,22 +413,22 @@ void PlayingState::renderGUI() {
 	ss << handler->player->getStamina() << "/" << handler->player->getMaxStamina();
 
 	stamText.setString(ss.str());
-	stamText.setCharacterSize(20);
-	stamText.setPosition(3 * handler->window->getView().getSize().x / 4 - stamText.getLocalBounds().width / 2, yPos - 10 + stamText.getLocalBounds().height / 2);
+	stamText.setCharacterSize(20 * 1.5);
+	stamText.setPosition(3 * handler->window->getView().getSize().x / 4 - stamText.getLocalBounds().width / 2, yPos - 10 * 1.5 + stamText.getLocalBounds().height / 2);
 
 
 	handler->window->draw(stamText);
 
-	sf::RectangleShape magicBarBackground(sf::Vector2f(300, 20));
+	sf::RectangleShape magicBarBackground(sf::Vector2f(300 * 1.5, 20 * 1.5));
 	if (!guiOnBottom) {
-		yPos = 140;
+		yPos = 140 * 1.5;
 	}
 	magicBarBackground.setPosition(handler->window->getView().getSize().x / 4 - magicBarBackground.getSize().x / 2, yPos);
 	magicBarBackground.setFillColor(sf::Color(2, 2, 40));
 
 	handler->window->draw(magicBarBackground);
 
-	sf::RectangleShape magicBar(sf::Vector2f((float)handler->player->getMagic() / handler->player->getMaxMagic() * 300, 20));
+	sf::RectangleShape magicBar(sf::Vector2f((float)handler->player->getMagic() / handler->player->getMaxMagic() * 300 * 1.5, 20 * 1.5));
 	magicBar.setPosition(handler->window->getView().getSize().x / 4 - magicBar.getSize().x / 2, yPos);
 	magicBar.setFillColor(sf::Color(5, 5, 132));
 
@@ -441,8 +441,8 @@ void PlayingState::renderGUI() {
 	ss << handler->player->getMagic() << "/" << handler->player->getMaxMagic();
 
 	magicText.setString(ss.str());
-	magicText.setCharacterSize(20);
-	magicText.setPosition(handler->window->getView().getSize().x / 4 - magicText.getLocalBounds().width / 2, yPos - 10 + stamText.getLocalBounds().height / 2);
+	magicText.setCharacterSize(20 * 1.5);
+	magicText.setPosition(handler->window->getView().getSize().x / 4 - magicText.getLocalBounds().width / 2, yPos - 10 * 1.5 + stamText.getLocalBounds().height / 2);
 
 
 	handler->window->draw(magicText);
@@ -491,7 +491,7 @@ void PlayingState::renderDeathScreen() {
 	// TODO add more gameover messages
 
 	sf::Text gameOverText(gmvrText, guiFont);
-	gameOverText.setCharacterSize(80);
+	gameOverText.setCharacterSize(80 * 1.5);
 	sf::Vector2f viewSize = handler->window->getView().getSize();
 	gameOverText.setPosition(
 		viewSize.x / 2 - gameOverText.getGlobalBounds().width / 2,
@@ -502,10 +502,10 @@ void PlayingState::renderDeathScreen() {
 	handler->window->draw(gameOverText);
 
 	sf::Text deathText(deathMessage, guiFont);
-	deathText.setCharacterSize(30);
+	deathText.setCharacterSize(30 * 1.5);
 	deathText.setPosition(
 		viewSize.x / 2 - deathText.getGlobalBounds().width / 2,
-		gameOverText.getPosition().y + gameOverText.getGlobalBounds().height + 10
+		gameOverText.getPosition().y + gameOverText.getGlobalBounds().height + 10 * 1.5
 	);
 	deathText.setFillColor(sf::Color(255, 232, 232, gameOverFade * 255));
 
@@ -520,8 +520,8 @@ void PlayingState::renderDeathScreen() {
 	sf::Texture* exitButtonTex = handler->assets->getDeathScreenButton(exitId);
 
 	sf::RectangleShape respawnButton(sf::Vector2f(respawnButtonTex->getSize()));
-	respawnButton.setPosition(viewSize.x / 2 - respawnButton.getSize().x - 20,
-		deathText.getPosition().y + deathText.getGlobalBounds().height + 10);
+	respawnButton.setPosition(viewSize.x / 2 - respawnButton.getSize().x - 20 * 1.5,
+		deathText.getPosition().y + deathText.getGlobalBounds().height + 10 * 1.5);
 	respawnButton.setTexture(respawnButtonTex);
 	respawnButton.setFillColor(sf::Color(255, 255, 255, 255 * gameOverFade));
 
@@ -529,8 +529,8 @@ void PlayingState::renderDeathScreen() {
 	respawnButtonY = respawnButton.getPosition().y;
 
 	sf::RectangleShape exitButton(sf::Vector2f(exitButtonTex->getSize()));
-	exitButton.setPosition(viewSize.x / 2 + 20,
-		deathText.getPosition().y + deathText.getGlobalBounds().height + 10);
+	exitButton.setPosition(viewSize.x / 2 + 20 * 1.5,
+		deathText.getPosition().y + deathText.getGlobalBounds().height + 10 * 1.5);
 	exitButton.setTexture(exitButtonTex);
 	exitButton.setFillColor(sf::Color(255, 255, 255, 255 * gameOverFade));
 

@@ -75,9 +75,9 @@ void DialogueState::renderDialogue() {
 
 	handler->window->draw(bg);
 
-	sf::RectangleShape npc(sf::Vector2f(64 * 3, 64 * 3));
+	sf::RectangleShape npc(sf::Vector2f(64 * 3 * 1.5, 64 * 3 * 1.5));
 	npc.setTexture(talkingQuester->getDialogueTexture());
-	npc.setPosition(39, 489);
+	npc.setPosition(39 * 1.5, 489 * 1.5);
 
 	handler->window->draw(npc);
 
@@ -106,9 +106,9 @@ void DialogueState::renderDialogue() {
 		bool finalWord = false;
 
 		sf::Text dialogueText(s, guiFont);
-		dialogueText.setCharacterSize(20);
+		dialogueText.setCharacterSize(20 * 1.5);
 
-		if (rowTotal + dialogueText.getGlobalBounds().width > 898) {
+		if (rowTotal + dialogueText.getGlobalBounds().width > 898 * 1.5f) {
 			rowTotal = 0;
 			row++;
 		}
@@ -123,7 +123,7 @@ void DialogueState::renderDialogue() {
 			dialogueText.setString(dialogueText.getString() + " ");
 			charsPrinted += s.length();
 		}
-		dialogueText.setPosition(266 + 10 + rowTotal, 489 + 12 + row * (guiFont.getGlyph('!', 20, false).bounds.height + 6));
+		dialogueText.setPosition(266 * 1.5 + 10 * 1.5 + rowTotal, 489 * 1.5 + 12 * 1.5 + row * (guiFont.getGlyph('!', 20 * 1.5, false).bounds.height + 6 * 1.5));
 		dialogueText.setFillColor(sf::Color::White);
 
 		rowTotal += dialogueText.getGlobalBounds().width;

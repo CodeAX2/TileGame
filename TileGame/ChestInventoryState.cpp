@@ -48,7 +48,7 @@ void ChestInventoryState::renderBackground() {
 void ChestInventoryState::renderHighlight() {
 	if (xSlot != -1 && ySlot != -1) {
 
-		sf::RectangleShape highlight(sf::Vector2f(invHighlight->getSize().x * 3, invHighlight->getSize().y * 3));
+		sf::RectangleShape highlight(sf::Vector2f(invHighlight->getSize().x * 3 * 1.5, invHighlight->getSize().y * 3 * 1.5));
 		highlight.setTexture(invHighlight);
 		float xPos, yPos;
 		xPos = xOffset + xSlot * (size + xSpace);
@@ -73,16 +73,16 @@ void ChestInventoryState::renderItems() {
 	for (int i = 0; i < 9; i++) {
 		if (clickedSlotY == 4 && clickedSlotX == i) continue;
 		if (inv->getInventory()[i].first != -1) {
-			sf::RectangleShape curItem(sf::Vector2f(96, 96));
+			sf::RectangleShape curItem(sf::Vector2f(96 * 1.5, 96 * 1.5));
 			curItem.setTexture(handler->assets->getItemTexture(inv->getInventory()[i].first));
-			curItem.setPosition(xOffset + (size + xSpace) * i + 6, yOffsetBottom + 6);
+			curItem.setPosition((xOffset + (size + xSpace) * i + 6 * 1.5), (yOffsetBottom + 6 * 1.5));
 			handler->window->draw(curItem);
 
 			sf::Text count;
 			count.setString(std::to_string(inv->getInventory()[i].second));
 			count.setFont(guiFont);
-			count.setCharacterSize(16);
-			count.setPosition(sf::Vector2f(i * 42 * 3 + 28 * 3 + 12, yOffsetBottom + 108 - count.getGlobalBounds().height - 10));
+			count.setCharacterSize(16 * 1.5);
+			count.setPosition(sf::Vector2f(i * 42 * 3 * 1.5f + 28 * 3 * 1.5 + 12 * 1.5, yOffsetBottom + 108 * 1.5 - count.getGlobalBounds().height - 10 * 1.5f));
 			handler->window->draw(count);
 		}
 	}
@@ -93,16 +93,16 @@ void ChestInventoryState::renderItems() {
 			int index = 9;
 			index += i * 7 + j;
 			if (inv->getInventory()[index].first != -1) {
-				sf::RectangleShape curItem(sf::Vector2f(96, 96));
+				sf::RectangleShape curItem(sf::Vector2f(96 * 1.5, 96 * 1.5));
 				curItem.setTexture(handler->assets->getItemTexture(inv->getInventory()[index].first));
-				curItem.setPosition(xOffset + (size + xSpace) * (j + 1) + 6, yOffsetMid + (size + ySpace) * i + 6);
+				curItem.setPosition((xOffset + (size + xSpace) * (j + 1) + 6 * 1.5), (yOffsetMid + (size + ySpace) * i + 6 * 1.5));
 				handler->window->draw(curItem);
 
 				sf::Text count;
 				count.setString(std::to_string(inv->getInventory()[index].second));
 				count.setFont(guiFont);
-				count.setCharacterSize(16);
-				count.setPosition(sf::Vector2f((j + 1) * 42 * 3 + 28 * 3 + 12, yOffsetMid + (size + ySpace) * i + size - count.getGlobalBounds().height - 10));
+				count.setCharacterSize(16 * 1.5);
+				count.setPosition(sf::Vector2f((j + 1) * 42 * 3 * 1.5f + 28 * 3 * 1.5 + 12 * 1.5, yOffsetMid + (size + ySpace) * i + size - count.getGlobalBounds().height - 10 * 1.5f));
 				handler->window->draw(count);
 
 
@@ -115,22 +115,22 @@ void ChestInventoryState::renderItems() {
 		if (clickedSlotY == i / 5 && clickedSlotX == i % 5 + 1) continue;
 		if (chestContents[i].first == -1)
 			continue;
-		sf::RectangleShape curItem(sf::Vector2f(96, 96));
+		sf::RectangleShape curItem(sf::Vector2f(96 * 1.5, 96 * 1.5));
 		curItem.setTexture(handler->assets->getItemTexture(chestContents[i].first));
 
 		sf::Text count;
 		count.setString(std::to_string(chestContents[i].second));
 		count.setFont(guiFont);
-		count.setCharacterSize(16);
+		count.setCharacterSize(16 * 1.5);
 
 		sf::Vector2f curItemPos, curCountPos;
 
 		if (i < 5) {
-			curItemPos = sf::Vector2f(xOffset + (size + xSpace) * (i + 1) + 6, yOffsetTop + (size + ySpace) * 0 + 6);
-			curCountPos = sf::Vector2f((i + 1) * 42 * 3 + 28 * 3 + 12, yOffsetTop + (size + ySpace) * 0 + size - count.getGlobalBounds().height - 10);
+			curItemPos = sf::Vector2f(xOffset + (size + xSpace) * (i + 1) + 6 * 1.5, yOffsetTop + 6 * 1.5);
+			curCountPos = sf::Vector2f((i + 1) * 42 * 3 * 1.5f + 28 * 3 * 1.5f + 12 * 1.5f, yOffsetTop + size - count.getGlobalBounds().height - 10 * 1.5f);
 		} else {
-			curItemPos = sf::Vector2f(xOffset + (size + xSpace) * (i + 1 - 5) + 6, yOffsetTop + (size + ySpace) * 1 + 6);
-			curCountPos = sf::Vector2f((i + 1 - 5) * 42 * 3 + 28 * 3 + 12, yOffsetTop + (size + ySpace) * 1 + size - count.getGlobalBounds().height - 10);
+			curItemPos = sf::Vector2f(xOffset + (size + xSpace) * (i + 1 - 5) + 6 * 1.5f, yOffsetTop + (size + ySpace) + 6 * 1.5f);
+			curCountPos = sf::Vector2f((i + 1 - 5) * 42 * 3 * 1.5f + 28 * 3 * 1.5f + 12 * 1.5f, yOffsetTop + (size + ySpace) + size - count.getGlobalBounds().height - 10 * 1.5f);
 		}
 
 		curItem.setPosition(curItemPos);
@@ -150,16 +150,16 @@ void ChestInventoryState::renderItems() {
 		int mx = sf::Mouse::getPosition(*(handler->window)).x * (v.x / w.x);
 		int my = sf::Mouse::getPosition(*(handler->window)).y * (v.y / w.y);
 
-		sf::RectangleShape curItem(sf::Vector2f(96, 96));
+		sf::RectangleShape curItem(sf::Vector2f(96 * 1.5, 96 * 1.5));
 		curItem.setTexture(handler->assets->getItemTexture(getItemAt(clickedSlotX, clickedSlotY).first));
-		curItem.setPosition(mx - 96 / 2, my - 96 / 2);
+		curItem.setPosition((mx - 96 * 1.5 / 2), (my - 96 * 1.5 / 2));
 		handler->window->draw(curItem);
 
 		sf::Text count;
 		count.setString(std::to_string(getItemAt(clickedSlotX, clickedSlotY).second));
 		count.setFont(guiFont);
-		count.setCharacterSize(16);
-		count.setPosition(sf::Vector2f(mx + 14 - size / 2, my + size - count.getGlobalBounds().height - 10 - size / 2));
+		count.setCharacterSize(16 * 1.5);
+		count.setPosition(sf::Vector2f(mx + 14 * 1.5 - size / 2, my + size - count.getGlobalBounds().height - 10 * 1.5 - size / 2));
 		handler->window->draw(count);
 
 
@@ -188,14 +188,14 @@ void ChestInventoryState::renderItemInfo() {
 		sf::Text infoText;
 		infoText.setFont(guiFont);
 		infoText.setString(ItemDesc::getInfo(itemId));
-		infoText.setCharacterSize(16);
+		infoText.setCharacterSize(16 * 1.5);
 		infoText.setLineSpacing(1.2f);
 		infoText.setOrigin(infoText.getGlobalBounds().left, infoText.getGlobalBounds().top + infoText.getGlobalBounds().height);
-		infoText.setPosition(mx + 10, my - 10);
+		infoText.setPosition(mx + 10 * 1.5, my - 10 * 1.5);
 		infoText.setFillColor(sf::Color::White);
 
 
-		sf::RectangleShape infoBoxBg(sf::Vector2f(infoText.getGlobalBounds().width + 20, infoText.getGlobalBounds().height + 20));
+		sf::RectangleShape infoBoxBg(sf::Vector2f(infoText.getGlobalBounds().width + 20 * 1.5, infoText.getGlobalBounds().height + 20 * 1.5));
 		infoBoxBg.setFillColor(sf::Color(0, 8, 20, 225));
 		infoBoxBg.setPosition(mx, my - infoBoxBg.getSize().y);
 

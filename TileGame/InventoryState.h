@@ -32,9 +32,9 @@ namespace tg {
 		sf::Texture* invHighlight;
 		// Represents spots in the GUI where
 		// a slot exists
-		const int xOffset = 82, yOffset = 176, bottomRowOffset = 563;
-		const int size = 108;
-		const int xSpace = 18, ySpace = 15;
+		const int xOffset = 82 * 1.5, yOffset = 176 * 1.5, bottomRowOffset = 563 * 1.5;
+		const int size = 108 * 1.5;
+		const int xSpace = 18 * 1.5, ySpace = 15 * 1.5;
 
 		int xSlot = -1, ySlot = -1;
 		bool grid[4][9] = {
