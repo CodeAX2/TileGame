@@ -138,8 +138,18 @@ void Player::tick(sf::Int32 dt) {
 						curAnim = 10;
 					}
 				} else {
-					if (timeSinceAttackStart <= 150) { curAnim = 0; } else {
-						curAnim = 0;
+					float oldY = y;
+					y += 1.0 / 2 * dt * speed * pow(timeSinceAttackStart / 150.f, 2);
+
+					if (checkForCollision()) {
+						y = oldY;
+					}
+					if (timeSinceAttackStart <= 100) {
+						curAnim = 15;
+					} else if (timeSinceAttackStart <= 200) {
+						curAnim = 16;
+					} else {
+						curAnim = 17;
 					}
 				}
 

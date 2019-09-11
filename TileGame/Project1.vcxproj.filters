@@ -743,7 +743,9 @@
     <Image Include="Resources\Textures\SS-PlayerV2.png">
       <Filter>Resource Files\Textures</Filter>
     </Image>
-    <Image Include="Resources\Textures\SS-PlayerV3.png" />
+    <Image Include="Resources\Textures\SS-PlayerV3.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Media Include="Resources\Sounds\sans.mp3">

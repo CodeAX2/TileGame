@@ -118,7 +118,7 @@ std::string Assets::loadMapFromResource(int name) {
 	if (!firstByte)
 		throw std::runtime_error("Failed to lock resource.");
 
-	return std::string(static_cast<const char *>(firstByte));
+	return std::string(static_cast<const char*>(firstByte));
 }
 
 sf::Font Assets::loadFontFromResource(int name) {
@@ -165,7 +165,7 @@ sf::Shader* Assets::loadShaderFromResource(int name) {
 		throw std::runtime_error("Failed to lock resource.");
 
 	sf::Shader* shader = new sf::Shader();
-	std::string shaderString = std::string(static_cast<const char *>(firstByte));
+	std::string shaderString = std::string(static_cast<const char*>(firstByte));
 	shader->loadFromMemory(shaderString, sf::Shader::Type::Fragment);
 
 	return shader;
@@ -366,6 +366,15 @@ void Assets::init() {
 
 		curPlayerAnim->loadFromImage(img,
 			sf::IntRect(31 * (i % 5), 32 * (i / 5), 31, 32));
+		playerAnimation->addFrame(curPlayerAnim);
+		operations++;
+	}
+
+	for (int i = 0; i < 3; i++) {
+		sf::Texture* curPlayerAnim = new sf::Texture();
+
+		curPlayerAnim->loadFromImage(img,
+			sf::IntRect(31 * (i % 3) + 31 * 5, 32 * (i / 3), 31, 32));
 		playerAnimation->addFrame(curPlayerAnim);
 		operations++;
 	}
