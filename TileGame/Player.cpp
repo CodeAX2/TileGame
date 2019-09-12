@@ -84,12 +84,19 @@ void Player::render(Handler* handler) {
 	handler->window->draw(sprite);
 
 	// Draw the item if attacking
-	if (attacking) {
+	if (attacking && this->getItemInfoInHotBar().first != -1) {
 		int attackAnimIndex = curAnim - 15;
 		if (attackAnimIndex < 0) attackAnimIndex = 0;
 
-		std::tuple<int,int,float> attckInfo = handler->assets->getPlayerSwordAttackAnimation(attackAnimIndex);
-
+		std::tuple<int, int, float> attckInfo = handler->assets->getPlayerSwordAttackAnimation(attackAnimIndex);
+		sf::Texture* itemTexture = handler->assets->getItemTexture(this->getItemInfoInHotBar().first);
+		sf::Sprite itemSprite(*itemTexture);
+		itemSprite.setScale(2, 2);
+		itemSprite.setPosition(sprite.getPosition() + 
+			sf::Vector2f(std::get<0>(attckInfo) * sprite.getScale().x, 
+				std::get<1>(attckInfo) * sprite.getScale().y));
+		itemSprite.setRotation(std::get<2>(attckInfo));
+		handler->window->draw(itemSprite);
 
 	}
 
