@@ -6,8 +6,6 @@ GameState::GameState(){}
 
 GameState::GameState(int type) : type(type) {
 
-
-
 }
 
 
@@ -49,6 +47,14 @@ void GameState::updateMouse() {
 
 void GameState::updateJoystick(sf::Int32 dt) {
 
+}
+
+void GameState::load() {
+
+}
+
+void GameState::save() {
+	 
 }
 
 // Not much here, as this is just the base of other classes

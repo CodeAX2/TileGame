@@ -180,6 +180,9 @@ void Game::commandLoop() {
 			PlayingState* ps = dynamic_cast<PlayingState*>(handler.getCustomState(PLAYING));
 			ps->pauseBGMusic();
 
+		} else if (cmd == "playmusic") {
+			PlayingState* ps = dynamic_cast<PlayingState*>(handler.getCustomState(PLAYING));
+			ps->playBGMusic();
 		} else if (cmd == "settime") {
 			int time = std::stof(args[0]);
 			PlayingState* ps = dynamic_cast<PlayingState*>(handler.getCustomState(PLAYING));
@@ -389,10 +392,7 @@ void Game::start() {
 		}
 	}
 
-	if (PlayingState * ps = dynamic_cast<PlayingState*>(handler.getCustomState(PLAYING))) {
-		ps->saveStateFile();
-	}
-
+	handler.saveGameStates();
 
 }
 

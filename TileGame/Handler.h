@@ -37,6 +37,8 @@ namespace tg {
 	public:
 		void setGameState(int stateId);
 		void initGameStates();
+		void loadGameStates();
+		void saveGameStates();
 		GameState* getCurrentState() { return currentState; }
 		GameState* getCustomState(int stateId) { return allStates[stateId]; }
 		GameState* getPreviousState() { return previousState; }

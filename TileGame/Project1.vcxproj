@@ -170,6 +170,7 @@
     <Image Include="Resources\Textures\Grass24.png" />
     <Image Include="Resources\Textures\GUI-Inventory.png" />
     <Image Include="Resources\Textures\HalloweenCandy.png" />
+    <Image Include="Resources\Textures\House.png" />
     <Image Include="Resources\Textures\icon.ico" />
     <Image Include="Resources\Textures\IngotItems.png" />
     <Image Include="Resources\Textures\InsideWall Tiles.png" />

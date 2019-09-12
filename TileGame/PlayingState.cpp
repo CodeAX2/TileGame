@@ -30,8 +30,6 @@ PlayingState::PlayingState(Handler* handler) : GameState(PLAYING), handler(handl
 	bgMusic.setLoop(true);
 	hotBarSlotHighlight = handler->assets->loadTextureFromResource(INV_HIGHLIGHT);
 
-	loadStateFile();
-
 }
 
 
@@ -1076,26 +1074,28 @@ void PlayingState::addBuildingTexture(const sf::Texture* texture, sf::Vector2f p
 
 }
 
-void PlayingState::loadStateFile() {
-	std::ifstream file(handler->saveDirName + "\\" + "Gamestate.tgs", std::ios::in | std::ios::binary);
+void PlayingState::load() {
+	std::ifstream file(handler->saveDirName + "\\" + "playingstate.tgs", std::ios::in | std::ios::binary);
 	if (!file.is_open()) {
-		std::cout << "Could not open gamestate file!" << std::endl;
+		std::cout << "Could not open gamestate file: playingstate.tgs" << std::endl;
 		return;
 	}
 
 	file.read((char*)& time, sizeof(sf::Int32));
+	file.read((char*)& musicPaused, sizeof(bool));
 
 	file.close();
 }
 
-void PlayingState::saveStateFile() {
-	std::ofstream file(handler->saveDirName + "\\" + "Gamestate.tgs", std::ios::out | std::ios::trunc | std::ios::binary);
+void PlayingState::save() {
+	std::ofstream file(handler->saveDirName + "\\" + "playingstate.tgs", std::ios::out | std::ios::trunc | std::ios::binary);
 	if (!file.is_open()) {
 		std::cout << "Could not save gamestate file!" << std::endl;
 		return;
 	}
 
 	file.write((char*)& time, sizeof(sf::Int32));
+	file.write((char*)& musicPaused, sizeof(bool));
 
 	file.close();
 

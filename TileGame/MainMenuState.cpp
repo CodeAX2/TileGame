@@ -3,6 +3,7 @@
 #include "resource.h"
 #include "InputManager.h"
 #include "LoadingState.h"
+#include <fstream>
 
 MainMenuState::MainMenuState(Handler* handler) : GameState(MAIN_MENU), handler(handler) {
 

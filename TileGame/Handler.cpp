@@ -49,7 +49,22 @@ void Handler::initGameStates() {
 	allStates.push_back(new CraftingState(this));
 	allStates.push_back(new DialogueState(this));
 	this->setGameState(MAIN_MENU);
+	
+	loadGameStates();
 
+
+}
+
+void Handler::loadGameStates() {
+	for (int i = 0; i < allStates.size(); i++) {
+		allStates[i]->load();
+	}
+}
+
+void Handler::saveGameStates() {
+	for (int i = 0; i < allStates.size(); i++) {
+		allStates[i]->save();
+	}
 }
 
 // Set the current gameState

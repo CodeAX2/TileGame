@@ -55,6 +55,12 @@ namespace tg {
 		// Update the state of the joystick/controller
 		virtual void updateJoystick(sf::Int32 dt);
 
+		// Load any info associated with the state
+		virtual void load();
+
+		// Save any info associated with the state
+		virtual void save();
+
 
 	};
 

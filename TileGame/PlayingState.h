@@ -12,8 +12,6 @@ namespace tg {
 		~PlayingState();
 
 	public:
-		void loadStateFile();
-		void saveStateFile();
 		void render();
 		void tick(sf::Int32 dt);
 		void zoom();
@@ -37,6 +35,8 @@ namespace tg {
 		void addBuildingTexture(const sf::Texture* texture, sf::Vector2f pos);
 		void setTime(sf::Int32 time) { this->time = time; }
 		bool isFading() { return fade; }
+		void load() override;
+		void save() override;
 
 	private:
 		void renderWorld();
@@ -62,7 +62,7 @@ namespace tg {
 		sf::Music bgMusic;
 		sf::Texture* hotBarSlotHighlight;
 		bool musicPaused = false;
-		sf::Int32 time = 540000 - 5000;
+		sf::Int32 time = 2048;
 		sf::RenderTexture renderTexture;
 		float darknessPercent = 0;
 
