@@ -7,6 +7,7 @@
 #include "Animation.h"
 #include <map>
 #include "winres.h"
+#include <tuple>
 
 namespace tg {
 
@@ -52,6 +53,7 @@ namespace tg {
 		sf::Texture* questIcon;
 		sf::Texture* questIconAvailable;
 		sf::Texture* dialogueNPC;
+		std::vector<std::tuple<int, int, float>> playerSwordAttackAnimation;
 
 	public:
 		Assets();
@@ -116,6 +118,10 @@ namespace tg {
 
 		Animation* getPlayerAnim() {
 			return playerAnimation;
+		}
+
+		std::tuple<int, int, float> getPlayerSwordAttackAnimation(int index) {
+			return playerSwordAttackAnimation[index];
 		}
 
 		std::string getMapData() {

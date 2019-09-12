@@ -360,6 +360,7 @@ void Assets::init() {
 	playerAnimation = new Animation();
 
 	sf::Image img = loadImageFromResource(PLAYER_SHEET);
+	sf::Image swordAttackImg = loadImageFromResource(PLAYER_SWORD_ATTACK_SHEET);
 
 	for (int i = 0; i < 15; i++) {
 		sf::Texture* curPlayerAnim = new sf::Texture();
@@ -376,7 +377,21 @@ void Assets::init() {
 		curPlayerAnim->loadFromImage(img,
 			sf::IntRect(31 * (i % 3) + 31 * 5, 32 * (i / 3), 31, 32));
 		playerAnimation->addFrame(curPlayerAnim);
-		operations++;
+
+		for (int jx = 0; jx < 31; jx++) {
+			for (int jy = 0; jy < 32; jy++) {
+				sf::Color c = swordAttackImg.getPixel(31 * (i % 3) + 31 * 5 + jx, 32 * (i / 3) + jy);
+				if (c.a != 0) {
+					float rotation = c.b * 100.f + (float)c.r + .01f * c.g;
+					playerSwordAttackAnimation.push_back(std::tuple<int, int, float>(jx,jy,rotation));
+					break;
+				}
+			}
+		}
+		
+
+
+		operations += 2;
 	}
 
 	zombieAnimation = new Animation();
@@ -476,11 +491,14 @@ void Assets::loadWall(int id, int priority, int wallSpot) {
 
 	if (wallSpot == 0) {
 		curWallText->loadFromImage(fullWallSheet, sf::IntRect(0, 0, 32, 64));
-	} else if (wallSpot >= 1 && wallSpot <= 3) {
+	}
+	else if (wallSpot >= 1 && wallSpot <= 3) {
 		curWallText->loadFromImage(fullWallSheet, sf::IntRect(32 * wallSpot, 0, 32, 32));
-	} else if (wallSpot >= 4 && wallSpot <= 7) {
+	}
+	else if (wallSpot >= 4 && wallSpot <= 7) {
 		curWallText->loadFromImage(fullWallSheet, sf::IntRect(32 * (wallSpot - 3), 32, 32, 32));
-	} else {
+	}
+	else {
 		curWallText->loadFromImage(fullWallSheet, sf::IntRect(32 * (wallSpot - 4), 0, 32, 32));
 	}
 	allTiles[id][0][0] = curWallText;
@@ -565,7 +583,8 @@ void Assets::loadFull(int base, int bId, int priority) {
 			sf::Texture* edgeBase = getOuterTexture(bId, edgeId, 0, 0, false);
 			if (edgeBase != nullptr) {
 				nI = edgeBase->copyToImage();
-			} else {
+			}
+			else {
 				nI.create(32, 32, sf::Color(0, 0, 0, 0));
 			}
 

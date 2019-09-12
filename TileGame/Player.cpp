@@ -83,6 +83,16 @@ void Player::render(Handler* handler) {
 
 	handler->window->draw(sprite);
 
+	// Draw the item if attacking
+	if (attacking) {
+		int attackAnimIndex = curAnim - 15;
+		if (attackAnimIndex < 0) attackAnimIndex = 0;
+
+		std::tuple<int,int,float> attckInfo = handler->assets->getPlayerSwordAttackAnimation(attackAnimIndex);
+
+
+	}
+
 
 	if (handler->inputManager->hitboxIsShown()) {
 
