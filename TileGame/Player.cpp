@@ -91,11 +91,21 @@ void Player::render(Handler* handler) {
 		std::tuple<int, int, float> attckInfo = handler->assets->getPlayerSwordAttackAnimation(attackAnimIndex);
 		sf::Texture* itemTexture = handler->assets->getItemTexture(this->getItemInfoInHotBar().first);
 		sf::Sprite itemSprite(*itemTexture);
-		itemSprite.setScale(2, 2);
-		itemSprite.setPosition(sprite.getPosition() + 
-			sf::Vector2f(std::get<0>(attckInfo) * sprite.getScale().x, 
-				std::get<1>(attckInfo) * sprite.getScale().y));
-		itemSprite.setRotation(std::get<2>(attckInfo));
+		if (horiDirection == WEST) {
+			itemSprite.setScale(-2, 2);
+			itemSprite.setPosition(sprite.getPosition() +
+				sf::Vector2f(std::get<0>(attckInfo) * sprite.getScale().x,
+					std::get<1>(attckInfo) * sprite.getScale().y));
+			itemSprite.setRotation(-1 * std::get<2>(attckInfo));
+		} else {
+			itemSprite.setScale(2, 2);
+			itemSprite.setPosition(sprite.getPosition() +
+				sf::Vector2f(std::get<0>(attckInfo) * sprite.getScale().x,
+					std::get<1>(attckInfo) * sprite.getScale().y));
+			itemSprite.setRotation(std::get<2>(attckInfo));
+		}
+
+
 		handler->window->draw(itemSprite);
 
 	}
@@ -144,11 +154,26 @@ void Player::tick(sf::Int32 dt) {
 				timeSinceAttackStart += dt;
 			}
 			if (timeSinceAttackStart <= 300) {
-				if (!attacking) hitEntities();
+				if (!attacking) attackedThisTime.clear();
+				hitEntities();
 				attacking = true;
 				if (horiDirection != STILL) {
-					if (timeSinceAttackStart <= 150) { curAnim = 5; } else {
-						curAnim = 5;
+					float oldX = x;
+					int multiplier = 1;
+					if (horiDirection == WEST) {
+						multiplier = -1;
+					}
+					x += 1.0 / 2 * dt * speed * pow(timeSinceAttackStart / 150.f, 2) * multiplier;
+
+					if (checkForCollision()) {
+						x = oldX;
+					}
+					if (timeSinceAttackStart <= 100) {
+						curAnim = 18;
+					} else if (timeSinceAttackStart <= 200) {
+						curAnim = 19;
+					} else {
+						curAnim = 20;
 					}
 				} else if (vertDirection == NORTH) {
 					if (timeSinceAttackStart <= 150) { curAnim = 10; } else {
@@ -538,12 +563,22 @@ void Player::hitEntities() {
 	int xOffset = 0;
 	int yOffset = 0;
 
+	int itemXExtra = 0;
+	int itemYExtra = 0;
+
+	int holdingItem = getItemInfoInHotBar().first;
+
+	if (holdingItem != -1) {
+		itemXExtra = 32;
+		itemYExtra = 16;
+	}
+
 	switch (vertDirection) {
 	case NORTH:
-		yOffset = -25;
+		yOffset = -16 - itemYExtra;
 		break;
 	case SOUTH:
-		yOffset = 25;
+		yOffset = 16 + itemYExtra;
 		break;
 	case STILL:
 		yOffset = 0;
@@ -551,10 +586,10 @@ void Player::hitEntities() {
 
 	switch (horiDirection) {
 	case WEST:
-		xOffset = -25;
+		xOffset = -20 - itemXExtra;
 		break;
 	case EAST:
-		xOffset = 25;
+		xOffset = 20 + itemXExtra;
 		break;
 	case STILL:
 		xOffset = 0;
@@ -562,7 +597,7 @@ void Player::hitEntities() {
 	}
 
 	if (xOffset == 0 && yOffset == 0) {
-		yOffset = 15;
+		yOffset = 16 + itemYExtra;
 	}
 
 	sf::IntRect aBox;
@@ -591,7 +626,8 @@ void Player::hitEntities() {
 
 		Entity* cur = em->getEntity(i);
 
-		if (cur == this) {
+		if (cur == this ||
+			std::find(attackedThisTime.begin(), attackedThisTime.end(), cur) != attackedThisTime.end()) {
 			continue;
 		}
 
@@ -601,6 +637,7 @@ void Player::hitEntities() {
 			int damage = ItemMeta::getItemDamage(cur->type, getItemInfoInHotBar().first);
 
 			cur->damage(damage, this);
+			attackedThisTime.push_back(cur);
 		}
 
 

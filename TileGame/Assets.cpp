@@ -371,7 +371,7 @@ void Assets::init() {
 		operations++;
 	}
 
-	for (int i = 0; i < 3; i++) {
+	for (int i = 0; i < 6; i++) {
 		sf::Texture* curPlayerAnim = new sf::Texture();
 
 		curPlayerAnim->loadFromImage(img,

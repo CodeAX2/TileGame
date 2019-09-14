@@ -72,6 +72,8 @@ namespace tg {
 
 		Interactable* curInteracting = nullptr; // If the player is interacting with an entity
 
+		std::vector<Entity*> attackedThisTime;
+
 	public:
 		// Render the player to the screen
 		void render(Handler* handler);
