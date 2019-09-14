@@ -56,7 +56,7 @@ namespace tg {
 
 		int maxStam = 100; // The maximum stamina the player has
 
-		float stam = maxStam; // The current amount of stamina the player has
+		float stam = (float)maxStam; // The current amount of stamina the player has
 
 		sf::Int32 stamRegenCooldown = 0; // The cooldown for regenerating stamina
 

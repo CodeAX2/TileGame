@@ -59,7 +59,8 @@ void Loader::exit() {
 // TODO: Rename
 void Loader::loadEntities() {
 	srand(time(NULL));
-	rand();
+
+	{int randomOffset = rand(); }
 
 	loadingMessage = "Loading assets...";
 	handler->assets->init();
@@ -98,13 +99,13 @@ void Loader::loadEntities() {
 
 	handler->camera->centerOnEntity(handler->player);
 
-	srand(time(NULL)*rand());
+	srand(time(NULL) * rand());
 
 	loadingMessage = "Loading buildings...";
 
 	std::vector<std::string> buildingFiles;
 
-	for (auto &p : fs::directory_iterator(handler->saveDirName)) {
+	for (auto& p : fs::directory_iterator(handler->saveDirName)) {
 		std::string curFileName = p.path().filename().generic_string();
 		if (curFileName.substr(curFileName.size() - 4, curFileName.size()) == ".tgb") {
 			buildingFiles.push_back(curFileName.substr(0, curFileName.size() - 4));
@@ -117,7 +118,7 @@ void Loader::loadEntities() {
 
 	World* world = handler->mainWorld;
 
-	new Villager(50 * 96, 24 * 96, handler, world, "Path.tgh");
+	new Villager(50 * 96, 24 * 96, handler, world, "path.tgh");
 
 	if (worldWasNull) {
 
