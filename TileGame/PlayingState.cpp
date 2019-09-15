@@ -159,7 +159,7 @@ void PlayingState::tick(sf::Int32 dt) {
 		timeSinceLastEnemySpawn += dt;
 
 		if (timeSinceLastEnemySpawn >= sf::seconds(3).asMilliseconds()) {
-			spawnEnemies();
+			//spawnEnemies();
 			timeSinceLastEnemySpawn = 0;
 		}
 
@@ -1015,8 +1015,6 @@ void PlayingState::renderTime() {
 
 	shader->setUniform("numBuildings", (int)bldgTextureArr.size());
 
-	//std::cout << lightArr.size() << " " << wallArr.size() << " " << bldgTextureArr.size() << std::endl;
-
 	for (int i = 0; i < bldgTextureArr.size(); i++) {
 
 		std::stringstream ss;
@@ -1030,9 +1028,23 @@ void PlayingState::renderTime() {
 		shader->setUniform(ss2.str(), bldgPosArr[i]);
 	}
 
-	sf::RectangleShape lighting(sf::Vector2f(handler->window->getView().getSize()));
-	lighting.setPosition((handler->window->getSize().x / 2 - v.getSize().x / 2), (handler->window->getSize().y / 2 - v.getSize().y / 2));
-	handler->window->draw(lighting, shader);
+	float scale = (3.f * (float)handler->window->getSize().x / (float)handler->window->getView().getSize().x);
+	sf::Vector2f shaderSize = (handler->window->getView().getSize() / scale);
+
+	std::cout << scale << std::endl;
+
+	sf::RectangleShape lighting(shaderSize);
+
+	sf::RenderTexture lightingRender;
+	lightingRender.create(ceil(shaderSize.x), ceil(shaderSize.y));
+	lightingRender.draw(lighting, shader);
+	lightingRender.display();
+
+	sf::Sprite lightingSprite(lightingRender.getTexture());
+	lightingSprite.setScale(ceil(scale), ceil(scale));
+	lightingSprite.setPosition((handler->window->getSize().x / 2 - v.getSize().x / 2), (handler->window->getSize().y / 2 - v.getSize().y / 2));
+
+	handler->window->draw(lightingSprite);
 
 }
 
