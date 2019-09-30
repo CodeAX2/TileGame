@@ -48,7 +48,7 @@ void InputManager::updateKeys(sf::Event e) {
 
 	if (handler->getCurrentState() == nullptr) return;
 
-	if (PlayingState* ps = dynamic_cast<PlayingState*>(handler->getCurrentState())) {
+	if (PlayingState * ps = dynamic_cast<PlayingState*>(handler->getCurrentState())) {
 		if (ps->isFading()) return;
 	}
 
@@ -144,6 +144,10 @@ void InputManager::updateKeys(sf::Event e) {
 		}
 		break;
 
+	case sf::Keyboard::Tilde:
+		screenshot = value;
+		break;
+
 	default:
 		if (handler->getCurrentState()->getType() == PLAYING && value) {
 			std::vector<sf::Keyboard::Key>::iterator pos = std::find(numberKeys.begin(), numberKeys.end(), key);
@@ -173,7 +177,7 @@ bool* InputManager::getAllKeys() {
 void InputManager::mouseScrolled(sf::Event e) {
 	if (handler->getCurrentState() != nullptr && handler->getCurrentState()->getType() != INVENTORY) {
 
-		if (PlayingState* ps = dynamic_cast<PlayingState*>(handler->getCurrentState())) {
+		if (PlayingState * ps = dynamic_cast<PlayingState*>(handler->getCurrentState())) {
 			if (ps->isFading()) return;
 		}
 

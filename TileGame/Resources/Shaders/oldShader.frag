@@ -28,9 +28,9 @@ void main() {
 	for (int i = 0; i < numBuildings; i++) {
 
 		vec2 curPos = gl_FragCoord.xy;
-		vec2 bldgSize = vec2(textureSize(buildings[i], 0)) / (ceil(sizeMultiplier*3)*sizeMultiplier);
-		curPos.x -= buildingPositions[i].x / (ceil(sizeMultiplier*3)*sizeMultiplier);
-		curPos.y -= buildingPositions[i].y / (ceil(sizeMultiplier*3)*sizeMultiplier);
+		vec2 bldgSize = vec2(textureSize(buildings[i], 0)) / (sizeMultiplier*3*sizeMultiplier);
+		curPos.x -= buildingPositions[i].x / (sizeMultiplier*3*sizeMultiplier);
+		curPos.y -= buildingPositions[i].y / (sizeMultiplier*3*sizeMultiplier);
 
 		curPos.x /= 3 * sizeMultiplier;
 		curPos.y /= 3 * sizeMultiplier;
@@ -40,7 +40,7 @@ void main() {
 			vec4 color = texture(buildings[i], curPos.xy / bldgSize.xy);
 			if (color.a > 0){
 				insideBuilding = true;
-				float newMaxBuildingY = buildingPositions[i].y / (ceil(sizeMultiplier*3)*sizeMultiplier) + bldgSize.y * 3 * sizeMultiplier;
+				float newMaxBuildingY = buildingPositions[i].y / (sizeMultiplier*3*sizeMultiplier) + bldgSize.y * 3 * sizeMultiplier;
 				if (maxBuildingY < newMaxBuildingY) maxBuildingY = newMaxBuildingY;
 				
 			}
@@ -52,14 +52,14 @@ void main() {
 	
 	for (int i = 0; i < lightSize; i++) {
 
-		vec4 cur = lights[i] / (ceil(sizeMultiplier*3)*sizeMultiplier);
+		vec4 cur = lights[i] / (sizeMultiplier*3*sizeMultiplier);
 		
 		// Check that the point doesnt cross a line
 		bool crosses = false;
 		float maxCrossY = 0;
 
 		for (int j = 0; j < wallSize; j++) {
-			vec4 lnAB = walls[j] / (ceil(sizeMultiplier*3)*sizeMultiplier);
+			vec4 lnAB = walls[j] / (sizeMultiplier*3*sizeMultiplier);
 			vec4 lnCD = vec4(cur.x,cur.y,gl_FragCoord.x,gl_FragCoord.y);
 
 			if ((abs(lnAB.x - gl_FragCoord.x) + abs(lnAB.y - gl_FragCoord.y)) > 10000) {
@@ -105,10 +105,10 @@ void main() {
 		float brightnessMultiplier = 1;
 		if (insideBuilding) {
 			if (cur.y < maxBuildingY) {
-				brightnessMultiplier = 1 - abs(maxBuildingY - cur.y)*ceil(sizeMultiplier*3) / (60);
+				brightnessMultiplier = 1 - abs(maxBuildingY - cur.y)*sizeMultiplier*3 / (60);
 			}
 		} else if (crosses) {
-			brightnessMultiplier = 1 - abs(maxCrossY - cur.y)*ceil(sizeMultiplier*3) / (60);
+			brightnessMultiplier = 1 - abs(maxCrossY - cur.y)*sizeMultiplier*3 / (60);
 		}
 
 		if (brightnessMultiplier < 0) brightnessMultiplier = 0;

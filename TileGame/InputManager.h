@@ -33,6 +33,7 @@ namespace tg {
 		float zoom = 1.f;
 		bool joyStickButtons[8] = { false };
 		bool dialogueKey = false;
+		bool screenshot = false;
 
 	public:
 

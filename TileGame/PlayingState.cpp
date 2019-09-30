@@ -1032,16 +1032,17 @@ void PlayingState::renderTime() {
 	sf::Vector2f shaderSize = (handler->window->getView().getSize() / scale);
 
 	std::cout << scale << std::endl;
+	//std::cout << handler->window->getView().getSize().x << " " << handler->window->getView().getSize().y << std::endl;
 
 	sf::RectangleShape lighting(shaderSize);
 
 	sf::RenderTexture lightingRender;
-	lightingRender.create(ceil(shaderSize.x), ceil(shaderSize.y));
+	lightingRender.create(shaderSize.x, shaderSize.y);
 	lightingRender.draw(lighting, shader);
 	lightingRender.display();
 
 	sf::Sprite lightingSprite(lightingRender.getTexture());
-	lightingSprite.setScale(ceil(scale), ceil(scale));
+	lightingSprite.setScale(scale, scale);
 	lightingSprite.setPosition((handler->window->getSize().x / 2 - v.getSize().x / 2), (handler->window->getSize().y / 2 - v.getSize().y / 2));
 
 	handler->window->draw(lightingSprite);

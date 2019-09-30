@@ -272,7 +272,7 @@ void Game::debugLoop() {
 }
 
 void Game::renderLoop() {
-
+	bool prevScreenshot = false;
 	while (handler.window->isOpen()) {
 		if (!isUpdating && !togglingFullscreen) {
 
@@ -287,6 +287,15 @@ void Game::renderLoop() {
 			}
 
 			handler.window->display();
+			if (handler.inputManager->screenshot && !prevScreenshot) {
+				sf::Texture screenshotTexture;
+				screenshotTexture.create(handler.window->getSize().x, handler.window->getSize().y);
+				screenshotTexture.update(*(handler.window));
+				sf::Image screenshotImg = screenshotTexture.copyToImage();
+				screenshotImg.saveToFile("capture.png");
+				std::cout << "Screenshot" << std::endl;
+			}
+			prevScreenshot = handler.inputManager->screenshot;
 		}
 
 	}
