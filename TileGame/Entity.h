@@ -173,6 +173,11 @@ namespace tg {
 		// Get the y position of the entity's light
 		float getLightY() { return lightY; }
 
+		// If the entity should be rendered
+		virtual bool shouldRender(Handler* handler);
+
+		// If the entity's light should be rendered
+		virtual bool shouldRenderLight(Handler* handler);
 	};
 
 }

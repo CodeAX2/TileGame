@@ -95,7 +95,8 @@ void Entity::render(Handler* handler) {
 				(float)health / maxHealth * 50,
 				180
 			));
-		} else {
+		}
+		else {
 			healthBar.setFillColor(sf::Color(
 				255,
 				(float)health / (maxHealth * .6f) * 255,
@@ -171,4 +172,26 @@ void Entity::renderLighting(Handler* handler) {
 		PlayingState* ps = dynamic_cast<PlayingState*>(handler->getCustomState(PLAYING));
 		ps->addLightPoint(sf::Vector2f(lightX - handler->camera->getXOffset(), lightY - handler->camera->getYOffset()), lightSize, extraLight);
 	}
+}
+
+bool Entity::shouldRender(Handler* handler) {
+	sf::View v = handler->window->getView();
+	bool onScreen = !(getX() + getWidth() < handler->camera->getXOffset() + (1280 / 2 - v.getSize().x / 2) ||
+		getX() > handler->window->getSize().x + handler->camera->getXOffset() - (1280 / 2 - v.getSize().x / 2) ||
+		getY() + getHeight() < handler->camera->getYOffset() + (720 / 2 - v.getSize().y / 2) ||
+		getY() > handler->window->getSize().y + handler->camera->getYOffset() - (720 / 2 - v.getSize().y / 2));
+
+	return onScreen;
+
+}
+
+bool Entity::shouldRenderLight(Handler* handler) {
+	sf::View v = handler->window->getView();
+	bool lightOnScreen = !(getLightX() + getLightSize() + getExtraLightSize() < handler->camera->getXOffset() + (1280 / 2 - v.getSize().x / 2) ||
+		getLightX() - getLightSize() - getExtraLightSize() > handler->window->getSize().x + handler->camera->getXOffset() - (1280 / 2 - v.getSize().x / 2) ||
+		getLightY() + getLightSize() + getExtraLightSize() < handler->camera->getYOffset() + (720 / 2 - v.getSize().y / 2) ||
+		getLightY() - getLightSize() - getExtraLightSize() > handler->window->getSize().y + handler->camera->getYOffset() - (720 / 2 - v.getSize().y / 2));
+
+	return lightOnScreen;
+
 }

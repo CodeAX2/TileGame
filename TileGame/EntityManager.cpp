@@ -7,6 +7,7 @@
 #include "World.h"
 #include "Pathfinder.h"
 #include <algorithm>
+#include "Rideable.h"
 
 using namespace tg;
 
@@ -26,11 +27,6 @@ Entity* EntityManager::getEntity(int index) {
 }
 
 void EntityManager::addEntity(Entity* entity) {
-
-
-	if (entity->type == PLAYER_E) {
-		return;
-	}
 
 	allEntities.push_back(entity);
 	updateRenderOrder(entity);
@@ -116,7 +112,7 @@ void EntityManager::removeEntity(Entity* entity, bool deleteAfter) {
 		}
 	}
 
-	if (Pathfinder* pf = dynamic_cast<Pathfinder*>(entity)) {
+	if (Pathfinder * pf = dynamic_cast<Pathfinder*>(entity)) {
 		numPathfinders--;
 		for (int i = 0; i < pathfinderList.size(); i++) {
 			if (pathfinderList[i] == entity) {
@@ -228,7 +224,6 @@ void EntityManager::render() {
 
 	renderBuffer = renderOrder;
 
-	bool playerIsRendered = false;
 	int endIndex = renderBuffer.size() - 1;
 
 	sf::View v = handler->window->getView();
@@ -238,7 +233,7 @@ void EntityManager::render() {
 	for (int i = getRenderStartIndex(); i <= endIndex; i++) {
 
 		Entity* cur = renderBuffer[i];
-		if (cur == nullptr != cur->type == PLAYER_E) {
+		if (cur == nullptr) {
 			continue;
 		}
 
@@ -246,70 +241,27 @@ void EntityManager::render() {
 			continue;
 		}
 
-		if (!(cur->getX() + cur->getWidth() < handler->camera->getXOffset() + (1280 / 2 - v.getSize().x / 2) ||
-			cur->getX() > handler->window->getSize().x + handler->camera->getXOffset() - (1280 / 2 - v.getSize().x / 2) ||
-			cur->getY() + cur->getHeight() < handler->camera->getYOffset() + (720 / 2 - v.getSize().y / 2) ||
-			cur->getY() > handler->window->getSize().y + handler->camera->getYOffset() - (720 / 2 - v.getSize().y / 2))) {
-
-			if (handler->player->getY() + handler->player->getHeight() <= cur->getY() + cur->getHeight() && !playerIsRendered) {
-				if (handler->player->getRidingOn() == nullptr) {
-					handler->player->render(handler);
-					playerIsRendered = true;
-				}
-			}
-
+		if (cur->shouldRender(handler) && cur->getRidingOn() == nullptr) {
 			cur->render(handler);
 		}
 
 	}
 
-	if (!playerIsRendered && handler->player->getRidingOn() == nullptr) {
-		handler->player->render(handler);
-	}
-
-	playerIsRendered = false;
-
 
 	for (int i = 0; i < renderBuffer.size(); i++) {
 		Entity* cur = renderBuffer[i];
 
-		if (!(cur->getLightX() + cur->getLightSize() + cur->getExtraLightSize() < handler->camera->getXOffset() + (1280 / 2 - v.getSize().x / 2) ||
-			cur->getLightX() - cur->getLightSize() - cur->getExtraLightSize() > handler->window->getSize().x + handler->camera->getXOffset() - (1280 / 2 - v.getSize().x / 2) ||
-			cur->getLightY() + cur->getLightSize() + cur->getExtraLightSize() < handler->camera->getYOffset() + (720 / 2 - v.getSize().y / 2) ||
-			cur->getLightY() - cur->getLightSize() - cur->getExtraLightSize() > handler->window->getSize().y + handler->camera->getYOffset() - (720 / 2 - v.getSize().y / 2)) || cur->type == BUILDING_E || cur->type == TREE_E) {
+		if (cur == nullptr) {
+			continue;
+		}
 
-			if (cur->type == BUILDING_E || cur->type == TREE_E) {
+		if (std::find(doNotRender.begin(), doNotRender.end(), cur) != doNotRender.end()) {
+			continue;
+		}
 
-				if ((cur->getX() + cur->getWidth() < handler->camera->getXOffset() + (1280 / 2 - v.getSize().x / 2) - maxLightSize ||
-					cur->getX() > handler->window->getSize().x + handler->camera->getXOffset() - (1280 / 2 - v.getSize().x / 2) + maxLightSize ||
-					cur->getY() + cur->getHeight() < handler->camera->getYOffset() + (720 / 2 - v.getSize().y / 2) - maxLightSize ||
-					cur->getY() > handler->window->getSize().y + handler->camera->getYOffset() - (720 / 2 - v.getSize().y / 2) + maxLightSize)) {
-					continue;
-				}
-
-			}
-
-
-			if (cur == nullptr) {
-				continue;
-			}
-
-			std::vector<Entity*>::iterator it = std::find(doNotRender.begin(), doNotRender.end(), cur);
-			if (it != doNotRender.end()) {
-				continue;
-			}
-
-			if (handler->player->getY() + handler->player->getHeight() <= cur->getY() + cur->getHeight() && !playerIsRendered) {
-				handler->player->renderLighting(handler);
-				playerIsRendered = true;
-			}
-
+		if (cur->shouldRenderLight(handler) && cur->getRidingOn() == nullptr) {
 			cur->renderLighting(handler);
 		}
-	}
-
-	if (!playerIsRendered && handler->player->getRidingOn() == nullptr) {
-		handler->player->renderLighting(handler);
 	}
 
 
@@ -383,11 +335,13 @@ int EntityManager::getRenderStartIndex() {
 		if (cur->getY() + cur->getHeight() < handler->camera->getYOffset() + (720 / 2 - v.getSize().y / 2)) {
 			if (nextCur->getY() + nextCur->getHeight() < handler->camera->getYOffset() + (720 / 2 - v.getSize().y / 2)) {
 				left = mIndex + 1;
-			} else {
+			}
+			else {
 				return mIndex;
 			}
 
-		} else {
+		}
+		else {
 			right = mIndex - 1;
 		}
 	}
@@ -409,11 +363,13 @@ int EntityManager::getRenderEndIndex() {
 		if (cur->getY() <= handler->window->getSize().y + handler->camera->getYOffset() - (720 - v.getSize().y)) {
 			if (nextCur->getY() <= handler->window->getSize().y + handler->camera->getYOffset() - (720 - v.getSize().y)) {
 				left = mIndex + 1;
-			} else {
+			}
+			else {
 				return mIndex;
 			}
 
-		} else {
+		}
+		else {
 			right = mIndex - 1;
 		}
 	}
@@ -475,7 +431,8 @@ void EntityManager::tickExtras(sf::Int32 dt) {
 		if (cur != nullptr) {
 			try {
 				cur->tick(dt);
-			} catch (...) {}
+			}
+			catch (...) {}
 		}
 	}
 }

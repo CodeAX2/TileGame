@@ -46,6 +46,7 @@ namespace tg {
 		void renderDeathScreen();
 		void renderTime();
 		void spawnEnemies();
+		void updateDarknessPercent();
 
 	private:
 		Handler* handler;

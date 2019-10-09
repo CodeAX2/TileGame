@@ -29,7 +29,6 @@ PlayingState::PlayingState(Handler* handler) : GameState(PLAYING), handler(handl
 	bgMusic.openFromFile("Audio/jlbrock44_-_Waves_Of_Tranquility_.wav");
 	bgMusic.setLoop(true);
 	hotBarSlotHighlight = handler->assets->loadTextureFromResource(INV_HIGHLIGHT);
-
 }
 
 
@@ -63,7 +62,8 @@ void PlayingState::render() {
 	if (zooming) {
 		if (handler->inputManager->getZoomLevel() >= 1.2f) {
 			zooming = false;
-		} else {
+		}
+		else {
 			handler->inputManager->setZoomLevel(handler->inputManager->getZoomLevel() + .001f);
 		}
 
@@ -95,7 +95,8 @@ void PlayingState::render() {
 			// Only render GUI if the current state is PLAYING
 			renderGUI();
 		}
-	} else {
+	}
+	else {
 		renderDeathScreen();
 	}
 
@@ -124,7 +125,6 @@ void PlayingState::tick(sf::Int32 dt) {
 	}
 
 	if (!deathScreen) {
-		handler->player->tick(dt);
 		handler->camera->tick();
 		world->getEntityManager()->tick(dt);
 
@@ -143,15 +143,19 @@ void PlayingState::tick(sf::Int32 dt) {
 
 			if (time < 540000) { // First 9 minutes
 				darknessPercent = 0;
-			} else if (time >= 540000 && time < 600000) { // 10th minute
+			}
+			else if (time >= 540000 && time < 600000) { // 10th minute
 				darknessPercent = (float)(time - 540000) * 1.f / 60000;
-			} else if (time >= 600000 && time < 1140000) { // 11-19th minutes
+			}
+			else if (time >= 600000 && time < 1140000) { // 11-19th minutes
 				darknessPercent = 1;
-			} else { // 20th minute
+			}
+			else { // 20th minute
 				darknessPercent = 1 - (float)(time - 1140000) * 1.f / 60000;
 			}
 
-		} else {
+		}
+		else {
 			darknessPercent = world->getDarknessPercent();
 		}
 
@@ -165,7 +169,8 @@ void PlayingState::tick(sf::Int32 dt) {
 
 
 
-	} else {
+	}
+	else {
 		if (handler->getCurrentState()->getType() != PLAYING) {
 			handler->setGameState(PLAYING);
 		}
@@ -230,7 +235,8 @@ void PlayingState::renderWorld() {
 				tile[1].texCoords = sf::Vector2f(32, 0);
 				tile[2].texCoords = sf::Vector2f(32, 32);
 				tile[3].texCoords = sf::Vector2f(0, 32);
-			} else {
+			}
+			else {
 
 				tile[0].position = basicPosition;
 				tile[0].position.y -= 96;
@@ -272,12 +278,17 @@ void PlayingState::renderWorld() {
 		}
 	}
 
+	/*sf::Shader testShader;
+	testShader.loadFromFile("Resources\\Shaders\\testShader.frag", sf::Shader::Fragment);
+	testShader.setUniform("texture", sf::Shader::CurrentTexture);*/
+
 	for (int i = 0; i < renderOrderV.size(); i++) {
 		for (int j = 0; j < renderOrderV[i].size(); j++) {
 			sf::VertexArray curV = renderOrderV[i][j];
 			const sf::Texture* curT = renderOrderT[i][j];
 			sf::RenderStates state;
 			state.texture = curT;
+			//state.shader = &testShader;
 			handler->window->draw(curV, state);
 		}
 	}
@@ -300,7 +311,8 @@ void PlayingState::renderWorld() {
 		highlight.setPosition((int)(hT.x * tileSize - xOffset + 5), (int)(hT.y * tileSize - yOffset + 5));
 		if (world->highlightIsGood()) {
 			highlight.setFillColor(sf::Color(151, 255, 145, 150));
-		} else {
+		}
+		else {
 			highlight.setFillColor(sf::Color(255, 0, 0, 150));
 		}
 
@@ -318,7 +330,8 @@ void PlayingState::renderGUI() {
 
 	if (guiOnBottom) {
 		inventory.setPosition(handler->window->getView().getSize().x / 2 - inventory.getSize().x / 2, handler->window->getView().getSize().y - inventory.getSize().y - 20 * 1.5);
-	} else {
+	}
+	else {
 		inventory.setPosition(handler->window->getView().getSize().x / 2 - inventory.getSize().x / 2, 20 * 1.5);
 	}
 
@@ -328,7 +341,8 @@ void PlayingState::renderGUI() {
 	sf::RectangleShape hotBarHighlight(sf::Vector2f(hotBarSlotHighlight->getSize().x * 3 * 1.5, hotBarSlotHighlight->getSize().y * 3 * 1.5));
 	if (guiOnBottom) {
 		hotBarHighlight.setPosition(sf::Vector2f(handler->window->getView().getSize().x / 2 - inventory.getSize().x / 2 + (108 + 18) * 1.5 * hotBarSlot, handler->window->getView().getSize().y - inventory.getSize().y - 20 * 1.5));
-	} else {
+	}
+	else {
 		hotBarHighlight.setPosition(sf::Vector2f(handler->window->getView().getSize().x / 2 - inventory.getSize().x / 2 + (108 + 18) * 1.5 * hotBarSlot, 20 * 1.5));
 	}
 	hotBarHighlight.setTexture(hotBarSlotHighlight);
@@ -461,7 +475,8 @@ void PlayingState::renderAllTextures() {
 
 			if (i == 0 && j == 0) {
 				t = handler->assets->getBaseTexture(1);
-			} else {
+			}
+			else {
 				t = handler->assets->getOuterTexture(1, i + j * 16, 0, 0, false);
 			}
 
@@ -558,6 +573,12 @@ void PlayingState::resume() {
 		timeOpen = 0;
 	}
 
+	if (world == nullptr) {
+		world = handler->mainWorld;
+	}
+
+	updateDarknessPercent();
+
 }
 
 void PlayingState::mouseClicked(sf::Event e) {
@@ -572,7 +593,8 @@ void PlayingState::mouseClicked(sf::Event e) {
 	if (e.type == sf::Event::MouseButtonPressed) {
 		if (handler->inputManager->mouseIsPressed || e.mouseButton.button != sf::Mouse::Button::Left) {
 			return;
-		} else {
+		}
+		else {
 			handler->inputManager->mouseIsPressed = true;
 
 			if (deathScreen) {
@@ -612,19 +634,22 @@ void PlayingState::mouseClicked(sf::Event e) {
 				}
 
 
-			} else {
+			}
+			else {
 
 				int hotBarItemId = handler->player->getItemInfoInHotBar().first;
 				int hotBarItemAmount = handler->player->getItemInfoInHotBar().second;
 
 				if (world->highlightIsGood() && ItemMeta::itemIsPlacable(hotBarItemId) && hotBarItemAmount >= 1) {
 					ItemMeta::placeItem(hotBarItemId, world, handler);
-				} else if (ItemMeta::itemIsUsable(hotBarItemId) && hotBarItemAmount >= 1) {
+				}
+				else if (ItemMeta::itemIsUsable(hotBarItemId) && hotBarItemAmount >= 1) {
 					ItemMeta::useItem(hotBarItemId, world, handler);
 				}
 			}
 		}
-	} else {
+	}
+	else {
 		handler->inputManager->mouseIsPressed = false;
 	}
 }
@@ -645,14 +670,16 @@ void PlayingState::updateMouse() {
 				my >= respawnButtonY && my < respawnButtonY + buttonHeight &&
 				gameOverFade == 1.f) {
 				hoveringDeathRespawn = true;
-			} else {
+			}
+			else {
 				hoveringDeathRespawn = false;
 
 				if (mx >= exitButtonX && mx < exitButtonX + buttonWidth &&
 					my >= exitButtonY && my < exitButtonY + buttonHeight &&
 					gameOverFade == 1.f) {
 					hoveringDeathExit = true;
-				} else {
+				}
+				else {
 					hoveringDeathExit = false;
 				}
 
@@ -660,7 +687,8 @@ void PlayingState::updateMouse() {
 		}
 
 
-	} else {
+	}
+	else {
 
 		sf::Vector2i mp = sf::Mouse::getPosition(*(handler->window));
 		if (!(mp.x < 0 || mp.x > handler->window->getSize().x ||
@@ -683,7 +711,8 @@ void PlayingState::updateMouse() {
 
 			if (xDist * xDist + yDist * yDist > 5) {
 				world->setHighlightGood(false);
-			} else {
+			}
+			else {
 				world->setHighlightGood(true);
 			}
 		}
@@ -711,11 +740,13 @@ void PlayingState::updateJoystick(sf::Int32 dt) {
 			im->usingController = true;
 			im->keys[3] = true;
 			im->keys[1] = false;
-		} else if (jX >= 30) {
+		}
+		else if (jX >= 30) {
 			im->usingController = true;
 			im->keys[3] = false;
 			im->keys[1] = true;
-		} else {
+		}
+		else {
 			if (im->usingController) {
 				im->keys[3] = false;
 				im->keys[1] = false;
@@ -728,11 +759,13 @@ void PlayingState::updateJoystick(sf::Int32 dt) {
 			im->usingController = true;
 			im->keys[0] = true;
 			im->keys[2] = false;
-		} else if (jY >= 30) {
+		}
+		else if (jY >= 30) {
 			im->usingController = true;
 			im->keys[0] = false;
 			im->keys[2] = true;
-		} else {
+		}
+		else {
 			if (im->usingController) {
 				im->keys[0] = false;
 				im->keys[2] = false;
@@ -747,7 +780,8 @@ void PlayingState::updateJoystick(sf::Int32 dt) {
 			im->usingController = true;
 			newPos.x -= ceil(dt / 1.5f);
 			updateMouse = true;
-		} else if (jX2 >= 30) {
+		}
+		else if (jX2 >= 30) {
 			im->usingController = true;
 			newPos.x += ceil(dt / 1.5f);
 			updateMouse = true;
@@ -758,7 +792,8 @@ void PlayingState::updateJoystick(sf::Int32 dt) {
 			im->usingController = true;
 			newPos.y -= ceil(dt / 1.5f);
 			updateMouse = true;
-		} else if (jY2 >= 30) {
+		}
+		else if (jY2 >= 30) {
 			im->usingController = true;
 			newPos.y += ceil(dt / 1.5f);
 			updateMouse = true;
@@ -773,7 +808,8 @@ void PlayingState::updateJoystick(sf::Int32 dt) {
 			im->usingController = true;
 			im->runningKey = true;
 			im->joyStickButtons[0] = true;
-		} else {
+		}
+		else {
 			if (im->usingController) {
 				im->runningKey = false;
 				im->joyStickButtons[0] = false;
@@ -784,7 +820,8 @@ void PlayingState::updateJoystick(sf::Int32 dt) {
 		if (sf::Joystick::getAxisPosition(0, sf::Joystick::Z) <= -80) {
 			im->usingController = true;
 			im->attackKey = true;
-		} else {
+		}
+		else {
 			if (im->usingController) {
 				im->attackKey = false;
 			}
@@ -801,7 +838,8 @@ void PlayingState::updateJoystick(sf::Int32 dt) {
 			if (im->zoom < .825f)
 				im->zoom = .825f;
 
-		} else if (dPadPos <= -50) {
+		}
+		else if (dPadPos <= -50) {
 			im->usingController = true;
 			im->zoom -= .005f;
 			if (im->zoom > 1.8f)
@@ -816,7 +854,8 @@ void PlayingState::updateJoystick(sf::Int32 dt) {
 			im->usingController = true;
 			if (im->mouseIsPressed) {
 				return;
-			} else {
+			}
+			else {
 				im->mouseIsPressed = true;
 				sf::Vector2i htp = world->getHighlightedTile();
 
@@ -825,12 +864,14 @@ void PlayingState::updateJoystick(sf::Int32 dt) {
 
 				if (world->highlightIsGood() && ItemMeta::itemIsPlacable(hotBarItemId) && hotBarItemAmount >= 1) {
 					ItemMeta::placeItem(hotBarItemId, world, handler);
-				} else if (ItemMeta::itemIsUsable(hotBarItemId) && hotBarItemAmount >= 1) {
+				}
+				else if (ItemMeta::itemIsUsable(hotBarItemId) && hotBarItemAmount >= 1) {
 					ItemMeta::useItem(hotBarItemId, world, handler);
 				}
 
 			}
-		} else {
+		}
+		else {
 			im->joyStickButtons[1] = false;
 			if (im->usingController) {
 				im->mouseIsPressed = false;
@@ -847,7 +888,8 @@ void PlayingState::updateJoystick(sf::Int32 dt) {
 				handler->setGameState(INVENTORY);
 			}
 
-		} else {
+		}
+		else {
 			im->joyStickButtons[6] = false;
 		}
 
@@ -860,7 +902,8 @@ void PlayingState::updateJoystick(sf::Int32 dt) {
 				handler->setGameState(MAIN_MENU);
 			}
 
-		} else {
+		}
+		else {
 			im->joyStickButtons[7] = false;
 		}
 
@@ -878,7 +921,8 @@ void PlayingState::updateJoystick(sf::Int32 dt) {
 					curSlot = 0;
 				}
 			}
-		} else {
+		}
+		else {
 			im->joyStickButtons[5] = false;
 		}
 
@@ -892,7 +936,8 @@ void PlayingState::updateJoystick(sf::Int32 dt) {
 					curSlot = 8;
 				}
 			}
-		} else {
+		}
+		else {
 			im->joyStickButtons[4] = false;
 		}
 
@@ -906,10 +951,12 @@ void PlayingState::updateJoystick(sf::Int32 dt) {
 				handler->player->interact();
 			}
 
-		} else {
+		}
+		else {
 			im->joyStickButtons[3] = false;
 		}
-	} else if (gameOverFade == 1.f) {
+	}
+	else if (gameOverFade == 1.f) {
 
 		if ((jX <= -30 || jX >= 30) && prevJoystickDeathX == 0) {
 
@@ -926,7 +973,8 @@ void PlayingState::updateJoystick(sf::Int32 dt) {
 					(respawnButtonY + buttonHeight / 2) * w.y / v.y),
 					*handler->window);
 
-			} else {
+			}
+			else {
 				hoveringDeathExit = true;
 				hoveringDeathRespawn = false;
 
@@ -938,7 +986,8 @@ void PlayingState::updateJoystick(sf::Int32 dt) {
 			}
 
 
-		} else if (jX < 30 && jX > -30) {
+		}
+		else if (jX < 30 && jX > -30) {
 			prevJoystickDeathX = 0;
 		}
 
@@ -984,7 +1033,8 @@ void PlayingState::updateJoystick(sf::Int32 dt) {
 
 			}
 
-		} else {
+		}
+		else {
 			im->joyStickButtons[1] = false;
 		}
 
@@ -998,7 +1048,6 @@ void PlayingState::renderTime() {
 	if (darknessPercent == 0)
 		return;
 
-
 	sf::View v = handler->window->getView();
 
 	sf::Shader* shader = handler->assets->getShader();
@@ -1006,28 +1055,28 @@ void PlayingState::renderTime() {
 	shader->setUniformArray("lights", &lightArr[0], lightArr.size());
 	shader->setUniform("lightSize", (int)lightArr.size());
 
-	shader->setUniformArray("walls", &wallArr[0], wallArr.size());
-	shader->setUniform("wallSize", (int)wallArr.size());
+	//shader->setUniformArray("walls", &wallArr[0], wallArr.size());
+	//shader->setUniform("wallSize", (int)wallArr.size());
 
 	shader->setUniform("darknessPercent", darknessPercent);
 
 	shader->setUniform("sizeMultiplier", (float)(handler->window->getSize().x / handler->window->getView().getSize().x));
 
-	shader->setUniform("numBuildings", (int)bldgTextureArr.size());
+	//shader->setUniform("numBuildings", (int)bldgTextureArr.size());
 
-	std::cout << "Num Lights: " << lightArr.size() << " Num Walls: " << wallArr.size() << " Num Buildings: " << bldgTextureArr.size() << std::endl;
+	//std::cout << "Num Lights: " << lightArr.size() << " Num Walls: " << wallArr.size() << " Num Buildings: " << bldgTextureArr.size() << std::endl;
 
 	for (int i = 0; i < bldgTextureArr.size(); i++) {
 
 		std::stringstream ss;
 		ss << "buildings[" << i << "]";
 
-		shader->setUniform(ss.str(), *bldgTextureArr[i]);
+		//shader->setUniform(ss.str(), *bldgTextureArr[i]);
 
 		std::stringstream ss2;
 		ss2 << "buildingPositions[" << i << "]";
 
-		shader->setUniform(ss2.str(), bldgPosArr[i]);
+		//shader->setUniform(ss2.str(), bldgPosArr[i]);
 	}
 
 	sf::RectangleShape lighting(sf::Vector2f(handler->window->getView().getSize()));
@@ -1154,7 +1203,8 @@ void PlayingState::spawnEnemies() {
 									Zombie* z = new Zombie(tileX * 96, tileY * 96, handler, world);
 									z->setFollowing(handler->player);
 									std::cout << "Spawned zombie at: " << tileX << ", " << tileY << std::endl;
-								} else {
+								}
+								else {
 									Skeleton* s = new Skeleton(tileX * 96, tileY * 96, handler, world);
 									s->setFollowing(handler->player);
 									std::cout << "Spawned skeleton at: " << tileX << ", " << tileY << std::endl;
@@ -1170,5 +1220,27 @@ void PlayingState::spawnEnemies() {
 
 			}
 		}
+	}
+}
+
+void PlayingState::updateDarknessPercent() {
+	if (world->getDarknessPercent() == -1) {
+
+		if (time < 540000) { // First 9 minutes
+			darknessPercent = 0;
+		}
+		else if (time >= 540000 && time < 600000) { // 10th minute
+			darknessPercent = (float)(time - 540000) * 1.f / 60000;
+		}
+		else if (time >= 600000 && time < 1140000) { // 11-19th minutes
+			darknessPercent = 1;
+		}
+		else { // 20th minute
+			darknessPercent = 1 - (float)(time - 1140000) * 1.f / 60000;
+		}
+
+	}
+	else {
+		darknessPercent = world->getDarknessPercent();
 	}
 }

@@ -103,6 +103,12 @@ void Rideable::render(Handler* handler) {
 	}
 }
 
+void Rideable::renderLighting(Handler* handler) {
+	if (rider != nullptr) {
+		rider->renderLighting(handler);
+	}
+}
+
 
 bool Rideable::move(float dx, float dy) {
 
@@ -184,3 +190,22 @@ bool Rideable::checkForCollision() {
 	return false;
 }
 
+bool Rideable::shouldRender(Handler* handler) {
+
+	bool shouldRenderRider = true;
+	if (rider != nullptr) {
+		shouldRenderRider = rider->shouldRender(handler);
+	}
+	
+	return shouldRenderRider || Entity::shouldRender(handler);
+
+}
+
+bool Rideable::shouldRenderLight(Handler* handler) {
+	bool shouldRenderRiderLight = false;
+	if (rider != nullptr) {
+		shouldRenderRiderLight = rider->shouldRenderLight(handler);
+	}
+
+	return shouldRenderRiderLight || Entity::shouldRenderLight(handler);
+}

@@ -7,6 +7,8 @@
 #include "DeathQuotes.h"
 #include "ItemMeta.h"
 #include "Item.h"
+#include "Game.h"
+#include <sstream>
 
 using namespace tg;
 
@@ -19,8 +21,8 @@ Player::Player(float x, float y, Handler* handler, World* world) :
 
 	inventory = new Inventory();
 
-	lightSize = 100;
-	extraLight = 80;
+	lightSize = 200;
+	extraLight = 50;
 	lightX = this->x + hitBoxX + hitBoxW / 2;
 	lightY = this->y + hitBoxY;
 
@@ -409,6 +411,8 @@ void Player::tick(sf::Int32 dt) {
 			if (checkForCollision()) {
 				x = oldX;
 			}
+
+			world->getEntityManager()->fixEntityMoved(this, oldX, oldY);
 		}
 	}
 

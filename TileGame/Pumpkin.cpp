@@ -11,8 +11,8 @@ Pumpkin::Pumpkin(int x, int y, Handler* handler, bool isLit, World* world) : Sta
 	health = 60;
 	maxHealth = 60;
 	this->isLit = isLit;
-	lightSize = 50;
-	extraLight = 30;
+	lightSize = 100;
+	extraLight = 40;
 	lightX = this->x + hitBoxX + hitBoxW / 2;
 	lightY = this->y + hitBoxY;
 	world->getEntityManager()->checkMaxLight(this);

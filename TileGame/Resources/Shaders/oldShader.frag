@@ -116,7 +116,6 @@ void main() {
 		if (brightnessMultiplier < 0) brightnessMultiplier = 0;
 
 		float distanceDelta = distance(gl_FragCoord.xy, cur.xy) - cur.w * sizeMultiplier;
-
 		if (distanceDelta < 0)
 			distanceDelta = 0;
 

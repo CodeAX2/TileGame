@@ -25,6 +25,8 @@ namespace tg {
 		// Render the rideable to the screen
 		void render(Handler* handler) override;
 
+		void renderLighting(Handler* handler) override;
+
 		// Set the current rider
 		void setRider(Entity* entity) {
 			rider = entity; entity->setRiding(this); riderId = rider->getId();
@@ -45,6 +47,8 @@ namespace tg {
 	protected:
 		// Check for a collision with the rideable at the current position
 		virtual bool checkForCollision();
+		bool shouldRender(Handler* handler);
+		bool shouldRenderLight(Handler* handler);
 
 	};
 

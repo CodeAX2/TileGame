@@ -18,7 +18,7 @@ Smelter::Smelter(int x, int y, Handler* handler, World* world) :
 
 	world->getEntityManager()->addTickAnywhereEntity(this);
 
-	lightSize = 100;
+	lightSize = 200;
 	extraLight = 80;
 	lightX = this->x + hitBoxX + hitBoxW / 2;
 	lightY = this->y + hitBoxY;
