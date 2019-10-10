@@ -46,9 +46,22 @@ void EntityManager::addEntity(Entity* entity) {
 	if (world != nullptr) {
 		for (int y = sY; y <= eY; y++) {
 			for (int x = sX; x <= eX; x++) {
-				entityTileMap[y][x].push_back(entity);
-				entityTileMapSizes[y][x]++;
+				if (y >= 0 && y < entityTileMap.size() &&
+					x >= 0 && x < entityTileMap[0].size()) {
+					entityTileMap[y][x].push_back(entity);
+					entityTileMapSizes[y][x]++;
+				}
+
 			}
+		}
+
+	}
+
+	// Remove from do not render list
+	for (int i = doNotRender.size() - 1; i >= 0; i--) {
+
+		if (doNotRender[i] == entity) {
+			doNotRender.erase(doNotRender.begin() + i);
 		}
 
 	}
@@ -112,7 +125,7 @@ void EntityManager::removeEntity(Entity* entity, bool deleteAfter) {
 		}
 	}
 
-	if (Pathfinder * pf = dynamic_cast<Pathfinder*>(entity)) {
+	if (Pathfinder* pf = dynamic_cast<Pathfinder*>(entity)) {
 		numPathfinders--;
 		for (int i = 0; i < pathfinderList.size(); i++) {
 			if (pathfinderList[i] == entity) {
@@ -285,16 +298,6 @@ void EntityManager::tick(sf::Int32 dt) {
 
 void EntityManager::updateRenderOrder(Entity* newEntity) {
 
-
-	//for (int i = 0; i < renderOrder.size(); i++) {
-	//	if (renderOrder[i] == nullptr) continue;
-	//	if (newEntity->equals(*renderOrder[i])) {
-	//		// An equal entity already exists, so don't add this one
-	//		allEntities.pop_back();
-	//		return;
-	//	}
-	//}
-
 	bool isAdded = false;
 	for (int i = 0; i < renderOrder.size(); i++) {
 
@@ -335,13 +338,11 @@ int EntityManager::getRenderStartIndex() {
 		if (cur->getY() + cur->getHeight() < handler->camera->getYOffset() + (720 / 2 - v.getSize().y / 2)) {
 			if (nextCur->getY() + nextCur->getHeight() < handler->camera->getYOffset() + (720 / 2 - v.getSize().y / 2)) {
 				left = mIndex + 1;
-			}
-			else {
+			} else {
 				return mIndex;
 			}
 
-		}
-		else {
+		} else {
 			right = mIndex - 1;
 		}
 	}
@@ -363,13 +364,11 @@ int EntityManager::getRenderEndIndex() {
 		if (cur->getY() <= handler->window->getSize().y + handler->camera->getYOffset() - (720 - v.getSize().y)) {
 			if (nextCur->getY() <= handler->window->getSize().y + handler->camera->getYOffset() - (720 - v.getSize().y)) {
 				left = mIndex + 1;
-			}
-			else {
+			} else {
 				return mIndex;
 			}
 
-		}
-		else {
+		} else {
 			right = mIndex - 1;
 		}
 	}
@@ -431,8 +430,7 @@ void EntityManager::tickExtras(sf::Int32 dt) {
 		if (cur != nullptr) {
 			try {
 				cur->tick(dt);
-			}
-			catch (...) {}
+			} catch (...) {}
 		}
 	}
 }

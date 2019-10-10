@@ -136,7 +136,7 @@ void Player::tick(sf::Int32 dt) {
 	lightX = this->x + hitBoxX + hitBoxW / 2;
 	lightY = this->y + hitBoxY + 1;
 
-	if (PlayingState * ps = dynamic_cast<PlayingState*>(handler->getCurrentState())) {
+	if (PlayingState* ps = dynamic_cast<PlayingState*>(handler->getCurrentState())) {
 		if (ps->getWorld() != world) {
 			ps->setWorld(world);
 		}
@@ -418,19 +418,19 @@ void Player::tick(sf::Int32 dt) {
 
 	for (Building* b : Building::getAllBuildings()) {
 		if (b->positionIsEntrance((x + w / 2) / 96, (y + h + 20) / 96, world)) {
-			if (PlayingState * ps = dynamic_cast<PlayingState*>(handler->getCurrentState())) {
+			if (PlayingState* ps = dynamic_cast<PlayingState*>(handler->getCurrentState())) {
 				World* wd = b->getWorld();
 				ps->setWorld(wd);
-				handler->player->setWorld(wd);
-				handler->player->setPos(wd->getSpawn().x * 96 + 96 / 2 - w / 2, wd->getSpawn().y * 96);
+				setWorld(wd);
+				setPos(wd->getSpawn().x * 96 + 96 / 2 - w / 2, wd->getSpawn().y * 96);
 				break;
 			}
 		} else if (b->positionIsExit((x + w / 2) / 96, (y + h / 3) / 96) && world == b->getWorld()) {
-			if (PlayingState * ps = dynamic_cast<PlayingState*>(handler->getCurrentState())) {
+			if (PlayingState* ps = dynamic_cast<PlayingState*>(handler->getCurrentState())) {
 				World* wd = b->getOutWorld();
 				ps->setWorld(wd);
-				handler->player->setWorld(wd);
-				handler->player->setPos(b->getOutPos().x * 96 + 96 / 2 - w / 2, b->getOutPos().y * 96);
+				setWorld(wd);
+				setPos(b->getOutPos().x * 96 + 96 / 2 - w / 2, b->getOutPos().y * 96);
 				break;
 			}
 		}
@@ -439,9 +439,11 @@ void Player::tick(sf::Int32 dt) {
 
 
 	if (settingNewPos) {
+		float oldX = this->x, oldY = this->y;
 		this->x = this->newX;
 		this->y = this->newY;
 		settingNewPos = false;
+		world->getEntityManager()->fixEntityMoved(this, oldX, oldY);
 	}
 	//handler->world->setTile((x + hitBoxX + hitBoxW/2) / 96, (y + hitBoxY + hitBoxH) / 96, 5);
 }
@@ -474,7 +476,7 @@ bool Player::checkForCollision() {
 				sf::IntRect eBox = cur->getCollisionBox();
 
 				if (cur->isRideable()) {
-					if (Rideable * rCur = dynamic_cast<Rideable*>(cur)) {
+					if (Rideable* rCur = dynamic_cast<Rideable*>(cur)) {
 						if (ridingOn == nullptr) {
 							if (eBox.intersects(pBox)) {
 								rCur->setRider(this);
@@ -520,7 +522,7 @@ bool Player::checkForCollision() {
 				}
 
 				if (cur->isRideable()) {
-					if (Rideable * rCur = dynamic_cast<Rideable*>(cur)) {
+					if (Rideable* rCur = dynamic_cast<Rideable*>(cur)) {
 						if (ridingOn == nullptr) {
 							if (rCur->getCollisionBox().intersects(extendedPBox)) {
 								rCur->setRider(this);

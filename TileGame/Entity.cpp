@@ -195,3 +195,13 @@ bool Entity::shouldRenderLight(Handler* handler) {
 	return lightOnScreen;
 
 }
+
+void Entity::setWorld(World* world) {
+	World* prevWorld = this->world;
+	this->world = world;
+
+	// Remove the entity from the previous world, but don't delete it (since it's in a new world)
+	prevWorld->getEntityManager()->removeEntity(this, false);
+	this->world->getEntityManager()->addEntity(this);
+
+}

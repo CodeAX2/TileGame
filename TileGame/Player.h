@@ -102,9 +102,6 @@ namespace tg {
 			settingNewPos = true;
 		}
 
-		// Set the current world the player is in
-		void setWorld(World* world) { this->world = world; }
-
 		// Return the instance of the player's inventory
 		Inventory* getInventory() { return inventory; }
 

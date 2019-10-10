@@ -113,6 +113,9 @@ namespace tg {
 		// Get the y coordinate of the entity
 		float getY() { return y; }
 
+		// Set the world the entity is in
+		virtual void setWorld(World* world);
+
 		// Get the world the entity is inside
 		World* getWorld() { return world; }
 
