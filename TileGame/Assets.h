@@ -54,6 +54,7 @@ namespace tg {
 		sf::Texture* questIconAvailable;
 		sf::Texture* dialogueNPC;
 		std::vector<std::tuple<int, int, float>> playerSwordAttackAnimation;
+		sf::Texture* shadow;
 
 	public:
 		Assets();
@@ -229,6 +230,7 @@ namespace tg {
 		sf::Texture* getFernTexture() { return fern; }
 		sf::Texture* getPalmTreeTexture() { return palmTree; }
 		sf::Texture* getDialogueNPCTexture() { return dialogueNPC; }
+		sf::Texture* getShadowTexture() { return shadow; }
 
 		sf::Color getPlayerColor() { return playerColorP; }
 

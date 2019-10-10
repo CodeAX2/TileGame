@@ -206,6 +206,7 @@
     <Image Include="Resources\Textures\RockVibranium.png" />
     <Image Include="Resources\Textures\Sand24.png" />
     <Image Include="Resources\Textures\SandCastle.png" />
+    <Image Include="Resources\Textures\Shadow.png" />
     <Image Include="Resources\Textures\Smelter.png" />
     <Image Include="Resources\Textures\Snow24.png" />
     <Image Include="Resources\Textures\SpritesSheet-Player.png" />

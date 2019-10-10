@@ -60,6 +60,13 @@ void Entity::init() {
 // Render the entity to the screen
 void Entity::render(Handler* handler) {
 
+	// Draw the entity's shadow
+	sf::Texture* shadowTexture = handler->assets->getShadowTexture();
+	sf::RectangleShape shadow(sf::Vector2f(shadowTexture->getSize()) * 3.f);
+	shadow.setTexture(shadowTexture);
+	shadow.setPosition((int)(x - floor(handler->camera->getXOffset())), (int)(y - floor(handler->camera->getYOffset()) + h - shadow.getSize().y / 2));
+	handler->window->draw(shadow);
+
 	// Draw the entity itself
 	sf::RectangleShape shape(sf::Vector2f(w, h));
 	shape.setTexture(texture);

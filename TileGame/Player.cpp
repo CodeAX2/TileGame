@@ -51,6 +51,13 @@ void Player::render(Handler* handler) {
 		pY = accuratePY;
 	}
 
+	// Draw the entity's shadow
+	sf::Texture* shadowTexture = handler->assets->getShadowTexture();
+	sf::RectangleShape shadow(sf::Vector2f(shadowTexture->getSize()) * 3.f);
+	shadow.setTexture(shadowTexture);
+	shadow.setPosition(pX, pY + h - shadow.getSize().y / 2);
+	handler->window->draw(shadow);
+
 	sf::Sprite sprite(*texture);
 	sprite.setPosition(pX, pY);
 
@@ -67,7 +74,8 @@ void Player::render(Handler* handler) {
 	if (horiDirection == WEST) {
 		sprite.setScale(-xScale, yScale);
 		sprite.move(w, 0);
-	} else {
+	}
+	else {
 		sprite.setScale(xScale, yScale);
 	}
 
@@ -78,7 +86,8 @@ void Player::render(Handler* handler) {
 
 		if (pY >= (int)handler->window->getSize().y / 2 + 20) {
 			ps->setGuiToBottom(false);
-		} else {
+		}
+		else {
 			ps->setGuiToBottom(true);
 		}
 	}
@@ -99,7 +108,8 @@ void Player::render(Handler* handler) {
 				sf::Vector2f(std::get<0>(attckInfo) * sprite.getScale().x,
 					std::get<1>(attckInfo) * sprite.getScale().y));
 			itemSprite.setRotation(-1 * std::get<2>(attckInfo));
-		} else {
+		}
+		else {
 			itemSprite.setScale(2, 2);
 			itemSprite.setPosition(sprite.getPosition() +
 				sf::Vector2f(std::get<0>(attckInfo) * sprite.getScale().x,
@@ -136,7 +146,7 @@ void Player::tick(sf::Int32 dt) {
 	lightX = this->x + hitBoxX + hitBoxW / 2;
 	lightY = this->y + hitBoxY + 1;
 
-	if (PlayingState* ps = dynamic_cast<PlayingState*>(handler->getCurrentState())) {
+	if (PlayingState * ps = dynamic_cast<PlayingState*>(handler->getCurrentState())) {
 		if (ps->getWorld() != world) {
 			ps->setWorld(world);
 		}
@@ -152,7 +162,8 @@ void Player::tick(sf::Int32 dt) {
 		if (nowAttackKey && !previousAttackKey || attacking) {
 			if (!attacking) {
 				timeSinceAttackStart = 0;
-			} else {
+			}
+			else {
 				timeSinceAttackStart += dt;
 			}
 			if (timeSinceAttackStart <= 300) {
@@ -172,16 +183,21 @@ void Player::tick(sf::Int32 dt) {
 					}
 					if (timeSinceAttackStart <= 100) {
 						curAnim = 18;
-					} else if (timeSinceAttackStart <= 200) {
+					}
+					else if (timeSinceAttackStart <= 200) {
 						curAnim = 19;
-					} else {
+					}
+					else {
 						curAnim = 20;
 					}
-				} else if (vertDirection == NORTH) {
-					if (timeSinceAttackStart <= 150) { curAnim = 10; } else {
+				}
+				else if (vertDirection == NORTH) {
+					if (timeSinceAttackStart <= 150) { curAnim = 10; }
+					else {
 						curAnim = 10;
 					}
-				} else {
+				}
+				else {
 					float oldY = y;
 					y += 1.0 / 2 * dt * speed * pow(timeSinceAttackStart / 150.f, 2);
 
@@ -190,9 +206,11 @@ void Player::tick(sf::Int32 dt) {
 					}
 					if (timeSinceAttackStart <= 100) {
 						curAnim = 15;
-					} else if (timeSinceAttackStart <= 200) {
+					}
+					else if (timeSinceAttackStart <= 200) {
 						curAnim = 16;
-					} else {
+					}
+					else {
 						curAnim = 17;
 					}
 				}
@@ -200,7 +218,8 @@ void Player::tick(sf::Int32 dt) {
 				texture = handler->assets->getPlayerAnim()->getFrame(curAnim);
 
 				return;
-			} else {
+			}
+			else {
 				attacking = false;
 				timeSinceAttackStart = 0;
 				atBox = sf::RectangleShape(); // Set the attack box to nothing
@@ -218,12 +237,14 @@ void Player::tick(sf::Int32 dt) {
 		stam -= dt / 20.f;
 		if (stam <= 0) { stam = 0; slowRegen = true; }
 		stamRegenCooldown = 0;
-	} else {
+	}
+	else {
 		if (stamRegenCooldown >= 350) {
 			if (slowRegen) {
 				speed = 0.075;
 				stam += dt / 80.f;
-			} else {
+			}
+			else {
 				speed = 0.1;
 				stam += dt / 40.f;
 			}
@@ -301,13 +322,15 @@ void Player::tick(sf::Int32 dt) {
 			}
 
 
-		} else {
+		}
+		else {
 			curAnim = 0;
 			timeSinceLastAnim = 0;
 		}
 
 
-	} else if (horiDirection == STILL && vertDirection == NORTH) {
+	}
+	else if (horiDirection == STILL && vertDirection == NORTH) {
 		if (curAnim < 11 || curAnim > 14) {
 			curAnim = 11;
 		}
@@ -326,11 +349,13 @@ void Player::tick(sf::Int32 dt) {
 			}
 
 
-		} else {
+		}
+		else {
 			curAnim = 10;
 			timeSinceLastAnim = 0;
 		}
-	} else if (horiDirection != STILL) {
+	}
+	else if (horiDirection != STILL) {
 		if (curAnim < 6 || curAnim > 9) {
 			curAnim = 6;
 		}
@@ -349,12 +374,14 @@ void Player::tick(sf::Int32 dt) {
 			}
 
 
-		} else {
+		}
+		else {
 			curAnim = 5;
 			timeSinceLastAnim = 0;
 		}
 
-	} else {
+	}
+	else {
 		curAnim = 0;
 	}
 
@@ -381,7 +408,8 @@ void Player::tick(sf::Int32 dt) {
 			}
 
 			ridingOn->move(dx, dy);
-		} else {
+		}
+		else {
 			float oldY = y;
 			float oldX = x;
 			if (keys[0]) {
@@ -418,15 +446,16 @@ void Player::tick(sf::Int32 dt) {
 
 	for (Building* b : Building::getAllBuildings()) {
 		if (b->positionIsEntrance((x + w / 2) / 96, (y + h + 20) / 96, world)) {
-			if (PlayingState* ps = dynamic_cast<PlayingState*>(handler->getCurrentState())) {
+			if (PlayingState * ps = dynamic_cast<PlayingState*>(handler->getCurrentState())) {
 				World* wd = b->getWorld();
 				ps->setWorld(wd);
 				setWorld(wd);
 				setPos(wd->getSpawn().x * 96 + 96 / 2 - w / 2, wd->getSpawn().y * 96);
 				break;
 			}
-		} else if (b->positionIsExit((x + w / 2) / 96, (y + h / 3) / 96) && world == b->getWorld()) {
-			if (PlayingState* ps = dynamic_cast<PlayingState*>(handler->getCurrentState())) {
+		}
+		else if (b->positionIsExit((x + w / 2) / 96, (y + h / 3) / 96) && world == b->getWorld()) {
+			if (PlayingState * ps = dynamic_cast<PlayingState*>(handler->getCurrentState())) {
 				World* wd = b->getOutWorld();
 				ps->setWorld(wd);
 				setWorld(wd);
@@ -476,7 +505,7 @@ bool Player::checkForCollision() {
 				sf::IntRect eBox = cur->getCollisionBox();
 
 				if (cur->isRideable()) {
-					if (Rideable* rCur = dynamic_cast<Rideable*>(cur)) {
+					if (Rideable * rCur = dynamic_cast<Rideable*>(cur)) {
 						if (ridingOn == nullptr) {
 							if (eBox.intersects(pBox)) {
 								rCur->setRider(this);
@@ -522,7 +551,7 @@ bool Player::checkForCollision() {
 				}
 
 				if (cur->isRideable()) {
-					if (Rideable* rCur = dynamic_cast<Rideable*>(cur)) {
+					if (Rideable * rCur = dynamic_cast<Rideable*>(cur)) {
 						if (ridingOn == nullptr) {
 							if (rCur->getCollisionBox().intersects(extendedPBox)) {
 								rCur->setRider(this);
@@ -612,13 +641,15 @@ void Player::hitEntities() {
 
 	if (xOffset < 0) {
 		aBox.left = hitBoxX + xOffset + x;
-	} else {
+	}
+	else {
 		aBox.left = hitBoxX + x;
 	}
 
 	if (yOffset < 0) {
 		aBox.top = hitBoxY + yOffset + y;
-	} else {
+	}
+	else {
 		aBox.top = hitBoxY + y;
 	}
 

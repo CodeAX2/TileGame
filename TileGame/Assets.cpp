@@ -272,6 +272,8 @@ void Assets::init() {
 
 	dialogueNPC = loadTextureFromResource(DIALOGUE_NPC);
 
+	shadow = loadTextureFromResource(SHADOW);
+
 	sf::Image smelterSheet = loadImageFromResource(SMELTER);
 	for (int i = 0; i < 5; i++) {
 		smelter[i] = new sf::Texture();

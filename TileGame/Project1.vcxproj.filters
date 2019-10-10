@@ -752,6 +752,9 @@
     <Image Include="Resources\Textures\SS-PlayerSwordAttack.png">
       <Filter>Resource Files\Textures</Filter>
     </Image>
+    <Image Include="Resources\Textures\Shadow.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Media Include="Resources\Sounds\sans.mp3">
