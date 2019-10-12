@@ -242,6 +242,22 @@ void EntityManager::render() {
 	sf::View v = handler->window->getView();
 	sf::Vector2u s = handler->window->getSize();
 
+	for (int i = 0; i < renderBuffer.size(); i++) {
+		Entity* cur = renderBuffer[i];
+
+		if (cur == nullptr) {
+			continue;
+		}
+
+		if (std::find(doNotRender.begin(), doNotRender.end(), cur) != doNotRender.end()) {
+			continue;
+		}
+
+		if (cur->shouldRenderLight(handler) && cur->getRidingOn() == nullptr) {
+			cur->renderLighting(handler);
+		}
+	}
+
 
 	for (int i = getRenderStartIndex(); i <= endIndex; i++) {
 
@@ -258,23 +274,6 @@ void EntityManager::render() {
 			cur->render(handler);
 		}
 
-	}
-
-
-	for (int i = 0; i < renderBuffer.size(); i++) {
-		Entity* cur = renderBuffer[i];
-
-		if (cur == nullptr) {
-			continue;
-		}
-
-		if (std::find(doNotRender.begin(), doNotRender.end(), cur) != doNotRender.end()) {
-			continue;
-		}
-
-		if (cur->shouldRenderLight(handler) && cur->getRidingOn() == nullptr) {
-			cur->renderLighting(handler);
-		}
 	}
 
 

@@ -110,4 +110,29 @@ void Pumpkin::renderLighting(Handler* handler) {
 
 	}
 
+	// Draw the entity's shadow
+	const sf::Texture* shadowTexture = texture;
+
+	sf::VertexArray shadow(sf::Quads, 4);
+	sf::Vector2f basicPosition((int)(x - floor(handler->camera->getXOffset())), (int)(y - floor(handler->camera->getYOffset()) + h));
+
+	shadow[0].position = basicPosition;
+	shadow[1].position = sf::Vector2f(basicPosition.x + shadowLength * sin(shadowDegree * M_PI / 180.f), basicPosition.y - shadowLength * cos(shadowDegree * M_PI / 180.f));
+	shadow[2].position = sf::Vector2f(basicPosition.x + w + shadowLength * sin(shadowDegree * M_PI / 180.f), basicPosition.y - shadowLength * cos(shadowDegree * M_PI / 180.f));
+	shadow[3].position = sf::Vector2f(basicPosition.x + w, basicPosition.y);
+
+	shadow[0].texCoords = sf::Vector2f(0, shadowTexture->getSize().y);
+	shadow[1].texCoords = sf::Vector2f(0, 0);
+	shadow[2].texCoords = sf::Vector2f(shadowTexture->getSize().x, 0);
+	shadow[3].texCoords = sf::Vector2f(shadowTexture->getSize().x, shadowTexture->getSize().y);
+
+	shadow[0].color = sf::Color(0, 0, 0, 150);
+	shadow[1].color = sf::Color(0, 0, 0, 0);
+	shadow[2].color = sf::Color(0, 0, 0, 0);
+	shadow[3].color = sf::Color(0, 0, 0, 150);
+
+	sf::RenderStates state;
+	state.texture = shadowTexture;
+	handler->window->draw(shadow, state);
+
 }

@@ -24,15 +24,4 @@ BuildingEntity::~BuildingEntity()
 {
 }
 
-void BuildingEntity::renderLighting(Handler* handler) {
-	PlayingState* ps = dynamic_cast<PlayingState*>(handler->getCustomState(PLAYING));
-
-	float cX = handler->camera->getXOffset();
-	float cY = handler->camera->getYOffset();
-
-	ps->addWallLine(sf::Vector2f(x - cX, y + h - cY), sf::Vector2f(x + w - cX, y + h - cY));
-	ps->addBuildingTexture(texture, sf::Vector2f(x - cX, y - cY));
-
-}
-
 

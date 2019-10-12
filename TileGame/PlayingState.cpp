@@ -163,7 +163,7 @@ void PlayingState::tick(sf::Int32 dt) {
 		timeSinceLastEnemySpawn += dt;
 
 		if (timeSinceLastEnemySpawn >= sf::seconds(3).asMilliseconds()) {
-			//spawnEnemies();
+			spawnEnemies();
 			timeSinceLastEnemySpawn = 0;
 		}
 

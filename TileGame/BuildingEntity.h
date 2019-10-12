@@ -14,10 +14,6 @@ namespace tg {
 			bool needsInitialization, World* world);
 		~BuildingEntity();
 
-	public:
-		// Render the lighting of the building
-		void renderLighting(Handler* handler) override;
-
 	};
 
 }

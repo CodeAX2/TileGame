@@ -4,6 +4,10 @@
 #include "Item.h"
 #include "Static.h"
 #include "PlayingState.h"
+#include <chrono>
+#include <sstream>
+#include "Game.h"
+#include "Pumpkin.h"
 
 using namespace tg;
 
@@ -18,7 +22,8 @@ Entity::Entity(
 
 	x(x), y(y),
 	hitBoxX(hitBoxX), hitBoxY(hitBoxY), hitBoxW(hitBoxW), hitBoxH(hitBoxH),
-	handler(handler), w(w), h(h), needsTicking(needsTicking), type(type), world(world)
+	handler(handler), w(w), h(h), needsTicking(needsTicking), type(type), world(world),
+	shadowLength(h)
 
 {
 	if (this->world == nullptr) {
@@ -60,13 +65,6 @@ void Entity::init() {
 // Render the entity to the screen
 void Entity::render(Handler* handler) {
 
-	// Draw the entity's shadow
-	sf::Texture* shadowTexture = handler->assets->getShadowTexture();
-	sf::RectangleShape shadow(sf::Vector2f(shadowTexture->getSize()) * 3.f);
-	shadow.setTexture(shadowTexture);
-	shadow.setPosition((int)(x - floor(handler->camera->getXOffset())), (int)(y - floor(handler->camera->getYOffset()) + h - shadow.getSize().y / 2));
-	handler->window->draw(shadow);
-
 	// Draw the entity itself
 	sf::RectangleShape shape(sf::Vector2f(w, h));
 	shape.setTexture(texture);
@@ -102,8 +100,7 @@ void Entity::render(Handler* handler) {
 				(float)health / maxHealth * 50,
 				180
 			));
-		}
-		else {
+		} else {
 			healthBar.setFillColor(sf::Color(
 				255,
 				(float)health / (maxHealth * .6f) * 255,
@@ -171,8 +168,32 @@ void Entity::dropItems() {
 
 }
 
-
 void Entity::renderLighting(Handler* handler) {
+
+	// Draw the entity's shadow
+	const sf::Texture* shadowTexture = texture;
+
+	sf::VertexArray shadow(sf::Quads, 4);
+	sf::Vector2f basicPosition((int)(x - floor(handler->camera->getXOffset())), (int)(y - floor(handler->camera->getYOffset()) + h));
+
+	shadow[0].position = basicPosition;
+	shadow[1].position = sf::Vector2f(basicPosition.x + shadowLength * sin(shadowDegree * M_PI / 180.f), basicPosition.y - shadowLength * cos(shadowDegree * M_PI / 180.f));
+	shadow[2].position = sf::Vector2f(basicPosition.x + w + shadowLength * sin(shadowDegree * M_PI / 180.f), basicPosition.y - shadowLength * cos(shadowDegree * M_PI / 180.f));
+	shadow[3].position = sf::Vector2f(basicPosition.x + w, basicPosition.y);
+
+	shadow[0].texCoords = sf::Vector2f(0, shadowTexture->getSize().y);
+	shadow[1].texCoords = sf::Vector2f(0, 0);
+	shadow[2].texCoords = sf::Vector2f(shadowTexture->getSize().x, 0);
+	shadow[3].texCoords = sf::Vector2f(shadowTexture->getSize().x, shadowTexture->getSize().y);
+
+	shadow[0].color = sf::Color(0, 0, 0, 150);
+	shadow[1].color = sf::Color(0, 0, 0, 0);
+	shadow[2].color = sf::Color(0, 0, 0, 0);
+	shadow[3].color = sf::Color(0, 0, 0, 150);
+
+	sf::RenderStates state;
+	state.texture = shadowTexture;
+	handler->window->draw(shadow, state);
 
 	if (lightSize != 0 && extraLight != 0) {
 
@@ -183,10 +204,10 @@ void Entity::renderLighting(Handler* handler) {
 
 bool Entity::shouldRender(Handler* handler) {
 	sf::View v = handler->window->getView();
-	bool onScreen = !(getX() + getWidth() < handler->camera->getXOffset() + (1280 / 2 - v.getSize().x / 2) ||
-		getX() > handler->window->getSize().x + handler->camera->getXOffset() - (1280 / 2 - v.getSize().x / 2) ||
-		getY() + getHeight() < handler->camera->getYOffset() + (720 / 2 - v.getSize().y / 2) ||
-		getY() > handler->window->getSize().y + handler->camera->getYOffset() - (720 / 2 - v.getSize().y / 2));
+	bool onScreen = !(getX() + getWidth() < handler->camera->getXOffset() + (handler->window->getSize().x / 2 - v.getSize().x / 2) ||
+		getX() > handler->window->getSize().x + handler->camera->getXOffset() - (handler->window->getSize().x / 2 - v.getSize().x / 2) ||
+		getY() + getHeight() < handler->camera->getYOffset() + (handler->window->getSize().y / 2 - v.getSize().y / 2) ||
+		getY() > handler->window->getSize().y + handler->camera->getYOffset() - (handler->window->getSize().y / 2 - v.getSize().y / 2));
 
 	return onScreen;
 
@@ -194,12 +215,17 @@ bool Entity::shouldRender(Handler* handler) {
 
 bool Entity::shouldRenderLight(Handler* handler) {
 	sf::View v = handler->window->getView();
-	bool lightOnScreen = !(getLightX() + getLightSize() + getExtraLightSize() < handler->camera->getXOffset() + (1280 / 2 - v.getSize().x / 2) ||
-		getLightX() - getLightSize() - getExtraLightSize() > handler->window->getSize().x + handler->camera->getXOffset() - (1280 / 2 - v.getSize().x / 2) ||
-		getLightY() + getLightSize() + getExtraLightSize() < handler->camera->getYOffset() + (720 / 2 - v.getSize().y / 2) ||
-		getLightY() - getLightSize() - getExtraLightSize() > handler->window->getSize().y + handler->camera->getYOffset() - (720 / 2 - v.getSize().y / 2));
+	bool lightOnScreen = !(getLightX() + getLightSize() + getExtraLightSize() < handler->camera->getXOffset() + (handler->window->getSize().x / 2 - v.getSize().x / 2) ||
+		getLightX() - getLightSize() - getExtraLightSize() > handler->window->getSize().x + handler->camera->getXOffset() - (handler->window->getSize().x / 2 - v.getSize().x / 2) ||
+		getLightY() + getLightSize() + getExtraLightSize() < handler->camera->getYOffset() + (handler->window->getSize().y / 2 - v.getSize().y / 2) ||
+		getLightY() - getLightSize() - getExtraLightSize() > handler->window->getSize().y + handler->camera->getYOffset() - (handler->window->getSize().y / 2 - v.getSize().y / 2));
 
-	return lightOnScreen;
+	bool shadowOnScreen = !(getX() + getWidth() + shadowLength < handler->camera->getXOffset() + (handler->window->getSize().x / 2 - v.getSize().x / 2) ||
+		getX() - shadowLength > handler->window->getSize().x + handler->camera->getXOffset() - (handler->window->getSize().x / 2 - v.getSize().x / 2) ||
+		getY() + getHeight() + shadowLength < handler->camera->getYOffset() + (handler->window->getSize().y / 2 - v.getSize().y / 2) ||
+		getY() - shadowLength > handler->window->getSize().y + handler->camera->getYOffset() - (handler->window->getSize().y / 2 - v.getSize().y / 2));
+
+	return lightOnScreen || shadowOnScreen;
 
 }
 

@@ -84,17 +84,6 @@ void Tree::tick(sf::Int32 dt) {
 
 }
 
-void Tree::renderLighting(Handler* handler) {
-	PlayingState* ps = dynamic_cast<PlayingState*>(handler->getCustomState(PLAYING));
-
-	float cX = handler->camera->getXOffset();
-	float cY = handler->camera->getYOffset();
-
-	ps->addWallLine(sf::Vector2f(x - cX + 24, y + h - cY), sf::Vector2f(x + w - cX - 27, y + h - cY));
-	ps->addBuildingTexture(texture, sf::Vector2f(x - cX, y - cY));
-
-}
-
 
 
 

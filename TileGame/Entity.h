@@ -6,6 +6,8 @@
 #include "Camera.h"
 #include <math.h>
 #include <Windows.h>
+#define _USE_MATH_DEFINES
+#include <math.h>
 
 // Definitions of the various types of entities
 #define NO_TYPE = -1
@@ -78,6 +80,11 @@ namespace tg {
 		float lightX = 0; // The x coordinate of the entity's light
 
 		float lightY = 0; // The y coordinate of the entity's light
+
+		float shadowLength = 0; // The length of the shadow casted by the entity
+
+		float shadowDegree = 45; // The degree of the shadow, with 0 being North, 90 East, etc.
+
 
 	public:
 		const bool needsTicking; // If the entity needs to be updated
