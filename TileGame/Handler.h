@@ -30,6 +30,9 @@ namespace tg {
 		std::string saveDirName;
 		sf::Clock* clock;
 
+		float currentCameraXOffset = 0; // Used to keep track of camera offset, 
+		float currentCameraYOffset = 0; // so it is consistent when rendering
+
 	public:
 		Handler();
 		~Handler();

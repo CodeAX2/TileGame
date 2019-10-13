@@ -158,17 +158,17 @@ void Pathfinder::render(Handler* handler) {
 		std::vector<sf::Vector2i> cP = currentPath;
 		for (sf::Vector2i pos : cP) {
 			sf::RectangleShape s;
-			s.setPosition(sf::Vector2f(pos.x * pathfindSize - handler->camera->getXOffset(), pos.y * pathfindSize - handler->camera->getYOffset()));
+			s.setPosition(sf::Vector2f(pos.x * pathfindSize - handler->currentCameraXOffset, pos.y * pathfindSize - handler->currentCameraYOffset));
 			s.setSize(sf::Vector2f(pathfindSize, pathfindSize));
 			s.setFillColor(sf::Color(0, 0, 255, 175));
 			handler->window->draw(s);
 		}
 
 		if (currentPath.size() != 0) {
-			float tX = currentPath[spotInpath].x * pathfindSize - handler->camera->getXOffset();
-			float tY = currentPath[spotInpath].y * pathfindSize - handler->camera->getYOffset();
-			float cX = x + hitBoxX - handler->camera->getXOffset();
-			float cY = y + hitBoxY - handler->camera->getYOffset();
+			float tX = currentPath[spotInpath].x * pathfindSize - handler->currentCameraXOffset;
+			float tY = currentPath[spotInpath].y * pathfindSize - handler->currentCameraYOffset;
+			float cX = x + hitBoxX - handler->currentCameraXOffset;
+			float cY = y + hitBoxY - handler->currentCameraYOffset;
 
 			sf::VertexArray line(sf::LinesStrip, 2);
 			line[0].position = sf::Vector2f(cX, cY);

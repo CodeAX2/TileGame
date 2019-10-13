@@ -276,17 +276,20 @@ void Game::renderLoop() {
 	while (handler.window->isOpen()) {
 		if (!isUpdating && !togglingFullscreen) {
 
+
 			handler.window->clear();
+
+			if (handler.camera != nullptr) {
+				handler.currentCameraXOffset = handler.camera->getXOffset();
+				handler.currentCameraYOffset = handler.camera->getYOffset();
+			}
 
 			if (handler.getCurrentState() != nullptr) {
 				handler.getCurrentState()->render();
-			} else {
-				sf::RectangleShape bg(handler.window->getView().getSize());
-				bg.setFillColor(sf::Color(21, 21, 21));
-				//handler.window->draw(bg);
 			}
 
 			handler.window->display();
+
 			if (handler.inputManager->screenshot && !prevScreenshot) {
 				sf::Texture screenshotTexture;
 				screenshotTexture.create(handler.window->getSize().x, handler.window->getSize().y);

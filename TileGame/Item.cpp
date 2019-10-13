@@ -63,7 +63,7 @@ void Item::tick(sf::Int32 dt) {
 void Item::render(Handler* handler) {
 	sf::RectangleShape shape(sf::Vector2f(w, h));
 	shape.setTexture(texture);
-	shape.setPosition((int)(x - floor(handler->camera->getXOffset())), (int)(y - floor(handler->camera->getYOffset()) + offsetHeight));
+	shape.setPosition((int)(x - floor(handler->currentCameraXOffset)), (int)(y - floor(handler->currentCameraYOffset) + offsetHeight));
 
 	handler->window->draw(shape);
 

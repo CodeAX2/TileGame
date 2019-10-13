@@ -1,3 +1,5 @@
+#define NOMINMAX
+
 #include "EntityManager.h"
 #include "Entity.h"
 #include "Handler.h"
@@ -8,6 +10,8 @@
 #include "Pathfinder.h"
 #include <algorithm>
 #include "Rideable.h"
+#include <SFML/Graphics.hpp>
+
 
 using namespace tg;
 
@@ -334,8 +338,8 @@ int EntityManager::getRenderStartIndex() {
 			return mIndex;
 		}
 		Entity* nextCur = renderOrder[mIndex + 1];
-		if (cur->getY() + cur->getHeight() < handler->camera->getYOffset() + (720 / 2 - v.getSize().y / 2)) {
-			if (nextCur->getY() + nextCur->getHeight() < handler->camera->getYOffset() + (720 / 2 - v.getSize().y / 2)) {
+		if (cur->getY() + cur->getHeight() < handler->currentCameraYOffset + (720 / 2 - v.getSize().y / 2)) {
+			if (nextCur->getY() + nextCur->getHeight() < handler->currentCameraYOffset + (720 / 2 - v.getSize().y / 2)) {
 				left = mIndex + 1;
 			} else {
 				return mIndex;
@@ -360,8 +364,8 @@ int EntityManager::getRenderEndIndex() {
 			return mIndex;
 		}
 		Entity* nextCur = renderOrder[mIndex + 1];
-		if (cur->getY() <= handler->window->getSize().y + handler->camera->getYOffset() - (720 - v.getSize().y)) {
-			if (nextCur->getY() <= handler->window->getSize().y + handler->camera->getYOffset() - (720 - v.getSize().y)) {
+		if (cur->getY() <= handler->window->getSize().y + handler->currentCameraYOffset - (720 - v.getSize().y)) {
+			if (nextCur->getY() <= handler->window->getSize().y + handler->currentCameraYOffset - (720 - v.getSize().y)) {
 				left = mIndex + 1;
 			} else {
 				return mIndex;

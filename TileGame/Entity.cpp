@@ -68,7 +68,7 @@ void Entity::render(Handler* handler) {
 	// Draw the entity itself
 	sf::RectangleShape shape(sf::Vector2f(w, h));
 	shape.setTexture(texture);
-	shape.setPosition((int)(x - floor(handler->camera->getXOffset())), (int)(y - floor(handler->camera->getYOffset())));
+	shape.setPosition((int)(x - floor(handler->currentCameraXOffset)), (int)(y - floor(handler->currentCameraYOffset)));
 	handler->window->draw(shape);
 
 
@@ -80,11 +80,11 @@ void Entity::render(Handler* handler) {
 
 		healthText.setString(std::to_string(health) + "/" + std::to_string(maxHealth));
 		healthText.setCharacterSize(15);
-		healthText.setPosition((int)(x - floor(handler->camera->getXOffset())) - healthText.getLocalBounds().width / 2 + w / 2, (int)(y + 23 - floor(handler->camera->getYOffset())));
+		healthText.setPosition((int)(x - floor(handler->currentCameraXOffset)) - healthText.getLocalBounds().width / 2 + w / 2, (int)(y + 23 - floor(handler->currentCameraYOffset)));
 		if (health > maxHealth || health < 0 || handler == nullptr) return;
 
 		sf::RectangleShape textBg(sf::Vector2f(32 * 3, healthText.getGlobalBounds().height + 4));
-		textBg.setPosition(sf::Vector2f(x - floor(handler->camera->getXOffset()) + w / 2 - 16 * 3, healthText.getGlobalBounds().top - 2));
+		textBg.setPosition(sf::Vector2f(x - floor(handler->currentCameraXOffset) + w / 2 - 16 * 3, healthText.getGlobalBounds().top - 2));
 		textBg.setFillColor(sf::Color(0, 0, 0, 140));
 		handler->window->draw(textBg);
 
@@ -92,7 +92,7 @@ void Entity::render(Handler* handler) {
 
 
 		sf::RectangleShape healthBar(sf::Vector2f(32 * 3 * (float)health / maxHealth, 10));
-		healthBar.setPosition((int)(x - floor(handler->camera->getXOffset())) + w / 2 - 16 * 3, (int)(y + 40 - floor(handler->camera->getYOffset())));
+		healthBar.setPosition((int)(x - floor(handler->currentCameraXOffset)) + w / 2 - 16 * 3, (int)(y + 40 - floor(handler->currentCameraYOffset)));
 		if (health > maxHealth / 2.f) {
 			healthBar.setFillColor(sf::Color(
 				255 - (float)health / (maxHealth / 2.f) * 255,
@@ -118,7 +118,7 @@ void Entity::render(Handler* handler) {
 
 		sf::RectangleShape shape2(sf::Vector2f(hitBox.width, hitBox.height));
 		shape2.setFillColor(sf::Color(255, 0, 0, 150));
-		shape2.setPosition(hitBox.left - handler->camera->getXOffset(), hitBox.top - handler->camera->getYOffset());
+		shape2.setPosition(hitBox.left - handler->currentCameraXOffset, hitBox.top - handler->currentCameraYOffset);
 
 		handler->window->draw(shape2);
 	}
@@ -174,7 +174,7 @@ void Entity::renderLighting(Handler* handler) {
 	const sf::Texture* shadowTexture = texture;
 
 	sf::VertexArray shadow(sf::Quads, 4);
-	sf::Vector2f basicPosition((int)(x - floor(handler->camera->getXOffset())), (int)(y - floor(handler->camera->getYOffset()) + h));
+	sf::Vector2f basicPosition((int)(x - floor(handler->currentCameraXOffset)), (int)(y - floor(handler->currentCameraYOffset) + h));
 
 	shadow[0].position = basicPosition;
 	shadow[1].position = sf::Vector2f(basicPosition.x + shadowLength * sin(shadowDegree * M_PI / 180.f), basicPosition.y - shadowLength * cos(shadowDegree * M_PI / 180.f));
@@ -198,16 +198,16 @@ void Entity::renderLighting(Handler* handler) {
 	if (lightSize != 0 && extraLight != 0) {
 
 		PlayingState* ps = dynamic_cast<PlayingState*>(handler->getCustomState(PLAYING));
-		ps->addLightPoint(sf::Vector2f(lightX - handler->camera->getXOffset(), lightY - handler->camera->getYOffset()), lightSize, extraLight);
+		ps->addLightPoint(sf::Vector2f(lightX - handler->currentCameraXOffset, lightY - handler->currentCameraYOffset), lightSize, extraLight);
 	}
 }
 
 bool Entity::shouldRender(Handler* handler) {
 	sf::View v = handler->window->getView();
-	bool onScreen = !(getX() + getWidth() < handler->camera->getXOffset() + (handler->window->getSize().x / 2 - v.getSize().x / 2) ||
-		getX() > handler->window->getSize().x + handler->camera->getXOffset() - (handler->window->getSize().x / 2 - v.getSize().x / 2) ||
-		getY() + getHeight() < handler->camera->getYOffset() + (handler->window->getSize().y / 2 - v.getSize().y / 2) ||
-		getY() > handler->window->getSize().y + handler->camera->getYOffset() - (handler->window->getSize().y / 2 - v.getSize().y / 2));
+	bool onScreen = !(getX() + getWidth() < handler->currentCameraXOffset + (handler->window->getSize().x / 2 - v.getSize().x / 2) ||
+		getX() > handler->window->getSize().x + handler->currentCameraXOffset - (handler->window->getSize().x / 2 - v.getSize().x / 2) ||
+		getY() + getHeight() < handler->currentCameraYOffset + (handler->window->getSize().y / 2 - v.getSize().y / 2) ||
+		getY() > handler->window->getSize().y + handler->currentCameraYOffset - (handler->window->getSize().y / 2 - v.getSize().y / 2));
 
 	return onScreen;
 
@@ -215,15 +215,23 @@ bool Entity::shouldRender(Handler* handler) {
 
 bool Entity::shouldRenderLight(Handler* handler) {
 	sf::View v = handler->window->getView();
-	bool lightOnScreen = !(getLightX() + getLightSize() + getExtraLightSize() < handler->camera->getXOffset() + (handler->window->getSize().x / 2 - v.getSize().x / 2) ||
-		getLightX() - getLightSize() - getExtraLightSize() > handler->window->getSize().x + handler->camera->getXOffset() - (handler->window->getSize().x / 2 - v.getSize().x / 2) ||
-		getLightY() + getLightSize() + getExtraLightSize() < handler->camera->getYOffset() + (handler->window->getSize().y / 2 - v.getSize().y / 2) ||
-		getLightY() - getLightSize() - getExtraLightSize() > handler->window->getSize().y + handler->camera->getYOffset() - (handler->window->getSize().y / 2 - v.getSize().y / 2));
 
-	bool shadowOnScreen = !(getX() + getWidth() + shadowLength < handler->camera->getXOffset() + (handler->window->getSize().x / 2 - v.getSize().x / 2) ||
-		getX() - shadowLength > handler->window->getSize().x + handler->camera->getXOffset() - (handler->window->getSize().x / 2 - v.getSize().x / 2) ||
-		getY() + getHeight() + shadowLength < handler->camera->getYOffset() + (handler->window->getSize().y / 2 - v.getSize().y / 2) ||
-		getY() - shadowLength > handler->window->getSize().y + handler->camera->getYOffset() - (handler->window->getSize().y / 2 - v.getSize().y / 2));
+	float viewModifierX = handler->window->getSize().x / 2 - v.getSize().x / 2;
+	float viewModifierY = handler->window->getSize().y / 2 - v.getSize().y / 2;
+	float xOffset = handler->currentCameraXOffset;
+	float yOffset = handler->currentCameraYOffset;
+	int windowWidth = handler->window->getSize().x;
+	int windowHeight = handler->window->getSize().y;
+
+	bool lightOnScreen = !(lightX + lightSize + extraLight < xOffset + viewModifierX ||
+		lightX - lightSize - extraLight > windowWidth + xOffset - viewModifierX ||
+		lightY + lightSize + extraLight < yOffset + viewModifierY ||
+		lightY - lightSize - extraLight > windowHeight + yOffset - viewModifierY);
+
+	bool shadowOnScreen = !(x + w + shadowLength < xOffset + viewModifierX ||
+		x - shadowLength > windowWidth + xOffset - viewModifierX ||
+		y + h + shadowLength < yOffset + viewModifierY ||
+		y - shadowLength > windowHeight + yOffset - viewModifierY);
 
 	return lightOnScreen || shadowOnScreen;
 

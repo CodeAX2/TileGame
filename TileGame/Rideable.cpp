@@ -39,7 +39,7 @@ void Rideable::render(Handler* handler) {
 	// Draw the entity itself
 	sf::RectangleShape shape(sf::Vector2f(w, h));
 	shape.setTexture(texture);
-	shape.setPosition((int)(x - floor(handler->camera->getXOffset())), (int)(y - floor(handler->camera->getYOffset())));
+	shape.setPosition((int)(x - floor(handler->currentCameraXOffset)), (int)(y - floor(handler->currentCameraYOffset)));
 	handler->window->draw(shape);
 
 
@@ -54,11 +54,11 @@ void Rideable::render(Handler* handler) {
 
 		healthText.setString(ss.str());
 		healthText.setCharacterSize(15);
-		healthText.setPosition((int)(x - floor(handler->camera->getXOffset())) - healthText.getLocalBounds().width / 2 + w / 2, (int)(y + 23 - floor(handler->camera->getYOffset())));
+		healthText.setPosition((int)(x - floor(handler->currentCameraXOffset)) - healthText.getLocalBounds().width / 2 + w / 2, (int)(y + 23 - floor(handler->currentCameraYOffset)));
 		if (health > maxHealth || health < 0 || handler == nullptr) return;
 
 		sf::RectangleShape textBg(sf::Vector2f(w, healthText.getGlobalBounds().height + 4));
-		textBg.setPosition(sf::Vector2f(x - floor(handler->camera->getXOffset()), healthText.getGlobalBounds().top - 2));
+		textBg.setPosition(sf::Vector2f(x - floor(handler->currentCameraXOffset), healthText.getGlobalBounds().top - 2));
 		textBg.setFillColor(sf::Color(0, 0, 0, 140));
 		handler->window->draw(textBg);
 
@@ -66,7 +66,7 @@ void Rideable::render(Handler* handler) {
 
 
 		sf::RectangleShape healthBar(sf::Vector2f(w * (float)health / maxHealth, 10));
-		healthBar.setPosition((int)(x - floor(handler->camera->getXOffset())), (int)(y + 40 - floor(handler->camera->getYOffset())));
+		healthBar.setPosition((int)(x - floor(handler->currentCameraXOffset)), (int)(y + 40 - floor(handler->currentCameraYOffset)));
 		if (health > maxHealth / 2.f) {
 			healthBar.setFillColor(sf::Color(
 				255 - (float)health / (maxHealth / 2.f) * 255,
@@ -92,7 +92,7 @@ void Rideable::render(Handler* handler) {
 
 		sf::RectangleShape shape2(sf::Vector2f(hitBox.width, hitBox.height));
 		shape2.setFillColor(sf::Color(255, 0, 0, 150));
-		shape2.setPosition(hitBox.left - handler->camera->getXOffset(), hitBox.top - handler->camera->getYOffset());
+		shape2.setPosition(hitBox.left - handler->currentCameraXOffset, hitBox.top - handler->currentCameraYOffset);
 
 		handler->window->draw(shape2);
 	}

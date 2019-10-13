@@ -38,7 +38,7 @@ Player::~Player() {
 // Render the player
 void Player::render(Handler* handler) {
 
-	int pX = (x - handler->camera->getXOffset()), pY = (y - handler->camera->getYOffset());
+	int pX = (x - handler->currentCameraXOffset), pY = (y - handler->currentCameraYOffset);
 
 	int accuratePX = std::round(handler->window->getSize().x / 2.0 - 20.0 * 1.5);
 	int accuratePY = std::round(handler->window->getSize().y / 2.0 - 39.0 * 1.5);
@@ -122,7 +122,7 @@ void Player::render(Handler* handler) {
 
 		sf::RectangleShape shape2(sf::Vector2f(hitBox.width, hitBox.height));
 		shape2.setFillColor(sf::Color(255, 0, 0, 150));
-		shape2.setPosition(hitBox.left - handler->camera->getXOffset(), hitBox.top - handler->camera->getYOffset());
+		shape2.setPosition(hitBox.left - handler->currentCameraXOffset, hitBox.top - handler->currentCameraYOffset);
 
 		handler->window->draw(shape2);
 		handler->window->draw(atBox);
@@ -648,7 +648,7 @@ void Player::hitEntities() {
 
 	atBox = sf::RectangleShape(sf::Vector2f(aBox.width, aBox.height));
 	atBox.setFillColor(sf::Color(0, 255, 255, 150));
-	atBox.setPosition(aBox.left - handler->camera->getXOffset(), aBox.top - handler->camera->getYOffset());
+	atBox.setPosition(aBox.left - handler->currentCameraXOffset, aBox.top - handler->currentCameraYOffset);
 
 
 	EntityManager* em = world->getEntityManager();
@@ -732,7 +732,7 @@ void Player::renderLighting(Handler* handler) {
 	const sf::Texture* shadowTexture = texture;
 
 	sf::VertexArray shadow(sf::Quads, 4);
-	sf::Vector2f basicPosition((int)(x - floor(handler->camera->getXOffset())), (int)(y - floor(handler->camera->getYOffset()) + h));
+	sf::Vector2f basicPosition((int)(x - floor(handler->currentCameraXOffset)), (int)(y - floor(handler->currentCameraYOffset) + h));
 	
 	shadow[0].position = basicPosition;
 	shadow[1].position = sf::Vector2f(basicPosition.x + shadowLength * sin(shadowDegree * M_PI / 180.f), basicPosition.y - shadowLength * cos(shadowDegree * M_PI / 180.f));
@@ -754,7 +754,7 @@ void Player::renderLighting(Handler* handler) {
 	handler->window->draw(shadow, state);
 
 	PlayingState* ps = dynamic_cast<PlayingState*>(handler->getCustomState(PLAYING));
-	ps->addLightPoint(sf::Vector2f(lightX - handler->camera->getXOffset(), lightY - handler->camera->getYOffset()), lightSize, extraLight);
+	ps->addLightPoint(sf::Vector2f(lightX - handler->currentCameraXOffset, lightY - handler->currentCameraYOffset), lightSize, extraLight);
 
 }
 

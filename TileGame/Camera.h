@@ -33,7 +33,6 @@ namespace tg {
 		// Get the x offset of the camera to properly render to the screen
 		float getXOffset() { return cameraX - handler->window->getSize().x / 2.f; } // Subtracts half the screen size, since the
 																					// camera is in the center of the screen
-
 		// Get the y offset of the camera to properly render to the screen			
 		float getYOffset() { return cameraY - handler->window->getSize().y / 2.f; }
 

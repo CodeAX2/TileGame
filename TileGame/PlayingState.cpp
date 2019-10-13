@@ -125,8 +125,8 @@ void PlayingState::tick(sf::Int32 dt) {
 	}
 
 	if (!deathScreen) {
-		handler->camera->tick();
 		world->getEntityManager()->tick(dt);
+		handler->camera->tick();
 
 		for (World* w : handler->worldManager->getAllWorlds()) {
 			if (w != world) {
@@ -196,8 +196,8 @@ void PlayingState::renderWorld() {
 		world = handler->player->getWorld();
 	}
 
-	float xOffset = floor(handler->camera->getXOffset());
-	float yOffset = floor(handler->camera->getYOffset());
+	float xOffset = floor(handler->currentCameraXOffset);
+	float yOffset = floor(handler->currentCameraYOffset);
 
 	float tileSize = 96.f;
 
@@ -1054,9 +1054,6 @@ void PlayingState::renderTime() {
 
 	shader->setUniformArray("lights", &lightArr[0], lightArr.size());
 	shader->setUniform("lightSize", (int)lightArr.size());
-
-	//shader->setUniformArray("walls", &wallArr[0], wallArr.size());
-	//shader->setUniform("wallSize", (int)wallArr.size());
 
 	shader->setUniform("darknessPercent", darknessPercent);
 

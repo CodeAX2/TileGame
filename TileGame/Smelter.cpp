@@ -106,7 +106,7 @@ void Smelter::render(Handler* handler) {
 
 		sf::RectangleShape interact(sf::Vector2f(interactTexture->getSize().x * 3, interactTexture->getSize().y * 3));
 		float yExtra = sin(timeAlive / 200.f) * 5;
-		interact.setPosition(x - handler->camera->getXOffset(), y - handler->camera->getYOffset() + yExtra - interactTexture->getSize().y * 3.f / 2.f + 5);
+		interact.setPosition(x - handler->currentCameraXOffset, y - handler->currentCameraYOffset + yExtra - interactTexture->getSize().y * 3.f / 2.f + 5);
 		interact.setTexture(interactTexture);
 		handler->window->draw(interact);
 	}
@@ -193,7 +193,7 @@ void Smelter::renderLighting(Handler* handler) {
 	if (smelting) {
 
 		PlayingState* ps = dynamic_cast<PlayingState*>(handler->getCustomState(PLAYING));
-		ps->addLightPoint(sf::Vector2f(lightX - handler->camera->getXOffset(), lightY - handler->camera->getYOffset()), lightSize, extraLight);
+		ps->addLightPoint(sf::Vector2f(lightX - handler->currentCameraXOffset, lightY - handler->currentCameraYOffset), lightSize, extraLight);
 
 	}
 }

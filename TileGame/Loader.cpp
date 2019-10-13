@@ -98,6 +98,7 @@ void Loader::loadEntities() {
 	}
 
 	handler->camera->centerOnEntity(handler->player);
+	//handler->camera->centerAt(48 * 96, 24 * 96, handler->mainWorld);
 
 	srand(time(NULL) * rand());
 
