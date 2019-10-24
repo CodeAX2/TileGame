@@ -1,0 +1,49 @@
+@font-face {
+  font-family: "pixelFont";
+  src: url("pxFont.ttf");
+}
+
+body {
+  width: 1000px;
+  margin: 5 auto;
+}
+
+h1 {
+  font-family: pixelFont;
+  text-align: center;
+  font-size: 64px;
+}
+
+.mainNavigation {
+  text-align: center;
+  position: sticky;
+  overflow: hidden;
+  top: 0;
+  background-color: white;
+}
+
+.mainNavigation ul {
+  list-style: none;
+  padding: 0;
+  list-style-type: none;
+  font-size: 0px;
+}
+
+.mainNavigation ul li {
+  display: inline-block;
+  font-family: pixelFont;
+  background-color: aqua;
+  border: 3px solid red;
+  font-size: 28px;
+  width: 200px;
+}
+
+.mainNavigation ul li a {
+  text-decoration: none;
+  color: black;
+  padding: 0 50px;
+}
+
+.mainNavigation ul li:hover {
+  background-color: blueviolet;
+}
