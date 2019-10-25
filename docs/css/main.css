@@ -6,12 +6,19 @@
 body {
   width: 1000px;
   margin: 5 auto;
+  background-color: #151515;
 }
 
 h1 {
   font-family: pixelFont;
   text-align: center;
   font-size: 64px;
+  color: #ececec;
+}
+
+p {
+  color: #ececec;
+  font-size: 24px;
 }
 
 .mainNavigation {
@@ -19,7 +26,7 @@ h1 {
   position: sticky;
   overflow: hidden;
   top: 0;
-  background-color: white;
+  background-color: #1f1f1f;
 }
 
 .mainNavigation ul {
@@ -32,18 +39,26 @@ h1 {
 .mainNavigation ul li {
   display: inline-block;
   font-family: pixelFont;
-  background-color: aqua;
-  border: 3px solid red;
+  background-color: #1f1f1f;
   font-size: 28px;
   width: 200px;
 }
 
+.mainNavigation ul li:not(:first-child){
+  border-style: solid;
+  border-color: #4b4b4b;
+  border-left-width: 1px;
+  border-top-width: 0px;
+  border-bottom-width: 0px;
+  border-right-width: 0px;
+}
+
 .mainNavigation ul li a {
   text-decoration: none;
-  color: black;
+  color: #ececec;
   padding: 0 50px;
 }
 
 .mainNavigation ul li:hover {
-  background-color: blueviolet;
+  background-color: #202936;
 }
