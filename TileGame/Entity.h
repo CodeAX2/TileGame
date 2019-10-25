@@ -188,6 +188,12 @@ namespace tg {
 
 		// If the entity's light should be rendered
 		virtual bool shouldRenderLight(Handler* handler);
+
+		// Set the length of the entity's shadow
+		void setShadowLength(float length) { shadowLength = length; }
+
+		// Set the angle of the entity's shadow (in degrees)
+		void setShadowDegree(float degree) { shadowDegree = degree; }
 	};
 
 }

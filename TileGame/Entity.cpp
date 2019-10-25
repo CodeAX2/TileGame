@@ -170,8 +170,8 @@ void Entity::dropItems() {
 
 void Entity::renderLighting(Handler* handler) {
 
-	// Draw the entity's shadow
 	const sf::Texture* shadowTexture = texture;
+	// Draw the entity's shadow
 
 	sf::VertexArray shadow(sf::Quads, 4);
 	sf::Vector2f basicPosition((int)(x - floor(handler->currentCameraXOffset)), (int)(y - floor(handler->currentCameraYOffset) + h));
@@ -186,10 +186,10 @@ void Entity::renderLighting(Handler* handler) {
 	shadow[2].texCoords = sf::Vector2f(shadowTexture->getSize().x, 0);
 	shadow[3].texCoords = sf::Vector2f(shadowTexture->getSize().x, shadowTexture->getSize().y);
 
-	shadow[0].color = sf::Color(0, 0, 0, 150);
-	shadow[1].color = sf::Color(0, 0, 0, 0);
-	shadow[2].color = sf::Color(0, 0, 0, 0);
-	shadow[3].color = sf::Color(0, 0, 0, 150);
+	shadow[0].color = sf::Color(0, 0, 0, 125);
+	shadow[1].color = sf::Color(0, 0, 0, 50);
+	shadow[2].color = sf::Color(0, 0, 0, 50);
+	shadow[3].color = sf::Color(0, 0, 0, 125);
 
 	sf::RenderStates state;
 	state.texture = shadowTexture;

@@ -37,6 +37,7 @@ namespace tg {
 		bool isFading() { return fade; }
 		void load() override;
 		void save() override;
+		sf::Int32 getTime() { return time; }
 
 	private:
 		void renderWorld();

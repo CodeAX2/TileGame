@@ -11,6 +11,7 @@
 #include <algorithm>
 #include "Rideable.h"
 #include <SFML/Graphics.hpp>
+#include "PlayingState.h"
 
 
 using namespace tg;
@@ -285,6 +286,7 @@ void EntityManager::render() {
 
 void EntityManager::tick(sf::Int32 dt) {
 
+	// Tick all entities
 	for (int i = 0; i < tickList.size(); i++) {
 
 		Entity* cur = tickList[i];
@@ -297,6 +299,7 @@ void EntityManager::tick(sf::Int32 dt) {
 			cur->tick(dt);
 		}
 	}
+
 }
 
 void EntityManager::updateRenderOrder(Entity* newEntity) {
