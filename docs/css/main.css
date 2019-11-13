@@ -99,3 +99,25 @@ p {
   background-position-y: bottom;
   box-shadow: 0px 0px 30px 10px black inset;
 }
+
+label {
+  color: #ececec;
+  font-size: 20px;
+  display: inline-block;
+  font-family: Verdana;
+  font-weight: 600;
+}
+
+input[type=text] {
+  display: block;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left:10px;
+  font-size:18px;
+}
+
+input[type=submit] {
+  font-family: Verdana;
+  font-weight: 600;
+  font-size: 20px;
+}
