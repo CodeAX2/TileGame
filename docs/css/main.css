@@ -4,9 +4,18 @@
 }
 
 body {
-  width: 1000px;
-  margin: 5 auto;
   background-color: #151515;
+  margin: 0 0;
+}
+
+.mainContent {
+  width: 1000px;
+  margin: 0 auto;
+}
+
+header {
+  background-color: #1f1f1f;
+  padding-bottom: 25px;
 }
 
 h1 {
@@ -14,6 +23,9 @@ h1 {
   text-align: center;
   font-size: 64px;
   color: #ececec;
+  margin-bottom: 0px;
+  margin-top: 0px;
+  padding-top: 20px;
 }
 
 p {
@@ -21,30 +33,32 @@ p {
   font-size: 24px;
 }
 
-.mainNavigation {
+#mainNavigation {
   text-align: center;
+  background-color: #1f1f1f;
   position: sticky;
   overflow: hidden;
   top: 0;
-  background-color: #1f1f1f;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  z-index: 1000;
 }
 
-.mainNavigation ul {
+#mainNavigation ul {
   list-style: none;
   padding: 0;
   list-style-type: none;
   font-size: 0px;
 }
 
-.mainNavigation ul li {
+#mainNavigation ul li {
   display: inline-block;
   font-family: pixelFont;
   background-color: #1f1f1f;
   font-size: 28px;
-  width: 200px;
 }
 
-.mainNavigation ul li:not(:first-child){
+#mainNavigation ul li:not(:first-child) {
   border-style: solid;
   border-color: #4b4b4b;
   border-left-width: 1px;
@@ -53,12 +67,35 @@ p {
   border-right-width: 0px;
 }
 
-.mainNavigation ul li a {
+#mainNavigation ul li a {
   text-decoration: none;
   color: #ececec;
-  padding: 0 50px;
+  margin: 0 auto;
+  width: 200px;
+  display: block;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
-.mainNavigation ul li:hover {
+#mainNavigation ul li:hover {
+  transition: all 0.3s linear;
   background-color: #202936;
+}
+
+.currentPageNav {
+  background-color: #38475e;
+}
+
+#spanImg1 {
+  width: 100vw;
+  position: relative;
+  left: calc(-50vw + 50%);
+  overflow: hidden;
+  height: 500px;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-image: url("../images/peter-fogden-Jx5IB1f5-4w-unsplash.jpg");
+  background-position-x: left;
+  background-position-y: bottom;
+  box-shadow: 0px 0px 30px 10px black inset;
 }
