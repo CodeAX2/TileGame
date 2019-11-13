@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <link type="text/css" rel="stylesheet" href="css/main.css">
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <title>Umbrage</title>
+</head>
+
+<body>
+    <header>
+        <h1>
+            Umbrage
+        </h1>
+    </header>
+
+    <div id="mainNavigation"></div>
+
+    <script>
+        $(function () {
+            $("#mainNavigation").load("utils/nav.html");
+        });
+    </script>
+
+    <div class="mainContent">
+
+        <form>
+
+            <label for="nameID" id="nameLabel">
+                Name$:
+            </label>
+            <input type="text" name="name" id="nameID" placeholder="" aria-labelledby="nameLabel">
+
+            <input type="submit">
+
+
+        </form>
+
+        <p>
+            Name:
+        </p>
+
+    </div>
+
+</body>
+
+</html>
