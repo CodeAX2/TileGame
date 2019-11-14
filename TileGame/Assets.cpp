@@ -364,7 +364,7 @@ void Assets::init() {
 	sf::Image img = loadImageFromResource(PLAYER_SHEET);
 	sf::Image swordAttackImg = loadImageFromResource(PLAYER_SWORD_ATTACK_SHEET);
 
-	for (int i = 0; i < 15; i++) {
+	for (int i = 0; i < 20; i++) {
 		sf::Texture* curPlayerAnim = new sf::Texture();
 
 		curPlayerAnim->loadFromImage(img,
@@ -373,7 +373,7 @@ void Assets::init() {
 		operations++;
 	}
 
-	for (int i = 0; i < 6; i++) {
+	for (int i = 0; i < 9; i++) {
 		sf::Texture* curPlayerAnim = new sf::Texture();
 
 		curPlayerAnim->loadFromImage(img,

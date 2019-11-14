@@ -61,16 +61,6 @@ void Player::render(Handler* handler) {
 
 	sprite.setScale(xScale, yScale);
 
-	//sprite.setColor(handler->assets->getPlayerColor());
-
-
-	if (horiDirection == WEST) {
-		sprite.setScale(-xScale, yScale);
-		sprite.move(w, 0);
-	}
-	else {
-		sprite.setScale(xScale, yScale);
-	}
 
 	GameState* gs = handler->getCurrentState();
 
@@ -89,26 +79,21 @@ void Player::render(Handler* handler) {
 
 	// Draw the item if attacking
 	if (attacking && this->getItemInfoInHotBar().first != -1) {
-		int attackAnimIndex = curAnim - 15;
+		int attackAnimIndex = curAnim - 20;
 		if (attackAnimIndex < 0) attackAnimIndex = 0;
 
 		std::tuple<int, int, float> attckInfo = handler->assets->getPlayerSwordAttackAnimation(attackAnimIndex);
 		sf::Texture* itemTexture = handler->assets->getItemTexture(this->getItemInfoInHotBar().first);
 		sf::Sprite itemSprite(*itemTexture);
+
+		itemSprite.setScale(2, 2);
 		if (horiDirection == WEST) {
 			itemSprite.setScale(-2, 2);
-			itemSprite.setPosition(sprite.getPosition() +
-				sf::Vector2f(std::get<0>(attckInfo) * sprite.getScale().x,
-					std::get<1>(attckInfo) * sprite.getScale().y));
-			itemSprite.setRotation(-1 * std::get<2>(attckInfo));
 		}
-		else {
-			itemSprite.setScale(2, 2);
-			itemSprite.setPosition(sprite.getPosition() +
-				sf::Vector2f(std::get<0>(attckInfo) * sprite.getScale().x,
-					std::get<1>(attckInfo) * sprite.getScale().y));
-			itemSprite.setRotation(std::get<2>(attckInfo));
-		}
+		itemSprite.setPosition(sprite.getPosition() +
+			sf::Vector2f(std::get<0>(attckInfo) * sprite.getScale().x,
+				std::get<1>(attckInfo) * sprite.getScale().y));
+		itemSprite.setRotation(std::get<2>(attckInfo));
 
 
 		handler->window->draw(itemSprite);
@@ -166,28 +151,33 @@ void Player::tick(sf::Int32 dt) {
 				if (horiDirection != STILL) {
 					float oldX = x;
 					int multiplier = 1;
+
 					if (horiDirection == WEST) {
 						multiplier = -1;
 					}
+
 					x += 1.0 / 2 * dt * speed * pow(timeSinceAttackStart / 150.f, 2) * multiplier;
 
 					if (checkForCollision()) {
 						x = oldX;
 					}
 					if (timeSinceAttackStart <= 100) {
-						curAnim = 18;
+						curAnim = 23;
+						if (horiDirection == WEST) curAnim = 26;
 					}
 					else if (timeSinceAttackStart <= 200) {
-						curAnim = 19;
+						curAnim = 24;
+						if (horiDirection == WEST) curAnim = 27;
 					}
 					else {
-						curAnim = 20;
+						curAnim = 25;
+						if (horiDirection == WEST) curAnim = 28;
 					}
 				}
 				else if (vertDirection == NORTH) {
-					if (timeSinceAttackStart <= 150) { curAnim = 10; }
+					if (timeSinceAttackStart <= 150) { curAnim = 15; }
 					else {
-						curAnim = 10;
+						curAnim = 15;
 					}
 				}
 				else {
@@ -198,13 +188,13 @@ void Player::tick(sf::Int32 dt) {
 						y = oldY;
 					}
 					if (timeSinceAttackStart <= 100) {
-						curAnim = 15;
+						curAnim = 20;
 					}
 					else if (timeSinceAttackStart <= 200) {
-						curAnim = 16;
+						curAnim = 21;
 					}
 					else {
-						curAnim = 17;
+						curAnim = 22;
 					}
 				}
 
@@ -324,8 +314,8 @@ void Player::tick(sf::Int32 dt) {
 
 	}
 	else if (horiDirection == STILL && vertDirection == NORTH) {
-		if (curAnim < 11 || curAnim > 14) {
-			curAnim = 11;
+		if (curAnim < 16 || curAnim > 19) {
+			curAnim = 16;
 		}
 		if (keys[0] && ridingOn == nullptr) {
 
@@ -335,8 +325,8 @@ void Player::tick(sf::Int32 dt) {
 
 				timeSinceLastAnim = 0;
 				curAnim++;
-				if (curAnim >= 15) {
-					curAnim = 11;
+				if (curAnim >= 20) {
+					curAnim = 16;
 				}
 
 			}
@@ -344,15 +334,15 @@ void Player::tick(sf::Int32 dt) {
 
 		}
 		else {
-			curAnim = 10;
+			curAnim = 15;
 			timeSinceLastAnim = 0;
 		}
 	}
-	else if (horiDirection != STILL) {
+	else if (horiDirection == EAST) {
 		if (curAnim < 6 || curAnim > 9) {
 			curAnim = 6;
 		}
-		if ((keys[1] || keys[3]) && ridingOn == nullptr) {
+		if ((keys[1]) && ridingOn == nullptr) {
 
 			timeSinceLastAnim += dt;
 
@@ -373,6 +363,31 @@ void Player::tick(sf::Int32 dt) {
 			timeSinceLastAnim = 0;
 		}
 
+	}
+	else if (horiDirection == WEST) {
+		if (curAnim < 11 || curAnim > 14) {
+			curAnim = 11;
+		}
+		if ((keys[3]) && ridingOn == nullptr) {
+
+			timeSinceLastAnim += dt;
+
+			if (timeSinceLastAnim >= 125 / (speed * 10)) {
+
+				timeSinceLastAnim = 0;
+				curAnim++;
+				if (curAnim >= 15) {
+					curAnim = 11;
+				}
+
+			}
+
+
+		}
+		else {
+			curAnim = 10;
+			timeSinceLastAnim = 0;
+		}
 	}
 	else {
 		curAnim = 0;
@@ -733,7 +748,7 @@ void Player::renderLighting(Handler* handler) {
 
 	sf::VertexArray shadow(sf::Quads, 4);
 	sf::Vector2f basicPosition((int)(x - floor(handler->currentCameraXOffset)), (int)(y - floor(handler->currentCameraYOffset) + h));
-	
+
 	shadow[0].position = basicPosition;
 	shadow[1].position = sf::Vector2f(basicPosition.x + shadowLength * sin(shadowDegree * M_PI / 180.f), basicPosition.y - shadowLength * cos(shadowDegree * M_PI / 180.f));
 	shadow[2].position = sf::Vector2f(basicPosition.x + w + shadowLength * sin(shadowDegree * M_PI / 180.f), basicPosition.y - shadowLength * cos(shadowDegree * M_PI / 180.f));
