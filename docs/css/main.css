@@ -9,8 +9,10 @@ body {
 }
 
 .mainContent {
-  width: 1000px;
+  width: 52%;
+  max-width: 1000px;
   margin: 0 auto;
+  display: relative;
 }
 
 header {
@@ -18,7 +20,7 @@ header {
   padding-bottom: 25px;
 }
 
-h1 {
+.title {
   font-family: pixelFont;
   text-align: center;
   font-size: 64px;
@@ -26,6 +28,10 @@ h1 {
   margin-bottom: 0px;
   margin-top: 0px;
   padding-top: 20px;
+}
+
+.smallerTitle {
+  font-size:48px !important;
 }
 
 p {
@@ -67,6 +73,18 @@ p {
   border-right-width: 0px;
 }
 
+.navNewLineFirst {
+  border-left-width: 0 !important;
+}
+
+.navNotTopRow{
+  margin-top:10px !important;
+}
+
+.navSpecialCase{
+  margin-left: 1px;
+}
+
 #mainNavigation ul li a {
   text-decoration: none;
   color: #ececec;
@@ -86,20 +104,6 @@ p {
   background-color: #38475e;
 }
 
-#spanImg1 {
-  width: 100vw;
-  position: relative;
-  left: calc(-50vw + 50%);
-  overflow: hidden;
-  height: 500px;
-  background-attachment: fixed;
-  background-repeat: no-repeat;
-  background-image: url("../images/peter-fogden-Jx5IB1f5-4w-unsplash.jpg");
-  background-position-x: left;
-  background-position-y: bottom;
-  box-shadow: 0px 0px 30px 10px black inset;
-}
-
 label {
   color: #ececec;
   font-size: 20px;
@@ -108,16 +112,3 @@ label {
   font-weight: 600;
 }
 
-input[type=text] {
-  display: block;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  padding-left:10px;
-  font-size:18px;
-}
-
-input[type=submit] {
-  font-family: Verdana;
-  font-weight: 600;
-  font-size: 20px;
-}

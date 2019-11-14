@@ -3,9 +3,22 @@
         <li><a href="index.html">Home</a></li>
         <li><a href="about.html">About</a></li>
         <li><a href="download.html">Download</a></li>
+        <li><a href="updates.html">Updates</a></li>
         <li><a href="https://github.com/CodeAX2/TileGame" target="_blank">GitHub</a></li>
         <li><a href="contact.html">Contact</a></li>
     </ul>
 </nav>
 
-<script src="js/navStyle.js">
+<script src="js/navStyle.js"></script>
+<script src="js/titleStyle.js"></script>
+<script>
+    $(function () {
+        window.onresize = windowResized;
+    });
+
+    function windowResized() {
+        resizeTitle();
+        resizeNavBar();
+    }
+
+</script>

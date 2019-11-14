@@ -26,7 +26,7 @@
 #include "Villager.h"
 
 using namespace tg;
-namespace fs = std::experimental::filesystem;
+namespace fs = std::filesystem;
 
 Loader::Loader(Handler* handler) : loadThread(&Loader::loadEntities, this), handler(handler) {
 
