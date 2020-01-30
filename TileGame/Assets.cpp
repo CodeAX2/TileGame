@@ -59,14 +59,13 @@ sf::Texture* Assets::loadTextureFromResource(int name) {
 		throw std::runtime_error("Failed to load resource.");
 
 	LPVOID firstByte = LockResource(grsrcData);
+
 	if (!firstByte)
 		throw std::runtime_error("Failed to lock resource.");
 
 	sf::Texture* image = new sf::Texture();
 	if (!image->loadFromMemory(firstByte, rsrcDataSize))
 		throw std::runtime_error("Failed to load image from memory.");
-
-
 
 	return image;
 }
@@ -385,12 +384,12 @@ void Assets::init() {
 				sf::Color c = swordAttackImg.getPixel(31 * (i % 3) + 31 * 5 + jx, 32 * (i / 3) + jy);
 				if (c.a != 0) {
 					float rotation = c.b * 100.f + (float)c.r + .01f * c.g;
-					playerSwordAttackAnimation.push_back(std::tuple<int, int, float>(jx,jy,rotation));
+					playerSwordAttackAnimation.push_back(std::tuple<int, int, float>(jx, jy, rotation));
 					break;
 				}
 			}
 		}
-		
+
 
 
 		operations += 2;
@@ -493,14 +492,11 @@ void Assets::loadWall(int id, int priority, int wallSpot) {
 
 	if (wallSpot == 0) {
 		curWallText->loadFromImage(fullWallSheet, sf::IntRect(0, 0, 32, 64));
-	}
-	else if (wallSpot >= 1 && wallSpot <= 3) {
+	} else if (wallSpot >= 1 && wallSpot <= 3) {
 		curWallText->loadFromImage(fullWallSheet, sf::IntRect(32 * wallSpot, 0, 32, 32));
-	}
-	else if (wallSpot >= 4 && wallSpot <= 7) {
+	} else if (wallSpot >= 4 && wallSpot <= 7) {
 		curWallText->loadFromImage(fullWallSheet, sf::IntRect(32 * (wallSpot - 3), 32, 32, 32));
-	}
-	else {
+	} else {
 		curWallText->loadFromImage(fullWallSheet, sf::IntRect(32 * (wallSpot - 4), 0, 32, 32));
 	}
 	allTiles[id][0][0] = curWallText;
@@ -585,8 +581,7 @@ void Assets::loadFull(int base, int bId, int priority) {
 			sf::Texture* edgeBase = getOuterTexture(bId, edgeId, 0, 0, false);
 			if (edgeBase != nullptr) {
 				nI = edgeBase->copyToImage();
-			}
-			else {
+			} else {
 				nI.create(32, 32, sf::Color(0, 0, 0, 0));
 			}
 
